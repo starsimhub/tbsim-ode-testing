@@ -1,0 +1,63 @@
+tbsim.TB  1 day    seed 0:    36.6 s run,  10.03 ms/step,   0.2 s init
+TBExact   1 day    seed 0:    37.3 s run,  10.22 ms/step,   0.2 s init
+tbsim.TB  1 week   seed 0:     5.7 s run,  10.87 ms/step,   0.0 s init
+TBExact   1 week   seed 0:     5.6 s run,  10.78 ms/step,   0.0 s init
+tbsim.TB  1 month  seed 0:     1.3 s run,  10.48 ms/step,   0.0 s init
+TBExact   1 month  seed 0:     1.3 s run,  10.50 ms/step,   0.0 s init
+tbsim.TB  1 day    seed 1:    37.7 s run,  10.33 ms/step,   0.2 s init
+TBExact   1 day    seed 1:    38.1 s run,  10.43 ms/step,   0.2 s init
+tbsim.TB  1 week   seed 1:     5.8 s run,  11.17 ms/step,   0.0 s init
+TBExact   1 week   seed 1:     5.7 s run,  10.92 ms/step,   0.0 s init
+tbsim.TB  1 month  seed 1:     1.3 s run,  10.95 ms/step,   0.1 s init
+TBExact   1 month  seed 1:     1.3 s run,  10.92 ms/step,   0.0 s init
+tbsim.TB  1 day    seed 2:    38.6 s run,  10.56 ms/step,   0.2 s init
+TBExact   1 day    seed 2:    39.4 s run,  10.80 ms/step,   0.2 s init
+tbsim.TB  1 week   seed 2:     6.4 s run,  12.26 ms/step,   0.0 s init
+TBExact   1 week   seed 2:     5.9 s run,  11.29 ms/step,   0.0 s init
+tbsim.TB  1 month  seed 2:     1.4 s run,  11.24 ms/step,   0.0 s init
+TBExact   1 month  seed 2:     1.3 s run,  10.84 ms/step,   0.0 s init
+     dt    model  ms_per_step  ms_min  ms_max  init_s  s_per_100y  ratio_to_tbsim_TB
+  1 day tbsim.TB         10.3      10    10.6   0.165         377                  1
+  1 day  TBExact         10.4    10.2    10.8   0.164         381               1.01
+ 1 week tbsim.TB         11.2    10.9    12.3  0.0485        58.3                  1
+ 1 week  TBExact         10.9    10.8    11.3   0.048        56.9              0.977
+1 month tbsim.TB         10.9    10.5    11.2  0.0338        13.1                  1
+1 month  TBExact         10.8    10.5    10.9  0.0334          13               0.99
+     dt    model                  label  cpu_time  ms_per_step
+  1 day  TBExact           tbexact.step      16.7         4.56
+  1 day  TBExact         randomnet.step      7.33         2.01
+  1 day  TBExact     people.finish_step      6.97         1.91
+  1 day  TBExact tbexact.update_results      2.37        0.648
+  1 day  TBExact       statecounts.step      1.68         0.46
+  1 day  TBExact            births.step     0.831        0.228
+  1 day tbsim.TB                tb.step      16.4         4.49
+  1 day tbsim.TB         randomnet.step      7.25         1.99
+  1 day tbsim.TB     people.finish_step      6.95          1.9
+  1 day tbsim.TB      tb.update_results      2.35        0.644
+  1 day tbsim.TB       statecounts.step      1.68        0.459
+  1 day tbsim.TB            births.step     0.828        0.227
+1 month  TBExact           tbexact.step     0.553         4.57
+1 month  TBExact     people.finish_step     0.276         2.28
+1 month  TBExact         randomnet.step     0.241         1.99
+1 month  TBExact tbexact.update_results    0.0792        0.655
+1 month  TBExact       statecounts.step    0.0554        0.458
+1 month  TBExact            births.step    0.0301        0.249
+1 month tbsim.TB                tb.step     0.562         4.64
+1 month tbsim.TB     people.finish_step     0.276         2.28
+1 month tbsim.TB         randomnet.step     0.243         2.01
+1 month tbsim.TB      tb.update_results    0.0787         0.65
+1 month tbsim.TB       statecounts.step    0.0562        0.464
+1 month tbsim.TB            births.step    0.0309        0.255
+ 1 week  TBExact           tbexact.step      2.36         4.53
+ 1 week  TBExact     people.finish_step      1.28         2.45
+ 1 week  TBExact         randomnet.step      1.04         1.99
+ 1 week  TBExact tbexact.update_results     0.339        0.649
+ 1 week  TBExact       statecounts.step     0.238        0.456
+ 1 week  TBExact            births.step     0.124        0.238
+ 1 week tbsim.TB                tb.step      2.41         4.63
+ 1 week tbsim.TB     people.finish_step      1.31         2.51
+ 1 week tbsim.TB         randomnet.step      1.07         2.04
+ 1 week tbsim.TB      tb.update_results     0.344        0.659
+ 1 week tbsim.TB       statecounts.step     0.243        0.465
+ 1 week tbsim.TB            births.step     0.126        0.241
+Total: 274 s

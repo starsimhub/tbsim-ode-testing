@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+.Rhistory
+
+# Raw experiment outputs saved for redrawing figures (large; kept locally, regenerate with each experiment's run script)
+experiments/**/*.obj

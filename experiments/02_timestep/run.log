@@ -1,0 +1,46 @@
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=1960.01.01, and dt=0.0027397260273972603, which results in 21901 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=1960.01.01, and dt=0.0027397260273972603, which results in 21901 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=1960.01.01, and dt=0.0027397260273972603, which results in 21901 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=1960.01.01, and dt=0.0027397260273972603, which results in 21901 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=1960.01.01, and dt=0.0027397260273972603, which results in 21901 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=1960.01.01, and dt=0.0027397260273972603, which results in 21901 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+ABM runs: 229 s
+dt                       1 month  1 week  1 day
+beta year output                               
+12   1901 ASYMPTOMATIC     1.073   1.042  0.897
+          CLEARED          1.200   1.034  0.927
+          INFECTION        0.965   0.986  0.934
+          SYMPTOMATIC      0.947   0.997  0.902
+          prev_active      1.010   1.010  0.909
+          tb_deaths_ppy    1.051   0.000  0.000
+     1959 ASYMPTOMATIC     0.808   0.988  1.012
+          CLEARED          1.021   1.004  0.996
+          INFECTION        0.737   0.955  1.000
+          SYMPTOMATIC      0.761   0.978  1.004
+          prev_active      0.777   0.973  1.021
+          tb_deaths_ppy    0.822   0.901  0.000
+20   1901 ASYMPTOMATIC     1.048   1.067  1.100
+          CLEARED          1.200   1.048  0.932
+          INFECTION        0.968   1.020  0.928
+          SYMPTOMATIC      0.962   0.996  0.926
+          prev_active      0.999   1.014  0.956
+          tb_deaths_ppy    1.009   0.000  0.000
+     1959 ASYMPTOMATIC     0.918   0.980  1.005
+          CLEARED          1.079   1.012  0.981
+          INFECTION        0.868   0.983  1.020
+          SYMPTOMATIC      0.930   0.997  1.028
+          prev_active      0.913   0.990  1.032
+          tb_deaths_ppy    0.813   1.140  0.000
+Total: 230 s

@@ -1,0 +1,25 @@
+[project]
+name = "tbode"
+version = "0.1.0"
+description = "ODE versions of TBsim, and experiments comparing them with the agent-based model"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "sciris",
+    "matplotlib",
+    "starsim>=3.6.0",
+    "tbsim",
+]
+
+[dependency-groups]
+dev = ["pytest", "ipykernel"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+starsim = { path = "../starsim", editable = true }
+tbsim = { path = "../tbsim", editable = true }

@@ -1,0 +1,39 @@
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=2000.01.01, and dt=0.0027397260273972603, which results in 36501 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=2000.01.01, and dt=0.0027397260273972603, which results in 36501 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=2000.01.01, and dt=0.0027397260273972603, which results in 36501 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=2000.01.01, and dt=0.0027397260273972603, which results in 36501 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+ABM runs: 6050 s
+      output             model      dt  n_reps    ode   mean        se  ratio_mean  ratio_se       z  median    p10    p90
+ prev_active           TBExact   1 day      40    500  500.7     8.525       1.001   0.01705 0.08777   504.5  432.1  566.6
+ prev_active           TBExact  1 week      40    500  500.2     11.09           1   0.02218 0.01758     484  422.5  607.6
+ prev_active           TBExact 1 month      40    500  485.4     10.96      0.9709   0.02192  -1.328   499.1  386.3  553.9
+ prev_active tbsim.TB (exp 03)   1 day      40    500    476     8.299      0.9521    0.0166  -2.888   466.4  426.9  541.5
+ prev_active tbsim.TB (exp 03)  1 week      10    500  420.8     15.52      0.8417   0.03103  -5.101   420.7  373.6  467.9
+ prev_active tbsim.TB (exp 03) 1 month      10    500  334.4     21.13      0.6688   0.04225  -7.838   357.8  229.2  391.4
+incidence_py           TBExact   1 day      40  273.5  273.6     4.424           1   0.01618 0.01559   275.3  240.8  308.6
+incidence_py           TBExact  1 week      40  273.5  271.1     5.758      0.9913   0.02106 -0.4121   261.8  229.8  324.8
+incidence_py           TBExact 1 month      40  273.5  257.6     5.618      0.9419   0.02054  -2.828   264.2    208  294.7
+incidence_py tbsim.TB (exp 03)   1 day      40  273.5  260.3     4.377      0.9516     0.016  -3.022   255.3    232    295
+incidence_py tbsim.TB (exp 03)  1 week      10  273.5  230.4     8.536      0.8423   0.03121  -5.052   230.6  204.1  258.1
+incidence_py tbsim.TB (exp 03) 1 month      10  273.5  179.3     10.87      0.6556   0.03976  -8.662   192.7  121.1  208.7
+tb_deaths_py           TBExact   1 day      40  84.36  84.46     1.443       1.001   0.01711 0.07043   83.57  73.76  97.13
+tb_deaths_py           TBExact  1 week      40  84.36  84.07     1.804      0.9966   0.02139  -0.157   81.93  70.79  100.7
+tb_deaths_py           TBExact 1 month      40  84.36  81.97     1.829      0.9717   0.02169  -1.307   83.87  67.09   93.2
+tb_deaths_py tbsim.TB (exp 03)   1 day      40  84.36  80.55     1.425      0.9549   0.01689  -2.671    78.5  71.17  93.28
+tb_deaths_py tbsim.TB (exp 03)  1 week      10  84.36  72.28     2.409      0.8568   0.02855  -5.014   73.96  63.92  78.89
+tb_deaths_py tbsim.TB (exp 03) 1 month      10  84.36  59.69     3.912      0.7076   0.04638  -6.305   63.71  39.54  71.86
+  frac_asymp           TBExact   1 day      40 0.5038 0.5033 0.0007091      0.9989  0.001408 -0.7591  0.5032 0.4975 0.5083
+  frac_asymp           TBExact  1 week      40 0.5038 0.5037 0.0006496      0.9998  0.001289 -0.1332  0.5038 0.4978 0.5087
+  frac_asymp           TBExact 1 month      40 0.5038 0.5034 0.0006106      0.9993  0.001212 -0.5742  0.5031 0.4994 0.5073
+  frac_asymp tbsim.TB (exp 03)   1 day      40 0.5038 0.5034 0.0007137      0.9992  0.001417 -0.5733  0.5026 0.4972 0.5093
+  frac_asymp tbsim.TB (exp 03)  1 week      10 0.5038 0.5061  0.001319       1.005  0.002617   1.757  0.5058 0.5015 0.5108
+  frac_asymp tbsim.TB (exp 03) 1 month      10 0.5038 0.4991  0.002791      0.9908   0.00554  -1.663  0.5018 0.4865 0.5095
+Total: 6060 s

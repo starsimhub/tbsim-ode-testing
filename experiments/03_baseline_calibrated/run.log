@@ -1,0 +1,38 @@
+/Users/tessryckman/Developer/tbsim-ode-testing/tbode/ode.py:131: RuntimeWarning: The iteration is not making good progress, as measured by the 
+ improvement from the last ten iterations.
+  x = fsolve(self._norm_derivs, x, xtol=1e-13)
+ODE beta: 9.9173 (200/100k: 9.1926, 800/100k: 10.4944)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=2000.01.01, and dt=0.0027397260273972603, which results in 36501 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=2000.01.01, and dt=0.0027397260273972603, which results in 36501 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=2000.01.01, and dt=0.0027397260273972603, which results in 36501 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/starsim/starsim/timeline.py:533: RuntimeWarning: 
+You have specified start=1900.01.01, stop=2000.01.01, and dt=0.0027397260273972603, which results in 36501 timesteps. This is above the recommended maximum of 20000, which is valid, but inadvisable. Set ss.options.warn_convert = False to disable this warning.
+  ss.warn(warnmsg)
+ABM runs: 1470 s
+                                        0             1             2           3              4                 5
+output                        prev_active  incidence_py  tb_deaths_py  frac_asymp  ProgressionY1  ProgressionRatio
+ode_equilibrium                       500         273.5         84.36      0.5038        0.03432            0.4804
+abm 1 day: first 10y                490.7         266.7         82.11      0.5095            NaN               NaN
+abm 1 day: last 50y median          455.2         250.6         77.96      0.5026        0.03492            0.4795
+abm 1 day: last 50y p10               402           219         69.35      0.4974            NaN               NaN
+abm 1 day: last 50y p90               546           297         93.81       0.506            NaN               NaN
+abm 1 day: ratio to ODE            0.9104        0.9163        0.9242      0.9976          1.018             0.998
+abm 1 week: first 10y               495.6         266.4         81.85      0.5041            NaN               NaN
+abm 1 week: last 50y median         420.7         230.6         73.96      0.5058        0.03304            0.4668
+abm 1 week: last 50y p10            373.6         204.1         63.92      0.5015            NaN               NaN
+abm 1 week: last 50y p90            467.9         258.1         78.89      0.5108            NaN               NaN
+abm 1 week: ratio to ODE           0.8413        0.8431        0.8767       1.004         0.9628            0.9717
+abm 1 month: first 10y              461.8         241.7         85.07      0.5015            NaN               NaN
+abm 1 month: last 50y median        357.8         192.7         63.71      0.5018         0.0313             0.456
+abm 1 month: last 50y p10           229.2         121.1         39.54      0.4865            NaN               NaN
+abm 1 month: last 50y p90           391.4         208.7         71.86      0.5095            NaN               NaN
+abm 1 month: ratio to ODE          0.7157        0.7046        0.7553       0.996         0.9121            0.9492
+target                                NaN           NaN           NaN         NaN         0.0523             0.663
+Effective ODE beta of each ABM: {'1 day': (455.2, 9.8204), '1 week': (420.7, 9.7433), '1 month': (357.8, 9.5973)}
+Total: 1490 s
