@@ -43,6 +43,8 @@ Experiments 01–06 are done; results are in the findings log below. The baselin
 
 This means `TBExact` must be extended alongside the ODE for each feature that changes the natural history. Fixing tbsim upstream remains an option to revisit later (see [exp 05's SUMMARY](experiments/05_exact_transitions/SUMMARY.md)).
 
+**Open: which `dt`s for the feature experiments.** Proposed: monthly as the main comparison (tb_LAI_TPT's setting), plus weekly for time-since-infection progression. Add daily only if monthly and weekly differ substantially. Not yet confirmed by the user.
+
 Next:
 
 1. **Progression by time since infection (`k_asy`/`k_non`)**, the first high-priority feature, followed by **latent reinfection**. *Not started.*
