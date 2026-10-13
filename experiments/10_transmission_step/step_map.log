@@ -1,0 +1,8 @@
+k0  1 week  start : prevalence ÷ ODE  linear 1.0037  exp 0.9998
+k0  1 week  within: prevalence ÷ ODE  linear 0.9988  exp 0.9950
+k0  1 month start : prevalence ÷ ODE  linear 1.0138  exp 0.9970
+k0  1 month within: prevalence ÷ ODE  linear 0.9948  exp 0.9787
+A   1 week  within: prevalence ÷ ODE  linear 0.9989  exp 0.9858
+A   1 month within: prevalence ÷ ODE  linear 0.9952  exp 0.9411
+B   1 week  within: prevalence ÷ ODE  linear 0.9997  exp 0.9986
+B   1 month within: prevalence ÷ ODE  linear 0.9986  exp 0.9941

@@ -7,7 +7,6 @@ import sciris as sc
 import starsim as ss
 import tbsim
 from tbsim import TBS
-from .ode import states as ode_states, n_states
 
 __all__ = ['beta_edge_from_ode', 'StateCounts', 'FluxCounts', 'make_abm', 'init_from_ode', 'abm_cohort_progression']
 
@@ -130,13 +129,14 @@ class FluxCounts(ss.Analyzer):
         return
 
 
-def make_abm(ode_pars, seed=0, n_agents=20_000, n_contacts=10, start=1900, stop=2100, dt=1/12, label=None, analyzers=None, tb_class=None, **tb_kwargs):
+def make_abm(ode_pars, seed=0, n_agents=20_000, n_contacts=10, start=1900, stop=2100, dt=1/12, label=None, analyzers=None, tb_class=None, network=True, **tb_kwargs):
     """
     Build a tbsim.Sim matched to a TBODE parameter set.
 
     Matching choices: ss.RandomNet(dur=0) for mass action (beta converted by beta_edge_from_ode); constant
     ss.Births and ss.Deaths at rate mu (so TB deaths are *not* replaced: compare with TBODE(replace_tb_deaths=False));
-    initial condition of init_sym in SYMPTOMATIC and the rest SUSCEPTIBLE (or use init_from_ode); reinfection of
+    initial condition of init_sym in SYMPTOMATIC and the rest SUSCEPTIBLE (or use init_from_ode); k_asy/k_non from the
+    ODE pars (progression by time since infection); reinfection of
     INFECTION and NON_INFECTIOUS turned off, as in the ODE (with constant hazards this changes only the random draws).
 
     Args:
@@ -149,6 +149,7 @@ def make_abm(ode_pars, seed=0, n_agents=20_000, n_contacts=10, start=1900, stop=
         label (str): sim label
         analyzers (list): additional analyzers (StateCounts is always included)
         tb_class (class): TB class to use (default tbsim.TB; e.g. tbode.TBExact)
+        network (bool): include the RandomNet (False for tbode.TBExactMassAction, which transmits without a network)
         tb_kwargs: overrides passed to tbsim.TB
     """
     p = sc.objdict(ode_pars)
@@ -163,6 +164,8 @@ def make_abm(ode_pars, seed=0, n_agents=20_000, n_contacts=10, start=1900, stop=
         rr_reinfection_treat=p.rr_reinfection_treat,
         rr_reinfection_inf=0.0,
         rr_reinfection_non=0.0,
+        k_asy=p.get('k_asy', 0.0),
+        k_non=p.get('k_non', 0.0),
         **{k: ss.peryear(p[k]) for k in rate_names},
     )
     tb_pars.update(tb_kwargs)
@@ -172,7 +175,7 @@ def make_abm(ode_pars, seed=0, n_agents=20_000, n_contacts=10, start=1900, stop=
         sim_pars=dict(start=ss.date(f'{start}-01-01'), stop=ss.date(f'{stop}-01-01'), dt=ss.years(dt), rand_seed=seed),
         n_agents=n_agents,
         tb_model=tb,
-        networks=ss.RandomNet(n_contacts=n_contacts, dur=0),
+        networks=ss.RandomNet(n_contacts=n_contacts, dur=0) if network else [],
         demographics=[ss.Births(birth_rate=ss.peryear(1000 * p.mu)), ss.Deaths(death_rate=ss.peryear(1000 * p.mu))],
         analyzers=[StateCounts(name='statecounts')] + sc.tolist(analyzers),
         label=label,
@@ -181,7 +184,7 @@ def make_abm(ode_pars, seed=0, n_agents=20_000, n_contacts=10, start=1900, stop=
     return sim
 
 
-def init_from_ode(sim, x, seed=0):
+def init_from_ode(sim, x, seed=0, ode=None):
     """
     Assign initial TB states to an initialised (not yet run) sim from TBODE state proportions ``x``.
 
@@ -189,20 +192,36 @@ def init_from_ode(sim, x, seed=0):
     per-agent rr_reinfection. The share of NON_INFECTIOUS agents that has already been ASYMPTOMATIC in this
     episode (NON - NON0 in the ODE) is marked as such for incidence counting. Build the sim with
     ``init_sym=0`` in its ODE pars so no other seeding happens.
+
+    With latent classes (k > 0), each INFECTION agent also gets a time since infection, drawn from the
+    equilibrium distribution within its class (exponential: see ``TBODE.latent_age_rates``), stored in
+    ``ti_infected`` (fractional, in steps, before the start). Standard tbsim.TB reads it in progression_rates;
+    a TB class with a ``latent_class`` state (e.g. tbode.TBExact) is also given the class.
+
+    Args:
+        sim (Sim): initialised sim
+        x (array): TBODE state proportions, e.g. ``ode.equilibrium()``
+        seed (int): random seed for the assignment
+        ode (TBODE): the ODE that ``x`` comes from (default: TBODE with constant progression)
     """
+    from .ode import TBODE  # Local import: ode.py doesn't depend on abm.py
+    ode = ode if ode is not None else TBODE()
+    if len(x) != ode.n_states + 1:
+        raise ValueError(f'x has {len(x)} entries but the ODE has {ode.n_states} compartments + NON0; pass the matching ode')
     tb = sim.get_tb()
     p = tb.pars
     uids = sim.people.auids
     rng = np.random.default_rng(seed)
-    props = np.clip(np.asarray(x[:n_states], dtype=float), 0, None)
+    props = np.clip(np.asarray(x[:ode.n_states], dtype=float), 0, None)
     props /= props.sum()
-    comp = rng.choice(n_states, size=len(uids), p=props)
+    comp = rng.choice(ode.n_states, size=len(uids), p=props)
 
-    to_abm = dict(SUSCEPTIBLE=TBS.SUSCEPTIBLE, INFECTION=TBS.INFECTION, CLEARED=TBS.CLEARED, RECOVERED=TBS.CLEARED,
+    to_abm = dict(SUSCEPTIBLE=TBS.SUSCEPTIBLE, CLEARED=TBS.CLEARED, RECOVERED=TBS.CLEARED,
                   NON_INFECTIOUS=TBS.NON_INFECTIOUS, ASYMPTOMATIC=TBS.ASYMPTOMATIC, SYMPTOMATIC=TBS.SYMPTOMATIC,
-                  TREATMENT=TBS.TREATMENT, TREATED=TBS.CLEARED)
+                  TREATMENT=TBS.TREATMENT, TREATED=TBS.CLEARED, **{s: TBS.INFECTION for s in ode.latent})
     rr = dict(CLEARED=p.rr_reinfection_cleared, RECOVERED=p.rr_reinfection_rec, TREATED=p.rr_reinfection_treat)
-    for i, name in enumerate(ode_states):
+    age_rates = ode.latent_age_rates(x) if len(ode.latent) > 1 else None
+    for i, name in enumerate(ode.states):
         u = uids[comp == i]
         tb.state[u] = to_abm[name]
         if name in rr:
@@ -211,12 +230,21 @@ def init_from_ode(sim, x, seed=0):
             tb.ever_infected[u] = True
         if to_abm[name] in (TBS.INFECTION, TBS.NON_INFECTIOUS, TBS.ASYMPTOMATIC, TBS.SYMPTOMATIC):
             tb.ti_infected[u] = 0
+        if age_rates is not None and name in ode.latent:
+            m = ode.latent.index(name)
+            tau = rng.exponential(1 / age_rates[m], size=len(u))  # Years since infection
+            tb.ti_infected[u] = -tau / sim.t.dt_year
+            if hasattr(tb, 'latent_class'):
+                tb.latent_class[u] = m
 
     sc_an = sim.analyzers.statecounts
-    non = uids[comp == ode_states.index('NON_INFECTIOUS')]
-    frac_been = 1 - x[n_states] / x[ode_states.index('NON_INFECTIOUS')] if x[ode_states.index('NON_INFECTIOUS')] > 0 else 0
+    i_non = ode.idx('NON_INFECTIOUS')
+    non = uids[comp == i_non]
+    frac_been = 1 - x[ode.idx('NON0')] / x[i_non] if x[i_non] > 0 else 0
     sc_an.been_active[non[rng.random(len(non)) < frac_been]] = True
     sc_an.been_active[tb.state.isin((TBS.ASYMPTOMATIC, TBS.SYMPTOMATIC))] = True
+    if hasattr(tb, 'been_active'):  # TBExact keeps its own episode flag for event-based incidence
+        tb.been_active[:] = sc_an.been_active[:]
     tb.step_bookkeeping()  # derive susceptible/infected/rel_sus/rel_trans from the assigned states
     return sim
 
@@ -228,6 +256,7 @@ def abm_cohort_progression(ode_pars, dt=1/12, n_agents=20_000, seed=0, years=10,
     """
     p = sc.objdict(ode_pars)
     rate_names = ['inf_cle', 'inf_non', 'inf_asy', 'non_rec', 'non_asy', 'asy_non', 'asy_sym', 'sym_asy']
+    tb_kwargs = sc.mergedicts(dict(k_asy=p.get('k_asy', 0.0), k_non=p.get('k_non', 0.0)), tb_kwargs)  # Progression by time since infection, from the ODE pars unless overridden
     tb = (tb_class or tbsim.TB)(beta=ss.peryear(0), init_prev=ss.bernoulli(1.0), sym_dead=ss.peryear(0),
                   **{k: ss.peryear(p[k]) for k in rate_names}, **tb_kwargs)
 

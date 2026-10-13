@@ -1,0 +1,117 @@
+/Users/tessryckman/Developer/tbsim-ode-testing/tbode/ode.py:186: RuntimeWarning: The iteration is not making good progress, as measured by the 
+ improvement from the last ten iterations.
+  x = fsolve(self._norm_derivs, x, xtol=1e-13)
+Set A: beta=36.753, threshold=31.725, elasticity=8.63, 7 latent classes, ProgressionY1=0.0113, ProgressionRatio=0.586
+Set B: beta=25.003, threshold=7.587, elasticity=2.54, 8 latent classes, ProgressionY1=0.0511, ProgressionRatio=0.674
+Calibration: 5.20 s
+ABM runs: 3000 s
+        output set      dt              model  n_reps      ode     mean        se  ratio_mean  ratio_se       z   median      p10      p90
+     INFECTION   A  1 week            TBExact      40  0.07294  0.07195  0.001079      0.9865   0.01479 -0.9138  0.07203  0.06398  0.07976
+     INFECTION   A  1 week           tbsim.TB      40  0.07294  0.08983  0.001224       1.232   0.01678    13.8   0.0901  0.08057    0.098
+     INFECTION   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.248    0.0253     NaN      NaN      NaN      NaN
+     INFECTION   A 1 month            TBExact      40  0.07294  0.06823  0.001182      0.9355    0.0162  -3.983  0.06905  0.06024  0.07646
+     INFECTION   A 1 month           tbsim.TB      40  0.07294   0.1475 0.0008086       2.022   0.01109   92.21   0.1479   0.1409   0.1526
+     INFECTION   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       2.162   0.03927     NaN      NaN      NaN      NaN
+     INFECTION   B  1 week            TBExact      40  0.05971  0.05996 0.0004055       1.004  0.006792  0.6325  0.06032   0.0566  0.06287
+     INFECTION   B  1 week           tbsim.TB      40  0.05971  0.06636  0.000458       1.111  0.007671   14.52   0.0664  0.06252   0.0696
+     INFECTION   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.107   0.01069     NaN      NaN      NaN      NaN
+     INFECTION   B 1 month            TBExact      40  0.05971  0.05993 0.0003175       1.004  0.005317   0.701  0.06021  0.05731  0.06272
+     INFECTION   B 1 month           tbsim.TB      40  0.05971  0.08758 0.0004002       1.467  0.006702   69.64  0.08741   0.0846  0.09009
+     INFECTION   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       1.461   0.01022     NaN      NaN      NaN      NaN
+       CLEARED   A  1 week            TBExact      40   0.8269   0.8256 0.0002593      0.9984 0.0003136  -5.016   0.8255   0.8234   0.8276
+       CLEARED   A  1 week           tbsim.TB      40   0.8269   0.8191 0.0007806      0.9905  0.000944  -10.07   0.8198   0.8143   0.8241
+       CLEARED   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       0.992 0.0009955     NaN      NaN      NaN      NaN
+       CLEARED   A 1 month            TBExact      40   0.8269   0.8263 0.0003006      0.9992 0.0003636  -2.259   0.8266    0.824   0.8281
+       CLEARED   A 1 month           tbsim.TB      40   0.8269   0.7625 0.0009394      0.9221  0.001136  -68.61   0.7623   0.7565   0.7701
+       CLEARED   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN      0.9228  0.001186     NaN      NaN      NaN      NaN
+       CLEARED   B  1 week            TBExact      40   0.8126    0.811 0.0004036       0.998 0.0004966  -3.949   0.8115   0.8068   0.8136
+       CLEARED   B  1 week           tbsim.TB      40   0.8126   0.8152 0.0001737       1.003 0.0002138   15.01   0.8153   0.8137   0.8166
+       CLEARED   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.005 0.0005441     NaN      NaN      NaN      NaN
+       CLEARED   B 1 month            TBExact      40   0.8126   0.8116 0.0003136      0.9988 0.0003859  -3.204   0.8117   0.8092   0.8142
+       CLEARED   B 1 month           tbsim.TB      40   0.8126    0.809 0.0002899      0.9956 0.0003568  -12.37   0.8091   0.8068   0.8109
+       CLEARED   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN      0.9968 0.0005253     NaN      NaN      NaN      NaN
+NON_INFECTIOUS   A  1 week            TBExact      40    0.016  0.01575 0.0002458      0.9844   0.01536  -1.017   0.0158  0.01385  0.01735
+NON_INFECTIOUS   A  1 week           tbsim.TB      40    0.016   0.0211 0.0002994       1.319   0.01872   17.04  0.02095   0.0188  0.02292
+NON_INFECTIOUS   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN        1.34   0.02826     NaN      NaN      NaN      NaN
+NON_INFECTIOUS   A 1 month            TBExact      40    0.016  0.01503 0.0002599      0.9396   0.01624  -3.715  0.01521   0.0132   0.0169
+NON_INFECTIOUS   A 1 month           tbsim.TB      40    0.016  0.04423 0.0002774       2.765   0.01734   101.8  0.04422  0.04204  0.04587
+NON_INFECTIOUS   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       2.942    0.0541     NaN      NaN      NaN      NaN
+NON_INFECTIOUS   B  1 week            TBExact      40  0.01656  0.01661 0.0001358       1.003  0.008202  0.3512  0.01669  0.01565  0.01762
+NON_INFECTIOUS   B  1 week           tbsim.TB      40  0.01656  0.01978 0.0001575       1.194  0.009509   20.43  0.01971  0.01848  0.02107
+NON_INFECTIOUS   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.191   0.01359     NaN      NaN      NaN      NaN
+NON_INFECTIOUS   B 1 month            TBExact      40  0.01656  0.01668 0.0001022       1.007  0.006172   1.177  0.01654  0.01582  0.01752
+NON_INFECTIOUS   B 1 month           tbsim.TB      40  0.01656  0.03213 0.0001775        1.94   0.01072   87.71  0.03218  0.03069  0.03343
+NON_INFECTIOUS   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       1.926   0.01589     NaN      NaN      NaN      NaN
+  ASYMPTOMATIC   A  1 week            TBExact      40 0.002519 0.002482 4.036e-05      0.9854   0.01602 -0.9124 0.002504 0.002179 0.002759
+  ASYMPTOMATIC   A  1 week           tbsim.TB      40 0.002519 0.003272 4.984e-05       1.299   0.01978   15.12 0.003261 0.002913 0.003574
+  ASYMPTOMATIC   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.318   0.02937     NaN      NaN      NaN      NaN
+  ASYMPTOMATIC   A 1 month            TBExact      40 0.002519 0.002359 4.336e-05      0.9365   0.01721  -3.692 0.002369  0.00205 0.002643
+  ASYMPTOMATIC   A 1 month           tbsim.TB      40 0.002519 0.006551  4.53e-05       2.601   0.01799      89 0.006542 0.006213 0.006873
+  ASYMPTOMATIC   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       2.777   0.05455     NaN      NaN      NaN      NaN
+  ASYMPTOMATIC   B  1 week            TBExact      40 0.002791 0.002803  2.43e-05       1.004  0.008706  0.4839 0.002812 0.002611 0.002973
+  ASYMPTOMATIC   B  1 week           tbsim.TB      40 0.002791 0.003272 2.863e-05       1.172   0.01026    16.8 0.003261 0.003043 0.003488
+  ASYMPTOMATIC   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.167   0.01438     NaN      NaN      NaN      NaN
+  ASYMPTOMATIC   B 1 month            TBExact      40 0.002791 0.002813 1.948e-05       1.008  0.006978   1.108 0.002819 0.002657 0.002965
+  ASYMPTOMATIC   B 1 month           tbsim.TB      40 0.002791 0.005063 3.045e-05       1.814   0.01091   74.61 0.005055 0.004867 0.005266
+  ASYMPTOMATIC   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN         1.8   0.01651     NaN      NaN      NaN      NaN
+   SYMPTOMATIC   A  1 week            TBExact      40 0.002481 0.002455 4.217e-05      0.9895     0.017 -0.6151 0.002443 0.002144 0.002764
+   SYMPTOMATIC   A  1 week           tbsim.TB      40 0.002481 0.003245 5.417e-05       1.308   0.02183    14.1 0.003264 0.002864 0.003626
+   SYMPTOMATIC   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.322   0.03166     NaN      NaN      NaN      NaN
+   SYMPTOMATIC   A 1 month            TBExact      40 0.002481 0.002324  4.66e-05      0.9368   0.01878  -3.367 0.002339 0.002017 0.002655
+   SYMPTOMATIC   A 1 month           tbsim.TB      40 0.002481 0.006625 4.881e-05        2.67   0.01967   84.89 0.006664 0.006281 0.006969
+   SYMPTOMATIC   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN        2.85   0.06089     NaN      NaN      NaN      NaN
+   SYMPTOMATIC   B  1 week            TBExact      40 0.002209 0.002215 2.226e-05       1.003   0.01008  0.2859 0.002222 0.002011 0.002378
+   SYMPTOMATIC   B  1 week           tbsim.TB      40 0.002209 0.002615 2.696e-05       1.184   0.01221   15.04 0.002613  0.00239 0.002785
+   SYMPTOMATIC   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN        1.18   0.01699     NaN      NaN      NaN      NaN
+   SYMPTOMATIC   B 1 month            TBExact      40 0.002209 0.002221 1.788e-05       1.006  0.008093  0.6827  0.00223  0.00205 0.002386
+   SYMPTOMATIC   B 1 month           tbsim.TB      40 0.002209 0.004073 2.741e-05       1.844   0.01241   67.99  0.00406 0.003867  0.00428
+   SYMPTOMATIC   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       1.833   0.01924     NaN      NaN      NaN      NaN
+   prev_active   A  1 week            TBExact      40      500    493.7     8.221      0.9874   0.01644 -0.7634      494    432.3    551.9
+   prev_active   A  1 week           tbsim.TB      40      500    651.7     10.37       1.303   0.02074   14.63      653    573.3    721.5
+   prev_active   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN        1.32    0.0304     NaN      NaN      NaN      NaN
+   prev_active   A 1 month            TBExact      40      500    468.3      8.97      0.9366   0.01794  -3.534    474.4    406.7    530.8
+   prev_active   A 1 month           tbsim.TB      40      500     1318      9.32       2.635   0.01864   87.72     1322     1240     1376
+   prev_active   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       2.814   0.05745     NaN      NaN      NaN      NaN
+   prev_active   B  1 week            TBExact      40      500    501.8     4.583       1.004  0.009166  0.3954    503.3    462.8    535.5
+   prev_active   B  1 week           tbsim.TB      40      500    588.6     5.518       1.177   0.01104   16.07    587.2    540.7    626.5
+   prev_active   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.173   0.01535     NaN      NaN      NaN      NaN
+   prev_active   B 1 month            TBExact      40      500    503.4     3.673       1.007  0.007347  0.9199    504.1      471    535.8
+   prev_active   B 1 month           tbsim.TB      40      500    913.5     5.744       1.827   0.01149   71.99    910.3    873.4    953.5
+   prev_active   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       1.815   0.01748     NaN      NaN      NaN      NaN
+  incidence_py   A  1 week            TBExact      40    273.5    268.2     4.291      0.9805   0.01569  -1.241    268.8    236.8    300.5
+  incidence_py   A  1 week           tbsim.TB      40    273.5    358.1     5.123        1.31   0.01873   16.53    356.3    316.5    392.5
+  incidence_py   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.336   0.02867     NaN      NaN      NaN      NaN
+  incidence_py   A 1 month            TBExact      40    273.5    248.7     4.606      0.9093   0.01684  -5.383    251.9    214.1      281
+  incidence_py   A 1 month           tbsim.TB      40    273.5    710.9     4.436       2.599   0.01622   98.59    712.9    674.7    739.3
+  incidence_py   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       2.858   0.05587     NaN      NaN      NaN      NaN
+  incidence_py   B  1 week            TBExact      40    274.4    273.2     2.186      0.9957  0.007968 -0.5339    273.8    253.6    289.7
+  incidence_py   B  1 week           tbsim.TB      40    274.4    321.8     2.624       1.173  0.009565   18.08    322.8    300.2    343.2
+  incidence_py   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.178   0.01346     NaN      NaN      NaN      NaN
+  incidence_py   B 1 month            TBExact      40    274.4    267.3     1.638      0.9741  0.005971  -4.338    265.7      255    282.1
+  incidence_py   B 1 month           tbsim.TB      40    274.4    495.6     2.683       1.806  0.009778   82.46    493.3    477.9    513.7
+  incidence_py   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       1.854   0.01516     NaN      NaN      NaN      NaN
+  tb_deaths_py   A  1 week            TBExact      40    84.36    83.39     1.415      0.9885   0.01677 -0.6843    83.45    73.87     94.3
+  tb_deaths_py   A  1 week           tbsim.TB      40    84.36    111.8     1.705       1.325   0.02022   16.08      111     98.6    122.3
+  tb_deaths_py   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN        1.34   0.03058     NaN      NaN      NaN      NaN
+  tb_deaths_py   A 1 month            TBExact      40    84.36    78.94     1.516      0.9358   0.01798  -3.572    78.68    69.67    89.81
+  tb_deaths_py   A 1 month           tbsim.TB      40    84.36    233.4     1.555       2.767   0.01843   95.85    234.2    221.7    242.9
+  tb_deaths_py   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       2.956   0.06011     NaN      NaN      NaN      NaN
+  tb_deaths_py   B  1 week            TBExact      40    58.02    58.09    0.5361       1.001   0.00924  0.1329    58.44    54.26    62.41
+  tb_deaths_py   B  1 week           tbsim.TB      40    58.02    69.07    0.6835        1.19   0.01178   16.16    68.54    64.02    74.04
+  tb_deaths_py   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN       1.189   0.01609     NaN      NaN      NaN      NaN
+  tb_deaths_py   B 1 month            TBExact      40    58.02    58.31    0.4694       1.005  0.008089  0.6223    58.63    54.59    61.74
+  tb_deaths_py   B 1 month           tbsim.TB      40    58.02    112.1    0.6851       1.932   0.01181   78.89    111.6    107.5    117.4
+  tb_deaths_py   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       1.922   0.01942     NaN      NaN      NaN      NaN
+    frac_asymp   A  1 week            TBExact      40   0.5038   0.5027 0.0007562      0.9979  0.001501  -1.403   0.5026   0.4966   0.5089
+    frac_asymp   A  1 week           tbsim.TB      40   0.5038   0.5023 0.0007631      0.9971  0.001515  -1.904   0.5021   0.4972   0.5083
+    frac_asymp   A  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN      0.9992  0.002136     NaN      NaN      NaN      NaN
+    frac_asymp   A 1 month            TBExact      40   0.5038    0.504 0.0008932           1  0.001773  0.1899   0.5033   0.4973   0.5101
+    frac_asymp   A 1 month           tbsim.TB      40   0.5038   0.4973 0.0005216      0.9871  0.001035  -12.47   0.4966   0.4926   0.5015
+    frac_asymp   A 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN      0.9868  0.002032     NaN      NaN      NaN      NaN
+    frac_asymp   B  1 week            TBExact      40   0.5582   0.5587 0.0008841       1.001  0.001584  0.5504   0.5577   0.5537   0.5654
+    frac_asymp   B  1 week           tbsim.TB      40   0.5582    0.556 0.0006815       0.996  0.001221  -3.274   0.5561   0.5504   0.5612
+    frac_asymp   B  1 week tbsim.TB / TBExact      40      NaN      NaN       NaN      0.9951  0.001992     NaN      NaN      NaN      NaN
+    frac_asymp   B 1 month            TBExact      40   0.5582   0.5587 0.0007154       1.001  0.001282  0.7593   0.5594   0.5531   0.5634
+    frac_asymp   B 1 month           tbsim.TB      40   0.5582   0.5543 0.0004257       0.993 0.0007627  -9.232   0.5545   0.5506   0.5573
+    frac_asymp   B 1 month tbsim.TB / TBExact      40      NaN      NaN       NaN       0.992  0.001481     NaN      NaN      NaN      NaN
+Total: 3000 s

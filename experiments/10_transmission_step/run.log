@@ -1,0 +1,34 @@
+Check passed: current code reproduces exp05 seed 0 (6: k=0 monthly start, network)
+Check passed: current code reproduces exp09 seed 0 (1: A, network)
+ABM runs: 1910 s
+                                  arm  n_agents  n_reps  n_faded  ratio_mean  ratio_se  sd_ratio  map_linear  map_exp  z_vs_map
+7: k=0 weekly within, mass action exp     50000      80        0      0.9516   0.01747    0.1562      0.9988    0.995    -2.487
+        6: k=0 monthly start, network     50000     160        0      0.9796  0.009998    0.1265       1.014    0.997    -1.745
+                        1: A, network     25000     190        0      0.9472   0.01051    0.1449      0.9952   0.9411    0.5856
+                2: A, mass action exp     25000     190        0      0.9407   0.01017    0.1402      0.9952   0.9411  -0.03222
+             3: A, mass action linear     25000     190        0      0.9835   0.01034    0.1425      0.9952   0.9411    -1.127
+                        4: B, network     25000     190        0      0.9886  0.005416   0.07466      0.9986   0.9941    -1.021
+             5: B, mass action linear     25000     190        0           1  0.005659     0.078      0.9986   0.9941    0.3232
+                                  arm       output  ratio_mean  ratio_se
+7: k=0 weekly within, mass action exp    INFECTION      0.9532   0.01627
+7: k=0 weekly within, mass action exp incidence_py      0.9454   0.01668
+7: k=0 weekly within, mass action exp tb_deaths_py      0.9542   0.01705
+        6: k=0 monthly start, network    INFECTION      0.8957  0.008509
+        6: k=0 monthly start, network incidence_py      0.9505  0.009345
+        6: k=0 monthly start, network tb_deaths_py      0.9807  0.009817
+                        1: A, network    INFECTION      0.9442  0.009486
+                        1: A, network incidence_py      0.9166   0.00965
+                        1: A, network tb_deaths_py      0.9508   0.01038
+                2: A, mass action exp    INFECTION      0.9372  0.009134
+                2: A, mass action exp incidence_py      0.9117  0.009387
+                2: A, mass action exp tb_deaths_py      0.9421   0.01009
+             3: A, mass action linear    INFECTION      0.9811  0.009303
+             3: A, mass action linear incidence_py       0.954  0.009546
+             3: A, mass action linear tb_deaths_py      0.9852   0.01021
+                        4: B, network    INFECTION      0.9907  0.003988
+                        4: B, network incidence_py      0.9597  0.004653
+                        4: B, network tb_deaths_py      0.9932  0.005675
+             5: B, mass action linear    INFECTION      0.9984   0.00419
+             5: B, mass action linear incidence_py      0.9702  0.004798
+             5: B, mass action linear tb_deaths_py       1.006  0.005778
+Total: 1910 s

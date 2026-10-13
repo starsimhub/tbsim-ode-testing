@@ -40,14 +40,17 @@ def abm_outputs(sim):
         out.prev_active = (asy + sym) / n
         out.frac_asymp = asy / (asy + sym)
         out.incidence_py = np.asarray(r.new_incident) / (n * dt)
+        if 'new_episodes' in sim.get_tb().results:  # tbode.TBExact: incidence counted from transitions, not snapshots
+            out.incidence_event_py = np.asarray(sim.get_tb().results.new_episodes) / (n * dt)
         out.tb_deaths_py = np.asarray(sim.get_tb().results.new_deaths) / (n * dt)
     out.tb_deaths_ppy = out.tb_deaths_py
     return out
 
 
-def annualize(out, keys=('incidence_py', 'tb_deaths_py')):
-    """Return a copy of ``out`` with ``keys`` replaced by calendar-year averages (assigned to every step in that year)."""
+def annualize(out, keys=('incidence_py', 'incidence_event_py', 'tb_deaths_py')):
+    """Return a copy of ``out`` with ``keys`` (those present) replaced by calendar-year averages (assigned to every step in that year)."""
     out = sc.dcp(out)
+    keys = [k for k in keys if k in out]
     yr = np.floor(out.time + 1e-9)
     for k in keys:
         v = np.asarray(out[k], dtype=float)

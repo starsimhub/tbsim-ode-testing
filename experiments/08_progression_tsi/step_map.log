@@ -1,0 +1,4 @@
+Set A, 1 week : deterministic TBExact step ÷ ODE: prevalence 0.9989, INFECTION 0.9989
+Set A, 1 month: deterministic TBExact step ÷ ODE: prevalence 0.9952, INFECTION 0.9952
+Set B, 1 week : deterministic TBExact step ÷ ODE: prevalence 0.9997, INFECTION 0.9997
+Set B, 1 month: deterministic TBExact step ÷ ODE: prevalence 0.9986, INFECTION 0.9986

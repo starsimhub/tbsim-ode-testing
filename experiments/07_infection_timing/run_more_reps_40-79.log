@@ -1,0 +1,67 @@
+Check passed: current TBExact reproduces exp 07 ('within', weekly) and exp 05 ('start', monthly), seed 0
+ABM runs: 1240 s
+        output     dt                  timing  n_reps      ode     mean        se  ratio_mean  ratio_se       z   median      p10      p90
+     INFECTION 1 week                  within      80  0.01821  0.01745 0.0002596      0.9584   0.01426  -2.915  0.01747  0.01494  0.02073
+     INFECTION 1 week                   start      80  0.01821  0.01773 0.0002319      0.9737   0.01274  -2.064  0.01743  0.01519  0.02081
+     INFECTION 1 week within - start (paired)      80  0.01821      NaN       NaN    -0.01528     0.017  -0.899      NaN      NaN      NaN
+     INFECTION 1 week      within, seeds 0-39      40  0.01821      NaN       NaN       0.951   0.01928     NaN      NaN      NaN      NaN
+     INFECTION 1 week       start, seeds 0-39      40  0.01821      NaN       NaN      0.9803   0.02005     NaN      NaN      NaN      NaN
+     INFECTION 1 week     within, seeds 40-79      40  0.01821      NaN       NaN      0.9659   0.02119     NaN      NaN      NaN      NaN
+     INFECTION 1 week      start, seeds 40-79      40  0.01821      NaN       NaN      0.9672   0.01592     NaN      NaN      NaN      NaN
+       CLEARED 1 week                  within      80   0.7167   0.7062   0.00228      0.9853  0.003181   -4.62   0.7081   0.6843   0.7286
+       CLEARED 1 week                   start      80   0.7167   0.7129  0.001874      0.9946  0.002615  -2.046   0.7118   0.6926   0.7353
+       CLEARED 1 week within - start (paired)      80   0.7167      NaN       NaN   -0.009344  0.003411   -2.74      NaN      NaN      NaN
+       CLEARED 1 week      within, seeds 0-39      40   0.7167      NaN       NaN      0.9835  0.004075     NaN      NaN      NaN      NaN
+       CLEARED 1 week       start, seeds 0-39      40   0.7167      NaN       NaN      0.9966  0.003916     NaN      NaN      NaN      NaN
+       CLEARED 1 week     within, seeds 40-79      40   0.7167      NaN       NaN      0.9871  0.004921     NaN      NaN      NaN      NaN
+       CLEARED 1 week      start, seeds 40-79      40   0.7167      NaN       NaN      0.9927  0.003489     NaN      NaN      NaN      NaN
+NON_INFECTIOUS 1 week                  within      80    0.016  0.01533 0.0002369      0.9584    0.0148  -2.807  0.01532  0.01301  0.01793
+NON_INFECTIOUS 1 week                   start      80    0.016  0.01587 0.0002194       0.992   0.01371 -0.5825  0.01556  0.01345  0.01884
+NON_INFECTIOUS 1 week within - start (paired)      80    0.016      NaN       NaN    -0.03357   0.01743  -1.926      NaN      NaN      NaN
+NON_INFECTIOUS 1 week      within, seeds 0-39      40    0.016      NaN       NaN        0.95   0.01993     NaN      NaN      NaN      NaN
+NON_INFECTIOUS 1 week       start, seeds 0-39      40    0.016      NaN       NaN           1   0.02096     NaN      NaN      NaN      NaN
+NON_INFECTIOUS 1 week     within, seeds 40-79      40    0.016      NaN       NaN      0.9669   0.02207     NaN      NaN      NaN      NaN
+NON_INFECTIOUS 1 week      start, seeds 40-79      40    0.016      NaN       NaN      0.9835   0.01785     NaN      NaN      NaN      NaN
+  ASYMPTOMATIC 1 week                  within      80 0.002519 0.002416  3.81e-05      0.9592   0.01513  -2.694  0.00242 0.002022  0.00287
+  ASYMPTOMATIC 1 week                   start      80 0.002519 0.002503 3.511e-05      0.9936   0.01394 -0.4561 0.002456 0.002127 0.002966
+  ASYMPTOMATIC 1 week within - start (paired)      80 0.002519      NaN       NaN     -0.0344   0.01808  -1.903      NaN      NaN      NaN
+  ASYMPTOMATIC 1 week      within, seeds 0-39      40 0.002519      NaN       NaN      0.9499   0.02035     NaN      NaN      NaN      NaN
+  ASYMPTOMATIC 1 week       start, seeds 0-39      40 0.002519      NaN       NaN           1    0.0218     NaN      NaN      NaN      NaN
+  ASYMPTOMATIC 1 week     within, seeds 40-79      40 0.002519      NaN       NaN      0.9686   0.02255     NaN      NaN      NaN      NaN
+  ASYMPTOMATIC 1 week      start, seeds 40-79      40 0.002519      NaN       NaN      0.9872    0.0176     NaN      NaN      NaN      NaN
+   SYMPTOMATIC 1 week                  within      80 0.002481 0.002369 3.871e-05       0.955    0.0156  -2.883 0.002351 0.002013 0.002853
+   SYMPTOMATIC 1 week                   start      80 0.002481 0.002466 3.549e-05      0.9938    0.0143 -0.4326 0.002409 0.002091 0.002942
+   SYMPTOMATIC 1 week within - start (paired)      80 0.002481      NaN       NaN     -0.0388   0.01891  -2.052      NaN      NaN      NaN
+   SYMPTOMATIC 1 week      within, seeds 0-39      40 0.002481      NaN       NaN      0.9461   0.02097     NaN      NaN      NaN      NaN
+   SYMPTOMATIC 1 week       start, seeds 0-39      40 0.002481      NaN       NaN       1.001   0.02263     NaN      NaN      NaN      NaN
+   SYMPTOMATIC 1 week     within, seeds 40-79      40 0.002481      NaN       NaN      0.9639    0.0233     NaN      NaN      NaN      NaN
+   SYMPTOMATIC 1 week      start, seeds 40-79      40 0.002481      NaN       NaN       0.987   0.01772     NaN      NaN      NaN      NaN
+   prev_active 1 week                  within      80      500    478.6     7.672      0.9571   0.01534  -2.793    477.5    404.2    573.9
+   prev_active 1 week                   start      80      500    496.9     7.042      0.9937   0.01408 -0.4454    485.7    420.9    588.4
+   prev_active 1 week within - start (paired)      80      500      NaN       NaN    -0.03658   0.01844  -1.984      NaN      NaN      NaN
+   prev_active 1 week      within, seeds 0-39      40      500      NaN       NaN       0.948   0.02063     NaN      NaN      NaN      NaN
+   prev_active 1 week       start, seeds 0-39      40      500      NaN       NaN           1   0.02218     NaN      NaN      NaN      NaN
+   prev_active 1 week     within, seeds 40-79      40      500      NaN       NaN      0.9663   0.02289     NaN      NaN      NaN      NaN
+   prev_active 1 week      start, seeds 40-79      40      500      NaN       NaN      0.9871   0.01759     NaN      NaN      NaN      NaN
+  incidence_py 1 week                  within      80    273.5    260.4     4.053      0.9522   0.01482  -3.223    262.2    219.3    311.3
+  incidence_py 1 week                   start      80    273.5    269.3     3.657      0.9849   0.01337  -1.132    262.3    229.8      317
+  incidence_py 1 week within - start (paired)      80    273.5      NaN       NaN    -0.03263   0.01776  -1.838      NaN      NaN      NaN
+  incidence_py 1 week      within, seeds 0-39      40    273.5      NaN       NaN      0.9436   0.02015     NaN      NaN      NaN      NaN
+  incidence_py 1 week       start, seeds 0-39      40    273.5      NaN       NaN      0.9913   0.02106     NaN      NaN      NaN      NaN
+  incidence_py 1 week     within, seeds 40-79      40    273.5      NaN       NaN      0.9609   0.02191     NaN      NaN      NaN      NaN
+  incidence_py 1 week      start, seeds 40-79      40    273.5      NaN       NaN      0.9784    0.0167     NaN      NaN      NaN      NaN
+  tb_deaths_py 1 week                  within      80    84.36    80.65     1.254       0.956   0.01486  -2.957     80.3    68.58    95.34
+  tb_deaths_py 1 week                   start      80    84.36     83.6     1.173       0.991   0.01391 -0.6453    82.31     70.7    100.4
+  tb_deaths_py 1 week within - start (paired)      80    84.36      NaN       NaN    -0.03498   0.01826  -1.916      NaN      NaN      NaN
+  tb_deaths_py 1 week      within, seeds 0-39      40    84.36      NaN       NaN       0.943   0.01976     NaN      NaN      NaN      NaN
+  tb_deaths_py 1 week       start, seeds 0-39      40    84.36      NaN       NaN      0.9966   0.02139     NaN      NaN      NaN      NaN
+  tb_deaths_py 1 week     within, seeds 40-79      40    84.36      NaN       NaN      0.9691   0.02227     NaN      NaN      NaN      NaN
+  tb_deaths_py 1 week      start, seeds 40-79      40    84.36      NaN       NaN      0.9854   0.01801     NaN      NaN      NaN      NaN
+    frac_asymp 1 week                  within      80   0.5038    0.505  0.000433       1.002 0.0008595   2.859    0.505   0.4995    0.509
+    frac_asymp 1 week                   start      80   0.5038   0.5037 0.0005048      0.9999  0.001002 -0.1201   0.5041   0.4978   0.5084
+    frac_asymp 1 week within - start (paired)      80   0.5038      NaN       NaN    0.002578  0.001428   1.806      NaN      NaN      NaN
+    frac_asymp 1 week      within, seeds 0-39      40   0.5038      NaN       NaN       1.002  0.001211     NaN      NaN      NaN      NaN
+    frac_asymp 1 week       start, seeds 0-39      40   0.5038      NaN       NaN      0.9998  0.001289     NaN      NaN      NaN      NaN
+    frac_asymp 1 week     within, seeds 40-79      40   0.5038      NaN       NaN       1.003  0.001234     NaN      NaN      NaN      NaN
+    frac_asymp 1 week      start, seeds 40-79      40   0.5038      NaN       NaN      0.9999  0.001551     NaN      NaN      NaN      NaN
+Total: 1240 s

@@ -21,7 +21,7 @@ The ABM was started at the ODE equilibrium and run for 100 years, with 50k agent
 
 - **At daily and weekly `dt`, `TBExact` is indistinguishable from the ODE** in prevalence, incidence and mortality (all |z| < 0.5). Its trajectories stay flat around the equilibrium for 100 years (`exact_equilibrium.png`), whereas `tbsim.TB` drifts down throughout.
 - **The daily `tbsim.TB` gap is step ordering.** At the same daily `dt`, `TBExact` gives 1.00 against `tbsim.TB`'s 0.95, a difference of 0.05 ± 0.02 (2.0 SE). This answers the open question in exp 03. There is no sign of a gap that doesn't depend on `dt`, such as a finite-population effect near threshold, so no population-size experiment is needed.
-- **At monthly `dt`, `TBExact` is slightly low, but prevalence and mortality are within noise.** Prevalence is 0.97 ± 0.02 (z = −1.3) and mortality 0.97 ± 0.02 (z = −1.3). Incidence is 0.94 ± 0.02 (z = −2.8), which is probably at least partly a measurement artefact (not tested):
+- **At monthly `dt`, `TBExact` is slightly low, but prevalence and mortality are within noise.** Prevalence is 0.97 ± 0.02 (z = −1.3) and mortality 0.97 ± 0.02 (z = −1.3). Incidence is 0.94 ± 0.02 (z = −2.8), which is mostly a measurement artefact (confirmed in [exp 11](../11_incidence_counting/SUMMARY.md): the snapshot count misses 3.3% of episodes at monthly `dt`):
   - Incidence is counted as the first entry into ASYMPTOMATIC or SYMPTOMATIC per episode, and the ABM only observes states at the end of each step.
   - So an agent who enters ASYMPTOMATIC and leaves again for NON_INFECTIOUS within the same month isn't seen. Unless it re-enters ASYMPTOMATIC later in the episode, that episode is never counted.
 - **INFECTION is low at monthly `dt`, a timing artefact rather than lost time:** 0.89 ± 0.02 of the ODE, against 0.98 at weekly and 1.00 at daily.
@@ -69,7 +69,7 @@ This repeats exp 04's per-step check for both models, with the same seeds, at we
 | `tbsim.TB`: sum of z² (largest \|z\|) | 691 (18.2) | 2,688 (28.9) |
 
 `TBExact` is consistent with pure noise; `tbsim.TB` is far from it. For the rare multi-step flows, where the normal approximation is poor, `TBExact` also passes exact Poisson tests (p = 0.06–0.96). In a 4-rep pilot, two of those flows had p ≈ 0.003; that disappeared at 20 reps, so it was noise.
-- Transmission is unchanged by `TBExact`: infections of susceptibles are 0.997 and 0.996 of the ODE expectation (±0.003).
+- Transmission is unchanged by `TBExact`: infections of susceptibles are 0.997 and 0.996 (±0.003) of the per-step expectation `1 − e^(−x)`, x = `beta`·w·`dt`. That expectation is itself a fraction of about x/2 below the ODE's infection flow ([exp 10](../10_transmission_step/SUMMARY.md)).
 
 **Unit tests (`tests/test_exact.py`).**
 - One monthly step with 200k agents spread over INFECTION, NON, ASY and SYM. End-state frequencies match an independently built `expm(Q·dt)`, including the split of CLEARED agents by pathway (identified by `rr_reinfection`): χ² p = 0.93, 0.63, 0.98, 0.67.
@@ -88,11 +88,11 @@ At baseline, yes.
 - **Prevalence and mortality** are 0.97 ± 0.02 of the ODE at monthly `dt`, not significantly different from 1.00. The 95% interval is about 0.93–1.01, which allows at most about 0.7% bias in effective `beta`.
 - **This calibration is the hardest case:** near threshold, any transmission bias shows up about 9× larger in prevalence.
 - **The per-step transitions are exact at monthly `dt`** (flux check).
-- **The two visible monthly deviations are measurement artefacts:** INFECTION (0.89) because of infection timing, and probably incidence (0.94), because brief visits to ASYMPTOMATIC are missed.
+- **The two visible monthly deviations are measurement artefacts:** INFECTION (0.89) because of infection timing, and incidence (0.94), because brief visits to ASYMPTOMATIC are missed (3.3% of episodes; exp 11).
 
 **What remains at monthly `dt`:**
-- **Transmission is still split into steps.** The force of infection is fixed at its start-of-step value, and each infection is dated to the start of its step. This is the most likely source of the 0.97.
-- **Incidence counted from monthly snapshots reads low.** If incidence or notifications become targets, they should be counted from transitions rather than snapshots.
+- **Transmission is still split into steps.** The force of infection is fixed at its start-of-step value, and each infection is dated to the start of its step. Fixing the susceptible pool at the start of the step has a cost. Each agent's per-step infection probability is `1 − e^(−x)` (x = `beta`·w·`dt`), which is a fraction of about x/2 below the ODE's infection flow. So "transmission is exact" holds per step, but not against the ODE ([exp 10](../10_transmission_step/SUMMARY.md)). With this, a deterministic version of the step predicts 0.997 here. Exp 10 reran this arm with 160 reps and got 0.980 ± 0.010, consistent with the 0.97.
+- **Incidence counted from monthly snapshots reads low.** `TBExact` now counts it from transitions (`incidence_event_py`, [exp 11](../11_incidence_counting/SUMMARY.md)), which matches the ODE.
 
 **This will matter more with time-since-infection progression.** With `k` ≈ 5.85/yr (tb_LAI_TPT), the progression hazard falls by a factor of e about every 2 months. Dating infections to the start of the step shifts them by about half a month on average, a quarter of that decay time, right where progression is fastest. That experiment should:
 - draw each infection's time within the step;

@@ -1,0 +1,7 @@
+ODE prev 500.00000007505133
+day   start : prev ratio 1.0005  (drift over last 200y 0.0e+00)  INF ratio 0.9976  CLE ratio 1.0002
+day   within: prev ratio 0.9998  (drift over last 200y 0.0e+00)  INF ratio 0.9998  CLE ratio 1.0000
+week  start : prev ratio 1.0037  (drift over last 200y 0.0e+00)  INF ratio 0.9833  CLE ratio 1.0012
+week  within: prev ratio 0.9988  (drift over last 200y 0.0e+00)  INF ratio 0.9988  CLE ratio 0.9997
+month start : prev ratio 1.0138  (drift over last 200y 0.0e+00)  INF ratio 0.9265  CLE ratio 1.0048
+month within: prev ratio 0.9948  (drift over last 200y 0.0e+00)  INF ratio 0.9948  CLE ratio 0.9988
