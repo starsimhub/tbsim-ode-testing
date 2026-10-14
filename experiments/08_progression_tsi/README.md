@@ -17,6 +17,8 @@ As in every feature experiment, two ABM versions are run against the ODE:
 
 Clearance and background death act identically on every class, so the mixture is exact with competing risks too. It is not an approximation. The ODE (`TBODE(k_asy=k, k_non=k)`) splits INFECTION into classes INFECTION_0, INFECTION_1, …, truncated where the remaining Poisson weight is below 1e-10: 7 classes for set A, 8 for set B. `TBExact` assigns each agent a class at infection and steps it with that class's constant-rate `expm(Q·dt)`.
 
+[latent_classes.md](latent_classes.md) explains the method in more detail, with worked values for both parameter sets.
+
 A chain of time-since-infection stages was considered and rejected. Agents leave each stage after an exponentially distributed time, which blurs the timing of progression. With 1-month stages, cohort progression is 4–7% too low; even 0.25-month stages are 1–2% off. That's too much near threshold, where prevalence amplifies errors in progression.
 
 **Independent checks** (in `tests/test_progression.py` and `tests/test_exact.py`):
@@ -27,7 +29,7 @@ A chain of time-since-infection stages was considered and rejected. Agents leave
 
 **Equilibrium start.** The ABM starts at the ODE equilibrium (`init_from_ode`). Every INFECTION agent also needs a time since infection; otherwise all would look newly infected and progress in a burst. At equilibrium, the inflow to each class and its per-capita exit rate are constant, so time since infection within class m is exponential with rate inflow / stock (`TBODE.latent_age_rates`). Each agent gets a class from the ODE's class proportions and a τ from its class's distribution, stored as a fractional `ti_infected` before the start. `tbsim.TB` reads τ; `TBExact` reads the class.
 
-**Infection timing within the step.** `TBExact` uses `infection_timing='within'` (exp 07): each new infection is given a uniform time within its step and goes through only the rest of the step. Dating infections to the start of the step would make the fastest progressors progress about half a step early. With `k` = 5.85, half a month is a quarter of the hazard's decay time.
+**Infection timing within the step.** `TBExact` uses `infection_timing='within'` (exp 07): each new infection is given a uniform time within its step and goes through only the rest of the step. This gives correct end-of-step snapshots of INFECTION. It doesn't change how many progress, because the latent class shifts with the infection date. Exp 07's SUMMARY later found a trade-off. The force of infection is taken from the start-of-step state, so `'within'` dates each infection on average half a step after the infectiousness that caused it. That makes the generation interval half a step too long; `'start'` gets it right on average. This doesn't affect the equilibrium comparisons here. Whether to keep `'within'` is an open decision (top-level README, Plan).
 
 ## Expected bias in `tbsim.TB`
 

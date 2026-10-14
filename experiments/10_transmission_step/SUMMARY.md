@@ -54,8 +54,18 @@ Values are prevalence, ABM ÷ ODE (1.00 = match), averaged over each rep's last 
   - That's a fraction of about x/2 below the ODE's infection flow: 0.7% of effective `beta` in set A at monthly `dt`, 0.4% in set B monthly, and under 0.1% at weekly `dt`.
   - It mainly matters near threshold, where prevalence moves 6–9× as much as `beta`.
   - Exp 05's statement that "transmission is exact" was right per step, but against the wrong benchmark: compared with the ODE's flow, the ABM transmits slightly too little.
-- **A fix is available for mass-action transmission:** a per-step infection probability of x (`TBExactMassAction(infection_prob='linear')`). It matches the ODE to within about 1–2% in both sets at monthly `dt`.
-  - It isn't exact either. The remaining gap is from the force of infection being fixed at its start-of-step value, about 0.5% of prevalence in set A, in line with the linear prediction.
+- **A fix is available for mass-action transmission:** a per-step infection probability of x (`TBExactMassAction(infection_prob='linear')`). It still uses the susceptible pool at the start of the step, but its expected infections per step equal the ODE's flow, x·S. It matches the ODE to within about 1–2% in both sets at monthly `dt`.
+  - **It isn't exact either, but what's left is small.** Even with the linear form, the deterministic step predicts a small shortfall, which shrinks with `dt`:
+
+    | Linear mass action, `'within'` timing | Deterministic step ÷ ODE | `TBExact` ÷ ODE (mean ± SE, 190 reps) |
+    |---|---|---|
+    | Set A, monthly | 0.995 | 0.984 ± 0.010 (arm 3) |
+    | Set B, monthly | 0.999 | 1.000 ± 0.006 (arm 5) |
+    | Set A, weekly | 0.999 | not run |
+    | Set B, weekly | 1.000 | 1.001 ± 0.006 ([exp 11](../11_incidence_counting/SUMMARY.md)) |
+
+    Values are prevalence (ASY + SYM). Predictions are from `step_map.py` (`step_map.log`). The observed values agree with the predictions within noise. At ±1%, these reps can't resolve set A's predicted 0.5%.
+  - **What causes the remainder hasn't been tested separately.** It is what the deterministic step reproduces once the per-step probability is right. The likely cause is that the force of infection is taken at its start-of-step value and held for the whole step, rather than updating within it. An exact match would need a force of infection that updates within the step, or a smaller `dt`.
   - With network transmission, there's no equally simple per-agent fix, because an agent's chance of infection depends on its number of infectious contacts. A per-step rescaling of `beta` by `−ln(1 − x)/x` would be approximate, because the correction differs for agents with different `rel_sus`.
 - **For the corrected ABM:** tb_LAI_TPT's random network (`n_contacts=10`, `dur=0`) behaves like mass action (finding 2). So `TBExactMassAction` with the linear form is a candidate transmission model for `TBExact`. The household network, if it's ever included, would still need network transmission. Whether to adopt it is a decision for the user.
 - **The `k` = 0 weekly `'within'` residual is still open.** It's small, confined to one near-threshold setting at `k` = 0, and doesn't affect the reference set B.

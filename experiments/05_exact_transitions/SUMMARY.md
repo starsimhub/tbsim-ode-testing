@@ -29,7 +29,7 @@ The ABM was started at the ODE equilibrium and run for 100 years, with 50k agent
   - From then on, each agent spends the correct exponential time in INFECTION. But states are only observed at the end of each step, so each cohort is seen half a step further into its time in INFECTION.
   - At equilibrium that predicts an INFECTION stock of `exp(−r·dt/2)` times the ODE value, with r ≈ 2.1/yr the exit rate from INFECTION. That gives 0.997, 0.98 and 0.92 at daily, weekly and monthly `dt`, matching the observed values.
   - Only INFECTION is affected, because it's the only state whose inflow (infection) is lumped at the start of the step; `expm(Q·dt)` spreads every other inflow correctly through the step.
-  - At equilibrium this changes no durations and no other state. Away from equilibrium, it slightly shortens the delay between infection and progression, by half a step.
+  - It changes no durations and no other state. It doesn't shorten the generation interval either. The start-of-step force of infection is half a step out of date by the middle of the step, and dating infections at the start of the step cancels that on average. Exp 07's `'within'` timing fixes the INFECTION snapshot, but makes the generation interval half a step too long ([exp 07's SUMMARY](../07_infection_timing/SUMMARY.md)).
 - **10 vs 40 reps:** the first, 10-rep version of this experiment gave about 0.96 at weekly and monthly `dt`. With 40 reps, that shortfall turned out to be noise.
 
 ## Flux check (`run_flux.py`, 20 reps)
@@ -94,9 +94,9 @@ At baseline, yes.
 - **Transmission is still split into steps.** The force of infection is fixed at its start-of-step value, and each infection is dated to the start of its step. Fixing the susceptible pool at the start of the step has a cost. Each agent's per-step infection probability is `1 − e^(−x)` (x = `beta`·w·`dt`), which is a fraction of about x/2 below the ODE's infection flow. So "transmission is exact" holds per step, but not against the ODE ([exp 10](../10_transmission_step/SUMMARY.md)). With this, a deterministic version of the step predicts 0.997 here. Exp 10 reran this arm with 160 reps and got 0.980 ± 0.010, consistent with the 0.97.
 - **Incidence counted from monthly snapshots reads low.** `TBExact` now counts it from transitions (`incidence_event_py`, [exp 11](../11_incidence_counting/SUMMARY.md)), which matches the ODE.
 
-**This will matter more with time-since-infection progression.** With `k` ≈ 5.85/yr (tb_LAI_TPT), the progression hazard falls by a factor of e about every 2 months. Dating infections to the start of the step shifts them by about half a month on average, a quarter of that decay time, right where progression is fastest. That experiment should:
-- draw each infection's time within the step;
-- compare monthly with weekly `dt` directly.
+**With time-since-infection progression.** With `k` ≈ 5.85/yr (tb_LAI_TPT), the progression hazard falls by a factor of e about every 2 months, so timing within the step needs care. The time-since-infection experiment should compare monthly with weekly `dt` directly. Infection timing was tested first, in [exp 07](../07_infection_timing/SUMMARY.md).
+- **It doesn't change how many progress.** In `TBExact`, progression by time since infection is carried by latent classes, which shift with the infection date.
+- **It does change when.** Dating infections at the start of the step gives the right mean generation interval, but makes INFECTION snapshots read low. Dating them within the step gives correct snapshots, but makes the generation interval half a step too long.
 
 ## Options for the user
 

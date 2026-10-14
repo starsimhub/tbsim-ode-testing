@@ -10,6 +10,8 @@ If each new infection is instead given a time within the step, and only the rema
 
 This matters for the next experiment, progression by time since infection. With `k` ≈ 5.85/yr, the progression hazard falls by a factor of e about every 2 months. Dating infections to the start of the step would then make the fastest progressors progress about half a month early. This experiment tests the change on its own, at the baseline, where the expected result is known.
 
+(The SUMMARY corrects this motivation. In `TBExact`, the latent class shifts with the infection date, so `'start'` doesn't change how many progress. Relative to the infectiousness that caused each infection, `'start'` dates it correctly on average. `'within'` dates it half a step late, because the force of infection is taken at the start of the step. So `'within'` fixes the snapshots but makes the generation interval half a step too long. Which to use is an open decision.)
+
 ## Change tested
 
 `TBExact` gains an option, `infection_timing`:
@@ -24,7 +26,7 @@ Only agents entering INFECTION from an uninfected state count as new infections.
 
 At `k` = 0, every rate is constant, so infection timing only delays each infected agent's subsequent transitions by about half a step. It doesn't change any outcome probability. So:
 - **INFECTION:** from 0.89 to about 1.00 of the ODE at monthly `dt`, and from 0.98 to about 1.00 at weekly.
-- **Prevalence and mortality:** no change beyond noise (exp 05: 0.97 ± 0.02 at monthly `dt`, 1.00 at weekly). The force of infection is still fixed at its start-of-step value, which is the most likely cause of the monthly 0.97.
+- **Prevalence and mortality:** no change beyond noise (exp 05: 0.97 ± 0.02 at monthly `dt`, 1.00 at weekly). The force of infection is still fixed at its start-of-step value, which is the most likely cause of the monthly 0.97. (Exp 10 later confirmed a related cause: the per-step infection probability `1 − e^(−x)`, with the susceptible pool fixed at the start of the step; see the [SUMMARY](SUMMARY.md).)
 - **Incidence:** no change. Exp 05's monthly 0.94 is thought to come from missed brief visits to ASYMPTOMATIC between end-of-step snapshots, which this change doesn't touch.
 
 ## Design
@@ -44,7 +46,7 @@ At `k` = 0, every rate is constant, so infection timing only delays each infecte
 
 **Diagnostics for the weekly shortfall** (added after the first results):
 - **`run_flux_diag.py`:** per-step flows inside weekly runs (12 seeds per timing, 15 years). Infections from SUSCEPTIBLE and CLEARED are compared with the ODE expectation, together with new infections' end-of-step states and every natural-history flow. Output: `run_flux_diag.log`.
-- **`step_map.py`:** a deterministic version of the `TBExact` step, without sampling noise. It applies the start-of-step force of infection, then exact transitions with either timing, and is iterated to equilibrium at daily, weekly and monthly `dt`. Output: `step_map.log`.
+- **`step_map.py`:** a deterministic version of the `TBExact` step, without sampling noise. It applies the start-of-step force of infection, then exact transitions with either timing, and is iterated to equilibrium at daily, weekly and monthly `dt`. Output: `step_map.log`. This version uses a linear per-step infection probability, x. Exp 10's `step_map.py` adds the ABM's actual `1 − e^(−x)`, and the SUMMARY uses those predictions.
 - **`run_variants.py`:** two variants of `'within'`, 80 weekly reps each (seeds 0–79). `u0` draws infection times from the same random stream but ignores them, so its timing is the same as `'start'`. `np` applies the infection times but draws them from an independent numpy generator. Outputs: `outputs_variants.obj`, `run_variants.log`.
 
 **Unit test (`tests/test_exact.py`):** in one monthly step, newly infected agents with `'within'` timing end in each state with the probability averaged over a uniform infection time, `∫₀¹ expm(Q·s·dt) ds`. This average is computed independently of `tbode.exact`, as a block of the matrix exponential of an augmented generator. A control test checks that `'start'` fails the same test.
