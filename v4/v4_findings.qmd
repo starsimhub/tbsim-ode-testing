@@ -1,0 +1,169 @@
+---
+title: "TBsim ODE vs ABM: the key findings, redone under Starsim v4"
+date: 2026-10-27
+format:
+  html:
+    toc: true
+    embed-resources: true
+---
+
+## Summary
+
+Experiments 01–11 compared Starsim 3's agent-based `tbsim.TB` with a separate ODE (`tbode.TBODE`). Under Starsim v4, `tbsim.TB` is one declared model (states and transitions) that runs as an ODE (`solver='ode'`) or as agents (`solver='abm'`). This page reruns the key findings of the slides ("TBsim ODE experiments") with that model. The runs were cut short for time; see [Design](#design).
+
+- **The ABM↔ODE gap is gone.** Started at the ODE's equilibrium, v4 agents stay there: active prevalence is 1.04 ± 0.02 of the ODE at a monthly step and 0.98 ± 0.02 at a weekly step, with tbsim's default rates near threshold (A0). With tb_LAI_TPT's rates (B0) it is 1.00 ± 0.01 and 0.98 ± 0.02. Under Starsim 3, `tbsim.TB` gave 0.67 (monthly) and 0.84 (weekly), because of its step ordering, and needed the hand-built `TBExact` to match.
+- **No `TBExact` is needed.** v4's agents draw each state's exits jointly (one draw per agent, `1 − exp(−h·dt)`, destination in proportion to the rates), so declaration order has no effect. Over one step, they match `expm(Q·dt)` to within 0.0005 at a monthly step (the ODE matches to 1e-5).
+- **Time-since-infection progression matches.** The Poisson-mixture latent classes can be declared directly in v4 (`TBClasses`, about 60 lines in `common.py`), and agents then match the ODE: 1.01 ± 0.01 (monthly) and 0.98 ± 0.02 (weekly) for set B. v4 tbsim's own front-loading (a remote latent stage, `k_latent`) also matches across solvers, and with `k_latent` = 5.846 it lands on almost the same progression targets as the exact classes.
+- **Incidence counted from transitions agrees.** v4 counts every transition as it happens, so incidence per prevalent case is 0.996–1.006 of the ODE in every arm. Exp 11's snapshot artefact doesn't arise.
+- **What's left is known and small.** End-of-step snapshots of latent infection read high at a monthly step (+13% in A0, +3% in B), because infections are dated at the end of their step. This is v4's documented timing contract, and the mean over a step is right. On a contact network, a per-contact rate of `beta/K` gives 22% less prevalence near threshold at a monthly step, from per-edge saturation (exp 10). The per-contact rate that matches the per-step probability removes it.
+- **Agents cost about 5.5 ms a step** at 50,000 agents (exp 06 measured 10.5 ms under Starsim 3, under other conditions). The ODE takes 0.04–0.8 s for 100 years.
+
+## What changed between Starsim 3 and v4
+
+| | Starsim 3 (exps 01–11) | Starsim v4 (this page) |
+|---|---|---|
+| The models | `tbsim.TB` (agents) and `tbode.TBODE` (ODE), kept in step by hand | One declared `tbsim.TB`; `ss.Sim(..., solver='ode')` or `solver='abm'` |
+| Transitions within a step | Fixed order (INFECTION → NON → ASY → SYM); forward movers could carry on within the step, backward movers couldn't | Each state's exits are drawn jointly (competing hazards). People who arrive in a state during a step get half a step of its rates |
+| The fix that was needed | `tbode.TBExact`: exact `expm(Q·dt)` sampling | None |
+| Infection timing | `TBExact` had to choose between `'start'` and `'within'` | Infections are dated at the end of their step; people who become infectious get half a step of their state's rates at their first draw |
+| Time-since-infection progression | `k_asy`/`k_non`: hazard `r·e^(−kτ)`, evaluated at the start of each step | `k_latent`: a remote latent stage with constant rates. The exact `r·e^(−kτ)` can be declared as latent classes |
+| Incidence | Snapshot count missed 3% of episodes at a monthly step; `TBExact` added a transition count | Every transition is a result, counted as it happens |
+| Mass action as agents | `ss.RandomNet(dur=0)` | No network: homogeneous mixing is v4's default as agents |
+
+## Design
+
+- **Model:** v4 `tbsim.TB` with no treatment. Births at `mu` = 1/70 replace every death, including TB deaths, so the population is constant in expectation. (Exps 01–11 didn't replace TB deaths, so each `beta` was recalibrated.)
+- **Arms:**
+  - **A0:** tbsim's default rates; near threshold, so prevalence is about 9× as sensitive as `beta`.
+  - **B0:** tb_LAI_TPT's best-fit natural history (row 0, pre-1995 `sym_dead`), reinfection risk ratio π = 0.24.
+  - **Ak, Bk:** the same rates with `k` = 5.846 (tb_LAI_TPT's `k_asy = k_non`), represented exactly by Poisson-mixture latent classes (`TBClasses`), as `TBODE`/`TBExact` did. Bk is the reference set of exps 08–11.
+  - **Bremote:** B with v4 tbsim's own front-loading: `k_latent` = 5.846 and no progression from the remote stage.
+- **Calibration:** each arm's `beta` gives 500/100k active (asymptomatic + symptomatic) prevalence at the v4 ODE's equilibrium (`calibrate.py`).
+
+| Arm | `beta` (per year) | ProgressionY1 | ProgressionRatio |
+|---|---|---|---|
+| A0 | 9.93 | 0.034 | 0.480 |
+| B0 | 1.95 | 0.188 | 0.451 |
+| Ak | 36.90 | 0.011 | 0.586 |
+| Bk | 24.80 | 0.051 | 0.674 |
+| Bremote | 25.12 | 0.049 | 0.676 |
+
+Progression targets (tb_LAI_TPT): 0.0523 / 0.663. ProgressionY1 is the share of a latent cohort reaching asymptomatic TB within a year, and the ratio is that over the share within 10 years, from the ODE. Ak and Bk reproduce exp 08's values to 1e-9.
+
+- **Agents:** 50,000, homogeneous mixing unless marked. They start at the ODE equilibrium (`init=` the equilibrium shares) and run 1900–2000. Agents ÷ ODE is each run's mean over 1950–2000, divided by the ODE's. Tables give the mean ± SE over runs.
+- **Abbreviated runs (for time):** no daily step; 12–40 reps per arm (exps 01–11 used 40); 8 reps for growth. The SEs are 1–3.5%, so differences smaller than about 4% aren't resolved.
+- **Versions:** tbsim `v4` @ `7b2e644`, Starsim (`ssv4`) `v4-oct27` @ `fe6c6f9`. Both working trees had uncommitted changes at the time, which are included in the runs. Code is in this folder: `common.py` (models, calibration, outputs), `calibrate.py`, `run_equilibrium.py`, `run_onestep.py`, `run_growth.py`, `run_timing.py`, `analyze.py`. Raw results are in `results/`.
+
+## Findings 1–5: the base model
+
+*Slides: the ABM drifted below the ODE, more so at larger steps and near threshold, because of the step ordering in the natural history; `TBExact` fixed it at daily and weekly steps.*
+
+Under v4, agents started at the ODE equilibrium stay there at both steps and in both parameter sets:
+
+![](figs/baseline.png)
+
+Agents ÷ ODE, mean over 1950–2000 (1.00 = match), mean ± SE over runs:
+
+| Arm, step | Reps | Prevalence | Latent infection | No longer infected | TB deaths |
+|---|---|---|---|---|---|
+| A0, month | 40 | 1.043 ± 0.019 | 1.134 ± 0.019 | 1.000 ± 0.003 | 1.039 ± 0.018 |
+| A0, week | 20 | 0.981 ± 0.020 | 1.001 ± 0.019 | 0.994 ± 0.004 | 0.980 ± 0.021 |
+| B0, month | 20 | 1.000 ± 0.014 | 1.053 ± 0.014 | 1.001 ± 0.007 | 0.997 ± 0.015 |
+| B0, week | 12 | 0.978 ± 0.024 | 0.989 ± 0.021 | 0.997 ± 0.011 | 0.980 ± 0.025 |
+
+For comparison, at A0, monthly / weekly: Starsim 3 `tbsim.TB` gave prevalence 0.67 / 0.84, and `TBExact` gave 0.97 / 1.00 (exps 03, 05; 40 reps).
+
+**Per-step check (old exps 04–05).** One million agents, all starting in one state, take one step with no transmission. Their end states are compared with the exact one-step probabilities `expm(Q·dt)`. Over every start state, end state, set and step, the largest difference is 0.0005 (asymptomatic staying asymptomatic over a month, 0.8123 vs 0.8119, z = 1.7). All are within noise (|z| < 2.4) except four, at a monthly step, which need three moves in one step (e.g. symptomatic → asymptomatic → non-infectious → recovered). Their exact probabilities are 5e-6 to 2e-5, and agents never take them (z = −3.1 to −5.9): an agent makes at most two moves in a step. The ODE matches `expm(Q·dt)` to 1e-5. So v4's joint competing-hazard draw, plus half a step of the new state's rates on arrival, is close to exact at these step sizes, with no ordering bias. Details are in `results/onestep.csv`.
+
+**Monthly A0 prevalence (1.04 ± 0.02)** is within about 2 SE of the ODE. Near threshold, a 0.5% error in effective `beta` gives about 4% in prevalence, so this test can't rule out an O(dt) bias that small. B0, which is further from threshold, matches exactly (1.000 ± 0.014).
+
+## Finding 6: run time
+
+Single process, best of 3, 50,000 agents (`run_timing.py`, `results/timing.csv`):
+
+| | Monthly | Weekly | Daily |
+|---|---|---|---|
+| Agents (ms per step) | 5.6 | 5.1 | 5.6 (A0); 3.8 (Bk) |
+| Agents, 100 years (s, from the per-step cost) | 7 | 26 | 205 |
+| ODE, 100 years (s) | 0.04–0.09 | 0.08–0.13 | 0.7–0.8 |
+
+Exp 06 measured Starsim 3's `tbsim.TB` and `TBExact` at about 10.5 ms a step. That was other code, on a day with a different load on the laptop, so this is a reference, not an A/B comparison. The laptop was shared with other jobs during these runs. The latent classes (Bk) don't make agents slower.
+
+## Finding 7: infection timing
+
+*Slides: dating infections within the step fixed `TBExact`'s low monthly latent snapshot, but lengthened the generation interval by half a step; to revisit.*
+
+v4 settles this by its timing contract. An infection is dated at the end of its step. Someone who becomes infectious has half a step of their state's rates at their first draw, so each stay counts in transmission for as long as it lasts. Latent states get a whole step at their first draw.
+
+- **Snapshots:** the latent share recorded at the end of a step reads high, by 13% at a monthly step in A0 and by 3–5% in B0, Bk and Bremote. At a weekly step it is within 1%. The step's new infections are counted just after they happen, before any of them has had time to leave. The excess is about half a step of exits (A0: latent exit rate 2.1 per year, so 2.1/24 ≈ 9%), on top of the 4% higher prevalence. The mean over a step is right, and nothing downstream depends on the snapshot. Starsim 3's `TBExact` with `'start'` timing read 11% *low* for the opposite reason. Report latent infection from weekly runs, or as a mean over the step, when it matters.
+- **Generation interval:** epidemics grown from a 0.1% seed (Bk, 100,000 agents, 8 reps) reach 250/100k 0.18 ± 0.09 years after the ODE at a monthly step, and 0.24 ± 0.15 years after at a weekly step. A half-step lag per generation would be larger at a monthly step than a weekly one; these lags are the same. So they're more likely the stochastic early phase of a small seed than step timing. With 8 reps, this test can rule out a lag of more than about 0.3 years, but not the 0.04 years (half a month) of exp 07's toy calculation.
+
+![](figs/growth.png)
+
+## Finding 8: progression by time since infection
+
+*Slides: Poisson-mixture latent classes let the ODE and `TBExact` match, while Starsim 3's `tbsim.TB` overshot (1.8× at a monthly step in set B), because it held the start-of-step hazard for the whole step.*
+
+![](figs/progression.png)
+
+Agents ÷ ODE, mean over 1950–2000, mean ± SE:
+
+| Arm, step | Reps | Prevalence | Latent infection | TB deaths |
+|---|---|---|---|---|
+| Ak, month | 16 | 0.980 ± 0.022 | 1.062 ± 0.021 | 0.984 ± 0.023 |
+| Bk, month | 20 | 1.006 ± 0.011 | 1.030 ± 0.007 | 0.999 ± 0.009 |
+| Bk, week | 12 | 0.979 ± 0.019 | 0.991 ± 0.014 | 0.983 ± 0.021 |
+| Bremote, month | 20 | 0.995 ± 0.013 | 1.025 ± 0.010 | 0.997 ± 0.013 |
+| Bremote, week | 12 | 1.020 ± 0.024 | 1.019 ± 0.018 | 1.015 ± 0.019 |
+
+Exp 08's `TBExact` gave 1.01 ± 0.01 (Bk, monthly), and Starsim 3's `tbsim.TB` gave 1.83.
+
+- **The classes need nothing special in v4.** Transmission and reinfection go into a list of class states with `p=` weights, and each class has constant rates, so the model runs unchanged under the ODE and agents. This answers the slides' question about whether the Poisson mixture is reasonable: it is an exact representation, and it is now an ordinary declared model rather than a change to the ABM.
+- **v4 tbsim's own front-loading is a good substitute.** Bremote (recent → remote at `k_latent` = 5.846, with no progression once remote) gives ProgressionY1 / Ratio of 0.049 / 0.676, against 0.051 / 0.674 for the exact classes (targets 0.0523 / 0.663). It needs `beta` = 25.1 against 24.8 for the classes, and it matches across solvers too. The hazard isn't the same shape: progression stops at remoteness rather than decaying smoothly. But for tb_LAI_TPT's calibration targets, two states do what the classes do with eight. Whether its shape matters beyond those targets is a question for Cliff.
+- **Latent reinfection** (exp 12, not run before) is still to do. In v4 tbsim it is `reinfect_remote` (remote → recent at `rr_reinfection_inf`). For the classes, reinfection would move a latent person back through the same `p=` split.
+
+## Findings 9–10: the remaining small inconsistencies
+
+*Slides: a residual near-threshold shortfall wasn't a population-size effect (exp 09). It came from the per-step infection probability, `1 − e^(−x)` with the susceptible pool fixed at the start of the step (exp 10).*
+
+- **With homogeneous mixing,** v4 agents also use `1 − exp(−FOI·dt)` from the start-of-step counts. But FOI·dt per susceptible is small (about 0.004 a month in A0), so the loss is about 0.2% of effective `beta`, within noise in every arm above. Exp 09 (population size) wasn't rerun.
+- **On a network,** the saturation is per edge, where `x = β_c·dt` is much larger. A random network with K = 10 contacts, new every step:
+
+| A0, monthly step (20 reps) | Prevalence | Latent infection | Incidence |
+|---|---|---|---|
+| Per-contact rate `beta/K` | 0.780 ± 0.023 | 0.834 ± 0.023 | 0.770 ± 0.022 |
+| Matched per-step probability, `−ln(1 − beta·dt/K)/dt` | 1.037 ± 0.035 | 1.129 ± 0.036 | 1.033 ± 0.034 |
+| (Homogeneous mixing, 40 reps) | 1.043 ± 0.019 | 1.134 ± 0.019 | 1.039 ± 0.018 |
+
+![](figs/network.png)
+
+With `beta/K`, each edge transmits with probability `1 − e^(−β_c·dt)`, which is 4% below `β_c·dt` at a monthly step (x ≈ 0.083). Near threshold, that is worth about 20–30% of prevalence. With the matched rate (as `tbode.beta_edge_from_ode`), the network is indistinguishable from homogeneous mixing, as exp 10 found. In tb_LAI_TPT's setting, a user converting an ODE `beta` to a network should use the matched rate, or a weekly step (where the loss is a quarter as large). This is the one place the v4 user still has to think about the step.
+
+## Finding 11: incidence
+
+*Slides: incidence diverged more than prevalence, because the snapshot count missed episodes that progress and resolve in the same step.*
+
+In v4, every transition's result is a count of the moves made, including several in one step. Incidence here is every entry to asymptomatic TB, from latent infection or from non-infectious TB, in both solvers. Exps 01–11 counted only the first entry per episode (tb_LAI_TPT's definition), so absolute values differ from the slides; the comparison uses the same definition on both sides. Incidence follows prevalence in every arm. Incidence per prevalent case, agents ÷ ODE, is:
+
+- 0.996 ± 0.001 (A0, month), 0.996 ± 0.002 (A0, week)
+- 0.999 ± 0.003 (B0, month), 1.000 ± 0.003 (B0, week)
+- 0.999 ± 0.003 (Bk, month), 1.006 ± 0.003 (Bk, week)
+- 0.998–0.999 (Bremote)
+
+At a monthly step, A0 is about 0.4% low (z ≈ 4). This could be a few same-step re-entries still being missed, but it is a tenth of exp 11's snapshot shortfall (3.3%).
+
+![](figs/incidence.png)
+
+## Answers to the slides' discussion questions, under v4
+
+1. **"Most progress has been in changing the ABM to match the ODE; are we comfortable with that?"** It no longer arises. Both are the same declared model, and v4's stepping rules (joint competing hazards, the timing contract) are general Starsim behavior, not TB-specific changes. `TBExact` can be retired.
+2. **"Is the Poisson mixture reasonable?"** Yes: it is exact, and in v4 it is an ordinary declared model. v4 tbsim's two-stage `k_latent` gets about the same progression targets with fewer states. Which to use is Cliff's call.
+3. **"What is an acceptable difference?"** With these reps, every arm except the network with `beta/K` is within 4% of the ODE in prevalence, at 500/100k, a monthly step, and even near threshold. A tolerance stated as an error in effective `beta` (e.g. 1%) would be less sensitive to how close a setting is to threshold than one stated in prevalence.
+4. **"Revisit infection timing."** v4 dates infections at the end of the step and corrects infectious stays to first order. What remains is a high latent snapshot at monthly steps, which is cosmetic. The growth test found no step-dependent lag at its resolution.
+
+## Not redone
+
+- Daily steps, and the 40-rep versions of every arm (cut for time). The daily step was the check that convergence holds; at weekly and monthly steps nothing needs it.
+- Exp 09 (population size): the shortfall it studied doesn't appear here.
+- Exp 07's unexplained weekly 3.5% shortfall: weekly runs here are 0.98 ± 0.02, consistent with both 1.00 and 0.965, so this question is open but moot unless it reappears with more reps.
+- Features not started in exps 01–11 (age structure, treatment, the household network) are still to do. v4 tbsim has treatment and relapse declared, so the next step is the same comparison with them on.
