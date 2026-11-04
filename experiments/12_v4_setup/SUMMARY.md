@@ -6,7 +6,7 @@ In tbsim v4, `tbsim.TB` is declared as states and transitions, so one model runs
 
 ## Findings
 
-Finding 1 is about the v4 ODE (part A of the design). Findings 2–6 are about v4's agents (part B). They don't test whether agents match the ODE over a long run, which is exp 13. They test the settings exp 13 needs: the network, the per-contact `beta`, the start, and run time.
+Finding 1 is about the v4 ODE (part A of the design). Findings 2–6 are about v4's agents (part B). They don't test whether agents match the ODE over a long run. Cliff's v4 redo covers that ([`v4/v4_findings.qmd`](../../v4/v4_findings.qmd): agents stay at the ODE's equilibrium), and a pinned rerun is proposed in the README Plan. These findings test the settings such runs need: the network, the per-contact `beta`, the start, and run time.
 
 ### A. The ODE
 
@@ -40,17 +40,17 @@ In the first month of A2, small compartments filling up from 0 differ by up to 3
 
 **4. Agents can start at the ODE equilibrium with `init=`.** Agents start with exactly the given shares: the largest difference is 0.4 of an agent, which is rounding. Exp 03's `init_from_ode` isn't needed while rates have no memory (no time in a state).
 
-**5. Agents are 2.5–5× faster than in v0.10.** At 50k agents, a step takes 2.1 / 1.9 / 1.6 ms under homogeneous mixing and 4.0 / 3.7 / 3.3 ms on the network (monthly / weekly / daily `dt`). v0.10 took ~10.5 ms (exp 06). These are single runs on one core, after compiling the kernels.
+**5. Agents are 2.5–5× faster than in v0.10.** At 50k agents, a step takes 2.1 / 1.9 / 1.6 ms under homogeneous mixing and 4.0 / 3.7 / 3.3 ms on the network (monthly / weekly / daily `dt`). v0.10 took ~10.5 ms (exp 06). These are single runs on one core, after compiling the kernels. Cliff's redo measured about 5.5 ms per step under homogeneous mixing, at earlier versions and under other conditions not recorded here. Both are faster than v0.10.
 
 **6. v4's `dt` notes and `check_dt()` aren't informative for this model.**
 - **The notes are worst-case.** At monthly and weekly `dt`, v4 notes that reinfection after treatment "transmits at up to 31 per year (with everyone infectious)" and suggests a shorter step. That rate assumes everyone is infectious; prevalence here is 0.5%.
-- **`check_dt()` is noise.** It compares one stochastic run with one other, using per-step peaks. Its 20–90% changes in each result are run-to-run noise at this population. Step effects need many reps, as in exp 13.
+- **`check_dt()` is noise.** It compares one stochastic run with one other, using per-step peaks. Its 20–90% changes in each result are run-to-run noise at this population. Step effects need many reps, as in Cliff's redo.
 
 ## What this means
 
 - The v4 track is anchored. `v4/tests/test_anchor.py` keeps finding 1 (A1, A2 and the equilibrium) and the `beta_edge` round trip, to rerun whenever the v4 pins are bumped.
-- Network runs on v4 must use the matched `beta_edge`. The 4% gap with v4's `beta_ode/K` is worth raising upstream, since v4 says a network run as an ODE is approximated at the network's mean degree.
-- Exp 13 (the baseline, agents vs ODE at daily / weekly / monthly `dt`) can start from the equilibrium with `init=`.
+- Network runs on v4 must use the matched `beta_edge`. The 4% gap with v4's `beta_ode/K` is worth raising upstream, since v4 says a network run as an ODE is approximated at the network's mean degree. Cliff's redo found the same at the level of prevalence (0.78 of the ODE with `beta/K`, 1.04 ± 0.04 matched). The proposal is in [`proposals/01_network_beta/`](../../proposals/01_network_beta/proposal.md).
+- Long runs of agents vs the ODE can start from the equilibrium with `init=`, as Cliff's redo does.
 
 ## Files
 

@@ -24,6 +24,12 @@ Facts from exp 12:
 - Agents start at the equilibrium with `init=`.
 - On `RandomNet`, use the matched `beta_edge` (`tbode4.beta_edge_from_ode`, the default in `tbode4.make_sim`), not v4's `beta/K`, which is 4% low at monthly `dt`.
 
+**Cliff's v4 redo (2026-10-27).**
+- **Where it is:** the scripts at the top of `v4/` (`common.py`, `run_*.py`) and the write-up `v4/v4_findings.qmd`.
+- **What it found:** it reran the key findings of exps 01–11. v4 agents match the ODE without `TBExact`, and progression works both with Poisson-mixture classes declared in v4 (`TBClasses`) and with `k_latent`. It didn't cover latent reinfection.
+- **Caveats:** abbreviated reps, and unpinned versions with uncommitted changes.
+- **Using it:** its code runs in the pinned `v4/.venv`. Build on it rather than redoing it. Whether to confirm it with a pinned rerun (exp 13) is the user's decision (README Plan).
+
 Where v4's model differs from the v0.10 ABM (front-loading via `k_latent`, latent reinfection, treatment as a rate, network `beta`), see README "Versions and tracks". The user wants to propose upstream changes for these. For latent progression and reinfection, neither v4's two states nor the Poisson mixture is chosen yet, so don't push either.
 
 ## Target ABM configuration (`../tb_LAI_TPT`)
