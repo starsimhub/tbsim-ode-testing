@@ -1,0 +1,33 @@
+{
+  "ode_prev": 0.002165329005276827,
+  "monthly, mass action": {
+    "mean": 1.071468057227382,
+    "se": 0.06967971185651359,
+    "n_runs": 40,
+    "died_out": 0
+  },
+  "monthly, network, beta/K": {
+    "mean": 0.5909384814635305,
+    "se": 0.05063986597503792,
+    "n_runs": 40,
+    "died_out": 0
+  },
+  "monthly, network, matched": {
+    "mean": 0.9919909257099804,
+    "se": 0.05520291989666728,
+    "n_runs": 40,
+    "died_out": 0
+  },
+  "weekly, network, beta/K": {
+    "mean": 0.6754711147707809,
+    "se": 0.0860683926487707,
+    "n_runs": 20,
+    "died_out": 0
+  },
+  "weekly, network, matched": {
+    "mean": 0.9519694586038367,
+    "se": 0.10307764543636212,
+    "n_runs": 20,
+    "died_out": 0
+  }
+}

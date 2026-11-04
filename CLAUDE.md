@@ -17,6 +17,15 @@ This is **not** the tbsim repo. Do not edit `../tbsim` unless asked. New ODE cod
 - `tbsim/interventions/treatments.py`: `Tx` (adherence → success; success → possible relapse) and `TxDelivery`.
 - `tests/test_compartmental.py`: existing ODE tests and the two-strain ABM↔ODE validation. A good template for matched runs.
 
+**tbsim v4** (`origin/v4`, on starsim v4) is a rewrite. `tbsim.TB` is declared as states and transitions, so one model runs as an ODE (`solver='ode'`) or as agents (`solver='abm'`). The interventions are products and deliveries (`tbsim.care`, `tbsim.regimen`). `TB_ODE` remains as the reference, and `TB_SS`, `Tx` and `TxDelivery` are gone.
+
+Facts from exp 12:
+- The v4 ODE equals `TBODE`.
+- Agents start at the equilibrium with `init=`.
+- On `RandomNet`, use the matched `beta_edge` (`tbode4.beta_edge_from_ode`, the default in `tbode4.make_sim`), not v4's `beta/K`, which is 4% low at monthly `dt`.
+
+Where v4's model differs from the v0.10 ABM (front-loading via `k_latent`, latent reinfection, treatment as a rate, network `beta`), see README "Versions and tracks". The user wants to propose upstream changes for these. For latent progression and reinfection, neither v4's two states nor the Poisson mixture is chosen yet, so don't push either.
+
 ## Target ABM configuration (`../tb_LAI_TPT`)
 
 The user's real ABM setup is in `../tb_LAI_TPT/run_one_sim.py`, which calls `utils.make_sim` / `utils.build_sim`. Calibrated parameters are in `results/hm_real_20260728/trajectory_selection/collapsed_samples_eps1.2.csv` (row 0 is the best fit). Main features:
@@ -86,7 +95,17 @@ Reuse what is useful, but check it against current tbsim first.
 
 ## Environment
 
-- This repo has its own uv environment (`uv sync`; run with `uv run python ...` or `.venv/bin/python`), with editable `../tbsim` and `../starsim`. Record both commits for each experiment. Starting point: tbsim v0.10.3 @ `b92d7e8`, starsim v3.6.1 @ `3521adb4`.
+- **Two tracks, two environments (user decision, 2026-11-03).** See README "Versions and tracks".
+  - **v0.10 (frozen, exps 01–11):** the repo root's `.venv` and `tbode/`, with tbsim v0.10.3 @ `b92d7e8` and starsim v3.6.1 @ `3521adb4`.
+  - **v4 (active, exps 12 on):** `v4/.venv` and `v4/tbode4/`, with tbsim `origin/v4` @ `dcfb522` and starsim `origin/v4` @ `80c81f53`.
+
+  Run v4 scripts from the repo root with `v4/.venv/bin/python`. If `VIRTUAL_ENV` points elsewhere (e.g. tb_LAI_TPT's), unset it.
+- **Both environments pin tbsim and starsim to exact git commits** in `pyproject.toml` and `uv.lock`. Never point them back at the editable `../tbsim` / `../starsim` checkouts: tb_LAI_TPT shares those, and they move.
+  - Bump the v4 pins only on purpose, and rerun `v4/tests/test_anchor.py` after each bump.
+  - tbsim v4 still reports `__version__ = '0.10.3'`, so only the commit identifies it.
+- **Record versions.** Every experiment README has a "Track" line, and every run writes `versions*.json` via `tbode.save_versions` / `tbode4.save_versions`. The two environments can't import each other, so results cross between them as saved files (e.g. exp 12's `reference_v010.json`).
+- **Don't rerun v0.10 arms in new experiments;** compare against saved v0.10 results (user, 2026-11-03). tb_LAI_TPT stays on v0.10 for now. New projects will probably use v4, starting from tb_LAI_TPT's parameters.
+- **Starsim v4 compiles its kernels once** (`ss.compile()`, ~2 minutes).
 - ABM cost (exp 06): about 10.5 ms per step at 50k agents on one core, the same for `tbsim.TB` and `TBExact` and at every `dt`. A 100-year run takes ~13 s monthly, ~1 min weekly, ~6 min daily; parallel runs are somewhat slower each. Runs are on the user's laptop: use at most 4 cores, via `sc.parallelize(..., ncpus=tbode.ncpus)` over seeds.
 
 ## Conventions

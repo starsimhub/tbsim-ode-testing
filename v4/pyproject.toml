@@ -1,0 +1,27 @@
+[project]
+name = "tbode4"
+version = "0.1.0"
+description = "The v4 track: tbsim v4 (on Starsim v4) as agents compared with the same model as an ODE"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "sciris",
+    "matplotlib",
+    "starsim",
+    "tbsim",
+]
+
+[dependency-groups]
+dev = ["pytest", "ipykernel"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Pinned to exact commits; bump them on purpose, and rerun the anchor test (tests/test_anchor.py) after each bump.
+# tbsim: origin/v4 (unreleased, "1.0.0 in development"). starsim: origin/v4, 21 commits after v4.0.0rc1.
+[tool.uv.sources]
+starsim = { git = "https://github.com/starsimhub/starsim", rev = "80c81f53204faba0e087df0dc60df109c636dcba" }
+tbsim = { git = "https://github.com/starsimhub/tbsim", rev = "dcfb522be3a41559428f8d74e23c4c60e3b0bbeb" }

@@ -1,0 +1,7 @@
+ODE prevalence 2050-2100: 216.5/100k
+monthly, mass action         agents ÷ ODE 1.071 ± 0.070 (40 runs, 0 died out)
+monthly, network, beta/K     agents ÷ ODE 0.591 ± 0.051 (40 runs, 0 died out)
+monthly, network, matched    agents ÷ ODE 0.992 ± 0.055 (40 runs, 0 died out)
+weekly, network, beta/K      agents ÷ ODE 0.675 ± 0.086 (20 runs, 0 died out)
+weekly, network, matched     agents ÷ ODE 0.952 ± 0.103 (20 runs, 0 died out)
+Elapsed time: 189 s

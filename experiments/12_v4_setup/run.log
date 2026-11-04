@@ -1,0 +1,14 @@
+A1 v4 ODE vs TB_ODE: max relative difference 2.77e-05
+A2 A v4 ODE vs TBODE: max relative difference 1.57e-06 from 1901 (2.64e-03 including the first year); max absolute 9.2e-08
+A2 B v4 ODE vs TBODE: max relative difference 3.17e-05 from 1901 (1.64e-03 including the first year); max absolute 1.2e-06
+A3 stationary at TBODE equilibrium: max relative drift 3.47e-15
+A3 v4 calibration: beta = 9.917338 (TBODE 9.917338; -5.0e-11)
+A: 0.790 s
+B1 network: {'edges_per_agent': 5.0, 'mean_degree': 10.0, 'var_degree': 4.99776}, edges kept between steps: 0.000
+B2 network as an ODE vs plain ODE: max relative difference 9.59e-16; notes: ['RandomNet approximated by homogeneous mixing with 10 contacts per year (its mean number of contacts)', "unit='year' (from the typed values in the model)"]
+B2 transmission: {'mass action': {'obs_over_linear': 0.99838340140315, 'obs_over_exp': 1.0003159596630276, 'rel_se': 0.0030343599146312487, 'n_infected_agents': 108609.0, 'mean_x': 0.0038527005070124946}, 'network, beta/K': {'obs_over_linear': 0.9558598154438543, 'obs_over_exp': 0.9575381308519246, 'rel_se': 0.003165666737705284, 'n_infected_agents': 99786.0, 'mean_x': 0.003475424395584662}, 'network, matched': {'obs_over_linear': 0.997301389419565, 'obs_over_exp': 0.9993007169794725, 'rel_se': 0.00301408609151562, 'n_infected_agents': 110075.0, 'mean_x': 0.003964618850074119}}
+B3 init: largest difference 0.43 agents
+B4 1 month: mass action 2.1 ms/step, network 4.0 ms/step
+B4 1 week: mass action 1.9 ms/step, network 3.7 ms/step
+B4 1 day: mass action 1.6 ms/step, network 3.3 ms/step
+B: 19.0 s

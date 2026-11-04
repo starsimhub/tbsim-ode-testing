@@ -1,11 +1,12 @@
-# Outputs
-*.html
-*.pdf
-*.png
-*.csv
-*.json
-*.obj
-*.log
+# Outputs of the scripts at the top of v4/ (Cliff's v4 redo; v4/results/summary.md and the .qmd are tracked). Kept to v4/, so that
+# experiments/ and proposals/ still commit their figures, summaries and logs
+v4/**/*.html
+v4/**/*.pdf
+v4/**/*.png
+v4/**/*.csv
+v4/**/*.json
+v4/**/*.obj
+v4/**/*.log
 
 # General
 .venv/
@@ -17,3 +18,4 @@ __pycache__/
 
 # Raw experiment outputs saved for redrawing figures (large; kept locally, regenerate with each experiment's run script)
 experiments/**/*.obj
+proposals/**/*.obj

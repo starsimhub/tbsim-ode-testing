@@ -20,6 +20,8 @@ dev = ["pytest", "ipykernel"]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+# The v0.10 track (exps 01-11), pinned to the commits they were run with: tbsim v0.10.3, starsim v3.6.1.
+# Not the editable ../tbsim and ../starsim checkouts, which tb_LAI_TPT shares and which move. The v4 track has its own environment in v4/.
 [tool.uv.sources]
-starsim = { path = "../starsim", editable = true }
-tbsim = { path = "../tbsim", editable = true }
+starsim = { git = "https://github.com/starsimhub/starsim", rev = "3521adb4dda5a76d43ec38f5e8cb55deab08ece9" }
+tbsim = { git = "https://github.com/starsimhub/tbsim", rev = "b92d7e834e5b07627988ae7ebbf4fd93c91216d3" }
