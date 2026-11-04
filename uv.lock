@@ -2284,7 +2284,8 @@ wheels = [
 
 [[package]]
 name = "starsim"
-source = { editable = "../starsim" }
+version = "3.6.1"
+source = { git = "https://github.com/starsimhub/starsim?rev=3521adb4dda5a76d43ec38f5e8cb55deab08ece9#3521adb4dda5a76d43ec38f5e8cb55deab08ece9" }
 dependencies = [
     { name = "matplotlib" },
     { name = "networkx", version = "3.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
@@ -2299,76 +2300,6 @@ dependencies = [
     { name = "sciris" },
     { name = "seaborn" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "alembic", marker = "extra == 'lock'", specifier = "==1.18.4" },
-    { name = "colorlog", marker = "extra == 'lock'", specifier = "==6.10.1" },
-    { name = "contourpy", marker = "extra == 'lock'", specifier = "==1.3.3" },
-    { name = "cycler", marker = "extra == 'lock'", specifier = "==0.12.1" },
-    { name = "dask", extras = ["complete"], marker = "extra == 'dev'" },
-    { name = "dill", marker = "extra == 'lock'", specifier = "==0.4.1" },
-    { name = "et-xmlfile", marker = "extra == 'lock'", specifier = "==2.0.0" },
-    { name = "fonttools", marker = "extra == 'lock'", specifier = "==4.62.1" },
-    { name = "gitdb", marker = "extra == 'lock'", specifier = "==4.0.12" },
-    { name = "gitpython", marker = "extra == 'lock'", specifier = "==3.1.46" },
-    { name = "greenlet", marker = "extra == 'lock'", specifier = "==3.3.2" },
-    { name = "intel-cmplr-lib-rt", marker = "extra == 'fastmath'" },
-    { name = "jellyfish", marker = "extra == 'lock'", specifier = "==1.2.1" },
-    { name = "jsonpickle", marker = "extra == 'lock'", specifier = "==4.1.1" },
-    { name = "jupyter", marker = "extra == 'dev'" },
-    { name = "jupyter-cache", marker = "extra == 'dev'" },
-    { name = "jupytext", marker = "extra == 'dev'" },
-    { name = "kiwisolver", marker = "extra == 'lock'", specifier = "==1.5.0" },
-    { name = "line-profiler", marker = "extra == 'lock'", specifier = "==5.0.2" },
-    { name = "llvmlite", marker = "extra == 'lock'", specifier = "==0.47.0" },
-    { name = "mako", marker = "extra == 'lock'", specifier = "==1.3.10" },
-    { name = "markupsafe", marker = "extra == 'lock'", specifier = "==3.0.3" },
-    { name = "matplotlib" },
-    { name = "matplotlib", marker = "extra == 'lock'", specifier = "==3.10.8" },
-    { name = "memory-profiler", marker = "extra == 'lock'", specifier = "==0.61.0" },
-    { name = "mkl", marker = "extra == 'fastmath'" },
-    { name = "multiprocess", marker = "extra == 'lock'", specifier = "==0.70.19" },
-    { name = "networkx" },
-    { name = "networkx", marker = "extra == 'lock'", specifier = "==3.6.1" },
-    { name = "numba", specifier = ">=0.57.0" },
-    { name = "numba", marker = "extra == 'lock'", specifier = "==0.65.0" },
-    { name = "numpy", specifier = ">=2.0.0" },
-    { name = "numpy", marker = "extra == 'lock'", specifier = "==2.4.4" },
-    { name = "openpyxl", marker = "extra == 'lock'", specifier = "==3.1.5" },
-    { name = "optuna" },
-    { name = "optuna", marker = "extra == 'lock'", specifier = "==4.8.0" },
-    { name = "packaging", marker = "extra == 'lock'", specifier = "==26.0" },
-    { name = "pandas", specifier = ">=2.0.0" },
-    { name = "pandas", marker = "extra == 'lock'", specifier = "==3.0.2" },
-    { name = "pillow", marker = "extra == 'lock'", specifier = "==12.2.0" },
-    { name = "psutil", marker = "extra == 'lock'", specifier = "==7.2.2" },
-    { name = "pylint", marker = "extra == 'dev'" },
-    { name = "pyparsing", marker = "extra == 'lock'", specifier = "==3.3.2" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4" },
-    { name = "pytest-cov", marker = "extra == 'dev'" },
-    { name = "pytest-env", marker = "extra == 'dev'" },
-    { name = "pytest-xdist", marker = "extra == 'dev'" },
-    { name = "python-dateutil", marker = "extra == 'lock'", specifier = "==2.9.0.post0" },
-    { name = "pyyaml", marker = "extra == 'lock'", specifier = "==6.0.3" },
-    { name = "quartodoc", marker = "extra == 'dev'" },
-    { name = "scikit-learn", marker = "extra == 'optuna'" },
-    { name = "scipy" },
-    { name = "scipy", marker = "extra == 'lock'", specifier = "==1.17.1" },
-    { name = "sciris", specifier = ">=3.2.8" },
-    { name = "sciris", marker = "extra == 'lock'", specifier = "==3.2.9" },
-    { name = "seaborn" },
-    { name = "seaborn", marker = "extra == 'lock'", specifier = "==0.13.2" },
-    { name = "setuptools", marker = "extra == 'lock'", specifier = "==82.0.1" },
-    { name = "six", marker = "extra == 'lock'", specifier = "==1.17.0" },
-    { name = "smmap", marker = "extra == 'lock'", specifier = "==5.0.3" },
-    { name = "sqlalchemy", marker = "extra == 'lock'", specifier = "==2.0.48" },
-    { name = "tqdm", marker = "extra == 'lock'", specifier = "==4.67.3" },
-    { name = "typing-extensions", marker = "extra == 'lock'", specifier = "==4.15.0" },
-    { name = "xlsxwriter", marker = "extra == 'lock'", specifier = "==3.2.9" },
-    { name = "zstandard", marker = "extra == 'lock'", specifier = "==0.25.0" },
-]
-provides-extras = ["fastmath", "dev", "lock", "optuna"]
 
 [[package]]
 name = "tbode"
@@ -2399,8 +2330,8 @@ requires-dist = [
     { name = "pandas" },
     { name = "scipy" },
     { name = "sciris" },
-    { name = "starsim", editable = "../starsim" },
-    { name = "tbsim", editable = "../tbsim" },
+    { name = "starsim", git = "https://github.com/starsimhub/starsim?rev=3521adb4dda5a76d43ec38f5e8cb55deab08ece9" },
+    { name = "tbsim", git = "https://github.com/starsimhub/tbsim?rev=b92d7e834e5b07627988ae7ebbf4fd93c91216d3" },
 ]
 
 [package.metadata.requires-dev]
@@ -2411,7 +2342,8 @@ dev = [
 
 [[package]]
 name = "tbsim"
-source = { editable = "../tbsim" }
+version = "0.10.3"
+source = { git = "https://github.com/starsimhub/tbsim?rev=b92d7e834e5b07627988ae7ebbf4fd93c91216d3#b92d7e834e5b07627988ae7ebbf4fd93c91216d3" }
 dependencies = [
     { name = "lifelines" },
     { name = "matplotlib" },
@@ -2426,29 +2358,6 @@ dependencies = [
     { name = "seaborn" },
     { name = "starsim" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "jupyter", marker = "extra == 'dev'" },
-    { name = "jupyter-cache", marker = "extra == 'dev'" },
-    { name = "jupytext", marker = "extra == 'dev'" },
-    { name = "lifelines" },
-    { name = "matplotlib" },
-    { name = "networkx" },
-    { name = "numpy" },
-    { name = "pandas", specifier = ">=2.0.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4" },
-    { name = "pytest-cov", marker = "extra == 'dev'" },
-    { name = "pytest-env", marker = "extra == 'dev'" },
-    { name = "pytest-xdist", marker = "extra == 'dev'" },
-    { name = "quartodoc", marker = "extra == 'dev'" },
-    { name = "scipy" },
-    { name = "sciris", specifier = ">=3.1.0" },
-    { name = "seaborn" },
-    { name = "sphobjinv", marker = "extra == 'dev'" },
-    { name = "starsim", specifier = ">=3.6.0" },
-]
-provides-extras = ["dev"]
 
 [[package]]
 name = "tornado"

@@ -1,0 +1,136 @@
+{
+  "A3_calibration": {
+    "beta": 9.917337992631001,
+    "beta_tbode": 9.917337993130424,
+    "rel_diff": -5.035849515167001e-11,
+    "prev": 0.00499999999840203,
+    "drift_last_100y": 3.469446951953614e-18
+  },
+  "B1": {
+    "steps": [
+      {
+        "edges_per_agent": 5.0,
+        "mean_degree": 10.0,
+        "var_degree": 4.99776
+      },
+      {
+        "edges_per_agent": 5.0,
+        "mean_degree": 10.0,
+        "var_degree": 4.94584
+      },
+      {
+        "edges_per_agent": 5.001,
+        "mean_degree": 9.988615255557553,
+        "var_degree": 5.134749649383183
+      }
+    ],
+    "kept": 0.00011600464018560743
+  },
+  "B2_ode": {
+    "errs": {
+      "susceptible": 9.58813325772732e-16,
+      "infection": 9.551141726281391e-16,
+      "cleared": 3.75482118598625e-16,
+      "recovered": 8.458606169973715e-16,
+      "non_infectious": 8.965976312778064e-16,
+      "asymptomatic": 9.34026026458707e-16,
+      "symptomatic": 8.659905062357557e-16,
+      "treatment": 0.0,
+      "treated": 0.0
+    },
+    "max": 9.58813325772732e-16,
+    "notes": [
+      "RandomNet approximated by homogeneous mixing with 10 contacts per year (its mean number of contacts)",
+      "unit='year' (from the typed values in the model)"
+    ]
+  },
+  "B3": {
+    "diffs": {
+      "susceptible": -5.827719574441614e-06,
+      "infection": -7.5657620835917205e-06,
+      "cleared": 8.667071958345929e-06,
+      "recovered": 3.805792675226627e-06,
+      "non_infectious": 9.206177750929745e-07,
+      "asymptomatic": 1.050753129542073e-06,
+      "symptomatic": -1.050753880055006e-06,
+      "treatment": 0.0,
+      "treated": 0.0
+    },
+    "max_abs_agents": 0.43335359791729644
+  },
+  "B4": {
+    "1 month": {
+      "mass action": {
+        "ms_per_step": 2.1282739583208845,
+        "notes": [
+          "unit='year' (from the typed values in the model)",
+          "consider a shorter step (e.g. dt=ss.years(0.021)): each step is 0.083 years, and reinfect_trd transmits at up to 31 per year (with everyone infectious), 93% in a step (and transmission, reinfect_cle, reinfect_rec, treatment, infection, asymptomatic are fast too). Taking whole steps, agents may differ from the ODE by an amount of that order; sim.check_dt() shows how much it matters"
+        ]
+      },
+      "network": {
+        "ms_per_step": 3.9697779500177908,
+        "notes": [
+          "unit='year' (from the typed values in the model)",
+          "consider a shorter step (e.g. dt=ss.years(0.021)): each step is 0.083 years, and reinfect_trd transmits at up to 3.3 per year (per infectious contact), 24% in a step (and treatment, infection, asymptomatic are fast too). Taking whole steps, agents may differ from the ODE by an amount of that order; sim.check_dt() shows how much it matters"
+        ]
+      }
+    },
+    "1 week": {
+      "mass action": {
+        "ms_per_step": 1.92039487301372,
+        "notes": [
+          "unit='year' (from the typed values in the model)",
+          "consider a shorter step (e.g. dt=ss.years(0.0048)): each step is 0.019 years, and reinfect_trd transmits at up to 31 per year (with everyone infectious), 45% in a step (and transmission, reinfect_cle are fast too). Taking whole steps, agents may differ from the ODE by an amount of that order; sim.check_dt() shows how much it matters"
+        ]
+      },
+      "network": {
+        "ms_per_step": 3.6697032037549295,
+        "notes": [
+          "unit='year' (from the typed values in the model)"
+        ]
+      }
+    },
+    "1 day": {
+      "mass action": {
+        "ms_per_step": 1.5561384698280376,
+        "notes": [
+          "unit='year' (from the typed values in the model)"
+        ]
+      },
+      "network": {
+        "ms_per_step": 3.294184075410108,
+        "notes": [
+          "unit='year' (from the typed values in the model)"
+        ]
+      }
+    }
+  },
+  "B4_check_dt": "Change in each result when the timestep goes from 0.0833333 to 0.0416667 years (largest difference, as a share of the largest value):\n  tb.tb_death              88.9%   (peak 18 \u2192 20)\n  tb.remission             85.7%   (peak 28 \u2192 26)\n  tb.latent_non            73.9%   (peak 46 \u2192 48)\n  tb.latent_asy            72.7%   (peak 22 \u2192 24)\n  tb.reinfect_rec          71.4%   (peak 28 \u2192 26)\n  tb.worsening             65.5%   (peak 58 \u2192 64)\n  tb.symptoms              65.0%   (peak 40 \u2192 38)\n  tb.improvement           60.0%   (peak 60 \u2192 60)\n  tb.recovery              60.0%   (peak 50 \u2192 46)\n  tb.transmission          50.7%   (peak 146 \u2192 146)\n  tb.reinfect_cle          44.4%   (peak 306 \u2192 344)\n  tb.births                43.9%   (peak 164 \u2192 166)\n  tb.deaths                41.7%   (peak 168 \u2192 164)\n  tb.clearance             40.6%   (peak 384 \u2192 404)\n  tb.asymptomatic          36.7%   (peak 332 \u2192 342)\n  tb.symptomatic           36.6%   (peak 322 \u2192 356)\n  tb.prevalence_active     27.6%   (peak 0.00608687 \u2192 0.00668156)\n  tb.infectious            27.5%   (peak 604 \u2192 658)\n  tb.prevalence            26.4%   (peak 0.0294064 \u2192 0.0323111)\n  tb.infection             25.8%   (peak 2338 \u2192 2538)\n  tb.non_infectious        21.1%   (peak 1766 \u2192 1910)\n  tb.active                19.0%   (peak 2294 \u2192 2488)\n  tb.susceptible            6.7%   (peak 24554 \u2192 24666)\n  tb.recovered              3.2%   (peak 12580 \u2192 12598)\n  tb.cleared                3.2%   (peak 59104 \u2192 59316)\n  tb.reinfect_trd           0.0%   (peak 0 \u2192 0)\n  tb.treated                0.0%   (peak 0 \u2192 0)\n  tb.diagnosis              0.0%   (peak 0 \u2192 0)\n  tb.failure                0.0%   (peak 0 \u2192 0)\n  tb.completion             0.0%   (peak 0 \u2192 0)\n  tb.treatment              0.0%   (peak 0 \u2192 0)\n",
+  "A1_max": 2.766772569318335e-05,
+  "A2_A_max": 1.5652873852213045e-06,
+  "A2_B_max": 3.17460275051679e-05,
+  "A3_stationary_max": 3.4696465905989013e-15,
+  "B2_transmission": {
+    "mass action": {
+      "obs_over_linear": 0.99838340140315,
+      "obs_over_exp": 1.0003159596630276,
+      "rel_se": 0.0030343599146312487,
+      "n_infected_agents": 108609.0,
+      "mean_x": 0.0038527005070124946
+    },
+    "network, beta/K": {
+      "obs_over_linear": 0.9558598154438543,
+      "obs_over_exp": 0.9575381308519246,
+      "rel_se": 0.003165666737705284,
+      "n_infected_agents": 99786.0,
+      "mean_x": 0.003475424395584662
+    },
+    "network, matched": {
+      "obs_over_linear": 0.997301389419565,
+      "obs_over_exp": 0.9993007169794725,
+      "rel_se": 0.00301408609151562,
+      "n_infected_agents": 110075.0,
+      "mean_x": 0.003964618850074119
+    }
+  }
+}

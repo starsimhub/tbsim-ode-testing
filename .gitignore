@@ -7,3 +7,4 @@ __pycache__/
 
 # Raw experiment outputs saved for redrawing figures (large; kept locally, regenerate with each experiment's run script)
 experiments/**/*.obj
+proposals/**/*.obj

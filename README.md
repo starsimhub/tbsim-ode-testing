@@ -4,75 +4,131 @@ Building an ODE version of TBsim that is reasonably consistent with the agent-ba
 
 ## Approach
 
-Start from the simplest matched case: single-strain `tbsim.TB` vs an ODE, with constant demographic rates, mass-action mixing and no treatment. Then add ABM features one at a time, extending the ODE (`tbode.TBODE`) to match each one where possible. For each feature, record whether the ODE can match it, how, and what gap remains.
+Start from the simplest matched case: single-strain `tbsim.TB` vs an ODE, with constant demographic rates, mass-action mixing and no treatment. Then add ABM features one at a time, extending the ODE to match each one where possible. For each feature, record whether the ODE can match it, how, and what gap remains.
+
+## Versions and tracks
+
+The work runs on two versions of tbsim, kept apart:
+
+| Track | tbsim | starsim | Environment and code | Experiments | Status |
+|---|---|---|---|---|---|
+| v0.10 | v0.10.3 @ `b92d7e8` | v3.6.1 @ `3521adb4` | repo root: `.venv`, `tbode/` | 01–11 | Frozen (2026-11-03): rerunnable, not extended |
+| v4 | `origin/v4` @ `dcfb522` (unreleased) | `origin/v4` @ `80c81f53` (4.0.0rc1 + 21) | `v4/`: `v4/.venv`, `v4/tbode4/` | 12 on | Active |
+
+How the tracks are kept separate:
+- **Pinned commits.** Each environment installs tbsim and starsim from exact git commits, recorded in its `pyproject.toml` and `uv.lock`. It doesn't use the editable `../tbsim` and `../starsim` checkouts, which tb_LAI_TPT shares and which move.
+- **Bumping v4.** Bump the v4 pins on purpose, then rerun `v4/tests/test_anchor.py`, which checks the v4 ODE against our v0.10 ODE.
+- **Recording versions.** Each experiment's README has a "Track" line, and each run writes the exact versions to `versions*.json` beside its outputs (`tbode.save_versions` / `tbode4.save_versions`).
+- **Moving results between tracks.** The two environments can't import each other, so results pass between them as saved files.
+- **No new v0.10 arms.** New experiments compare against saved v0.10 results rather than rerunning them (user, 2026-11-03).
+
+**What v4 changes.** `tbsim.TB` is declared as states and transitions, so one model runs as an ODE (`solver='ode'`) or as agents (`solver='abm'`). Its ODE is our v0.10 ODE, `tbode.TBODE`, to 1e-5 or better (exp 12). So "v4 agents ÷ v4 ODE" can be set directly beside v0.10's "`tbsim.TB` ÷ `TBODE`" and "`TBExact` ÷ `TBODE`".
+
+The agent solver draws each exit when an agent enters a state, choosing among the competing rates in one draw, and lets agents move back and forth within a step. That should remove the step-ordering and start-of-step-hazard gaps found in v0.10; exp 13 measures it.
+
+**Where v4's model differs from the v0.10 ABM.** We intend to propose changes upstream for each of these:
+1. **Front-loaded progression.** v0.10's `k_asy`/`k_non` (progression rates declining as e^(−kτ) with time since infection τ) are replaced by `k_latent`: two latent states, recent and remote, with constant rates.
+   - This isn't consistent with the earlier work. We'll propose an alternative, but which one is still open (see Plan).
+   - **Pitfall:** `inf_non_remote=None` means "the same as `inf_non`". So by default only progression to asymptomatic TB is front-loaded.
+2. **Latent reinfection** only moves remote infections back to recent. Reinfecting a recent latent does nothing, where v0.10 reset its clock, and reinfection of NON_INFECTIOUS is gone.
+3. **Treatment.**
+   - Completion is a rate (`delta`, exponential with a 6-month mean). v0.10's `Tx` and tb_LAI_TPT use a fixed 6-month course.
+   - Success comes from competing completion and failure rates, rather than from adherence × efficacy drawn at the start.
+   - Failure always goes to SYMPTOMATIC, where v0.10 returned people to their previous state.
+   - Relapse is still a fixed 1.5-year delay.
+4. **Per-contact `beta` on a network.** v4 uses `beta_ode / K`, which gives 4% fewer infections than the ODE at monthly `dt`. Its ODE approximation of a network assumes that mapping (exp 12). We use the matched `beta_edge`, as in v0.10.
 
 ## Consistency by feature
 
-### Step ordering in `tbsim.TB` (affects every row)
+### Step ordering in v0.10's `tbsim.TB` (affects every row)
 
-`tbsim.TB` itself differs from the ODE in how it advances time, separately from any feature. Within each step, it applies transitions in a fixed order (INFECTION → NON_INFECTIOUS → ASYMPTOMATIC → SYMPTOMATIC). Agents moving forward can carry on through several states in one step, while agents moving backward stop for the step. That cuts time infectious, which acts like a lower `beta`:
+`tbsim.TB` v0.10 differs from the ODE in how it advances time, separately from any feature. Within each step, it applies transitions in a fixed order (INFECTION → NON_INFECTIOUS → ASYMPTOMATIC → SYMPTOMATIC). Agents moving forward can carry on through several states in one step, while agents moving backward stop for the step. That cuts time infectious, which acts like a lower `beta`:
 - 0.5% / 1.8% / 3.8% less effective `beta` at daily / weekly / monthly `dt`;
 - that is, 5% / 16% / 33% less prevalence at the near-threshold baseline calibration.
 
-This is nearly the whole ABM↔ODE gap at baseline. The rest is transmission: each agent's per-step infection probability is `1 − e^(−x)` with a susceptible pool fixed at the start of the step, a fraction of about x/2 below the ODE's flow (exp 10). That matters near threshold at monthly `dt` (up to 6% of prevalence in set A) and is fixed by mass action with a linear probability. `tbode.TBExact`, a version of `tbsim.TB` that samples each agent's end-of-step state from the exact one-step probabilities `expm(Q·dt)`, removes it (exp 03–05), at no extra run time (exp 06). From exp 07 on, `TBExact` also dates each new infection within its step. That corrects end-of-step snapshots but makes the generation interval half a step too long; which timing to use is an open decision (Plan). Feature experiments run both `tbsim.TB` and `TBExact`, to show how much the step ordering adds as complexity grows (see Plan).
+This is nearly the whole ABM↔ODE gap at baseline. The rest is transmission: each agent's per-step infection probability is `1 − e^(−x)` with a susceptible pool fixed at the start of the step, a fraction of about x/2 below the ODE's flow (exp 10). That matters near threshold at monthly `dt` (up to 6% of prevalence in set A) and is fixed by mass action with a linear probability.
+
+`tbode.TBExact` is a version of `tbsim.TB` that samples each agent's end-of-step state from the exact one-step probabilities `expm(Q·dt)`. It removes the step-ordering gap (exps 03–05) at no extra run time (exp 06). From exp 07 on, `TBExact` also dates each new infection within its step. That corrects end-of-step snapshots but makes the generation interval half a step too long.
+
+v4's agent solver has neither ordering problem by design. It keeps the `1 − e^(−x)` transmission step, and it dates infections at the end of the step.
 
 ### Features
 
-Each row is an ABM feature of the tb_LAI_TPT setup, added one at a time on top of the rows above it. Where the two ABM versions differ, the status is given for each.
+Each row is an ABM feature of the tb_LAI_TPT setup, added one at a time on top of the rows above it. Status is given for each ABM: v0.10's `tbsim.TB` and our `TBExact` (against `TBODE`), and v4's agents (against v4's ODE).
 
 Status: ⬜ not started · 🟡 in progress · ✅ matched · ⚠️ approximate only · ❌ not achievable
 
-| Feature (ABM) | Priority | ODE approach | Status | Notes |
-|---|---|---|---|---|
-| Baseline: natural history, single strain, constant birth and death rates, no treatment, `ss.RandomNet(dur=0)` | — | `TBODE` (generalised `TB_ODE`), `beta` tuned to 500/100k. The random network, which gives fresh contacts each step, becomes mass action, with the per-contact ABM `beta` set by `beta_edge = -ln(1 - beta·dt/K)/dt`, where K = `n_contacts` is the mean number of contacts | ✅ `TBExact` · ⚠️ `tbsim.TB` | ABM ÷ ODE prevalence at daily / weekly / monthly `dt`: `TBExact` 1.00 / 1.00 / 0.97 ± 0.02 (40 reps); `tbsim.TB` 0.95 / 0.84 / 0.67 (step ordering, above). Per-step transmission is `1 − e^(−x)` (x = `beta`·w·`dt`) in both, a fraction of about x/2 below the ODE's flow: about 1% of prevalence at monthly `dt` near threshold (exp 10) |
-| Age-specific fertility/mortality (WPP) | | Age-structured ODE | ⬜ | |
-| No transmission from children under 10 | | Age-structured FOI | ⬜ | Requires age structure |
-| Progression by time since infection (`k_asy`, `k_non`) | **High** | Poisson-mixture latent classes (exact: class m with probability Poisson(m; r₀/k), progressing at rate m·k; 7–8 classes) | ✅ `TBExact` · ❌ `tbsim.TB` | `TBExact` ÷ ODE prevalence, set B (tb_LAI_TPT natural history): 1.00 / 1.01 ± 0.01 at weekly / monthly `dt` (40 reps). `tbsim.TB` ÷ ODE: 1.18 / **1.83**, because it applies the start-of-step hazard for the whole step, overstating early progression by 10–19%. Set A (tbsim defaults, near threshold): `TBExact` 0.99 / 0.94 ± 0.02, `tbsim.TB` 1.30 / 2.64 (exp 08) |
-| Reinfection of latent people (clock reset) | **High** | Reinfected latents are reassigned across the classes with the Poisson weights (exact) | ⬜ | Only matters with time-since-infection progression |
-| Treatment (coverage, adherence, efficacy, failure, relapse) | | Treatment and relapse-pending compartments | ⬜ | ABM uses fixed delays (6-month treatment, 1.5-year relapse) |
-| Time-varying `sym_dead`, efficacy, coverage | | Time-varying parameters | ⬜ | |
-| Household network | Low | Effective `beta` / household-structured ODE | ⬜ | Likely ⚠️ or ❌ |
+| Feature (ABM) | Priority | ODE approach | v0.10 status | v4 status | Notes |
+|---|---|---|---|---|---|
+| Baseline: natural history, single strain, constant birth and death rates, no treatment, `ss.RandomNet(dur=0)` | — | `TBODE` (generalised `TB_ODE`); in v4, `tbsim.TB(solver='ode')`, which equals it. `beta` tuned to 500/100k. The random network, which gives fresh contacts each step, becomes mass action, with the per-contact ABM `beta` set by `beta_edge = -ln(1 - beta·dt/K)/dt`, where K = `n_contacts` is the mean number of contacts | ✅ `TBExact` · ⚠️ `tbsim.TB` | 🟡 ODE matched and agents set up (exp 12, complete); whether agents stay at the ODE's prevalence is exp 13 | v0.10, ABM ÷ ODE prevalence at daily / weekly / monthly `dt`: `TBExact` 1.00 / 1.00 / 0.97 ± 0.02 (40 reps); `tbsim.TB` 0.95 / 0.84 / 0.67 (step ordering, above). Per-step transmission is `1 − e^(−x)` in both, about 1% of prevalence at monthly `dt` near threshold (exp 10). v4: the ODE equals `TBODE`; `RandomNet` is unchanged; with the matched `beta_edge`, infections per step are 0.997 ± 0.003 of the ODE's (v4's own `beta/K`: 0.956) |
+| Age-specific fertility/mortality (WPP) | | Age-structured ODE | ⬜ | ⬜ | v4 has age stratification with aging (`sim.stratify`) and country demography (`ss.people`) for both solvers |
+| No transmission from children under 10 | | Age-structured FOI | ⬜ | ⬜ | Requires age structure; in v4, `ss.modify(..., where=age < 10)` |
+| Progression by time since infection (`k_asy`, `k_non`) | **High** | v0.10: Poisson-mixture latent classes (exact: class m with probability Poisson(m; r₀/k), progressing at rate m·k; 7–8 classes). v4: to be decided (see Plan) | ✅ `TBExact` · ❌ `tbsim.TB` | ⬜ | v0.10, `TBExact` ÷ ODE prevalence, set B (tb_LAI_TPT natural history): 1.00 / 1.01 ± 0.01 at weekly / monthly `dt` (40 reps). `tbsim.TB` ÷ ODE: 1.18 / **1.83**, because it applies the start-of-step hazard for the whole step, overstating early progression by 10–19%. Set A (tbsim defaults, near threshold): `TBExact` 0.99 / 0.94 ± 0.02, `tbsim.TB` 1.30 / 2.64 (exp 08). v4 replaces `k` with two latent states, which isn't the same model |
+| Reinfection of latent people (clock reset) | **High** | Reinfected latents are reassigned across the classes with the Poisson weights (exact) | ⬜ | ⬜ | Only matters with time-since-infection progression. v4's reinfection differs (see above) |
+| Treatment (coverage, adherence, efficacy, failure, relapse) | | Treatment and relapse-pending compartments | ⬜ | ⬜ | v0.10 ABM uses fixed delays (6-month treatment, 1.5-year relapse); v4 uses a completion rate (see above) |
+| Time-varying `sym_dead`, efficacy, coverage | | Time-varying parameters | ⬜ | ⬜ | v4: `ss.timeseries` with `ss.modify`, for both solvers |
+| Household network | Low | Effective `beta` / household-structured ODE | ⬜ | ⬜ | Likely ⚠️ or ❌ |
 
 ## Plan
 
-Experiments 01–11 are done; results are in the findings log below.
-- **The baseline is consistent:** with exact step sampling (`TBExact`), the ABM matches the ODE. The 40-rep rerun of exp 05 settled the remaining question, so the population-size experiment considered earlier isn't needed. `TBExact` takes the same run time as `tbsim.TB` at every `dt` (exp 06).
-- **`TBExact` now dates new infections within the step** (`infection_timing='within'`, exp 07), which removes exp 05's INFECTION artefact. Near-threshold shortfalls of up to 6% (exps 05, 08, 09) are caused by the per-step infection probability (exp 10). One residual is still unexplained: about 3.5% at `k` = 0 with weekly `'within'` timing. Set B, the reference, matches to ±1%.
+### v4 track (active)
 
-**Decision (user, 2026-10-09): run every feature experiment with both `tbsim.TB` and `TBExact`.** Each comparison then separates two things:
-- **`TBExact` vs the ODE:** how well the ODE can match the feature, without step ordering getting in the way.
-- **`tbsim.TB` vs `TBExact`:** how much step ordering adds as features are added. At baseline it is 0.95 / 0.84 / 0.67 of the ODE prevalence at daily / weekly / monthly `dt`. Each feature experiment reports whether that gap grows.
+**Done: exp 12 (complete), the v4 ODE and how to set up agents.**
+- The v4 ODE equals `TBODE` and tbsim's `TB_ODE`, and calibrates to the same `beta` (9.917338).
+- `RandomNet`'s mean degree is still `n_contacts`.
+- Agents need the matched `beta_edge`, not v4's `beta/K`.
+- `init=` starts agents at the equilibrium exactly.
+- Agents run 2.5–5× faster than in v0.10.
 
-This means `TBExact` must be extended alongside the ODE for each feature that changes the natural history. Fixing tbsim upstream remains an option to revisit later (see [exp 05's SUMMARY](experiments/05_exact_transitions/SUMMARY.md)).
+**Next:**
+1. **Exp 13: the baseline, v4 agents vs v4 ODE.** This reruns exps 03 + 05. Daily / weekly / monthly `dt`, 40 reps, under mass action and on `RandomNet`, started at the equilibrium. Compare with the saved v0.10 numbers (0.95 / 0.84 / 0.67 for `tbsim.TB`, 1.00 / 1.00 / 0.97 for `TBExact`). This is the test of whether v4 removes the step-ordering gap.
+2. **Later experiments, proposed; the user will review them once the model differences are settled:**
+   - Exp 14, per-step flows and incidence: reruns exps 04 / 10 / 11, and only matters if exp 13 shows a gap. v4 counts every transition as a flow under both solvers, so incidence can be defined from flows.
+   - Exp 15, generation-interval lag: reruns exp 07, plus the timing question it left open. v4 dates infections at the end of the step. Measure growth from a seed and the response to a step change in `beta`, ODE vs agents.
+   - Exp 16, progression by time since infection: reruns exp 08.
+   - Exp 17, latent reinfection.
 
-**`dt`s for feature experiments:** monthly (tb_LAI_TPT's setting) and weekly. Add daily only if monthly and weekly differ substantially.
+   Exps 16–17 wait for the decision on the latent structure.
 
-**Parameters from exp 08 on (user decision, 2026-10-12):**
-- **Set B, the reference:** tb_LAI_TPT's best-fit natural history, with `k_asy = k_non` = 5.846 and reinfection risk ratio π = 0.24 for everyone in CLEARED. The pre-1995 `sym_dead` is used.
-- **Set A, a bridge to exps 01–07:** tbsim defaults + `k`.
-- In both, `beta` is recalibrated to 500/100k. See [exp 08's README](experiments/08_progression_tsi/README.md).
+   Not rerun: exps 01, 02 and 09 (covered by exp 13), and exp 06 (exp 12's timings are enough for now). The v0.10 open issues below are also dropped unless they reappear.
+3. **Alongside, without runs:**
+   - **An options note on latent progression and reinfection.** Criteria:
+     - whether it must reproduce e^(−kτ) or only the progression targets (ProgressionY1 / ProgressionRatio) and household-contact data;
+     - what reinfection should do;
+     - exactness under both solvers;
+     - size and identifiability.
 
-Next:
+     Candidates: Poisson-mixture classes, an Erlang or Coxian chain, v4's two states refitted, and a non-exponential dwell time. A comparison only: the user wants to look into it before choosing.
+   - **Draft upstream proposals.**
+     - **Per-contact `beta` on networks:** drafted as two issues, for the user to review: [starsim](proposals/01_network_beta/starsim_issue.md) (the ODE approximation of a network) and [tbsim](proposals/01_network_beta/tbsim_issue.md) (docs, `ode_compare.py`). Rerunning tbsim's `ode_compare.py` setting at monthly `dt` showed its network shortfall is the per-contact step effect (0.59 ± 0.05 of the ODE with `beta/K`, 0.99 ± 0.06 matched).
+     - **Treatment:** a fixed course with outcome probabilities, and failure back to the previous state. To do.
 
-1. **Decided (user, 2026-10-12): no changes to tbsim; `TBExact` is the corrected ABM.** At monthly `dt` with `k` = 5.846, `tbsim.TB` gives 1.8× (set B) to 2.6× (set A) the ODE prevalence, because it applies the start-of-step hazard for the whole step (exp 08). `TBExact` will accumulate the fixes as features are added.
-   - tb_LAI_TPT will need recalibrating with `TBExact` to be consistent with the ODE; that's deferred.
-   - `k` is not recalibrated: measured exactly, set B already fits the data-derived progression targets (within 0.25 SD), better than tb_LAI_TPT's monthly `tbsim.TB` measurement does.
-   - `TBExact` should be re-profiled with latent classes (exp 06 covered constant rates only).
-   - Open: whether to keep running `tbsim.TB` in every experiment or only at key points.
-2. **Done (exp 11): count incidence from transitions.** `TBExact`'s `incidence_event_py` matches the ODE's incidence per prevalent case to within 0.3%. The snapshot count (`incidence_py`) misses 3.3% of episodes at monthly `dt` and 0.75% at weekly. The transition-based count is the standard for ODE↔ABM comparisons (user decision, 2026-10-13). Notifications will need the same approach once treatment is added. Deferred: whether calibration targets should exclude brief subclinical episodes. If so, define the rule by duration in both models (see exp 11's SUMMARY).
-3. **Exp 12: latent reinfection (clock reset),** with `rr_reinfection_inf = rr_reinfection_non` = π. In the classes, a reinfected latent agent is reassigned with the Poisson weights, which is also exact.
-4. **To do (user, 2026-10-13): check that the latent classes don't change other infection dynamics in `TBExact`.** So far `TBExact`'s classes have been checked against state proportions, prevalence, incidence, mortality, one-step end states and cohort progression (exp 08). Not yet checked: distributions we don't track, e.g. time spent in INFECTION, time to progression, and how each depends on the outcome (progression vs clearance vs death). In theory these should all match tbsim's continuous-time model, because the classes reproduce the joint distribution of time and destination for leaving INFECTION, and the class plays no role afterwards. Compare `TBExact` with daily `tbsim.TB` (which uses the actual time since infection) and with the exact time-varying model. Bear in mind `TBExact` only observes durations to the nearest step. Include latent reinfection once exp 12 turns it on. See [exp 08's latent_classes.md](experiments/08_progression_tsi/latent_classes.md).
-5. **Decision needed (flagged 2026-10-13): infection timing in `TBExact`.** Each step's force of infection comes from the start-of-step state and is held for the whole step. So the two timings trade one error for another ([exp 07's SUMMARY](experiments/07_infection_timing/SUMMARY.md)):
-   - **`'start'`** gives the right mean generation interval (from an infection to the infections it causes), but its end-of-step INFECTION snapshots read low (0.89 at monthly `dt`).
-   - **`'within'`**, the current choice, gives correct snapshots, but each generation lags about half a step. In a toy calculation at monthly `dt`, the generation interval comes out +0.50 months with `'within'` and +0.01 with `'start'`.
+**Parameters.** Sets A and B carry over (exp 08's README):
+- **A:** tbsim defaults + `k` = 5.846;
+- **B:** tb_LAI_TPT's best-fit natural history + `k` = 5.846.
 
-   Neither affects the equilibrium, so exps 07–11 stand. The lag will matter once runs change over time: treatment scale-up, time-varying parameters, and growth from a seed. To do: measure it, e.g. epidemic growth or the response to a step change in `beta`, for the ODE, `'start'` and `'within'` at monthly and weekly `dt`. Then decide on the default. Getting both right would need infections spread through the step *and* a force of infection centred on the step.
-6. **Decision needed: transmission in `TBExact` (exp 10).** The near-threshold shortfall is the ABM's per-step infection probability. With mass action and a linear probability (`TBExactMassAction(infection_prob='linear')`), `TBExact` matches the ODE to within 1–2% at monthly `dt` in both sets (A: 0.984 ± 0.010; B: 1.000 ± 0.006). tb_LAI_TPT's random network (`dur=0`) behaves like mass action, so this could become `TBExact`'s default transmission. The household network, if ever matched, would still need network transmission.
-7. **Later features with memory need the equilibrium start extended again:** age-specific rates need an initial age distribution, and fixed-duration treatment and relapse delays need initial time in state.
+tb_LAI_TPT itself stays on v0.10 for now (user, 2026-11-03), but new projects will probably use v4, with tb_LAI_TPT's parameters as a starting point. Its calibration partly compensates for v0.10's monthly-step biases, so `beta` is recalibrated to 500/100k as before. The progression targets need rechecking under whichever latent structure is chosen.
 
-## Open issues
+**Later rows.** Starting agents at an equilibrium is simple while rates have no memory. Age structure needs an initial age distribution, and fixed delays (treatment, relapse) need initial time in state.
 
-Differences between `TBExact` and the ODE that are not fully explained. They are listed in [exp 10's SUMMARY](experiments/10_transmission_step/SUMMARY.md), with the history in the experiments cited.
+### v0.10 track (frozen 2026-11-03)
+
+Exps 01–11 are complete; results are in the findings log, and the decisions they led to are in `CLAUDE.md`. Their main conclusions:
+- `TBExact` matches the ODE at baseline and with time-since-infection progression.
+- v0.10's `tbsim.TB` doesn't. Step ordering costs up to a third of prevalence, and the start-of-step hazard gives up to 2.6× prevalence at monthly `dt`.
+
+The decision not to change tbsim (2026-10-12) stands for v0.10.
+
+Items open at the freeze, and where they go:
+- **Infection timing in `TBExact`** (`'start'` vs `'within'`). v4 has its own timing (end of step), measured in exp 15.
+- **Linear mass-action transmission as `TBExact`'s default.** Moot in v4, where it becomes the question of whether exp 14 is needed.
+- **Checking that latent classes don't change other infection dynamics** (time in INFECTION, time to progression, by outcome). This applies to whichever latent structure is chosen (exp 16).
+- **Recalibrating tb_LAI_TPT with `TBExact`.** Deferred, and probably superseded by v4 for new projects.
+- **Re-profiling `TBExact` with latent classes.** Dropped.
+
+## Open issues (v0.10 track)
+
+Differences between `TBExact` and the ODE that are not fully explained. They are listed in [exp 10's SUMMARY](experiments/10_transmission_step/SUMMARY.md), with the history in the experiments cited. Not pursued further unless they reappear in v4.
 
 | Issue | Size | Status |
 |---|---|---|
@@ -82,32 +138,42 @@ Differences between `TBExact` and the ODE that are not fully explained. They are
 ## Repo layout
 
 ```
-tbode/          Python package: the ODE (ode.py), matched-ABM builders and analyzers (abm.py),
-                tbsim.TB with exact per-step transitions (exact.py), comparison helpers (compare.py),
-                per-step flux checks against expm(Q·dt) (flux.py)
-experiments/    One folder per experiment (NN_name/): README.md (question, design), run.py, outputs, SUMMARY.md
-tests/          Regression checks (e.g. TBODE with all features off reproduces tbsim's TB_ODE)
+tbode/          v0.10 track: the ODE (ode.py), matched-ABM builders and analyzers (abm.py), tbsim.TB with exact
+                per-step transitions (exact.py), comparison helpers (compare.py), per-step flux checks (flux.py), versions.py
+tests/          v0.10 regression checks (e.g. TBODE with all features off reproduces tbsim's TB_ODE)
+v4/             v4 track: its own pyproject.toml and .venv
+  tbode4/       matched v4 sims as ODE or agents (sims.py), versions.py
+  tests/        test_anchor.py: the v4 ODE reproduces TB_ODE and TBODE (rerun after bumping the v4 pins)
+proposals/      Drafts of changes to propose upstream (tbsim, starsim), numbered like experiments (NN_name/): one draft
+                issue per repo, with the scripts and outputs behind them
+experiments/    One folder per experiment (NN_name/), numbered across both tracks: README.md (question, design, track),
+                run script(s), outputs, versions*.json, SUMMARY.md
 ```
 
 ## Setup
 
 ```bash
-uv sync                                       # creates .venv with editable ../tbsim and ../starsim
+uv sync                                         # v0.10 track: .venv, pinned tbsim v0.10.3 / starsim v3.6.1
 uv run python experiments/01_baseline/run.py
+
+cd v4 && uv sync                                # v4 track: v4/.venv, pinned tbsim and starsim v4
+v4/.venv/bin/python -c "import starsim as ss; ss.compile()"   # once: compiles the kernels (~2 minutes)
+v4/.venv/bin/python experiments/12_v4_setup/run.py            # from the repo root
 ```
 
 ## Findings log
 
-| # | Question | Result | Experiment |
-|---|---|---|---|
-| 1 | How well does the simplest matched ABM (`tbsim.TB`, monthly `dt`) reproduce the ODE? | Poorly: 10–35% below the ODE in prevalence and latent infection, at every `beta` tested (9, 12, 20) | [01_baseline](experiments/01_baseline/) |
-| 2 | Does a smaller ABM time step close the gap? | Largely, well above threshold: within ~3% at weekly and daily `dt` at `beta` = 12 and 20. But not entirely: near threshold even daily `dt` is 5% low (exp 03). Exp 05 later showed the whole gap is a time-step effect, namely step ordering | [02_timestep](experiments/02_timestep/) |
-| 3 | With `beta` calibrated to 500/100k and the ABM started at the ODE equilibrium, does the ABM stay there, at daily, weekly and monthly `dt`? | No: it drifts down at every `dt`, to 0.95 ± 0.02 / 0.84 / 0.67 of the ODE prevalence at daily / weekly / monthly `dt`. Even daily is significantly low (z = −2.9). The calibration sits near threshold (`beta` = 9.92 vs threshold 8.59), so prevalence is ~9× as sensitive as `beta`; the gaps are 0.5% / 1.8% / 3.8% in effective `beta` | [03_baseline_calibrated](experiments/03_baseline_calibrated/) |
-| 4 | Which per-step flows cause the gap: transmission or natural-history transitions? | Natural history. Transmission matches its per-step expectation, `1 − e^(−x)`; exp 10 later showed that expectation is slightly below the ODE's flow. With the step ordering, forward movers carry on within a step and backward movers stop, which shortens time infectious | [04_flux_check](experiments/04_flux_check/) |
-| 5 | Does exact per-step sampling (`TBExact`) remove the gap? | Yes: prevalence 1.00 / 1.00 / 0.97 ± 0.02 of the ODE at daily / weekly / monthly `dt` (40 reps). Daily `TBExact` (1.00) vs daily `tbsim.TB` (0.95) shows even the daily gap is step ordering. Per-step flows match `expm(Q·dt)` (sum of z² 18–19 over 14 flows, vs 691–2,688 for `tbsim.TB`) | [05_exact_transitions](experiments/05_exact_transitions/) |
-| 6 | How much longer does `TBExact` take to run than `tbsim.TB`? | No longer: 0.98–1.01× the run time at every `dt`, within rep-to-rep noise. Both take ~10.5 ms per step at 50k agents, so run time scales with the number of steps (daily ≈ 30× monthly). About 43% of each step is the TB module | [06_profiling](experiments/06_profiling/) |
-| 7 | Does dating each new infection within its step (`TBExact`, `infection_timing='within'`) remove exp 05's INFECTION artefact? | Yes: monthly INFECTION goes from 0.89 to 0.98 ± 0.02 of the ODE, and relative to prevalence from 0.91 to 1.00 (weekly: 0.98 to 1.00). Monthly prevalence, incidence and mortality are unchanged. At weekly `dt`, `'within'` came out 0.96 ± 0.01 vs 1.00 for `'start'` (160 reps each). Diagnostics found no mechanism or bug: per-step flows are exact; a deterministic version of the step predicts 0.999; two diagnostic variants agree within noise. The gap is probably mostly chance, but up to ~3% of prevalence near threshold can't be ruled out | [07_infection_timing](experiments/07_infection_timing/) |
-| 8 | With progression by time since infection (`k` = 5.846), does the ODE (Poisson-mixture latent classes) match the ABM? | `TBExact`: yes. Prevalence 1.00 / 1.01 ± 0.01 of the ODE at weekly / monthly `dt` for set B (tb_LAI_TPT natural history); set A (near threshold) 0.99 / 0.94 ± 0.02. Daily `tbsim.TB` cohorts match the exact progression curve, which confirms the latent classes independently. `tbsim.TB`: no. 1.18 / 1.83× the ODE (set B) and 1.30 / 2.64× (set A), because the start-of-step hazard overstates early progression (cohort +10–19% at monthly `dt`). The step-ordering gap reverses and grows | [08_progression_tsi](experiments/08_progression_tsi/) |
-| 9 | Is the near-threshold `TBExact` shortfall (set A, monthly: 0.94 of the ODE vs 0.995 predicted by a deterministic version of the step) a finite-population effect? | No. It stays about 5% at 25k / 50k / 100k / 200k agents (0.947 / 0.924 / 0.964 / 0.941 ± ~0.01). A constant fits (χ² = 7 on 3 df); 1/N doesn't (χ² = 60). Rep-to-rep SD shrinks with N, but the mean shortfall doesn't. Cause found in exp 10 | [09_population_size](experiments/09_population_size/) |
-| 10 | Is the near-threshold shortfall caused by the ABM's per-step infection probability (`1 − e^(−x)`, with a susceptible pool fixed at the start of the step) rather than the ODE's flow (x)? | Yes. Set A monthly: mass action with `1 − e^(−x)` gives 0.941 ± 0.010, exactly as predicted, and the network gives the same (0.947), so the network adds nothing. With a linear probability: 0.984 ± 0.010 (A) and 1.000 ± 0.006 (B). Exp 05's monthly 0.97 is explained (rerun: 0.980 ± 0.010 vs 0.997 predicted). Still unexplained: `k` = 0 weekly `'within'`, 0.966 ± 0.007 pooled vs 0.995 | [10_transmission_step](experiments/10_transmission_step/) |
-| 11 | Is `TBExact`'s monthly incidence shortfall (about 3% below prevalence) a snapshot artefact, and does counting from transitions fix it? | Yes. Counting each agent's within-step visits to ASYMPTOMATIC/SYMPTOMATIC (augmented chain, own random stream, dynamics bit-identical) gives incidence equal to prevalence ÷ ODE in every arm. Incidence per prevalent case is 1.002–1.003 ± 0.001 of the ODE at monthly `dt` and 1.000 at weekly. The snapshot misses 3.2–3.3% of episodes at monthly `dt` and 0.75% at weekly, whatever the parameters | [11_incidence_counting](experiments/11_incidence_counting/) |
+| # | Track | Question | Result | Experiment |
+|---|---|---|---|---|
+| 1 | v0.10 | How well does the simplest matched ABM (`tbsim.TB`, monthly `dt`) reproduce the ODE? | Poorly: 10–35% below the ODE in prevalence and latent infection, at every `beta` tested (9, 12, 20) | [01_baseline](experiments/01_baseline/) |
+| 2 | v0.10 | Does a smaller ABM time step close the gap? | Largely, well above threshold: within ~3% at weekly and daily `dt` at `beta` = 12 and 20. But not entirely: near threshold even daily `dt` is 5% low (exp 03). Exp 05 later showed the whole gap is a time-step effect, namely step ordering | [02_timestep](experiments/02_timestep/) |
+| 3 | v0.10 | With `beta` calibrated to 500/100k and the ABM started at the ODE equilibrium, does the ABM stay there, at daily, weekly and monthly `dt`? | No: it drifts down at every `dt`, to 0.95 ± 0.02 / 0.84 / 0.67 of the ODE prevalence at daily / weekly / monthly `dt`. Even daily is significantly low (z = −2.9). The calibration sits near threshold (`beta` = 9.92 vs threshold 8.59), so prevalence is ~9× as sensitive as `beta`; the gaps are 0.5% / 1.8% / 3.8% in effective `beta` | [03_baseline_calibrated](experiments/03_baseline_calibrated/) |
+| 4 | v0.10 | Which per-step flows cause the gap: transmission or natural-history transitions? | Natural history. Transmission matches its per-step expectation, `1 − e^(−x)`; exp 10 later showed that expectation is slightly below the ODE's flow. With the step ordering, forward movers carry on within a step and backward movers stop, which shortens time infectious | [04_flux_check](experiments/04_flux_check/) |
+| 5 | v0.10 | Does exact per-step sampling (`TBExact`) remove the gap? | Yes: prevalence 1.00 / 1.00 / 0.97 ± 0.02 of the ODE at daily / weekly / monthly `dt` (40 reps). Daily `TBExact` (1.00) vs daily `tbsim.TB` (0.95) shows even the daily gap is step ordering. Per-step flows match `expm(Q·dt)` (sum of z² 18–19 over 14 flows, vs 691–2,688 for `tbsim.TB`) | [05_exact_transitions](experiments/05_exact_transitions/) |
+| 6 | v0.10 | How much longer does `TBExact` take to run than `tbsim.TB`? | No longer: 0.98–1.01× the run time at every `dt`, within rep-to-rep noise. Both take ~10.5 ms per step at 50k agents, so run time scales with the number of steps (daily ≈ 30× monthly). About 43% of each step is the TB module | [06_profiling](experiments/06_profiling/) |
+| 7 | v0.10 | Does dating each new infection within its step (`TBExact`, `infection_timing='within'`) remove exp 05's INFECTION artefact? | Yes: monthly INFECTION goes from 0.89 to 0.98 ± 0.02 of the ODE, and relative to prevalence from 0.91 to 1.00 (weekly: 0.98 to 1.00). Monthly prevalence, incidence and mortality are unchanged. At weekly `dt`, `'within'` came out 0.96 ± 0.01 vs 1.00 for `'start'` (160 reps each). Diagnostics found no mechanism or bug: per-step flows are exact; a deterministic version of the step predicts 0.999; two diagnostic variants agree within noise. The gap is probably mostly chance, but up to ~3% of prevalence near threshold can't be ruled out | [07_infection_timing](experiments/07_infection_timing/) |
+| 8 | v0.10 | With progression by time since infection (`k` = 5.846), does the ODE (Poisson-mixture latent classes) match the ABM? | `TBExact`: yes. Prevalence 1.00 / 1.01 ± 0.01 of the ODE at weekly / monthly `dt` for set B (tb_LAI_TPT natural history); set A (near threshold) 0.99 / 0.94 ± 0.02. Daily `tbsim.TB` cohorts match the exact progression curve, which confirms the latent classes independently. `tbsim.TB`: no. 1.18 / 1.83× the ODE (set B) and 1.30 / 2.64× (set A), because the start-of-step hazard overstates early progression (cohort +10–19% at monthly `dt`). The step-ordering gap reverses and grows | [08_progression_tsi](experiments/08_progression_tsi/) |
+| 9 | v0.10 | Is the near-threshold `TBExact` shortfall (set A, monthly: 0.94 of the ODE vs 0.995 predicted by a deterministic version of the step) a finite-population effect? | No. It stays about 5% at 25k / 50k / 100k / 200k agents (0.947 / 0.924 / 0.964 / 0.941 ± ~0.01). A constant fits (χ² = 7 on 3 df); 1/N doesn't (χ² = 60). Rep-to-rep SD shrinks with N, but the mean shortfall doesn't. Cause found in exp 10 | [09_population_size](experiments/09_population_size/) |
+| 10 | v0.10 | Is the near-threshold shortfall caused by the ABM's per-step infection probability (`1 − e^(−x)`, with a susceptible pool fixed at the start of the step) rather than the ODE's flow (x)? | Yes. Set A monthly: mass action with `1 − e^(−x)` gives 0.941 ± 0.010, exactly as predicted, and the network gives the same (0.947), so the network adds nothing. With a linear probability: 0.984 ± 0.010 (A) and 1.000 ± 0.006 (B). Exp 05's monthly 0.97 is explained (rerun: 0.980 ± 0.010 vs 0.997 predicted). Still unexplained: `k` = 0 weekly `'within'`, 0.966 ± 0.007 pooled vs 0.995 | [10_transmission_step](experiments/10_transmission_step/) |
+| 11 | v0.10 | Is `TBExact`'s monthly incidence shortfall (about 3% below prevalence) a snapshot artefact, and does counting from transitions fix it? | Yes. Counting each agent's within-step visits to ASYMPTOMATIC/SYMPTOMATIC (augmented chain, own random stream, dynamics bit-identical) gives incidence equal to prevalence ÷ ODE in every arm. Incidence per prevalent case is 1.002–1.003 ± 0.001 of the ODE at monthly `dt` and 1.000 at weekly. The snapshot misses 3.2–3.3% of episodes at monthly `dt` and 0.75% at weekly, whatever the parameters | [11_incidence_counting](experiments/11_incidence_counting/) |
+| 12 | v4 | Does tbsim v4's ODE reproduce ours, and how should v4 agents be matched to it? | The v4 ODE equals `TB_ODE` (2.8e-5) and `TBODE` (≤ 3.2e-5 relative after the first year), and calibrates to the same `beta`, 9.917338. `RandomNet(n_contacts=10)` still has mean degree 10 with fresh edges each step. v4's per-contact `beta_ode/K` gives 0.956 ± 0.003 of the ODE's infections per step at monthly `dt` (per-edge saturation, predicted 0.960); the matched `beta_edge` gives 0.997 ± 0.003. `init=` starts agents at the equilibrium exactly. Agents run at 1.6–4 ms per step at 50k, 2.5–5× faster than v0.10 | [12_v4_setup](experiments/12_v4_setup/) |
