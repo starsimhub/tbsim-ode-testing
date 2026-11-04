@@ -1,0 +1,193 @@
+A0       beta =   9.926, prevalence = 500.00/100k, ProgressionY1 = 0.0343, ProgressionRatio = 0.480
+B0       beta =   1.952, prevalence = 500.00/100k, ProgressionY1 = 0.1881, ProgressionRatio = 0.451
+Ak       beta =  36.898, prevalence = 500.00/100k, ProgressionY1 = 0.0113, ProgressionRatio = 0.586
+Bk       beta =  24.799, prevalence = 500.00/100k, ProgressionY1 = 0.0511, ProgressionRatio = 0.674
+Bremote  beta =  25.115, prevalence = 500.00/100k, ProgressionY1 = 0.0489, ProgressionRatio = 0.676
+calibrate.py: 23 s
+A0_day               40 reps in 803 s; prevalence 1950–2000, agents ÷ ODE: 0.992 ± 0.024
+A0_week              40 reps in 137 s; prevalence 1950–2000, agents ÷ ODE: 1.009 ± 0.017
+A0_month             40 reps in 34 s; prevalence 1950–2000, agents ÷ ODE: 1.044 ± 0.019
+A0_month_net         40 reps in 66 s; prevalence 1950–2000, agents ÷ ODE: 0.735 ± 0.017
+A0_month_net_matched 40 reps in 64 s; prevalence 1950–2000, agents ÷ ODE: 1.032 ± 0.023
+B0_week              40 reps in 130 s; prevalence 1950–2000, agents ÷ ODE: 0.972 ± 0.013
+B0_month             40 reps in 33 s; prevalence 1950–2000, agents ÷ ODE: 0.993 ± 0.016
+Ak_month             40 reps in 39 s; prevalence 1950–2000, agents ÷ ODE: 1.000 ± 0.017
+Bk_week              40 reps in 140 s; prevalence 1950–2000, agents ÷ ODE: 0.979 ± 0.010
+Bk_month             40 reps in 37 s; prevalence 1950–2000, agents ÷ ODE: 1.003 ± 0.009
+Bremote_week         40 reps in 148 s; prevalence 1950–2000, agents ÷ ODE: 1.007 ± 0.011
+Bremote_month        40 reps in 38 s; prevalence 1950–2000, agents ÷ ODE: 1.009 ± 0.010
+                 arm     output  reps     mean       se      p10      p90
+              A0_day prevalence    40 0.991693 0.023772 0.829041 1.230856
+             A0_week prevalence    40 1.008560 0.016588 0.862573 1.112568
+            A0_month prevalence    40 1.043236 0.018863 0.895512 1.208905
+        A0_month_net prevalence    40 0.737274 0.016991 0.612245 0.851108
+A0_month_net_matched prevalence    40 1.032797 0.023399 0.795781 1.203465
+             B0_week prevalence    40 0.972401 0.012633 0.871283 1.083567
+            B0_month prevalence    40 0.993113 0.015761 0.878902 1.102332
+            Ak_month prevalence    40 0.999849 0.017116 0.853711 1.110071
+             Bk_week prevalence    40 0.979405 0.009553 0.904168 1.053090
+            Bk_month prevalence    40 1.002896 0.008451 0.936395 1.062147
+        Bremote_week prevalence    40 1.007264 0.010939 0.957576 1.080546
+       Bremote_month prevalence    40 1.008041 0.009747 0.929985 1.083798
+A month from infection: done
+A month from non_infectious: done
+A month from asymptomatic: done
+A month from symptomatic: done
+A week  from infection: done
+A week  from non_infectious: done
+A week  from asymptomatic: done
+A week  from symptomatic: done
+B month from infection: done
+B month from non_infectious: done
+B month from asymptomatic: done
+B month from symptomatic: done
+B week  from infection: done
+B week  from non_infectious: done
+B week  from asymptomatic: done
+B week  from symptomatic: done
+    parset     dt           start           state         exact           ode           abm         z
+0        A  month       infection       infection  8.380591e-01  8.380605e-01  8.384700e-01  1.577412
+1        A  month       infection         cleared  1.451357e-01  1.451345e-01  1.447510e-01 -1.544630
+2        A  month       infection       recovered  9.480788e-05  9.481003e-05  8.000000e-05 -2.150831
+3        A  month       infection  non_infectious  1.230556e-02  1.230560e-02  1.229850e-02 -0.090625
+4        A  month       infection    asymptomatic  4.242916e-03  4.242642e-03  4.229500e-03 -0.291891
+5        A  month       infection     symptomatic  1.603342e-04  1.604375e-04  1.710000e-04  1.191323
+6        A  month       infection            dead  1.566089e-06  1.555688e-06  0.000000e+00 -1.769797
+7        A  month  non_infectious       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+8        A  month  non_infectious         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+9        A  month  non_infectious       recovered  1.474115e-02  1.474113e-02  1.472800e-02 -0.154315
+10       A  month  non_infectious  non_infectious  9.661140e-01  9.661144e-01  9.660360e-01 -0.609442
+11       A  month  non_infectious    asymptomatic  1.845096e-02  1.845037e-02  1.851500e-02  0.672951
+12       A  month  non_infectious     symptomatic  6.872499e-04  6.875031e-04  7.210000e-04  1.821304
+13       A  month  non_infectious            dead  6.664718e-06  6.635843e-06  0.000000e+00 -3.650962
+14       A  month    asymptomatic       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+15       A  month    asymptomatic         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+16       A  month    asymptomatic       recovered  9.568387e-04  9.570811e-04  9.520000e-04 -0.221327
+17       A  month    asymptomatic  non_infectious  1.225144e-01  1.225104e-01  1.222355e-01 -1.202919
+18       A  month    asymptomatic    asymptomatic  8.118723e-01  8.118783e-01  8.123285e-01  1.650791
+19       A  month    asymptomatic     symptomatic  6.371034e-02  6.370779e-02  6.353750e-02 -1.000795
+20       A  month    asymptomatic            dead  9.461231e-04  9.464178e-04  9.465000e-04  0.017335
+21       A  month     symptomatic       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+22       A  month     symptomatic         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+23       A  month     symptomatic       recovered  1.437655e-05  1.431426e-05  0.000000e+00 -5.362229
+24       A  month     symptomatic  non_infectious  2.800231e-03  2.801262e-03  2.783500e-03 -0.447759
+25       A  month     symptomatic    asymptomatic  3.909498e-02  3.909342e-02  3.904950e-02 -0.331847
+26       A  month     symptomatic     symptomatic  9.307568e-01  9.307574e-01  9.307095e-01 -0.263331
+27       A  month     symptomatic            dead  2.733364e-02  2.733356e-02  2.745750e-02  1.074263
+28       A   week       infection       infection  9.601579e-01  9.601579e-01  9.602735e-01  0.835891
+29       A   week       infection         cleared  3.570755e-02  3.570755e-02  3.555850e-02 -1.135936
+30       A   week       infection       recovered  5.231502e-06  5.231503e-06  4.000000e-06 -0.761444
+31       A   week       infection  non_infectious  3.012310e-03  3.012310e-03  3.054500e-03  1.088746
+32       A   week       infection    asymptomatic  1.107583e-03  1.107583e-03  1.103000e-03 -0.194855
+33       A   week       infection     symptomatic  9.412713e-06  9.412782e-06  6.500000e-06 -1.342633
+34       A   week       infection            dead  2.061844e-08  2.061148e-08  5.551115e-17 -0.203069
+35       A   week  non_infectious       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+36       A   week  non_infectious         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+37       A   week  non_infectious       recovered  3.437946e-03  3.437946e-03  3.429500e-03 -0.204073
+38       A   week  non_infectious  non_infectious  9.918620e-01  9.918620e-01  9.918180e-01 -0.692872
+39       A   week  non_infectious    asymptomatic  4.660473e-03  4.660473e-03  4.717000e-03  1.173731
+40       A   week  non_infectious     symptomatic  3.947685e-05  3.947702e-05  3.550000e-05 -0.895141
+41       A   week  non_infectious            dead  8.633187e-08  8.631263e-08  1.110223e-16 -0.415528
+42       A   week    asymptomatic       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+43       A   week    asymptomatic         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+44       A   week    asymptomatic       recovered  5.392022e-05  5.392038e-05  6.500000e-05  2.133939
+45       A   week    asymptomatic  non_infectious  3.094554e-02  3.094554e-02  3.116550e-02  1.796310
+46       A   week    asymptomatic    asymptomatic  9.526129e-01  9.526129e-01  9.525360e-01 -0.511817
+47       A   week    asymptomatic     symptomatic  1.633381e-02  1.633381e-02  1.618200e-02 -1.693715
+48       A   week    asymptomatic            dead  5.383700e-05  5.383720e-05  5.150000e-05 -0.450449
+49       A   week     symptomatic       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+50       A   week     symptomatic         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+51       A   week     symptomatic       recovered  1.862275e-07  1.861860e-07  0.000000e+00 -0.610291
+52       A   week     symptomatic  non_infectious  1.608502e-04  1.608509e-04  1.535000e-04 -0.819670
+53       A   week     symptomatic    asymptomatic  1.002302e-02  1.002302e-02  1.001100e-02 -0.170625
+54       A   week     symptomatic     symptomatic  9.833499e-01  9.833499e-01  9.833945e-01  0.492647
+55       A   week     symptomatic            dead  6.466020e-03  6.466019e-03  6.441000e-03 -0.441453
+56       B  month       infection       infection  9.032489e-01  9.032490e-01  9.035350e-01  1.368730
+57       B  month       infection         cleared  4.251652e-02  4.251648e-02  4.240600e-02 -0.774649
+58       B  month       infection       recovered  2.396886e-04  2.396644e-04  2.265000e-04 -1.204876
+59       B  month       infection  non_infectious  3.344239e-02  3.344288e-02  3.333000e-02 -0.884060
+60       B  month       infection    asymptomatic  1.991837e-02  1.991761e-02  1.987250e-02 -0.464332
+61       B  month       infection     symptomatic  6.294097e-04  6.296903e-04  6.300000e-04  0.033287
+62       B  month       infection            dead  4.729370e-06  4.705204e-06  0.000000e+00 -3.075514
+63       B  month  non_infectious       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+64       B  month  non_infectious         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+65       B  month  non_infectious       recovered  1.398692e-02  1.398690e-02  1.399900e-02  0.145429
+66       B  month  non_infectious  non_infectious  9.674790e-01  9.674794e-01  9.674465e-01 -0.259350
+67       B  month  non_infectious    asymptomatic  1.796571e-02  1.796517e-02  1.795050e-02 -0.161992
+68       B  month  non_infectious     symptomatic  5.641072e-04  5.643094e-04  6.040000e-04  2.376025
+69       B  month  non_infectious            dead  4.225263e-06  4.207260e-06  5.551115e-17 -2.906985
+70       B  month    asymptomatic       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+71       B  month    asymptomatic         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+72       B  month    asymptomatic       recovered  9.521424e-04  9.523705e-04  9.395000e-04 -0.579696
+73       B  month    asymptomatic  non_infectious  1.287111e-01  1.287073e-01  1.283790e-01 -1.402599
+74       B  month    asymptomatic    asymptomatic  8.158640e-01  8.158696e-01  8.163520e-01  1.780501
+75       B  month    asymptomatic     symptomatic  5.385496e-02  5.385288e-02  5.370850e-02 -0.917598
+76       B  month    asymptomatic            dead  6.177483e-04  6.179364e-04  6.210000e-04  0.185080
+77       B  month     symptomatic       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+78       B  month     symptomatic         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+79       B  month     symptomatic       recovered  1.753984e-05  1.746511e-05  0.000000e+00 -5.922862
+80       B  month     symptomatic  non_infectious  3.603800e-03  3.605091e-03  3.610500e-03  0.158130
+81       B  month     symptomatic    asymptomatic  4.802342e-02  4.802157e-02  4.802250e-02 -0.006108
+82       B  month     symptomatic     symptomatic  9.272787e-01  9.272795e-01  9.272835e-01  0.025878
+83       B  month     symptomatic            dead  2.107649e-02  2.107642e-02  2.108350e-02  0.069030
+84       B   week       infection       infection  9.768540e-01  9.768540e-01  9.768455e-01 -0.079887
+85       B   week       infection         cleared  1.017133e-02  1.017133e-02  1.016300e-02 -0.117423
+86       B   week       infection       recovered  1.283907e-05  1.283906e-05  1.500000e-05  0.852886
+87       B   week       infection  non_infectious  7.832689e-03  7.832689e-03  7.886000e-03  0.855238
+88       B   week       infection    asymptomatic  5.092604e-03  5.092604e-03  5.054500e-03 -0.757055
+89       B   week       infection     symptomatic  3.648112e-05  3.648131e-05  3.600000e-05 -0.112653
+90       B   week       infection            dead  6.167313e-08  6.165702e-08  0.000000e+00 -0.351207
+91       B   week  non_infectious       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+92       B   week  non_infectious         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+93       B   week  non_infectious       recovered  3.260290e-03  3.260290e-03  3.251000e-03 -0.230474
+94       B   week  non_infectious  non_infectious  9.921801e-01  9.921801e-01  9.921575e-01 -0.362905
+95       B   week  non_infectious    asymptomatic  4.527167e-03  4.527167e-03  4.558500e-03  0.660059
+96       B   week  non_infectious     symptomatic  3.238420e-05  3.238434e-05  3.300000e-05  0.153035
+97       B   week  non_infectious            dead  5.470795e-08  5.469597e-08 -1.110223e-16 -0.330781
+98       B   week    asymptomatic       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+99       B   week    asymptomatic         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+100      B   week    asymptomatic       recovered  5.357174e-05  5.357189e-05  6.500000e-05  2.208202
+101      B   week    asymptomatic  non_infectious  3.243382e-02  3.243382e-02  3.259700e-02  1.302658
+102      B   week    asymptomatic    asymptomatic  9.536748e-01  9.536749e-01  9.535865e-01 -0.594445
+103      B   week    asymptomatic     symptomatic  1.380261e-02  1.380261e-02  1.371650e-02 -1.043777
+104      B   week    asymptomatic            dead  3.514365e-05  3.514378e-05  3.500000e-05 -0.034270
+105      B   week     symptomatic       infection  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+106      B   week     symptomatic         cleared  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
+107      B   week     symptomatic       recovered  2.271027e-07  2.270530e-07  0.000000e+00 -0.673948
+108      B   week     symptomatic  non_infectious  2.068865e-04  2.068874e-04  1.950000e-04 -1.168824
+109      B   week     symptomatic    asymptomatic  1.230803e-02  1.230803e-02  1.229700e-02 -0.141500
+110      B   week     symptomatic     symptomatic  9.824919e-01  9.824919e-01  9.825690e-01  0.831174
+111      B   week     symptomatic            dead  4.992938e-03  4.992938e-03  4.939000e-03 -1.082227
+run_onestep.py: 9 s
+Bk month reaches 250/100k: ODE 1903.45, agents 1903.63 ± 0.09 (lag +0.18 y)
+Bk month reaches 400/100k: ODE 1904.94, agents 1905.03 ± 0.12 (lag +0.09 y)
+Bk week  reaches 250/100k: ODE 1903.45, agents 1903.68 ± 0.15 (lag +0.24 y)
+Bk week  reaches 400/100k: ODE 1904.94, agents 1905.22 ± 0.13 (lag +0.27 y)
+run_growth.py: 76 s
+{'arm': 'A0', 'dt': 'day', 'solver': 'abm', 'steps': 1825, 'seconds': 2.462287187576294, 'ms_per_step': 1.3491984589459145}
+{'arm': 'A0', 'dt': 'day', 'solver': 'ode', 'steps': 36500, 'seconds': 0.14602398872375488, 'ms_per_step': 0.004000657225308353}
+{'arm': 'A0', 'dt': 'week', 'solver': 'abm', 'steps': 1042, 'seconds': 1.8082208633422852, 'ms_per_step': 1.7353367210578552}
+{'arm': 'A0', 'dt': 'week', 'solver': 'ode', 'steps': 5214, 'seconds': 0.02947998046875, 'ms_per_step': 0.005654004692894131}
+{'arm': 'A0', 'dt': 'month', 'solver': 'abm', 'steps': 600, 'seconds': 1.258533239364624, 'ms_per_step': 2.09755539894104}
+{'arm': 'A0', 'dt': 'month', 'solver': 'ode', 'steps': 1200, 'seconds': 0.014518022537231445, 'ms_per_step': 0.012098352114359537}
+{'arm': 'Bk', 'dt': 'day', 'solver': 'abm', 'steps': 1825, 'seconds': 2.7264561653137207, 'ms_per_step': 1.4939485837335456}
+{'arm': 'Bk', 'dt': 'day', 'solver': 'ode', 'steps': 36500, 'seconds': 0.19323325157165527, 'ms_per_step': 0.005294061686894665}
+{'arm': 'Bk', 'dt': 'week', 'solver': 'abm', 'steps': 1042, 'seconds': 1.998450756072998, 'ms_per_step': 1.91789899815067}
+{'arm': 'Bk', 'dt': 'week', 'solver': 'ode', 'steps': 5214, 'seconds': 0.05426192283630371, 'ms_per_step': 0.01040696640512154}
+{'arm': 'Bk', 'dt': 'month', 'solver': 'abm', 'steps': 600, 'seconds': 1.4219000339508057, 'ms_per_step': 2.3698333899180093}
+{'arm': 'Bk', 'dt': 'month', 'solver': 'ode', 'steps': 1200, 'seconds': 0.04485607147216797, 'ms_per_step': 0.037380059560139976}
+   arm     dt solver  steps   seconds  ms_per_step
+0   A0    day    abm   1825  2.462287     1.349198
+1   A0    day    ode  36500  0.146024     0.004001
+2   A0   week    abm   1042  1.808221     1.735337
+3   A0   week    ode   5214  0.029480     0.005654
+4   A0  month    abm    600  1.258533     2.097555
+5   A0  month    ode   1200  0.014518     0.012098
+6   Bk    day    abm   1825  2.726456     1.493949
+7   Bk    day    ode  36500  0.193233     0.005294
+8   Bk   week    abm   1042  1.998451     1.917899
+9   Bk   week    ode   5214  0.054262     0.010407
+10  Bk  month    abm    600  1.421900     2.369833
+11  Bk  month    ode   1200  0.044856     0.037380
+run_timing.py: 52 s
+Experiment 13: 1830 s

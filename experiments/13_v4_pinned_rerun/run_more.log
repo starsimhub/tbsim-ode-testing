@@ -1,0 +1,16 @@
+A0_month             200 reps (160 new) in 119 s; prevalence 1950–2000, agents ÷ ODE: 1.001 ± 0.009
+B0_week              200 reps (160 new) in 463 s; prevalence 1950–2000, agents ÷ ODE: 0.989 ± 0.006
+Bk_week              200 reps (160 new) in 490 s; prevalence 1950–2000, agents ÷ ODE: 0.993 ± 0.004
+                 arm     output  reps     mean       se      p10      p90
+              A0_day prevalence    40 0.991693 0.023772 0.829041 1.230856
+             A0_week prevalence    40 1.008560 0.016588 0.862573 1.112568
+            A0_month prevalence   200 1.000441 0.009034 0.841958 1.182589
+        A0_month_net prevalence    40 0.737274 0.016991 0.612245 0.851108
+A0_month_net_matched prevalence    40 1.032797 0.023399 0.795781 1.203465
+             B0_week prevalence   200 0.988976 0.006226 0.881132 1.097852
+            B0_month prevalence    40 0.993113 0.015761 0.878902 1.102332
+            Ak_month prevalence    40 0.999849 0.017116 0.853711 1.110071
+             Bk_week prevalence   200 0.992969 0.004107 0.922009 1.062598
+            Bk_month prevalence    40 1.002896 0.008451 0.936395 1.062147
+        Bremote_week prevalence    40 1.007264 0.010939 0.957576 1.080546
+       Bremote_month prevalence    40 1.008041 0.009747 0.929985 1.083798

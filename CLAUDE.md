@@ -28,7 +28,9 @@ Facts from exp 12:
 - **Where it is:** the scripts at the top of `v4/` (`common.py`, `run_*.py`) and the write-up `v4/v4_findings.qmd`.
 - **What it found:** it reran the key findings of exps 01–11. v4 agents match the ODE without `TBExact`, and progression works both with Poisson-mixture classes declared in v4 (`TBClasses`) and with `k_latent`. It didn't cover latent reinfection.
 - **Caveats:** abbreviated reps, and unpinned versions with uncommitted changes.
-- **Using it:** its code runs in the pinned `v4/.venv`. Build on it rather than redoing it. Whether to confirm it with a pinned rerun (exp 13) is the user's decision (README Plan).
+- **Using it:** its code runs in the pinned `v4/.venv`. Build on it rather than redoing it.
+- **Exp 13 reproduced it exactly at the pinned versions,** with 40–200 reps and a daily step. `TB_V4_FOLDER` redirects its `results/` to an experiment folder, inherited by worker processes.
+- **Seeds:** v4's draws are keyed by seed, so reps with the same seed and unchanged code repeat a run. Extra reps need new seeds.
 
 Where v4's model differs from the v0.10 ABM (front-loading via `k_latent`, latent reinfection, treatment as a rate, network `beta`), see README "Versions and tracks". The user wants to propose upstream changes for these. For latent progression and reinfection, neither v4's two states nor the Poisson mixture is chosen yet, so don't push either.
 

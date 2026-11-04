@@ -1,0 +1,100 @@
+{
+  "A0": {
+    "parset": "A",
+    "model": "tb",
+    "kwargs": {},
+    "beta": 9.926483681966248,
+    "equilibrium": {
+      "susceptible": 0.2546294193600171,
+      "infection": 0.01828933020115388,
+      "cleared": 0.5848620962691552,
+      "recovered": 0.12121659894025345,
+      "non_infectious": 0.016002555229667335,
+      "asymptomatic": 0.0025201288243522353,
+      "symptomatic": 0.002479871175400923,
+      "treatment": 0.0,
+      "treated": 0.0
+    }
+  },
+  "B0": {
+    "parset": "B",
+    "model": "tb",
+    "kwargs": {},
+    "beta": 1.9515522081874026,
+    "equilibrium": {
+      "susceptible": 0.6266959544317354,
+      "infection": 0.005425308417254613,
+      "cleared": 0.17574530498876306,
+      "recovered": 0.17057762291987377,
+      "non_infectious": 0.016555808980738714,
+      "asymptomatic": 0.0027916940690229206,
+      "symptomatic": 0.0022083061926114612,
+      "treatment": 0.0,
+      "treated": 0.0
+    }
+  },
+  "Ak": {
+    "parset": "A",
+    "model": "classes",
+    "kwargs": {},
+    "beta": 36.89768546061832,
+    "equilibrium": {
+      "infection_0": 0.07256193200131526,
+      "infection_1": 0.0006736547041296344,
+      "infection_2": 7.229891790947856e-06,
+      "infection_3": 6.344019616254856e-08,
+      "infection_4": 4.5895351886079747e-10,
+      "infection_5": 2.806053041175527e-12,
+      "infection_6": 1.4898682939588762e-14,
+      "susceptible": 0.08310899643226644,
+      "cleared": 0.7644701810326242,
+      "recovered": 0.05817538680548641,
+      "non_infectious": 0.016002555230426253,
+      "asymptomatic": 0.002520128824471741,
+      "symptomatic": 0.0024798711755185427
+    }
+  },
+  "Bk": {
+    "parset": "B",
+    "model": "classes",
+    "kwargs": {},
+    "beta": 24.79881027584826,
+    "equilibrium": {
+      "infection_0": 0.05922502049493274,
+      "infection_1": 0.0005972308589068779,
+      "infection_2": 1.8269464014986347e-05,
+      "infection_3": 4.826194619397355e-07,
+      "infection_4": 1.0677103945173895e-08,
+      "infection_5": 2.009580173931699e-10,
+      "infection_6": 3.2782489682566204e-12,
+      "infection_7": 4.7805562727497004e-14,
+      "susceptible": 0.1107898191504109,
+      "cleared": 0.7424781242911433,
+      "recovered": 0.06533523412527104,
+      "non_infectious": 0.016555808114459412,
+      "asymptomatic": 0.0027916939229486394,
+      "symptomatic": 0.00220830607706213
+    }
+  },
+  "Bremote": {
+    "parset": "B",
+    "model": "tb",
+    "kwargs": {
+      "k_latent": 5.845726750296858,
+      "inf_non_remote": 0.0
+    },
+    "beta": 25.115244516557507,
+    "equilibrium": {
+      "susceptible": 0.10954088530759354,
+      "infection": 0.00542530813337476,
+      "cleared": 0.7436722148907101,
+      "recovered": 0.0647816672023657,
+      "non_infectious": 0.016555808114430144,
+      "asymptomatic": 0.002791693922943708,
+      "symptomatic": 0.0022083060770582237,
+      "treatment": 0.0,
+      "treated": 0.0,
+      "infection_remote": 0.05502411635152387
+    }
+  }
+}

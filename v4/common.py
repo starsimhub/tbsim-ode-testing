@@ -7,6 +7,7 @@ Under Starsim v4, `tbsim.TB` is one declared model that runs as an ODE (`solver=
 progression that declines with time since infection, represented exactly by Poisson-mixture latent classes
 (as `tbode.TBODE` and `tbode.TBExact` did under Starsim 3).
 """
+import os
 import json
 import numpy as np
 import sciris as sc
@@ -18,7 +19,7 @@ from scipy.stats import poisson
 __all__ = ['folder', 'ncpus', 'parsets', 'k_tsi', 'TBClasses', 'latent_classes', 'make_tb', 'make_sim', 'equilibrium', 'calibrate',
            'get_calib', 'outputs', 'progression', 'versions']
 
-folder = sc.thispath(__file__)
+folder = sc.path(os.environ['TB_V4_FOLDER']) if os.environ.get('TB_V4_FOLDER') else sc.thispath(__file__) # Where results/ goes: this folder, unless TB_V4_FOLDER is set (exp 13 reruns these scripts into its own folder)
 ncpus = 4 # Runs are on Cliff's laptop: at most 4 cores
 k_tsi = 5.845726750296858 # tb_LAI_TPT's best-fit k_asy = k_non (per year)
 
@@ -255,7 +256,11 @@ def progression(parset='B', model='classes', years=10, **kwargs):
 
 
 def versions():
-    """ The commits of tbsim and starsim (ssv4) used """
+    """ The commits of tbsim and starsim (ssv4) used; elsewhere than Cliff's laptop, the pinned installs' commits (tbode4.versions) """
+    if not os.path.isdir('/home/cliffk/idm/tbsim'):
+        import tbode4
+        v = tbode4.versions('v4')
+        return {name: f"{v[name]['version']} @ {v[name].get('commit', 'unknown commit')}" for name in ['tbsim', 'starsim']}
     out = {}
     for name, path in [('tbsim', '/home/cliffk/idm/tbsim'), ('starsim', '/home/cliffk/idm/ssv4')]:
         info = sc.gitinfo(path)

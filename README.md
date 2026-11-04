@@ -26,23 +26,24 @@ How the tracks are kept separate:
 - **Where it is:** the scripts are at the top of `v4/` (`common.py`, `run_*.py`, `analyze.py`), the write-up is [`v4/v4_findings.qmd`](v4/v4_findings.qmd), and the tables are in [`v4/results/summary.md`](v4/results/summary.md).
 - **Versions:** it ran on tbsim `v4` @ `7b2e644` and starsim `v4-oct27` @ `fe6c6f9`, both with uncommitted changes. So its exact versions can't be reconstructed.
 - **Reps:** cut for time, to 12–40 per arm, with no daily step.
-- **Rerunning it:** its code runs unchanged in our pinned v4 environment (checked 2026-11-03).
+- **Rerunning it:** **exp 13 reran it at our pinned versions and reproduced it exactly.** Every rep with one of Cliff's seeds gives his result. Exp 13 also added reps (40 per arm, 200 where close) and a daily step, so the v4 numbers below are exp 13's.
 
 **What v4 changes.** `tbsim.TB` is declared as states and transitions, so one model runs as an ODE (`solver='ode'`) or as agents (`solver='abm'`). Its ODE is our v0.10 ODE, `tbode.TBODE`, to 1e-5 or better (exp 12). So "v4 agents ÷ v4 ODE" can be set directly beside v0.10's "`tbsim.TB` ÷ `TBODE`" and "`TBExact` ÷ `TBODE`".
 
-The agent solver draws each state's exits jointly from the competing rates, so the order transitions are declared in doesn't matter. Cliff's redo found that this removes v0.10's gaps without anything like `TBExact`:
-- **Steady state.** Agents started at the ODE equilibrium stay there. Prevalence is 1.04 ± 0.02 / 0.98 ± 0.02 of the ODE at monthly / weekly `dt` in set A, and 1.00 ± 0.01 / 0.98 ± 0.02 in set B, against 0.67 / 0.84 for v0.10's `tbsim.TB`.
+The agent solver draws each state's exits jointly from the competing rates, so the order transitions are declared in doesn't matter. Cliff's redo found, and exp 13 confirmed, that this removes v0.10's gaps without anything like `TBExact`:
+- **Steady state.** Agents started at the ODE equilibrium stay there. Set A prevalence is 0.99 ± 0.02 / 1.01 ± 0.02 / 1.000 ± 0.009 of the ODE at daily / weekly / monthly `dt`, against 0.95 / 0.84 / 0.67 for v0.10's `tbsim.TB`. Set B is 0.989 ± 0.006 / 0.99 ± 0.02 (weekly / monthly).
 - **One step.** One step from each state matches `expm(Q·dt)` to within 0.0005.
-- **Incidence.** Incidence counted from transitions is 0.996–1.006 per prevalent case.
+- **Incidence.** Incidence counted from transitions is within 0.3% of the ODE per prevalent case.
 
 What remains:
-- **Latent infection reads high in end-of-step snapshots** at monthly `dt` (+13% in set A, +3% in set B), because infections are dated at the end of their step.
+- **Latent infection reads high in end-of-step snapshots** at monthly `dt` (+9% in set A, +3–4% in set B; gone at daily), because infections are dated at the end of their step.
 - **Growth from a seed lags the ODE** by 0.1–0.3 years.
 
 **Where v4's model differs from the v0.10 ABM.** We intend to propose changes upstream for each of these:
 1. **Front-loaded progression.** v0.10's `k_asy`/`k_non` (progression rates declining as e^(−kτ) with time since infection τ) are replaced by `k_latent`: two latent states, recent and remote, with constant rates.
    - This isn't consistent with the earlier work. We'll propose an alternative, but which one is still open (see Plan).
    - **Both options are exact under both solvers in v4.** Cliff's redo declares the Poisson-mixture classes directly in v4 (`TBClasses` in `v4/common.py`), and agents match the ODE with them. `k_latent` with no progression from the remote state also matches across solvers. With `k_latent` = 5.846 it lands close to the classes on the progression targets: ProgressionY1 0.049 vs 0.051, ProgressionRatio 0.676 vs 0.674, against targets of 0.0523 / 0.663. So the choice is about the model's shape and reinfection, not about matching the ODE.
+   - **With `k_latent` refitted to 5.533,** the two-state model is within about 1% of the exact e^(−kτ) model's cohort progression at every time from 3 months to 50 years. Its reinfection rule (remote → recent) adds the same progression as a clock reset, to 0.0001 ([options note](proposals/02_latent_progression/options.md)).
    - **Pitfall:** `inf_non_remote=None` means "the same as `inf_non`". So by default only progression to asymptomatic TB is front-loaded.
 2. **Latent reinfection** only moves remote infections back to recent. Reinfecting a recent latent does nothing, where v0.10 reset its clock, and reinfection of NON_INFECTIOUS is gone.
 3. **Treatment.**
@@ -64,20 +65,20 @@ This is nearly the whole ABM↔ODE gap at baseline. The rest is transmission: ea
 
 `tbode.TBExact` is a version of `tbsim.TB` that samples each agent's end-of-step state from the exact one-step probabilities `expm(Q·dt)`. It removes the step-ordering gap (exps 03–05) at no extra run time (exp 06). From exp 07 on, `TBExact` also dates each new infection within its step. That corrects end-of-step snapshots but makes the generation interval half a step too long.
 
-v4's agent solver has neither ordering problem: it draws each state's exits jointly (Cliff's redo; see above). It keeps the `1 − e^(−x)` transmission step, and it dates infections at the end of the step.
+v4's agent solver has neither ordering problem: it draws each state's exits jointly (Cliff's redo, exp 13; see above). It keeps the `1 − e^(−x)` transmission step, and it dates infections at the end of the step.
 
 ### Features
 
-Each row is an ABM feature of the tb_LAI_TPT setup, added one at a time on top of the rows above it. Status is given for each ABM: v0.10's `tbsim.TB` and our `TBExact` (against `TBODE`), and v4's agents (against v4's ODE). The v4 statuses come from Cliff's redo (abbreviated, at unpinned versions; see Plan) and exp 12.
+Each row is an ABM feature of the tb_LAI_TPT setup, added one at a time on top of the rows above it. Status is given for each ABM: v0.10's `tbsim.TB` and our `TBExact` (against `TBODE`), and v4's agents (against v4's ODE). The v4 statuses come from exp 12 and exp 13. Exp 13 reproduces Cliff's redo at pinned versions, with more reps.
 
 Status: ⬜ not started · 🟡 in progress · ✅ matched · ⚠️ approximate only · ❌ not achievable
 
 | Feature (ABM) | Priority | ODE approach | v0.10 status | v4 status | Notes |
 |---|---|---|---|---|---|
-| Baseline: natural history, single strain, constant birth and death rates, no treatment, `ss.RandomNet(dur=0)` | — | `TBODE` (generalised `TB_ODE`); in v4, `tbsim.TB(solver='ode')`, which equals it. `beta` tuned to 500/100k. The random network, which gives fresh contacts each step, becomes mass action, with the per-contact ABM `beta` set by `beta_edge = -ln(1 - beta·dt/K)/dt`, where K = `n_contacts` is the mean number of contacts | ✅ `TBExact` · ⚠️ `tbsim.TB` | ✅ (Cliff's redo) | v0.10, ABM ÷ ODE prevalence at daily / weekly / monthly `dt`: `TBExact` 1.00 / 1.00 / 0.97 ± 0.02 (40 reps); `tbsim.TB` 0.95 / 0.84 / 0.67 (step ordering, above). Per-step transmission is `1 − e^(−x)` in both, about 1% of prevalence at monthly `dt` near threshold (exp 10). v4, agents ÷ ODE prevalence at weekly / monthly `dt`, mean ± SE (Cliff, 12–40 reps): set A 0.98 ± 0.02 / 1.04 ± 0.02; set B 0.98 ± 0.02 / 1.00 ± 0.01; set A on the network with the matched `beta_edge` 1.04 ± 0.04 (monthly), with `beta/K` 0.78 ± 0.02. Exp 12: the ODE equals `TBODE`, and with the matched `beta_edge` infections per step are 0.997 ± 0.003 of the ODE's |
+| Baseline: natural history, single strain, constant birth and death rates, no treatment, `ss.RandomNet(dur=0)` | — | `TBODE` (generalised `TB_ODE`); in v4, `tbsim.TB(solver='ode')`, which equals it. `beta` tuned to 500/100k. The random network, which gives fresh contacts each step, becomes mass action, with the per-contact ABM `beta` set by `beta_edge = -ln(1 - beta·dt/K)/dt`, where K = `n_contacts` is the mean number of contacts | ✅ `TBExact` · ⚠️ `tbsim.TB` | ✅ (exps 12–13) | v0.10, ABM ÷ ODE prevalence at daily / weekly / monthly `dt`: `TBExact` 1.00 / 1.00 / 0.97 ± 0.02 (40 reps); `tbsim.TB` 0.95 / 0.84 / 0.67 (step ordering, above). Per-step transmission is `1 − e^(−x)` in both, about 1% of prevalence at monthly `dt` near threshold (exp 10). v4, agents ÷ ODE prevalence, mean ± SE (exp 13; 40 reps, 200 where marked): set A 0.99 ± 0.02 / 1.01 ± 0.02 / 1.000 ± 0.009 (200) at daily / weekly / monthly `dt`; set B 0.989 ± 0.006 (200) / 0.99 ± 0.02 at weekly / monthly. On the network at monthly `dt`, set A: matched `beta_edge` 1.03 ± 0.02, `beta/K` 0.74 ± 0.02. Exp 12: the ODE equals `TBODE`, and with the matched `beta_edge` infections per step are 0.997 ± 0.003 of the ODE's |
 | Age-specific fertility/mortality (WPP) | | Age-structured ODE | ⬜ | ⬜ | v4 has age stratification with aging (`sim.stratify`) and country demography (`ss.people`) for both solvers |
 | No transmission from children under 10 | | Age-structured FOI | ⬜ | ⬜ | Requires age structure; in v4, `ss.modify(..., where=age < 10)` |
-| Progression by time since infection (`k_asy`, `k_non`) | **High** | v0.10: Poisson-mixture latent classes (exact: class m with probability Poisson(m; r₀/k), progressing at rate m·k; 7–8 classes). v4: to be decided (see Plan) | ✅ `TBExact` · ❌ `tbsim.TB` | ✅ classes · ✅ `k_latent` (Cliff's redo); which structure to use is open | v0.10, `TBExact` ÷ ODE prevalence, set B (tb_LAI_TPT natural history): 1.00 / 1.01 ± 0.01 at weekly / monthly `dt` (40 reps). `tbsim.TB` ÷ ODE: 1.18 / **1.83**, because it applies the start-of-step hazard for the whole step, overstating early progression by 10–19%. Set A (tbsim defaults, near threshold): `TBExact` 0.99 / 0.94 ± 0.02, `tbsim.TB` 1.30 / 2.64 (exp 08). v4, agents ÷ ODE prevalence at weekly / monthly `dt` (Cliff, 12–20 reps): set B with the classes 0.98 ± 0.02 / 1.01 ± 0.01; with `k_latent` 1.02 ± 0.02 / 0.995 ± 0.013; set A with the classes 0.98 ± 0.02 (monthly). v4's own `k_latent` isn't the same model as v0.10's `k` |
+| Progression by time since infection (`k_asy`, `k_non`) | **High** | v0.10: Poisson-mixture latent classes (exact: class m with probability Poisson(m; r₀/k), progressing at rate m·k; 7–8 classes). v4: to be decided (see Plan) | ✅ `TBExact` · ❌ `tbsim.TB` | ✅ classes · ✅ `k_latent` (exp 13); which structure to use is open | v0.10, `TBExact` ÷ ODE prevalence, set B (tb_LAI_TPT natural history): 1.00 / 1.01 ± 0.01 at weekly / monthly `dt` (40 reps). `tbsim.TB` ÷ ODE: 1.18 / **1.83**, because it applies the start-of-step hazard for the whole step, overstating early progression by 10–19%. Set A (tbsim defaults, near threshold): `TBExact` 0.99 / 0.94 ± 0.02, `tbsim.TB` 1.30 / 2.64 (exp 08). v4, agents ÷ ODE prevalence at weekly / monthly `dt` (exp 13; 40 reps, 200 where marked): set B with the classes 0.993 ± 0.004 (200) / 1.003 ± 0.008; with `k_latent` 1.01 ± 0.01 / 1.01 ± 0.01; set A with the classes 1.00 ± 0.02 (monthly). v4's own `k_latent` isn't the same model as v0.10's `k`; refitted, it is within ~1% of it ([options note](proposals/02_latent_progression/options.md)) |
 | Reinfection of latent people (clock reset) | **High** | Reinfected latents are reassigned across the classes with the Poisson weights (exact) | ⬜ | ⬜ | Only matters with time-since-infection progression. v4's reinfection differs (see above). Not in Cliff's redo |
 | Treatment (coverage, adherence, efficacy, failure, relapse) | | Treatment and relapse-pending compartments | ⬜ | ⬜ | v0.10 ABM uses fixed delays (6-month treatment, 1.5-year relapse); v4 uses a completion rate (see above) |
 | Time-varying `sym_dead`, efficacy, coverage | | Time-varying parameters | ⬜ | ⬜ | v4: `ss.timeseries` with `ss.modify`, for both solvers |
@@ -103,30 +104,38 @@ Status: ⬜ not started · 🟡 in progress · ✅ matched · ⚠️ approximate
 - the network `beta` (exp 10);
 - run time (exp 06).
 
-This covers the exps 13–16 proposed after exp 12, so they won't be designed from scratch.
+**Done: exp 13 (complete), Cliff's redo at pinned versions.** We reran Cliff's scripts unchanged in `v4/.venv`, with 40 reps per arm, 200 where the first 40 were about 2 SE out, and a daily step for set A (user decision, 2026-11-03).
+- **Reproduced:** every rep with one of Cliff's seeds gives his result.
+- **Baseline and progression** (classes and `k_latent`) match the ODE to within 1% at daily, weekly and monthly `dt`.
+- **The +4% at monthly `dt` was chance:** set A is 1.000 ± 0.009 with 200 reps.
+
+**Done: [options note on latent progression and reinfection](proposals/02_latent_progression/options.md)** (a comparison, no recommendation). The candidates:
+- Poisson-mixture classes (exact);
+- v4's two states, as they are and with `k_latent` refitted;
+- a chain of recent stages;
+- a non-exponential dwell time.
+
+These are compared on shape, reinfection, exactness under both solvers, and size. Main numbers, for set B:
+- `k_latent` refitted to 5.533 (from 5.846) puts the two-state model within ~1% of the exact e^(−kτ) model's cohort progression at every time.
+- Its reinfection rule adds the same progression as a clock reset, to 0.0001, even at 5× set B's force of infection.
 
 **Next:**
-1. **Decision needed: how to treat Cliff's results.** Recommended: use them as the current evidence now, and confirm them with one rerun at our pinned versions (exp 13), running his scripts unchanged in `v4/.venv`.
-   - **Why rerun:**
-     - Reproducibility: his runs used tbsim and starsim with uncommitted changes, so the numbers can't be traced to a commit, while the consistency table should cite pinned runs.
-     - Resolution: with 12–40 reps the SEs are 1–3.5%. Set A at monthly `dt` (1.04 ± 0.02) can't rule out an effective-`beta` bias of ~0.5%, which near threshold is ~4% of prevalence.
-     - Cost: his code runs as is in the pinned environment; about an hour of compute.
-   - **What changes:** 40 reps for every arm, and the daily step he dropped (set A).
-   - **What doesn't:** the design and the other scripts (one step, growth, timing) are kept as they are.
-   - **The alternative:** accept his results as they stand, and record his versions as the source.
-2. **Exp 14: latent reinfection** (not in Cliff's redo). For `k_latent`, test v4's remote → recent; for the classes, reinfected latents go back through the class weights. Both should be exact under both solvers by construction. The modelling question is which reinfection rule to adopt, so this waits for the decision on the latent structure.
-3. **Alongside, without runs:**
-   - **An options note on latent progression and reinfection.** Criteria:
-     - whether it must reproduce e^(−kτ) or only the progression targets (ProgressionY1 / ProgressionRatio) and household-contact data;
-     - what reinfection should do;
-     - exactness under both solvers;
-     - size and identifiability.
+1. **Decision (user): the latent structure and reinfection rule to propose for v4.** The note ends with the questions this leaves open:
+   - whether ~1% from e^(−kτ) is consistent enough;
+   - whether that holds across tb_LAI_TPT's posterior, not just its best fit;
+   - late reactivation;
+   - reinfection of recent infections;
+   - size once the model is stratified.
+2. **Exp 14: latent reinfection, agents vs ODE,** for the structure chosen, with `rr_reinfection_inf` = π. Both candidate rules should be exact under both solvers by construction. This waits for decision 1.
+3. **Upstream proposals** (`proposals/`, numbered):
+   - **01, per-contact `beta` on networks:** a single [proposal](proposals/01_network_beta/proposal.md), which the user is taking to Cliff directly. It covers Starsim's ODE approximation of a network, and tbsim's docs and `ode_compare.py`. Rerunning tbsim's `ode_compare.py` setting at monthly `dt` showed its network shortfall is the per-contact step effect (0.59 ± 0.05 of the ODE with `beta/K`, 0.99 ± 0.06 matched).
+   - **02, latent progression and reinfection:** the options note so far; it becomes a proposal after decision 1.
+   - **03, treatment:** a fixed course with outcome probabilities, and failure back to the previous state. To do.
+4. **Timing effects to keep in mind** (exp 13).
+   - **Latent snapshots:** end-of-step snapshots of latent infection read high at monthly `dt` (+9% in set A, +3–4% in B; about half that at weekly, gone at daily), while the mean over a step is right.
+   - **Growth lag:** growth from a seed lags the ODE by 0.1–0.3 years.
 
-     Candidates: Poisson-mixture classes, an Erlang or Coxian chain, v4's two states refitted, and a non-exponential dwell time. A comparison only: the user wants to look into it before choosing. Cliff's redo showed the classes and `k_latent` are both exact under both solvers and give similar progression targets, so the note can focus on shape and reinfection.
-   - **Upstream proposals.**
-     - **Per-contact `beta` on networks:** a single [proposal](proposals/01_network_beta/proposal.md), which the user is taking to Cliff directly. It covers Starsim's ODE approximation of a network, and tbsim's docs and `ode_compare.py`. Rerunning tbsim's `ode_compare.py` setting at monthly `dt` showed its network shortfall is the per-contact step effect (0.59 ± 0.05 of the ODE with `beta/K`, 0.99 ± 0.06 matched).
-     - **Treatment:** a fixed course with outcome probabilities, and failure back to the previous state. To do.
-4. **Timing effects to keep in mind** (Cliff's redo). Latent infection in end-of-step snapshots reads high at monthly `dt` (+13% in set A, +3% in B), while the mean over a step is right. Growth from a seed lags the ODE by 0.1–0.3 years. Neither needs action unless a calibration target is a snapshot of latent infection, or the dynamics change fast.
+   Neither needs action unless a calibration target is a snapshot of latent infection, or the dynamics change fast.
 
 **Parameters.** Sets A and B carry over (exp 08's README):
 - **A:** tbsim defaults + `k` = 5.846;
@@ -202,5 +211,6 @@ v4/.venv/bin/python experiments/12_v4_setup/run.py            # from the repo ro
 | 9 | v0.10 | Is the near-threshold `TBExact` shortfall (set A, monthly: 0.94 of the ODE vs 0.995 predicted by a deterministic version of the step) a finite-population effect? | No. It stays about 5% at 25k / 50k / 100k / 200k agents (0.947 / 0.924 / 0.964 / 0.941 ± ~0.01). A constant fits (χ² = 7 on 3 df); 1/N doesn't (χ² = 60). Rep-to-rep SD shrinks with N, but the mean shortfall doesn't. Cause found in exp 10 | [09_population_size](experiments/09_population_size/) |
 | 10 | v0.10 | Is the near-threshold shortfall caused by the ABM's per-step infection probability (`1 − e^(−x)`, with a susceptible pool fixed at the start of the step) rather than the ODE's flow (x)? | Yes. Set A monthly: mass action with `1 − e^(−x)` gives 0.941 ± 0.010, exactly as predicted, and the network gives the same (0.947), so the network adds nothing. With a linear probability: 0.984 ± 0.010 (A) and 1.000 ± 0.006 (B). Exp 05's monthly 0.97 is explained (rerun: 0.980 ± 0.010 vs 0.997 predicted). Still unexplained: `k` = 0 weekly `'within'`, 0.966 ± 0.007 pooled vs 0.995 | [10_transmission_step](experiments/10_transmission_step/) |
 | 11 | v0.10 | Is `TBExact`'s monthly incidence shortfall (about 3% below prevalence) a snapshot artefact, and does counting from transitions fix it? | Yes. Counting each agent's within-step visits to ASYMPTOMATIC/SYMPTOMATIC (augmented chain, own random stream, dynamics bit-identical) gives incidence equal to prevalence ÷ ODE in every arm. Incidence per prevalent case is 1.002–1.003 ± 0.001 of the ODE at monthly `dt` and 1.000 at weekly. The snapshot misses 3.2–3.3% of episodes at monthly `dt` and 0.75% at weekly, whatever the parameters | [11_incidence_counting](experiments/11_incidence_counting/) |
-| — | v4 | Cliff's v4 redo (2026-10-27): do the key findings of exps 01–11 still hold under v4? | The gap is gone without `TBExact`. Agents ÷ ODE prevalence at weekly / monthly `dt`: set A 0.98 / 1.04 ± 0.02, set B 0.98 / 1.00 (± 0.01–0.02). One step matches `expm(Q·dt)` to within 0.0005. Progression with Poisson-mixture classes (`TBClasses`) or `k_latent` matches across solvers (set B 0.98–1.02). Incidence per prevalent case is 0.996–1.006. What remains: latent snapshots read high at monthly `dt` (+3 to +13%), and growth lags by 0.1–0.3 years. On the network, `beta/K` gives 0.78 and the matched rate 1.04 ± 0.04. Abbreviated runs (12–40 reps, no daily step), at unpinned versions with uncommitted changes | [v4/v4_findings.qmd](v4/v4_findings.qmd) |
+| — | v4 | Cliff's v4 redo (2026-10-27): do the key findings of exps 01–11 still hold under v4? | The gap is gone without `TBExact`. Agents ÷ ODE prevalence at weekly / monthly `dt`: set A 0.98 / 1.04 ± 0.02, set B 0.98 / 1.00 (± 0.01–0.02). One step matches `expm(Q·dt)` to within 0.0005. Progression with Poisson-mixture classes (`TBClasses`) or `k_latent` matches across solvers (set B 0.98–1.02). Incidence per prevalent case is 0.996–1.006. What remains: latent snapshots read high at monthly `dt` (+3 to +13%), and growth lags by 0.1–0.3 years. On the network, `beta/K` gives 0.78 and the matched rate 1.04 ± 0.04. Abbreviated runs (12–40 reps, no daily step), at unpinned versions with uncommitted changes. Reproduced exactly at pinned versions, with more reps, in exp 13 | [v4/v4_findings.qmd](v4/v4_findings.qmd) |
 | 12 | v4 | Does tbsim v4's ODE reproduce ours, and how should v4 agents be matched to it? | The v4 ODE equals `TB_ODE` (2.8e-5) and `TBODE` (≤ 3.2e-5 relative after the first year), and calibrates to the same `beta`, 9.917338. `RandomNet(n_contacts=10)` still has mean degree 10 with fresh edges each step. v4's per-contact `beta_ode/K` gives 0.956 ± 0.003 of the ODE's infections per step at monthly `dt` (per-edge saturation, predicted 0.960); the matched `beta_edge` gives 0.997 ± 0.003. `init=` starts agents at the equilibrium exactly. Agents run at 1.6–4 ms per step at 50k, 2.5–5× faster than v0.10 | [12_v4_setup](experiments/12_v4_setup/) |
+| 13 | v4 | Do Cliff's v4 findings hold at pinned versions, with 40 reps per arm (200 where close) and a daily step? | Yes, and they reproduce exactly: every rep with one of his seeds gives his result. Agents ÷ ODE prevalence: set A 0.99 ± 0.02 / 1.01 ± 0.02 / 1.000 ± 0.009 at daily / weekly / monthly `dt`. Cliff's monthly +4% was chance (his 40 seeds 1.043; seeds 40–199 0.990). Set B 0.989 ± 0.006 / 0.99 ± 0.02 (weekly / monthly). Progression: classes 0.993 ± 0.004 / 1.003 ± 0.008, `k_latent` 1.01 / 1.01 (set B). Latent snapshots +9% (A) and +3–4% (B) at monthly `dt`, gone at daily. Incidence per prevalent case within 0.3%. Network: `beta/K` 0.74, matched 1.03. 1.3–2.4 ms per step at 50k agents | [13_v4_pinned_rerun](experiments/13_v4_pinned_rerun/) |
