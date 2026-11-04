@@ -4,7 +4,7 @@
 
 On 2026-10-27, Cliff reran the key findings of exps 01–11 under tbsim v4 ([`v4/v4_findings.qmd`](../../v4/v4_findings.qmd)). His versions had uncommitted changes, and his runs had 12–40 reps and no daily step. This experiment reran his code unchanged at our pinned versions: 40 reps per arm, a daily step for set A, and 200 reps for the three arms that were about 2 SE from the ODE after 40.
 
-**How to read the tables.** Agents ÷ ODE is each rep's mean over 1950–2000, divided by the ODE's; 1.00 = match. Values are mean ± SE over reps. Agents are 50,000, started at the ODE's equilibrium, with homogeneous mixing unless marked. `beta` is calibrated to 500/100k at each arm's ODE equilibrium, with births replacing every death.
+**How to read the tables.** Agents ÷ ODE is each rep's mean over 1950–2000, divided by the ODE's; 1.00 = match. Values are mean ± SE over reps. Agents are 50,000, started at the ODE's equilibrium. **Every run uses homogeneous mixing (v4's built-in mass action, no network), except the two network arms in finding 5.** So the ODE's `beta` is used as it is, and the results outside finding 5 don't depend on how `beta` is converted for a network. `beta` is calibrated to 500/100k at each arm's ODE equilibrium, with births replacing every death.
 
 The arms:
 - **A0:** tbsim's default rates, near threshold.
@@ -57,7 +57,9 @@ Weekly Bk's first 40 reps were 0.979 ± 0.010; with 200 it is within 1% (z = −
 - **Latent infection reads high in end-of-step snapshots at monthly `dt`:** +9% in A0 (Cliff, 40 reps: +13%) and +3–4% in set B. The excess is roughly halved at weekly `dt` and gone at daily. As Cliff noted, infections are dated at the end of their step, so a snapshot includes that step's new infections in full. It matters only if a target is a snapshot of latent infection.
 - **Incidence counted from transitions** is within 0.3% of the ODE per prevalent case in every arm, so exp 11's snapshot problem doesn't arise in v4.
 
-**5. On a network, `beta/K` per contact gives 0.74 of the ODE's prevalence; the matched `beta_edge` gives 1.03.** A0 monthly, 40 reps: 0.737 ± 0.017 with `beta/K` (Cliff, 20 reps: 0.780) and 1.03 ± 0.02 with the matched value. This is the per-contact step effect of exp 12 (4% of effective `beta`), magnified near threshold.
+**5. On a network, `beta/K` per contact gives 0.74 of the ODE's prevalence; the matched `beta_edge` gives 1.03.** These are the experiment's only network runs: A0 monthly on `ss.RandomNet(n_contacts=10, dur=0)`, 40 reps each. The two arms differ only in the per-contact rate:
+- **`beta/K`:** starsim's suggested conversion. It gives 0.737 ± 0.017 (Cliff, 20 reps: 0.780).
+- **Matched:** −ln(1 − `beta`·`dt`/K)/`dt`, the same formula as `beta_edge_from_ode`. Its per-step probability equals the ODE's `beta`·`dt`/K. It gives 1.03 ± 0.02. This is the per-contact step effect of exp 12 (4% of effective `beta`), magnified near threshold.
 
 **6. One step matches `expm(Q·dt)`, and growth lags by 0.1–0.3 years (both identical to Cliff's).**
 - **One step:** from each state, one million agents × 2 reps. The largest difference from `expm(Q·dt)` is 0.0005; the ODE's is 6e-6.
