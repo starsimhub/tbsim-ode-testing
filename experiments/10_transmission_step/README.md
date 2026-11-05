@@ -7,6 +7,7 @@
 Exps 07–09 compared each arm with a deterministic version of the `TBExact` step (`step_map.py`): the expected update per step, iterated to equilibrium, with no sampling noise. That map assumed each susceptible's infection probability per step is linear, x = `beta`·w·`dt` (w = the `trans_asymp`-weighted infectious fraction). But on the random network, an agent with j infectious contacts is infected with probability `1 − (1 − q)^j`, which averages to `1 − e^(−x)`. Exp 05's flux check confirmed this per-step value.
 
 The two forms differ in what they assume about the susceptible pool:
+
 - **ODE:** at equilibrium, infections over a step are `beta·w·S·dt` exactly, because people who become susceptible during the step, for example by clearing a latent infection, can be infected later in the same step.
 - **ABM:** the susceptible pool is fixed at the start of the step, and each agent can be infected at most once per step. So infections are `S·(1 − e^(−x))`, about a fraction x/2 fewer.
 
@@ -26,6 +27,7 @@ With `1 − e^(−x)` (applied per agent, with each agent's `rel_sus`), the dete
 Set A is tbsim defaults + `k` = 5.846 (near threshold); set B is tb_LAI_TPT's natural history + `k` (the reference set); both are from exp 08. The `k` = 0 arms use tbsim defaults with the baseline `beta`.
 
 This experiment tests the explanation directly:
+
 1. Is the shortfall entirely due to the `1 − e^(−x)` saturation? If so, a mass-action ABM with per-step probability x should match the ODE (and the linear map).
 2. Does the random network add anything? A mass-action ABM with `1 − e^(−x)` should reproduce the network runs if it doesn't.
 3. Are the two remaining deviations real?
@@ -33,6 +35,7 @@ This experiment tests the explanation directly:
 ## Design
 
 **Mass-action `TBExact`** (`tbode.TBExactMassAction`) replaces network transmission. Each step, every susceptible agent j is infected with probability:
+
 - `'exp'`: `1 − exp(−beta·w·rel_sus_j·dt)`;
 - `'linear'`: `min(1, beta·w·rel_sus_j·dt)`.
 
@@ -62,6 +65,7 @@ Here `beta` is the ODE value, w = (`trans_asymp`·ASY + SYM) / N over living age
 **Comparison:** ABM ÷ ODE as mean ± SE across reps; the difference from each map prediction, as a z-score; the number of fade-outs.
 
 **Outputs:**
+
 - per-rep time series (`outputs.obj`) and `summary.csv`;
 - a figure of each arm's mean ± SE against its predictions (`transmission_step.png`);
 - prevalence and incidence trajectories per arm against the ODE (`trajectories.png`, from `plot_trajectories.py`; plotted series in `trajectories.csv`), added afterwards for context.

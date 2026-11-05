@@ -3,14 +3,17 @@
 ## Background
 
 tbsim's INFECTION-exit hazards can decline with time since infection τ: `inf_non·e^(−kτ)` and `inf_asy·e^(−kτ)`. tb_LAI_TPT's best fit has `k` = 5.846/yr, so progression is strongly front-loaded. The ODE represents this exactly with Poisson-mixture latent classes:
+
 - each new infection joins class m with probability Poisson(m; r₀/k), where r₀ = `inf_non` + `inf_asy`;
 - class m progresses at the constant rate m·k.
 
 7–8 classes are needed (see the [README](README.md)). Two ABMs are compared with the ODE:
+
 - **`TBExact`:** samples each agent's end-of-step state from the exact one-step probabilities `expm(Q·dt)`, so it has no step-ordering bias. It uses the same latent classes and dates each new infection within its step (exp 07).
 - **Standard `tbsim.TB`:** applies transitions one state at a time and tracks each agent's actual τ.
 
 There are two parameter sets, each with `beta` calibrated to 500/100k:
+
 - **A:** tbsim defaults + `k`. It's near threshold: prevalence moves 8.6× as much as `beta`.
 - **B:** tb_LAI_TPT's natural history + `k`, the reference set. Prevalence moves 2.5× as much as `beta`.
 

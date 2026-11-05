@@ -40,6 +40,7 @@ Set A is tbsim defaults + `k` = 5.846 (near threshold); set B is tb_LAI_TPT's na
 **Decision (user):** use the transition-based count (`incidence_event_py`) for every ODE↔ABM comparison. It's the ABM's equivalent of the ODE's incidence flow, and it doesn't depend on `dt`. The snapshot count is a measurement that changes with the step length, not a model quantity.
 
 **Deferred:** whether calibration targets should exclude brief subclinical episodes, for example an agent who enters ASYMPTOMATIC and leaves again within a month.
+
 - **The snapshot count isn't a way to exclude them.** It drops an episode only if the episode falls entirely between two step boundaries, so whether a short episode counts depends on its timing and on `dt`, not on its length.
 - **If short episodes should be excluded, define the rule by duration** (e.g. active for at least one month in total per episode) and implement it in both models. The ABM would track time spent active; the ODE would need extra compartments for it, e.g. a chain or phase-type structure.
 - **Whether to exclude them depends on what the target data measure.** Subclinical incidence isn't observed directly. For notifications or prevalence-survey targets, it may be better to model those observations directly (treatment starts; point prevalence) than to adjust incidence.

@@ -41,6 +41,7 @@ The effective-`beta` shortfall is how much lower the ODE `beta` would have to be
 ## Is the whole daily gap due to `dt`?
 
 **Yes: it is step ordering.** The answer comes from [05_exact_transitions](../05_exact_transitions/). `tbode.TBExact` is a version of `tbsim.TB` that removes the step-ordering bias. It draws each agent's end-of-step state from the exact continuous-time transition probabilities over that step (`expm(Q·dt)`), rather than applying transitions one after another. With 40 reps, the same setup gives:
+
 - `TBExact` prevalence: 1.00 ± 0.02 of the ODE at daily `dt`, 1.00 ± 0.02 at weekly and 0.97 ± 0.02 at monthly;
 - against `tbsim.TB`'s 0.95 ± 0.02 at daily `dt`.
 
@@ -51,6 +52,7 @@ The shortfall in `beta` grows less than proportionally with `dt`: 0.52 ± 0.18% 
 ## How the ABM starts at equilibrium
 
 All ABM runs in exps 03–05, both `tbsim.TB` and `TBExact`, start from the same ODE equilibrium; the ABM never searches for its own.
+
 - **The equilibrium** (`TBODE.equilibrium`) comes from integrating the ODE's population proportions for 2,000 years from a 1% SYMPTOMATIC seed, then polishing with a root solve.
 - **It's assigned to agents by `init_from_ode`,** after `sim.init()` and before the run:
   - Each agent's state is drawn at random with the ODE's proportions as probabilities. The ODE's CLEARED, RECOVERED and TREATED compartments map to the ABM's CLEARED state, with the matching reinfection risk (`rr_reinfection`).

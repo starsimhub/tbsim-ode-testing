@@ -12,6 +12,7 @@ The ABM was started at the ODE equilibrium and run for 10 years, with 50k agents
 ## How tbsim steps through the natural history
 
 Within each step, `tbsim.TB` applies transitions one state at a time, in the order INFECTION → NON_INFECTIOUS → ASYMPTOMATIC → SYMPTOMATIC, and each change takes effect immediately. This has two consequences:
+
 - **Moving forward, an agent can continue in the same step.** An agent who moves INFECTION → ASYMPTOMATIC is then processed again as ASYMPTOMATIC, with the full step's probability of moving on, as if it had been ASYMPTOMATIC since the start of the step. In continuous time it would arrive part-way through the step, so on average it would face only about half of that probability.
 - **Moving backward, an agent stops for the step.** An agent who moves ASYMPTOMATIC → NON_INFECTIOUS has already passed the NON_INFECTIOUS stage of the step, so it can't move again until the next step.
 
@@ -22,6 +23,7 @@ The results below show both effects.
 **Transmission is matched at every `dt`.** Realised infections among SUSCEPTIBLE agents divided by the ODE prediction are 1.005, 1.000 and 1.005 at daily, weekly and monthly `dt` (SE ±0.007). So the conversion from ODE `beta` to the ABM's per-contact `beta` (`beta_edge_from_ode`) is correct.
 
 The same check among CLEARED agents gives 0.99, 0.96 and 0.85 (in `transmission.csv`). That apparent shortfall is a counting artefact, not a transmission error:
+
 - An infection is counted when an agent's state changes during the step.
 - Transmission runs before the transitions, so a reinfected CLEARED agent can immediately go INFECTION → CLEARED in the same step. It then ends the step where it started and isn't counted.
 - The shortfall matches the one-step probability of INFECTION → CLEARED: 0.036 at weekly `dt` and 0.15 at monthly.
@@ -50,6 +52,7 @@ At monthly `dt` the deviations are clear. At daily `dt` most of them are within 
 ## Interpretation
 
 The net effect of the step ordering is that **agents spend too little time infectious**:
+
 - Agents who move forward into ASYMPTOMATIC or SYMPTOMATIC lose about half a step there.
 - Agents who move backward out of them can't move again in that step, so they stay in the earlier, non-infectious states longer.
 

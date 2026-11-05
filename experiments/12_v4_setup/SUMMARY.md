@@ -6,7 +6,7 @@ In tbsim v4, `tbsim.TB` is declared as states and transitions, so one model runs
 
 ## Findings
 
-Finding 1 is about the v4 ODE (part A of the design). Findings 2–6 are about v4's agents (part B). They don't test whether agents match the ODE over a long run. Cliff's v4 redo covers that ([`v4/v4_findings.qmd`](../../v4/v4_findings.qmd): agents stay at the ODE's equilibrium), and a pinned rerun is proposed in the README Plan. These findings test the settings such runs need: the network, the per-contact `beta`, the start, and run time.
+Finding 1 is about the v4 ODE (part A of the design). Findings 2–6 are about v4's agents (part B). They don't test whether agents match the ODE over a long run. Cliff's v4 redo covers that ([`v4/v4_findings.qmd`](../../v4/v4_findings.qmd): agents stay at the ODE's equilibrium), and exp 13 reran it at pinned versions. These findings test the settings such runs need: the network, the per-contact `beta`, the start, and run time.
 
 ### A. The ODE
 
@@ -43,6 +43,7 @@ In the first month of A2, small compartments filling up from 0 differ by up to 3
 **5. Agents are 2.5–5× faster than in v0.10.** At 50k agents, a step takes 2.1 / 1.9 / 1.6 ms under homogeneous mixing and 4.0 / 3.7 / 3.3 ms on the network (monthly / weekly / daily `dt`). v0.10 took ~10.5 ms (exp 06). These are single runs on one core, after compiling the kernels. Cliff's redo measured about 5.5 ms per step under homogeneous mixing, at earlier versions and under other conditions not recorded here. Both are faster than v0.10.
 
 **6. v4's `dt` notes and `check_dt()` aren't informative for this model.**
+
 - **The notes are worst-case.** At monthly and weekly `dt`, v4 notes that reinfection after treatment "transmits at up to 31 per year (with everyone infectious)" and suggests a shorter step. That rate assumes everyone is infectious; prevalence here is 0.5%.
 - **`check_dt()` is noise.** It compares one stochastic run with one other, using per-step peaks. Its 20–90% changes in each result are run-to-run noise at this population. Step effects need many reps, as in Cliff's redo.
 

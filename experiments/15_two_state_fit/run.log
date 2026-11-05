@@ -1,0 +1,109 @@
+Largest feasible phi (posterior weight): {'0': 0.45, '0.003': 0.166, '0.01': 0.165, '0.03': 0.114, '0.1': 0.092, '0.3': 0.013, 'none': 0.0}
+phi = 0: weight feasible 1.000 (345 samples); at a prior bound 0.000; misfit to the sample (sigma) median 1.56e-14, q90 8.21e-14, max 7.71e-10
+    all samples, max|z| to target means: two-state median 1.36 [q90 3.08], exact 1.36 [q90 3.08]; weight within 2 sigma: two-state 0.684, exact 0.684
+    all samples, lifetime ratio median 1 [q90 1]; with reinfection (0.12) median 0.99994 [q90 0.99999]
+    feasible samples:
+      k_latent             3.8611 [0.93324, 7.47], max 11.295
+      r0                   0.5196 [0.21789, 0.72105], max 0.91849
+      maxgap               0.0052984 [0.00081346, 0.013707], max 0.018743
+      gap_50y              1.8539e-06 [-8.5826e-07, 4.7448e-06], max 1.3554e-05
+      hazard_exact_1y      0.0074923 [0.00025155, 0.072114], max 0.20288
+      hazard_1y            0.0072934 [0.00022305, 0.073228], max 0.20605
+      hazard_exact_5y      2.8773e-10 [2.2801e-18, 0.00095641], max 0.18597
+      hazard_5y            1.7893e-10 [6.6298e-20, 0.0008138], max 0.18147
+      share_latent_exact   0.020467 [0.0004625, 0.38365], max 0.67199
+      share_latent         0.019476 [0.00040401, 0.38262], max 0.67157
+      lifetime_ratio       1 [1, 1], max 1
+      time_latent_ratio    1 [1, 1], max 1
+      reinf_0.12_ratio     0.99994 [0.99988, 0.99999], max 1.0002
+      reinf_0.6_ratio      0.99981 [0.99961, 0.99997], max 1.0003
+phi = 0.003: weight feasible 0.550 (198 samples); at a prior bound 0.223; misfit to the sample (sigma) median 9.43e-13, q90 0.238, max 0.432
+    all samples, max|z| to target means: two-state median 1.35 [q90 3.03], exact 1.36 [q90 3.08]; weight within 2 sigma: two-state 0.694, exact 0.684
+    all samples, lifetime ratio median 1.0001 [q90 1.0179]; with reinfection (0.12) median 1.0006 [q90 1.015]
+    feasible samples:
+      k_latent             2.4709 [0.89262, 4.7523], max 8.0265
+      r0                   0.3558 [0.19571, 0.62217], max 0.80112
+      maxgap               0.010326 [0.0030717, 0.05045], max 0.20306
+      gap_50y              1.0543e-05 [-3.2183e-06, 0.00011144], max 0.00047897
+      hazard_exact_1y      0.028549 [0.007332, 0.073598], max 0.20288
+      hazard_1y            0.026033 [0.0050389, 0.074122], max 0.20601
+      hazard_exact_5y      8.365e-07 [2.9851e-10, 0.001277], max 0.18597
+      hazard_5y            0.0014855 [0.00083675, 0.0019956], max 0.18149
+      share_latent_exact   0.10889 [0.014117, 0.40319], max 0.67199
+      share_latent         0.11087 [0.025135, 0.40236], max 0.67158
+      lifetime_ratio       1 [1, 1.0001], max 1.0005
+      time_latent_ratio    1 [0.99999, 1], max 1
+      reinf_0.12_ratio     0.99993 [0.99983, 1.0005], max 1.0015
+      reinf_0.6_ratio      0.99982 [0.99957, 1.0018], max 1.0048
+phi = 0.01: weight feasible 0.384 (119 samples); at a prior bound 0.090; misfit to the sample (sigma) median 0.202, q90 0.824, max 1.07
+    all samples, max|z| to target means: two-state median 1.28 [q90 3.02], exact 1.36 [q90 3.08]; weight within 2 sigma: two-state 0.728, exact 0.684
+    all samples, lifetime ratio median 1.0146 [q90 1.0625]; with reinfection (0.12) median 1.0129 [q90 1.0513]
+    feasible samples:
+      k_latent             1.8129 [0.87809, 3.9099], max 8.6474
+      r0                   0.29397 [0.1952, 0.63798], max 0.90703
+      maxgap               0.015268 [0.0036605, 0.11854], max 0.48619
+      gap_50y              2.1463e-05 [-6.9324e-06, 0.00026836], max 0.000923
+      hazard_exact_1y      0.04621 [0.019313, 0.078048], max 0.20288
+      hazard_1y            0.043348 [0.011207, 0.078252], max 0.20592
+      hazard_exact_5y      3.0183e-05 [2.8821e-08, 0.0013067], max 0.18597
+      hazard_5y            0.0031178 [0.0027199, 0.0065096], max 0.18153
+      share_latent_exact   0.21917 [0.026439, 0.40735], max 0.67199
+      share_latent         0.22236 [0.050143, 0.40674], max 0.6716
+      lifetime_ratio       1 [0.99999, 1.0003], max 1.0009
+      time_latent_ratio    1 [0.99997, 1], max 1
+      reinf_0.12_ratio     0.9999 [0.99955, 1.0004], max 1.0054
+      reinf_0.6_ratio      0.99981 [0.99919, 1.0019], max 1.0186
+phi = 0.03: weight feasible 0.219 (61 samples); at a prior bound 0.041; misfit to the sample (sigma) median 0.738, q90 1.89, max 2.24
+    all samples, max|z| to target means: two-state median 1.4 [q90 2.92], exact 1.36 [q90 3.08]; weight within 2 sigma: two-state 0.749, exact 0.684
+    all samples, lifetime ratio median 1.0548 [q90 1.1492]; with reinfection (0.12) median 1.0462 [q90 1.123]
+    feasible samples:
+      k_latent             1.2114 [0.72818, 3.6922], max 11.31
+      r0                   0.26252 [0.19244, 0.4476], max 0.96696
+      maxgap               0.010493 [0.0020585, 0.27935], max 0.81291
+      gap_50y              2.2693e-05 [5.7187e-06, 0.0008666], max 0.0026121
+      hazard_exact_1y      0.072094 [0.045999, 0.1089], max 0.20288
+      hazard_1y            0.069032 [0.021786, 0.10835], max 0.20566
+      hazard_exact_5y      0.00071364 [2.9528e-05, 0.0048642], max 0.18597
+      hazard_5y            0.0081804 [0.0064888, 0.018013], max 0.18166
+      share_latent_exact   0.35551 [0.17932, 0.47848], max 0.67199
+      share_latent         0.35603 [0.18826, 0.4849], max 0.67164
+      lifetime_ratio       1 [1, 1.0009], max 1.0026
+      time_latent_ratio    1 [0.9999, 1], max 1
+      reinf_0.12_ratio     0.99984 [0.99963, 1], max 1.0057
+      reinf_0.6_ratio      0.99968 [0.9993, 1.0024], max 1.0198
+phi = 0.1: weight feasible 0.105 (24 samples); at a prior bound 0.000; misfit to the sample (sigma) median 2, q90 4, max 4.58
+    all samples, max|z| to target means: two-state median 1.71 [q90 3.77], exact 1.36 [q90 3.08]; weight within 2 sigma: two-state 0.519, exact 0.684
+    all samples, lifetime ratio median 1.1569 [q90 1.3474]; with reinfection (0.12) median 1.1292 [q90 1.2917]
+    feasible samples:
+      k_latent             4.7048 [0.40857, 5.1657], max 10.711
+      r0                   0.4045 [0.20375, 0.65956], max 0.74148
+      maxgap               0.39028 [0.0036484, 0.4782], max 0.50024
+      gap_50y              7.7774e-05 [3.1174e-06, 0.00011724], max 0.00066463
+      hazard_exact_1y      0.072803 [0.062929, 0.14274], max 0.20288
+      hazard_1y            0.042849 [0.042046, 0.14324], max 0.20466
+      hazard_exact_5y      0.0012743 [0.00097034, 0.029574], max 0.18597
+      hazard_5y            0.040464 [0.036778, 0.059379], max 0.18209
+      share_latent_exact   0.40146 [0.32719, 0.52084], max 0.67199
+      share_latent         0.4347 [0.34368, 0.52073], max 0.67182
+      lifetime_ratio       1.0001 [1, 1.0001], max 1.0007
+      time_latent_ratio    1 [1, 1], max 1
+      reinf_0.12_ratio     1.002 [0.99994, 1.0024], max 1.0029
+      reinf_0.6_ratio      1.0084 [0.99987, 1.0086], max 1.0089
+phi = 0.3: weight feasible 0.013 (7 samples); at a prior bound 0.000; misfit to the sample (sigma) median 4.14, q90 6.9, max 7.77
+    all samples, max|z| to target means: two-state median 3.37 [q90 6.64], exact 1.36 [q90 3.08]; weight within 2 sigma: two-state 0.253, exact 0.684
+    all samples, lifetime ratio median 1.3625 [q90 1.7107]; with reinfection (0.12) median 1.2936 [q90 1.5847]
+    feasible samples:
+      k_latent             0.58688 [0.069791, 4.3201], max 10.329
+      r0                   0.20752 [0.18602, 0.38121], max 0.58919
+      maxgap               0.011698 [0.00028469, 0.22546], max 0.24767
+      gap_50y              2.4128e-05 [-1.1827e-06, 0.00017733], max 0.00035162
+      hazard_exact_1y      0.14393 [0.13719, 0.19944], max 0.20288
+      hazard_1y            0.14378 [0.12803, 0.19642], max 0.19654
+      hazard_exact_5y      0.037321 [0.026562, 0.1655], max 0.18597
+      hazard_5y            0.070045 [0.063673, 0.18196], max 0.18326
+      share_latent_exact   0.52565 [0.40009, 0.61316], max 0.67199
+      share_latent         0.52653 [0.40439, 0.61336], max 0.67269
+      lifetime_ratio       1 [1, 1.0002], max 1.0004
+      time_latent_ratio    1 [0.99997, 1], max 1
+      reinf_0.12_ratio     0.99986 [0.99945, 1.0006], max 1.0014
+      reinf_0.6_ratio      0.99981 [0.99889, 1.0021], max 1.0045

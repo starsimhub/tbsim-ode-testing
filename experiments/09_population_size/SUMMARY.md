@@ -23,6 +23,7 @@ The 50k row includes exp 08's 40 reps (seeds 0–39). The current code reproduce
   - ∝ 1/N: χ² = 60.
   
   Only the constant fits acceptably (p ≈ 0.07). The finite-population prediction (12% / 6% / 3% / 1.5%) is ruled out. At 200k agents the shortfall is still 5.4% ± 0.7%.
+
 - **Incidence, mortality and INFECTION** show the same pattern, about 5–8% low at every N. (Monthly incidence also carries its known snapshot artefact.)
 - **The time course is the same at every N** (`population_size.png`): the median prevalence declines slowly and smoothly from 500 to about 470 over the century, so the ABM's long-run level is below the ODE's.
 - **The rep-to-rep SD shrinks with N** (14.5% at 25k to 3.3% at 200k), roughly as 1/√N or faster. So random fluctuations do get smaller, but the mean shortfall doesn't.

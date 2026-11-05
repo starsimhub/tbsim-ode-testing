@@ -1,0 +1,17 @@
+Check against tb_LAI_TPT (param00, 20k agents, seeds 0 and 1):
+  max |our B - FirstPassage B| = 0.00e+00; ProgressionY1 0.05390, ProgressionRatio 0.63825 (calibration: 0.05390, 0.63825)
+  cohort_progression.progression_targets: {'ProgressionY1': 0.0539, 'ProgressionRatio': 0.6382474837181765}
+48 cohort sims (100,000 agents, 51 years, monthly): 28.2 s
+Per parameter set (mean over seeds): ProgressionY1, ProgressionRatio, B(50), share of years 1-10 progression from latent at year 1
+  param00 (weight 0.251): Y1 0.0563, Ratio 0.6388, B(50) 0.0892, from latent 0.005
+  param01 (weight 0.205): Y1 0.0507, Ratio 0.6819, B(50) 0.0748, from latent 0.337
+  param02 (weight 0.064): Y1 0.0554, Ratio 0.6523, B(50) 0.0857, from latent 0.273
+  param03 (weight 0.079): Y1 0.0548, Ratio 0.6352, B(50) 0.0872, from latent 0.204
+  param04 (weight 0.050): Y1 0.0613, Ratio 0.7189, B(50) 0.0864, from latent 0.001
+  param05 (weight 0.061): Y1 0.0475, Ratio 0.7000, B(50) 0.0683, from latent 0.125
+  param06 (weight 0.064): Y1 0.0513, Ratio 0.6915, B(50) 0.0751, from latent 0.009
+  param07 (weight 0.047): Y1 0.0500, Ratio 0.7273, B(50) 0.0692, from latent 0.000
+  param08 (weight 0.032): Y1 0.0487, Ratio 0.6780, B(50) 0.0723, from latent 0.018
+  param09 (weight 0.050): Y1 0.0615, Ratio 0.6356, B(50) 0.0978, from latent 0.068
+  param10 (weight 0.050): Y1 0.0482, Ratio 0.6762, B(50) 0.0718, from latent 0.006
+  param11 (weight 0.047): Y1 0.0526, Ratio 0.7701, B(50) 0.0687, from latent 0.191

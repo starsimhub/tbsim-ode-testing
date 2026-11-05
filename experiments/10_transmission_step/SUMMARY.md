@@ -7,6 +7,7 @@
 The comparisons in exps 07–09 used a deterministic version of the `TBExact` step (`step_map.py`), which assumed each susceptible's infection probability per step is linear: x = `beta`·w·`rel_sus`·`dt`, where w is the `trans_asymp`-weighted infectious fraction. The ABM's actual per-step probability is `1 − e^(−x)`: on the random network, an agent with j infectious contacts is infected with probability `1 − (1 − q)^j`, which averages to that.
 
 The two forms differ because of how the susceptible pool is treated within a step:
+
 - **ODE:** at equilibrium, infections over a step are `beta·w·S·dt`, because people who become susceptible during the step, for example by clearing a latent infection, can be infected later in the same step.
 - **ABM:** the susceptible pool is fixed at the start of the step, and each agent can be infected at most once per step. So infections are `S·(1 − e^(−x))`, about a fraction x/2 fewer.
 
@@ -65,6 +66,7 @@ Values are prevalence, ABM ÷ ODE (1.00 = match), averaged over each rep's last 
     | Set B, weekly | 1.000 | 1.001 ± 0.006 ([exp 11](../11_incidence_counting/SUMMARY.md)) |
 
     Values are prevalence (ASY + SYM). Predictions are from `step_map.py` (`step_map.log`). The observed values agree with the predictions within noise. At ±1%, these reps can't resolve set A's predicted 0.5%.
+
   - **What causes the remainder hasn't been tested separately.** It is what the deterministic step reproduces once the per-step probability is right. The likely cause is that the force of infection is taken at its start-of-step value and held for the whole step, rather than updating within it. An exact match would need a force of infection that updates within the step, or a smaller `dt`.
   - With network transmission, there's no equally simple per-agent fix, because an agent's chance of infection depends on its number of infectious contacts. A per-step rescaling of `beta` by `−ln(1 − x)/x` would be approximate, because the correction differs for agents with different `rel_sus`.
 - **For the corrected ABM:** tb_LAI_TPT's random network (`n_contacts=10`, `dur=0`) behaves like mass action (finding 2). So `TBExactMassAction` with the linear form is a candidate transmission model for `TBExact`. The household network, if it's ever included, would still need network transmission. Whether to adopt it is a decision for the user.

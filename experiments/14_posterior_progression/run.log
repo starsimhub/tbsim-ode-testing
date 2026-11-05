@@ -1,0 +1,23 @@
+345 samples. Weighted median [10%, 90%], max over samples:
+  Largest gap B (%):   3.82 [2.73, 4.65], max 6.34;  weight above 1/2/5%: 0.998, 0.989, 0.058
+    gap B at 0.25 y (%): -1.21 [-2.03, -0.191], max -0.00252
+    gap B at 1 y (%): -3.4 [-4.26, -1.53], max -0.0273
+    gap B at 5 y (%): -3.79 [-4.6, -2.71], max -0.0959
+    gap B at 10 y (%): -3.82 [-4.65, -2.73], max -0.1
+    gap B at 50 y (%): -3.82 [-4.65, -2.73], max -0.101
+  Largest gap C (%):   0.853 [0.562, 1.03], max 2.01;  weight above 1/2/5%: 0.135, 0.004, 0.000
+    gap C at 0.25 y (%): 0.732 [0.32, 0.973], max 1.27
+    gap C at 1 y (%): 6.66e-14 [-4.7e-12, 4.17e-12], max 2.24e-11
+    gap C at 5 y (%): -0.181 [-0.921, -0.0291], max -0.00585
+    gap C at 10 y (%): -0.193 [-0.959, -0.0323], max -0.00708
+    gap C at 50 y (%): -0.194 [-0.962, -0.0327], max -0.0073
+  k_latent/k (C):     0.951 [0.937, 0.962], max 0.973
+  Ratio A / C:        0.707 [0.631, 0.771], max 0.853 / 0.708 [0.632, 0.772], max 0.856
+  Classes at 1e-6 / 1e-10: 6 [6, 7], max 38 / 8 [8, 9], max 47
+  Exact model, progression between years 1 and 10: 0.021 [0.013, 0.0311], max 0.0466; share from people still latent at year 1: 0.0205 [0.000463, 0.384], max 0.672
+  Exact model at year 1: latent 0.384 [0.241, 0.52], max 0.56, non-infectious 0.0349 [0.0204, 0.0511], max 0.0745; latent hazard r0·exp(−k) 0.00749 [0.000252, 0.0721], max 0.203/y
+  Reinfection λ=0.12, 10 y: added A 0.00235 [0.00108, 0.00396], max 0.0133; C − A 9.19e-06 [4.03e-06, 3.31e-05], max 0.000236
+  Reinfection λ=0.12, 30 y: added A 0.0032 [0.0014, 0.00552], max 0.0237; C − A 1.22e-05 [5.26e-06, 4.73e-05], max 0.000377
+  Reinfection λ=0.6, 10 y: added A 0.0162 [0.00749, 0.0262], max 0.0968; C − A 7.51e-05 [3.44e-05, 0.000266], max 0.00159
+  Reinfection λ=0.6, 30 y: added A 0.0289 [0.013, 0.048], max 0.175; C − A 0.000129 [5.77e-05, 0.000508], max 0.00238
+Row 0 (set B): maxgap C 0.943%, k_latent 5.5333, C − A by 10 y at λ=0.12: 7.12e-06

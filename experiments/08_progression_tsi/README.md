@@ -5,12 +5,14 @@
 In tbsim, the hazards of progressing from INFECTION to NON_INFECTIOUS and to ASYMPTOMATIC can decline with time since infection τ: `inf_non·e^(−k·τ)` and `inf_asy·e^(−k·τ)`. tb_LAI_TPT's best fit has `k_asy = k_non` = 5.846/yr, so the hazard falls by a factor of e about every 2 months, and progression is strongly front-loaded. This is the first of the two high-priority features. With it added, does the ODE still match the ABM?
 
 As in every feature experiment, two ABM versions are run against the ODE:
+
 - **`TBExact` ÷ ODE: can the ODE match the feature?** `tbode.TBExact` is a version of `tbsim.TB` that samples each agent's end-of-step state from the exact one-step probabilities of the continuous-time model, `expm(Q·dt)`. This removes tbsim's step-ordering bias: tbsim applies transitions one state at a time, so agents moving forward can carry on through several states in a step while agents moving backward stop. At baseline, `TBExact` matched the ODE (exp 05).
 - **`tbsim.TB` ÷ `TBExact`: how much does step ordering add?** At baseline, `tbsim.TB` was 0.84 / 0.67 of the ODE prevalence at weekly / monthly `dt` (exps 03 and 05).
 
 ## How the ODE and `TBExact` represent the feature
 
 **Poisson-mixture latent classes.** Let r₀ = `inf_non` + `inf_asy`. Without competing risks, a hazard r₀·e^(−kτ) gives a progression time with survival exp(−(r₀/k)(1 − e^(−kτ))). This expands exactly as Σₘ Poisson(m; r₀/k)·e^(−mkτ), which is a mixture of exponentials:
+
 - each new infection joins latent class m with probability Poisson(m; r₀/k);
 - class m progresses at the constant rate m·k (class 0 never progresses);
 - the destination is NON_INFECTIOUS or ASYMPTOMATIC in the ratio `inf_non` : `inf_asy`.
@@ -22,6 +24,7 @@ Clearance and background death act identically on every class, so the mixture is
 A chain of time-since-infection stages was considered and rejected. Agents leave each stage after an exponentially distributed time, which blurs the timing of progression. With 1-month stages, cohort progression is 4–7% too low; even 0.25-month stages are 1–2% off. That's too much near threshold, where prevalence amplifies errors in progression.
 
 **Independent checks** (in `tests/test_progression.py` and `tests/test_exact.py`):
+
 - `TBODE`'s cohort progression matches `ode_cohort_progression` to 1e-4. That function integrates the time-varying hazards directly, without classes.
 - `TBExact`'s cohort progression matches it within sampling error (weekly `dt`, 200k agents).
 - In one step, `TBExact`'s end-state frequencies match the class-weighted `expm`.

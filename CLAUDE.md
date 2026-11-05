@@ -6,9 +6,11 @@ Guidance for Claude Code when working in this repository.
 
 The end goal is an **ODE version of TBsim that is reasonably consistent with the ABM as the user actually runs it**, plus a clear account of which ABM features an ODE can match exactly, which only approximately, and which not at all. The approach is incremental: start from the simplest matched comparison and add one feature at a time. `README.md` holds the per-feature consistency table. Keep it short, and update it as results come in.
 
-**Priorities (from the user):** progression by time since infection (`k_asy`/`k_non`) and latent reinfection matter most; the ODE should reproduce them at least approximately. The household network matters least; it's acceptable to conclude it can't be matched, as long as we describe the gap.
+**Priorities (from the user):** progression by time since infection (`k_asy`/`k_non`) and latent reinfection matter most; the ODE should reproduce them at least approximately. The household network matters least; it's acceptable to conclude it can't be matched, as long as we describe the gap. Drug resistance (multiple strains) is low priority too (user, 2026-11-04), except that the latent-progression and reinfection structure must carry over to it, since superinfection of a latent infection is latent reinfection.
 
 This is **not** the tbsim repo. Do not edit `../tbsim` unless asked. New ODE code belongs here; it can be proposed upstream later.
+
+**`CONVENTIONS.md`** lists the modelling conventions decided here, written to be carried into a new repo or tb_LAI_TPT. When a decision changes, update it as well as README.
 
 ## Upstream files (in `../tbsim`)
 
@@ -20,11 +22,13 @@ This is **not** the tbsim repo. Do not edit `../tbsim` unless asked. New ODE cod
 **tbsim v4** (`origin/v4`, on starsim v4) is a rewrite. `tbsim.TB` is declared as states and transitions, so one model runs as an ODE (`solver='ode'`) or as agents (`solver='abm'`). The interventions are products and deliveries (`tbsim.care`, `tbsim.regimen`). `TB_ODE` remains as the reference, and `TB_SS`, `Tx` and `TxDelivery` are gone.
 
 Facts from exp 12:
+
 - The v4 ODE equals `TBODE`.
 - Agents start at the equilibrium with `init=`.
 - On `RandomNet`, use the matched `beta_edge` (`tbode4.beta_edge_from_ode`, the default in `tbode4.make_sim`), not v4's `beta/K`, which is 4% low at monthly `dt`.
 
 **Cliff's v4 redo (2026-10-27).**
+
 - **Where it is:** the scripts at the top of `v4/` (`common.py`, `run_*.py`) and the write-up `v4/v4_findings.qmd`.
 - **What it found:** it reran the key findings of exps 01–11. v4 agents match the ODE without `TBExact`, and progression works both with Poisson-mixture classes declared in v4 (`TBClasses`) and with `k_latent`. It didn't cover latent reinfection.
 - **Caveats:** abbreviated reps, and unpinned versions with uncommitted changes.
@@ -32,7 +36,16 @@ Facts from exp 12:
 - **Exp 13 reproduced it exactly at the pinned versions,** with 40–200 reps and a daily step. `TB_V4_FOLDER` redirects its `results/` to an experiment folder, inherited by worker processes.
 - **Seeds:** v4's draws are keyed by seed, so reps with the same seed and unchanged code repeat a run. Extra reps need new seeds.
 
-Where v4's model differs from the v0.10 ABM (front-loading via `k_latent`, latent reinfection, treatment as a rate, network `beta`), see README "Versions and tracks". The user wants to propose upstream changes for these. For latent progression and reinfection, neither v4's two states nor the Poisson mixture is chosen yet, so don't push either.
+Where v4's model differs from the v0.10 ABM (front-loading via `k_latent`, latent reinfection, treatment as a rate, network `beta`), see README "Versions and tracks". Decisions so far (user, 2026-11-05):
+
+- **Network `beta`:** the matched per-contact `beta` (proposal 01's preferred option) stays in our own code (`tbode4.beta_edge_from_ode`), not in base Starsim or TBsim, for now. Don't push it upstream.
+- **Latent progression:** tentatively, v4's two latent states with remote progression = φ × the recent rates (option B in `proposals/02_latent_progression/options.md`), for now.
+  - Not the version with no remote progression, which is effectively single-state.
+  - φ is to be calibrated eventually, but may only be identifiable with all the targets, burden data included. Until then, sweep a couple of reasonable values (about 0–0.03, up to 0.1).
+  - Reopen it if the underlying behaviour lacks face validity against tb_LAI_TPT's.
+  - With strains, match v0.10's multistrain model where possible: `rr_reinfection_inf` = `rr_superinfection_latent` = `rr_superinfection_non` = π.
+  - Criteria: fit to the data matters much more than consistency with tb_LAI_TPT as run.
+  - Whether to propose anything upstream is still open.
 
 ## Target ABM configuration (`../tb_LAI_TPT`)
 
@@ -59,7 +72,7 @@ The user's real ABM setup is in `../tb_LAI_TPT/run_one_sim.py`, which calls `uti
 
 ## Prior work (`../tb_LAI_TPT/ode_testing`, May 2026)
 
-Earlier ODE↔ABM work aimed at using an ODE burn-in and handing the result to the ABM:
+Earlier ODE↔ABM work aimed at using an ODE burn-in and handing the result to the ABM. **The folder was deleted** in tb_LAI_TPT commit `bb19486` (2026-10-28); recover files with `git show bb19486^:ode_testing/<file>` there. Its `beta_ode_from_tb` uses the unmatched mapping (K·b, see `CONVENTIONS.md`), so don't reuse it.
 
 - `tb_ode_demog.py`: `TB_ODE_demog`, which adds time-varying crude birth and death rates and lets N vary (TB deaths are not replaced). It is not age-structured, and its docstring says it predates the ABM's treatment/relapse refactor.
 - `run_ode_vs_abm.py`: `beta_ode_from_tb()` translates the per-edge monthly betas plus `n_contacts` and average household size into an ODE `beta`. It compares the models before treatment (to 1979).
@@ -86,13 +99,14 @@ Reuse what is useful, but check it against current tbsim first.
   - Standard `tbsim.TB` lets agents carry on forward within a step, and stops agents moving backward, cutting time infectious. This is the whole cause of the ABM↔ODE gap: 0.5% / 1.8% / 3.8% of effective `beta` at daily / weekly / monthly `dt`, or 5% / 16% / 33% of prevalence near threshold.
   - `tbode.TBExact` (exact `expm(Q·dt)` sampling; constant hazards only) removes it: prevalence is 1.00 / 1.00 / 0.97 ± 0.02 of the ODE with 40 reps.
   - Transmission (`beta_edge_from_ode`) matches its per-step expectation, `1 − e^(−x)` with x = `beta`·w·`dt`. But that is a fraction of about x/2 below the ODE's flow, because the susceptible pool is fixed at the start of the step (exp 10). Near threshold at monthly `dt`, this costs up to 6% of prevalence (set A). Mass action with a linear per-step probability (`TBExactMassAction(infection_prob='linear')`) matches the ODE to within 1–2%. The random network behaves like mass action.
-- **Incidence: use `incidence_event_py` (`TBExact`, counted from transitions), not the snapshot-based `incidence_py`.** The snapshot misses 3.3% of episodes at monthly `dt` and 0.75% at weekly (exp 11). The event count matches the ODE's incidence per prevalent case to within 0.3%. Notifications will need a transition-based count too once treatment is added. **Decision (user, 2026-10-13): the transition-based count is the standard for ODE↔ABM comparisons.** Deferred: whether calibration targets should exclude brief subclinical episodes. If so, define the rule by duration in both models, not by step boundaries (see exp 11's SUMMARY).
+- **Incidence: use `incidence_event_py` (`TBExact`, counted from transitions), not the snapshot-based `incidence_py`.** The snapshot misses 3.3% of episodes at monthly `dt` and 0.75% at weekly (exp 11). The event count matches the ODE's incidence per prevalent case to within 0.3%. Notifications will need a transition-based count too once treatment is added. **Decision (user, 2026-10-13): the transition-based count is the standard for ODE↔ABM comparisons.** **Decision (user, 2026-11-05): count only the first entry to ASY per episode**, as tb_LAI_TPT does. v4's `v4/common.py` `outputs()` counts every entry, so it isn't incidence by this definition (README Plan, "Next"). Deferred: whether calibration targets should exclude brief subclinical episodes. If so, define the rule by duration in both models, not by step boundaries (see exp 11's SUMMARY).
 - **Use `TBExact(infection_timing='within')` from exp 08 on (under review).** It dates each new infection uniformly within its step (exp 07), which removes the half-step INFECTION artefact.
   - **Trade-off, found 2026-10-13:** the force of infection is taken from the start-of-step state. So `'within'` dates infections on average half a step after the infectiousness that caused them, making the generation interval half a step too long. `'start'` gets it right on average, but its end-of-step INFECTION snapshots read low.
   - Neither choice affects the equilibrium. Neither changes how many progress: the latent classes shift with the infection date.
-  - **Open decision:** which timing to use once runs change over time (see README Plan).
+  - **Open at the v0.10 freeze:** which timing to use once runs change over time. v4 has its own timing (README, "What v4 changes").
 
   Still unexplained: `k` = 0 with weekly `'within'` timing runs about 3.5% low (0.966 ± 0.007 vs 0.995 predicted), with or without the network (exps 07, 10). Other near-threshold shortfalls are explained by transmission (exp 10). Compare `TBExact` with a deterministic version of its step (`experiments/10_transmission_step/step_map.py`), using the `'exp'` infection-probability form for network transmission. Runs with the same seed are uncorrelated after 100 years, so pairing by seed doesn't reduce noise.
+
 - **Time-since-infection progression in the ODE: Poisson-mixture latent classes (user decision, 2026-10-12).**
   - With r₀ = `inf_non` + `inf_asy` and `k_asy = k_non = k`, a progression hazard of r₀·e^(−kτ) gives exactly the same progression times as a mixture of classes. A new infection joins class m with probability Poisson(m; r₀/k); class m progresses at constant rate m·k; class 0 never progresses.
   - Clearance and death act identically on every class, so the model is exact, not an approximation. Latent reinfection (clock reset) is also exact: a reinfected agent leaves its class and is reassigned with the same Poisson weights.
@@ -108,11 +122,14 @@ Reuse what is useful, but check it against current tbsim first.
   - **v4 (active, exps 12 on):** `v4/.venv` and `v4/tbode4/`, with tbsim `origin/v4` @ `dcfb522` and starsim `origin/v4` @ `80c81f53`.
 
   Run v4 scripts from the repo root with `v4/.venv/bin/python`. If `VIRTUAL_ENV` points elsewhere (e.g. tb_LAI_TPT's), unset it.
+
 - **Both environments pin tbsim and starsim to exact git commits** in `pyproject.toml` and `uv.lock`. Never point them back at the editable `../tbsim` / `../starsim` checkouts: tb_LAI_TPT shares those, and they move.
   - Bump the v4 pins only on purpose, and rerun `v4/tests/test_anchor.py` after each bump.
   - tbsim v4 still reports `__version__ = '0.10.3'`, so only the commit identifies it.
 - **Record versions.** Every experiment README has a "Track" line, and every run writes `versions*.json` via `tbode.save_versions` / `tbode4.save_versions`. The two environments can't import each other, so results cross between them as saved files (e.g. exp 12's `reference_v010.json`).
-- **Don't rerun v0.10 arms in new experiments;** compare against saved v0.10 results (user, 2026-11-03). tb_LAI_TPT stays on v0.10 for now. New projects will probably use v4, starting from tb_LAI_TPT's parameters.
+- **Don't rerun v0.10 arms in new experiments;** compare against saved v0.10 results (user, 2026-11-03).
+  - **Exception (user, 2026-11-04):** exp 16 runs tb_LAI_TPT's own no-reinfection cohort (`cohort_progression.py`, v0.10 `tbsim.TB`) in the pinned v0.10 environment, as the reference for "tb_LAI_TPT as run".
+  - **The rule may be revisited,** since we also want to explore the implications of v4's changes against v0.10. tb_LAI_TPT stays on v0.10 for now. New projects will probably use v4, starting from tb_LAI_TPT's parameters.
 - **Starsim v4 compiles its kernels once** (`ss.compile()`, ~2 minutes).
 - ABM cost (exp 06): about 10.5 ms per step at 50k agents on one core, the same for `tbsim.TB` and `TBExact` and at every `dt`. A 100-year run takes ~13 s monthly, ~1 min weekly, ~6 min daily; parallel runs are somewhat slower each. Runs are on the user's laptop: use at most 4 cores, via `sc.parallelize(..., ncpus=tbode.ncpus)` over seeds.
 
@@ -123,7 +140,11 @@ Reuse what is useful, but check it against current tbsim first.
   - the run script(s)
   - outputs, including the raw results behind every figure (e.g. per-seed time series and ODE runs, saved with `sc.save`), so figures can be redrawn without rerunning
   - `SUMMARY.md`, written after running: the findings
-- After each experiment, update the consistency table, the Plan section (what has and hasn't been run, open decisions) and the findings log in `README.md`.
+- After each experiment, update `README.md`, keeping its three parts distinct and without repeating results:
+  - **the consistency table:** each row's status, with headline numbers only;
+  - **the Plan:** what to do next, in order, naming the row each step moves forward, plus open decisions. No "Done" summaries of experiments;
+  - **the findings log:** one concise row per experiment.
+  - **Decisions** go in `CONVENTIONS.md` (modelling conventions), `CLAUDE.md` (process and facts) or the relevant proposal; the README links to them.
 - **Keep each `README.md` and `SUMMARY.md` a coherent, current document, not a log.** When an experiment gains new arms or reps, or a finding changes:
   - rewrite the affected sections so the document reads as one account of the current results;
   - don't append "update" or "superseded" sections;
@@ -150,3 +171,4 @@ Reuse what is useful, but check it against current tbsim first.
 
 - Follow the Starsim style guide; use the Starsim-AI skills when writing Python. Max line length 200.
 - On a `tbsim.Sim`, use `sim.get_tb()`. Pass TB parameters directly as kwargs.
+- In Markdown, always leave a blank line before a list, including one that follows a lead-in line such as "**Design:**" or a nested list that follows continuation text. Some renderers otherwise merge the list into the paragraph above it.

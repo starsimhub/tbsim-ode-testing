@@ -1,0 +1,21 @@
+Sim: tb, 100,000 people, as an ODE, years 2000 to 2002
+  tb: R0 = 0.648 (R = 0.616 at the start, with 56% susceptible), with 4,000 infectious at the start
+  Done in 0.039 s; tb: 62,971 infections; at most 4,000 infectious, on year 2000
+Sim: tb, 100,000 people, as an ODE, years 2000 to 2002
+  tb: R0 = 0.648 (R = 0.616 at the start, with 56% susceptible), with 4,000 infectious at the start
+  Done in 0.0031 s; tb: 64,071 infections; at most 4,000 infectious, on year 2000
+rr_superinfection_latent=0.0
+    infection[DS]                  1772.7
+    infection[RIF]                  889.0
+    infection[DS+RIF]               135.0
+    infection_remote[DS]           5274.3
+    infection_remote[RIF]          2843.3
+    infection_remote[DS+RIF]        543.3
+rr_superinfection_latent=1.0
+    infection[DS]                  1753.9
+    infection[RIF]                  871.0
+    infection[DS+RIF]               174.3
+    infection_remote[DS]           5206.6
+    infection_remote[RIF]          2779.3
+    infection_remote[DS+RIF]        679.3
+Recent DS+RIF with superinfection of recent latents off: 135.0 (> 0: reinfect_remote adds the new strain)

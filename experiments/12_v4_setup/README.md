@@ -7,6 +7,7 @@
 In tbsim v4, `tbsim.TB` is declared as states and transitions, so the same model runs as an ODE (`solver='ode'`) or as agents (`solver='abm'`). Experiments 01–11 compared v0.10's agent-based `tbsim.TB` with our own ODE, `tbode.TBODE` (a generalisation of tbsim's reference `TB_ODE`), and with `tbode.TBExact`, our corrected ABM that samples each step exactly. In v4 the comparison is instead between the two solvers of one model.
 
 Before anything in v4 can be compared with the earlier results, two things need checking:
+
 - **The ODE is the same model.** Otherwise "v4 agents ÷ v4 ODE" can't be set beside "v0.10 agents ÷ `TBODE`".
 - **The settings that matched agents to the ODE in v0.10 still hold in v4.** These are the mean degree of `ss.RandomNet`, the per-contact `beta`, and starting agents at the ODE equilibrium.
 
@@ -22,6 +23,7 @@ The baseline is exps 03–05's: tbsim's default natural history, no treatment, c
   - set B's natural history (tb_LAI_TPT's best fit, with its reinfection risk ratios) at `k` = 0, with set B's `beta` (25.0). This exercises different rates and the reinfection terms. Set B proper has `k` = 5.846, which v4 has no exact counterpart for; that is a later experiment.
 
   `TBODE` is run in the v0.10 environment and its trajectories saved (`export_reference.py`). Criterion: state shares within 1e-4 relative from the second year on, and within 1e-5 absolute throughout. The first criterion was originally meant to hold from the start, but compartments filling from 0 in the first months carry the two integrators' first-step error (see SUMMARY).
+
 - **A3. The calibration.** Started at `TBODE`'s equilibrium, does the v4 ODE stay there for 200 years? And does calibrating `beta` to 500/100k on the v4 ODE alone (equilibrium from a long run) give 9.9173?
 
 ### B. How should agents be set up in v4?
@@ -35,6 +37,7 @@ The baseline is exps 03–05's: tbsim's default natural history, no treatment, c
     - the network with v0.10's matched mapping, `beta_edge = −ln(1 − beta_ode·dt/K)/dt` (`tbode4.beta_edge_from_ode`). It makes K·(1 − e^(−`beta_edge`·`dt`)) = `beta_ode`·`dt`, so each step's expected infections match the ODE's.
 
     The third arm was added after the second came out 4% low (see SUMMARY). Under homogeneous mixing, the step's transmission probability is expected to be `1 − e^(−x)`, x = `beta`·w·`dt`, which is a fraction of about x/2 below the ODE's flow (exp 10). Here that is ~0.2%, so this checks the mapping, not that bias.
+
 - **B3. Starting at the equilibrium.** `init=` takes the share in each state. Check that agents start with those shares, so exp 03's `init_from_ode` isn't needed.
 - **B4. Notes and run time.** The notes v4 prints about `dt` for agents at monthly, weekly and daily steps, and the time per step at 50k agents, under homogeneous mixing and on the network. `sim.check_dt()` at monthly `dt` (homogeneous mixing, 50 years), which reruns the sim at half the step and reports the largest change in each result.
 

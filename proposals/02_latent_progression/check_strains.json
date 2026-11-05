@@ -1,0 +1,18 @@
+{
+  "rr_superinfection_latent=0.0": {
+    "infection[DS]": 1772.7419557742428,
+    "infection[RIF]": 888.9963391269699,
+    "infection[DS+RIF]": 135.03949487864801,
+    "infection_remote[DS]": 5274.33517717228,
+    "infection_remote[RIF]": 2843.259773862372,
+    "infection_remote[DS+RIF]": 543.2873483077589
+  },
+  "rr_superinfection_latent=1.0": {
+    "infection[DS]": 1753.8535359973616,
+    "infection[RIF]": 871.0362446148762,
+    "infection[DS+RIF]": 174.33270730398715,
+    "infection_remote[DS]": 5206.609811051956,
+    "infection_remote[RIF]": 2779.271144024375,
+    "infection_remote[DS+RIF]": 679.3210722198727
+  }
+}

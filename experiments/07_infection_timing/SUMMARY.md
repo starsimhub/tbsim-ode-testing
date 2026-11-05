@@ -32,6 +32,7 @@ The "INFECTION ÷ prevalence ratio" row divides the INFECTION ratio by the preva
 ### The INFECTION artefact is gone, as predicted
 
 At monthly `dt`, INFECTION rises from 0.89 to 0.98 of the ODE, a paired difference of +0.09 ± 0.03 (z = 3.5). Relative to each arm's level of transmission, INFECTION goes from 0.91 to 1.00 at monthly `dt` and from 0.98 to 1.00 at weekly. This confirms exp 05's explanation: dating infections to the start of the step shifted each cohort half a step further into its time in INFECTION. The new sampling is also checked directly:
+
 - **Unit test (`tests/test_exact.py`):** in one monthly step, new infections end in each state with the probabilities `∫₀¹ expm(Q·s·dt) ds`, computed independently (p > 0.03 in all checks). A control test shows `'start'` fails the same check.
 - **Inside running sims (`run_flux_diag.py`, weekly, 12 seeds per timing):**
   - New infections' end-of-step states match the uniform-time average.
@@ -56,6 +57,7 @@ Prevalence is 0.959 ± 0.010 for `'within'` and 1.004 ± 0.009 for `'start'`, wi
   | `1 − e^(−x)`, as in the ABM (exp 10's map) | 1.000 | **0.995** | 0.997 | 0.979 |
 
   The comparisons below use the second row. So the x/2 effect accounts for only about 0.5% of the weekly `'within'` arm's 4% shortfall.
+
 - **Any timing effect should grow with `dt`.** Monthly would then show about 4× the weekly gap, but `'within'` − `'start'` at monthly `dt` is +0.01 ± 0.03.
 - **Two diagnostic variants of `'within'` (`run_variants.py`, 80 weekly reps each):**
   - `u0` draws infection times from the same random stream but ignores them, so its timing is the same as `'start'`.
@@ -74,6 +76,7 @@ Prevalence is 0.959 ± 0.010 for `'within'` and 1.004 ± 0.009 for `'start'`, wi
 - **`'within'`** spreads infections through the step, so snapshots are correct. But each infection happens on average half a step after the infectiousness that caused it, so the mean generation interval is half a step too long, and the lag adds up over successive generations.
 
 A toy calculation (`dt` = 1 month, exponential latent and infectious periods) confirms this: the mean generation interval is +0.01 months from the continuous-time value with `'start'` and +0.50 months with `'within'`. Neither affects the equilibrium. For runs that change over time, `'within'` lags by about half a step per generation; this hasn't been measured in the ABM. Getting both right would need infections spread through the step *and* a force of infection centred on the step rather than taken at its start. It matters for dynamics that change over time, not for the equilibrium.
+
 - **Weekly `'within'` timing at `k` = 0 runs about 3–4% low, for a reason not yet found.** This doesn't affect the choice of `'within'` timing.
 
 ## What later experiments resolved, and what is still open
@@ -86,6 +89,7 @@ A toy calculation (`dt` = 1 month, exponential latent and infectious periods) co
 | Weekly `'within'` prevalence 0.96 | **Open** | See below | Exps 07, 10 |
 
 **Weekly `'within'` at `k` = 0, where it stands:**
+
 - **More runs:** exp 10 added 80 mass-action reps (0.952 ± 0.017). Pooled over all variants (network, mass action, `np`), weekly `'within'` is 0.966 ± 0.007, against 0.995 predicted (z ≈ −4).
 - **Ruled out:**
   - per-step flows and the timing draw itself (this experiment);

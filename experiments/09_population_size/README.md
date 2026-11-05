@@ -3,6 +3,7 @@
 ## Question
 
 `tbode.TBExact` is a version of `tbsim.TB` that samples each agent's end-of-step state from the exact one-step probabilities of the continuous-time model, `expm(Q·dt)`. It has no step-ordering bias, uses Poisson-mixture latent classes for progression by time since infection, and dates each new infection within its step. Its runs normally match the ODE. But in two near-threshold arms, at 50,000 agents, the ABM's mean prevalence fell a few percent below what a deterministic version of the same step predicts:
+
 - **Exp 08, set A (tbsim defaults + `k` = 5.846), monthly `dt`:** 0.937 ± 0.018 of the ODE, against a deterministic prediction of 0.995 (`step_map.py`). That's 3.2σ below.
 - **Exp 07, baseline (`k` = 0), weekly `dt`, `'within'` timing:** 0.959 ± 0.010, against 0.999 predicted.
 

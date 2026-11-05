@@ -31,6 +31,7 @@ For each agent that starts a step in INFECTION or NON_INFECTIOUS, `TBExact` draw
   | 4 | Set B | weekly | mass action, linear | 190 | (new) |
 
   Set A is tbsim defaults + `k` = 5.846, near threshold; set B is tb_LAI_TPT's natural history + `k`, the reference set (exp 08).
+
 - **Bit-identity check:** for arms 1–3, every rep's prevalence series must equal exp 10's exactly, confirming the counting doesn't perturb the dynamics.
 - **Comparison:** for each arm, event-based and snapshot-based incidence ÷ ODE (mean ± SE across reps), and their paired ratio, which is very precise because it comes from the same runs. These are compared with prevalence ÷ ODE.
 - **Predictions, if the hypothesis is right:**

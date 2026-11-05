@@ -6,7 +6,7 @@ import sciris as sc
 import starsim as ss
 import tbsim
 
-__all__ = ['states', 'state_map', 'beta_edge_from_ode', 'make_sim', 'shares', 'odepars_to_tb']
+__all__ = ['states', 'state_map', 'beta_edge_from_ode', 'beta_ode_from_edge', 'make_sim', 'shares', 'odepars_to_tb']
 
 # The model's states, and the matching compartment of the v0.10 ODE (tbode.TBODE)
 states = ['susceptible', 'infection', 'cleared', 'recovered', 'non_infectious', 'asymptomatic', 'symptomatic', 'treatment', 'treated']
@@ -41,13 +41,28 @@ def beta_edge_from_ode(beta_ode, n_contacts, dt):
     return -np.log1p(-q)/dt
 
 
+def beta_ode_from_edge(beta_edge, n_contacts, dt):
+    """
+    The ODE beta (per year) that matches agents on ss.RandomNet with a given per-contact beta: the inverse of beta_edge_from_ode
+
+    Use it when the per-contact beta is what was calibrated, as in an agent-based model: K·(1 − exp(−beta_edge·dt))/dt.
+    Valid only for fresh contacts each step (dur=0); a network whose edges persist, such as households, has no ODE counterpart.
+
+    Args:
+        beta_edge (float): the per-contact beta (per year)
+        n_contacts (int): K, the mean degree
+        dt (float): the step, in years
+    """
+    return n_contacts*(-np.expm1(-beta_edge*dt))/dt
+
+
 def make_sim(beta, solver='ode', dt=ss.months(1), start=1900, stop=2000, init=None, n_agents=None, total_pop=1e5, n_contacts=None, edge_beta='step',
              mu=1/70, replace_tb_deaths=False, seed=0, verbose=0, analyzers=None, **tb_kw):
     """
     A sim of tbsim.TB, set up as the v0.10 experiments were
 
     Args:
-        beta (float): the ODE's beta, per year (homogeneous mixing); on a network, each contact gets beta/n_contacts
+        beta (float): the ODE's beta, per year (homogeneous mixing); on a network, each contact's beta is set from it by edge_beta
         solver (str): 'ode' or 'abm' (or any Starsim solver)
         dt (ss.dur): the step
         start, stop (int): years

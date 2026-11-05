@@ -7,6 +7,7 @@ On 2026-10-27, Cliff reran the key findings of exps 01–11 under tbsim v4 ([`v4
 **How to read the tables.** Agents ÷ ODE is each rep's mean over 1950–2000, divided by the ODE's; 1.00 = match. Values are mean ± SE over reps. Agents are 50,000, started at the ODE's equilibrium. **Every run uses homogeneous mixing (v4's built-in mass action, no network), except the two network arms in finding 5.** So the ODE's `beta` is used as it is, and the results outside finding 5 don't depend on how `beta` is converted for a network. `beta` is calibrated to 500/100k at each arm's ODE equilibrium, with births replacing every death.
 
 The arms:
+
 - **A0:** tbsim's default rates, near threshold.
 - **B0:** tb_LAI_TPT's best-fit natural history.
 - **Ak, Bk:** the same with `k` = 5.846 as exact Poisson-mixture classes (`TBClasses`).
@@ -26,6 +27,7 @@ The arms:
 | A0, v0.10 `TBExact` (exps 05, 10) | 1.00 | 1.00 | 0.97–0.98 |
 
 Reps in brackets.
+
 - **The monthly +4% was chance.** Cliff's A0 monthly result (1.043 ± 0.019) came from the first 40 seeds; seeds 40–199 give 0.990 ± 0.010, and all 200 give 1.000 ± 0.009.
 - **Weekly B0** is within about 1% (0.989 ± 0.006, z = −1.8). Its first 40 reps were 0.972 ± 0.013.
 
@@ -58,10 +60,12 @@ Weekly Bk's first 40 reps were 0.979 ± 0.010; with 200 it is within 1% (z = −
 - **Incidence counted from transitions** is within 0.3% of the ODE per prevalent case in every arm, so exp 11's snapshot problem doesn't arise in v4.
 
 **5. On a network, `beta/K` per contact gives 0.74 of the ODE's prevalence; the matched `beta_edge` gives 1.03.** These are the experiment's only network runs: A0 monthly on `ss.RandomNet(n_contacts=10, dur=0)`, 40 reps each. The two arms differ only in the per-contact rate:
+
 - **`beta/K`:** starsim's suggested conversion. It gives 0.737 ± 0.017 (Cliff, 20 reps: 0.780).
 - **Matched:** −ln(1 − `beta`·`dt`/K)/`dt`, the same formula as `beta_edge_from_ode`. Its per-step probability equals the ODE's `beta`·`dt`/K. It gives 1.03 ± 0.02. This is the per-contact step effect of exp 12 (4% of effective `beta`), magnified near threshold.
 
 **6. One step matches `expm(Q·dt)`, and growth lags by 0.1–0.3 years (both identical to Cliff's).**
+
 - **One step:** from each state, one million agents × 2 reps. The largest difference from `expm(Q·dt)` is 0.0005; the ODE's is 6e-6.
 - **Paths agents don't take:** the only clear misses (|z| = 2.9–5.9) are five paths needing three moves in a month, with exact probabilities of 4e-6 to 2e-5, which agents never take.
 - **Growth:** from a 0.1% seed (Bk, 8 reps), agents reach 250/100k and 400/100k 0.09–0.27 years after the ODE (± 0.09–0.15). This is about the size of the generation-interval lag of end-of-step dating, but 8 reps can't separate monthly from weekly.

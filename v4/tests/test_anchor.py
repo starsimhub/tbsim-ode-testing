@@ -47,3 +47,5 @@ def test_beta_edge_round_trip():
     beta_ode, K, dt = 12, 10, 1/12
     b = tbode4.beta_edge_from_ode(beta_ode, K, dt)
     assert np.isclose(K*(1 - np.exp(-b*dt)), beta_ode*dt)
+    assert np.isclose(tbode4.beta_ode_from_edge(b, K, dt), beta_ode)  # The inverse recovers the ODE's beta
+    assert b > beta_ode/K  # The matched per-contact beta is above v4's own mapping

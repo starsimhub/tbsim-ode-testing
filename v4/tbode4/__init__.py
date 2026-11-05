@@ -6,5 +6,6 @@ Not importable alongside tbode (the v0.10 track): each track has its own environ
 
 from .versions import *
 from .sims import *
+from .latent import *
 
 ncpus = 4 # Cores for sc.parallelize in experiment scripts; runs are on a laptop, so don't raise this

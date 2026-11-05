@@ -15,6 +15,7 @@ This matters for the next experiment, progression by time since infection. With 
 ## Change tested
 
 `TBExact` gains an option, `infection_timing`:
+
 - **`'start'` (default, as in exp 05):** newly infected agents go through the step's full transition matrix `expm(Q·dt)`.
 - **`'within'`:** each agent infected in this step gets an infection time drawn uniformly within the step, and its end-of-step state is drawn from `expm(Q·(1 − u)·dt)`, where u is the fraction of the step that had already passed when it was infected. This is computed per agent.
 
@@ -25,6 +26,7 @@ Only agents entering INFECTION from an uninfected state count as new infections.
 ## Predictions
 
 At `k` = 0, every rate is constant, so infection timing only delays each infected agent's subsequent transitions by about half a step. It doesn't change any outcome probability. So:
+
 - **INFECTION:** from 0.89 to about 1.00 of the ODE at monthly `dt`, and from 0.98 to about 1.00 at weekly.
 - **Prevalence and mortality:** no change beyond noise (exp 05: 0.97 ± 0.02 at monthly `dt`, 1.00 at weekly). The force of infection is still fixed at its start-of-step value, which is the most likely cause of the monthly 0.97. (Exp 10 later confirmed a related cause: the per-step infection probability `1 − e^(−x)`, with the susceptible pool fixed at the start of the step; see the [SUMMARY](SUMMARY.md).)
 - **Incidence:** no change. Exp 05's monthly 0.94 is thought to come from missed brief visits to ASYMPTOMATIC between end-of-step snapshots, which this change doesn't touch.
@@ -45,6 +47,7 @@ At `k` = 0, every rate is constant, so infection timing only delays each infecte
   - `outputs_more_reps_40-79.obj`, `outputs_more_reps_80-159.obj`: the extra weekly reps; pooled table in `summary_more_reps.csv`.
 
 **Diagnostics for the weekly shortfall** (added after the first results):
+
 - **`run_flux_diag.py`:** per-step flows inside weekly runs (12 seeds per timing, 15 years). Infections from SUSCEPTIBLE and CLEARED are compared with the ODE expectation, together with new infections' end-of-step states and every natural-history flow. Output: `run_flux_diag.log`.
 - **`step_map.py`:** a deterministic version of the `TBExact` step, without sampling noise. It applies the start-of-step force of infection, then exact transitions with either timing, and is iterated to equilibrium at daily, weekly and monthly `dt`. Output: `step_map.log`. This version uses a linear per-step infection probability, x. Exp 10's `step_map.py` adds the ABM's actual `1 − e^(−x)`, and the SUMMARY uses those predictions.
 - **`run_variants.py`:** two variants of `'within'`, 80 weekly reps each (seeds 0–79). `u0` draws infection times from the same random stream but ignores them, so its timing is the same as `'start'`. `np` applies the infection times but draws them from an independent numpy generator. Outputs: `outputs_variants.obj`, `run_variants.log`.
