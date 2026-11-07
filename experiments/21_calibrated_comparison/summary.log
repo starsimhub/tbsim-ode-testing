@@ -1,0 +1,23 @@
+v4 ODE vs standalone equilibrium, max drift in prevalence: 4.4e-16
+   dt            output  sets   mean  se_between  min_set  max_set  max_abs_z
+month           cleared    12 0.9957      0.0016   0.9843   1.0024     2.7175
+month      inc_per_prev    12 0.9980      0.0011   0.9925   1.0025     2.7671
+month            latent    12 1.0413      0.0066   0.9999   1.0750     5.8587
+month       mort_to_inc    12 0.9986      0.0026   0.9801   1.0118     2.1796
+month         mortality    12 0.9929      0.0069   0.9585   1.0226     1.8758
+month       prev_to_inc    12 1.0022      0.0011   0.9977   1.0080     2.8085
+month        prevalence    12 0.9973      0.0068   0.9596   1.0269     1.8753
+month prop_asymptomatic    12 0.9981      0.0006   0.9942   1.0025     2.7855
+month            recent    12 1.4191      0.0427   1.2046   1.6651    32.2519
+month            remote    12 0.9946      0.0058   0.9592   1.0182     2.0304
+ week           cleared    12 0.9958      0.0014   0.9832   1.0024     3.7723
+ week      inc_per_prev    12 1.0013      0.0012   0.9965   1.0101     2.3005
+ week            latent    12 0.9986      0.0054   0.9575   1.0385     2.1997
+ week       mort_to_inc    12 0.9976      0.0024   0.9848   1.0094     2.7110
+ week         mortality    12 0.9858      0.0064   0.9456   1.0395     1.8905
+ week       prev_to_inc    12 0.9989      0.0011   0.9904   1.0037     2.2442
+ week        prevalence    12 0.9874      0.0067   0.9390   1.0391     2.0623
+ week prop_asymptomatic    12 1.0000      0.0005   0.9971   1.0028     1.4992
+ week            recent    12 1.0770      0.0101   1.0149   1.1220    10.1349
+ week            remote    12 0.9889      0.0057   0.9436   1.0305     2.1486
+Saved agents_vs_ode.png, targets.png

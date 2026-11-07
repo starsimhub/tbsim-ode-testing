@@ -1,0 +1,67 @@
+s0_month: 20 reps in 19 s
+s0_week: 20 reps in 75 s
+s1_month: 20 reps in 19 s
+s1_week: 20 reps in 75 s
+s2_month: 20 reps in 20 s
+s2_week: 20 reps in 75 s
+s3_month: 20 reps in 20 s
+s3_week: 20 reps in 76 s
+s4_month: 20 reps in 19 s
+s4_week: 20 reps in 75 s
+s5_month: 20 reps in 19 s
+s5_week: 20 reps in 72 s
+s6_month: 20 reps in 20 s
+s6_week: 20 reps in 75 s
+s7_month: 20 reps in 20 s
+s7_week: 20 reps in 75 s
+s8_month: 20 reps in 20 s
+s8_week: 20 reps in 75 s
+s9_month: 20 reps in 20 s
+s9_week: 20 reps in 76 s
+s10_month: 20 reps in 20 s
+s10_week: 20 reps in 74 s
+s11_month: 20 reps in 20 s
+s11_week: 20 reps in 80 s
+Traceback (most recent call last):
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 1179, in setitem
+    casted = np_can_hold_element(values.dtype, value)
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/dtypes/cast.py", line 1773, in np_can_hold_element
+    raise LossySetitemError
+pandas.errors.LossySetitemError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/experiments/21_calibrated_comparison/run.py", line 245, in <module>
+    main()
+    ~~~~^^
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/experiments/21_calibrated_comparison/run.py", line 128, in main
+    summarise()
+    ~~~~~~~~~^^
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/experiments/21_calibrated_comparison/run.py", line 181, in summarise
+    pooled.loc[(pooled.dt == k[0]) & (pooled.output == k[1]), 'max_abs_z'] = z
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/indexing.py", line 1010, in __setitem__
+    iloc._setitem_with_indexer(indexer, value, self.name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/indexing.py", line 2651, in _setitem_with_indexer
+    self._setitem_with_indexer_split_path(indexer, value, name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/indexing.py", line 2741, in _setitem_with_indexer_split_path
+    self._setitem_single_column(loc, value, pi)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/indexing.py", line 2898, in _setitem_single_column
+    self.obj._mgr.column_setitem(loc, plane_indexer, value)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 1568, in column_setitem
+    new_mgr = col_mgr.setitem((idx,), value)
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 625, in setitem
+    return self.apply("setitem", indexer=indexer, value=value)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 456, in apply
+    applied = getattr(b, f)(**kwargs)
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 1182, in setitem
+    nb = self.coerce_to_target_dtype(value, raise_on_upcast=True)
+  File "/Users/tessryckman/Developer/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 484, in coerce_to_target_dtype
+    raise TypeError(f"Invalid value '{other}' for dtype '{self.values.dtype}'")
+TypeError: Invalid value '2.7174633855634425' for dtype 'int64'
