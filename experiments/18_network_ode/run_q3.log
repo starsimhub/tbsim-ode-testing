@@ -1,0 +1,6 @@
+A mass action: beta = 9.92648 (2 s)
+A_net_month: per-contact b = 1.03612 (matched 1.03612, ratio 1.00000); K·(1 − e^(−b·dt))/dt = 9.92648 vs mass-action beta 9.92648; network ODE prevalence at the matched b: 500.00/100k (1 s)
+A_net_week: per-contact b = 1.00222 (matched 1.00222, ratio 1.00000); K·(1 − e^(−b·dt))/dt = 9.92648 vs mass-action beta 9.92648; network ODE prevalence at the matched b: 500.00/100k (2 s)
+B2 mass action: beta = 21.14343 (2 s)
+B2_net_month: per-contact b = 2.32586 (matched 2.32586, ratio 1.00000); K·(1 − e^(−b·dt))/dt = 21.14343 vs mass-action beta 21.14343; network ODE prevalence at the matched b: 500.00/100k (1 s)
+B2_net_week: per-contact b = 2.15841 (matched 2.15841, ratio 1.00000); K·(1 − e^(−b·dt))/dt = 21.14343 vs mass-action beta 21.14343; network ODE prevalence at the matched b: 500.00/100k (2 s)

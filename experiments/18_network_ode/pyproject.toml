@@ -1,0 +1,28 @@
+[project]
+name = "exp18-network-ode"
+version = "0.1.0"
+description = "Exp 18: Starsim v4's ODE of a network (starsim 5ba36ebb, 'add beta correction for ODEs on networks') against agents on the same network"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "sciris",
+    "matplotlib",
+    "starsim",
+    "tbsim",
+]
+
+[tool.uv]
+package = false
+
+# Pinned to exact commits, newer than the v4 track's (v4/pyproject.toml), so that track stays reproducible.
+# starsim: origin/v4 @ bc2704b2 (merge of v4-nov06, which adds 5ba36ebb, the network-beta fix; later commits rename what tbsim efeca56 uses). tbsim: origin/v4 @ efeca56 ("updates for v4-rc3").
+[tool.uv.sources]
+starsim = { git = "https://github.com/starsimhub/starsim", rev = "bc2704b2" }
+tbsim = { git = "https://github.com/starsimhub/tbsim", rev = "efeca56" }
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]

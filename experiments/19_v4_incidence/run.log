@@ -1,0 +1,31 @@
+A: beta 9.92648; ODE incidence per 100k: first entry 274.40, every entry 509.80 (re-entries 0.462); prevalence ÷ incidence 1.822 y (every entry: 0.981)
+A_month: 40 reps in 34 s
+A_week: 40 reps in 138 s
+B2: beta 21.14343; ODE incidence per 100k: first entry 275.07, every entry 550.51 (re-entries 0.500); prevalence ÷ incidence 1.818 y (every entry: 0.908)
+B2_month: 40 reps in 42 s
+B2_week: 40 reps in 157 s
+set    dt           output  ode_per_100k  reps   mean     se    p10    p90
+  A month            first      274.3988    40 0.9861 0.0219 0.7876 1.1593
+  A month            every      509.7999    40 0.9846 0.0220 0.7994 1.1539
+  A month         every_v4      509.7999    40 0.9846 0.0220 0.7994 1.1539
+  A month       prevalence      500.0000    40 0.9875 0.0229 0.7858 1.1747
+  A month        tb_deaths       84.3156    40 0.9899 0.0209 0.8057 1.1634
+  A month first_over_every        0.5382    40 0.5392 0.0008 0.5320 0.5461
+  A  week            first      274.3988    40 0.9733 0.0185 0.8285 1.1027
+  A  week            every      509.7999    40 0.9742 0.0188 0.8260 1.1130
+  A  week         every_v4      509.7999    40 0.9742 0.0188 0.8260 1.1130
+  A  week       prevalence      500.0000    40 0.9722 0.0190 0.8174 1.1129
+  A  week        tb_deaths       84.3156    40 0.9743 0.0192 0.8120 1.1084
+  A  week first_over_every        0.5382    40 0.5379 0.0008 0.5321 0.5432
+ B2 month            first      275.0710    40 1.0092 0.0087 0.9463 1.0800
+ B2 month            every      550.5078    40 1.0088 0.0090 0.9367 1.0817
+ B2 month         every_v4      539.5345    40 1.0087 0.0091 0.9373 1.0805
+ B2 month       prevalence      500.0000    40 1.0135 0.0100 0.9402 1.1029
+ B2 month        tb_deaths       58.0025    40 1.0040 0.0091 0.9355 1.0820
+ B2 month first_over_every        0.4997    40 0.4999 0.0008 0.4946 0.5071
+ B2  week            first      275.0710    40 0.9871 0.0075 0.9165 1.0530
+ B2  week            every      550.5078    40 0.9859 0.0079 0.9177 1.0573
+ B2  week         every_v4      539.5345    40 0.9858 0.0079 0.9183 1.0580
+ B2  week       prevalence      500.0000    40 0.9869 0.0089 0.9101 1.0711
+ B2  week        tb_deaths       58.0025    40 0.9847 0.0087 0.9213 1.0579
+ B2  week first_over_every        0.4997    40 0.5003 0.0007 0.4950 0.5041

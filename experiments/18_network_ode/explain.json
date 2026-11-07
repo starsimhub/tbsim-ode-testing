@@ -1,0 +1,66 @@
+{
+  "A_month": {
+    "per_contact_b": 1.0361192260641696,
+    "ode_factor": 0.9580445278837959,
+    "rr": {
+      "rr_reinfection_cleared": 1.0,
+      "rr_reinfection_rec": 0.21,
+      "rr_reinfection_treat": 3.15
+    },
+    "agents_over_ode_factor": {
+      "rr_reinfection_cleared": 1.0,
+      "rr_reinfection_rec": 1.0343866864900815,
+      "rr_reinfection_treat": 0.9138861465285183
+    },
+    "predicted_prevalence_ratio": 1.022897647753741
+  },
+  "A_week": {
+    "per_contact_b": 1.0022185732421136,
+    "ode_factor": 0.9904509622881936,
+    "rr": {
+      "rr_reinfection_cleared": 1.0,
+      "rr_reinfection_rec": 0.21,
+      "rr_reinfection_treat": 3.15
+    },
+    "agents_over_ode_factor": {
+      "rr_reinfection_cleared": 1.0,
+      "rr_reinfection_rec": 1.0076062161809316,
+      "rr_reinfection_treat": 0.9796843629894435
+    },
+    "predicted_prevalence_ratio": 1.00501281154236
+  },
+  "B2_month": {
+    "per_contact_b": 2.325860773891311,
+    "ode_factor": 0.9090582828321552,
+    "rr": {
+      "rr_reinfection_cleared": 0.2415635040650483,
+      "rr_reinfection_rec": 0.2415635040650483,
+      "rr_reinfection_treat": 0.2415635040650483,
+      "rr_reinfection_inf": 0.2415635040650483
+    },
+    "agents_over_ode_factor": {
+      "rr_reinfection_cleared": 1.0746846593536894,
+      "rr_reinfection_rec": 1.0746846593536894,
+      "rr_reinfection_treat": 1.0746846593536894,
+      "rr_reinfection_inf": 1.0746846593536894
+    },
+    "predicted_prevalence_ratio": 1.2006848040205667
+  },
+  "B2_week": {
+    "per_contact_b": 2.1584055226574437,
+    "ode_factor": 0.9795856080171685,
+    "rr": {
+      "rr_reinfection_cleared": 0.2415635040650483,
+      "rr_reinfection_rec": 0.2415635040650483,
+      "rr_reinfection_treat": 0.2415635040650483,
+      "rr_reinfection_inf": 0.2415635040650483
+    },
+    "agents_over_ode_factor": {
+      "rr_reinfection_cleared": 1.0157529523542568,
+      "rr_reinfection_rec": 1.0157529523542568,
+      "rr_reinfection_treat": 1.0157529523542568,
+      "rr_reinfection_inf": 1.0157529523542568
+    },
+    "predicted_prevalence_ratio": 1.0372141153051184
+  }
+}

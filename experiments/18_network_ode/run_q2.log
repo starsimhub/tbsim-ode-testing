@@ -1,0 +1,29 @@
+  Compiling the agent solver with Numba, estimated time: 2-10 s
+  Compiling the agent solver with Numba, estimated time: 2-10 s
+  Compiling the agent solver with Numba, estimated time: 2-10 s  Compiling the agent solver with Numba, estimated time: 2-10 s
+
+A_month_network        40 reps in 70 s; prevalence agents ÷ ODE 1.008 ± 0.018
+A_week_network         40 reps in 287 s; prevalence agents ÷ ODE 1.017 ± 0.018
+  Compiling the agent solver with Numba, estimated time: 2-10 s  Compiling the agent solver with Numba, estimated time: 2-10 s
+  Compiling the agent solver with Numba, estimated time: 2-10 s  Compiling the agent solver with Numba, estimated time: 2-10 s
+
+
+B2_month_network       40 reps in 73 s; prevalence agents ÷ ODE 1.204 ± 0.010
+B2_week_network        40 reps in 302 s; prevalence agents ÷ ODE 1.052 ± 0.009
+set    dt     arm     output  reps   mean     se    p10    p90
+  A month network prevalence    40 1.0085 0.0177 0.8906 1.1664
+  A month network     latent    40 1.0997 0.0179 0.9826 1.2636
+  A month network    cleared    40 0.9959 0.0034 0.9695 1.0195
+  A month network  tb_deaths    40 1.0048 0.0176 0.8809 1.1627
+  A  week network prevalence    40 1.0166 0.0183 0.8528 1.1617
+  A  week network     latent    40 1.0345 0.0174 0.8822 1.1735
+  A  week network    cleared    40 1.0004 0.0034 0.9722 1.0253
+  A  week network  tb_deaths    40 1.0108 0.0173 0.8611 1.1512
+ B2 month network prevalence    40 1.2039 0.0101 1.1317 1.2851
+ B2 month network     latent    40 1.2213 0.0078 1.1609 1.2905
+ B2 month network    cleared    40 1.0018 0.0004 0.9986 1.0041
+ B2 month network  tb_deaths    40 1.2005 0.0099 1.1343 1.2795
+ B2  week network prevalence    40 1.0515 0.0094 0.9724 1.1300
+ B2  week network     latent    40 1.0501 0.0069 0.9984 1.1066
+ B2  week network    cleared    40 1.0019 0.0005 0.9979 1.0054
+ B2  week network  tb_deaths    40 1.0517 0.0096 0.9880 1.1218

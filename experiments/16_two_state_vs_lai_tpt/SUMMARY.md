@@ -3,7 +3,7 @@
 **Track:** both environments.
 
 - **v4** (tbsim `origin/v4` @ `dcfb522`, starsim `origin/v4` @ `80c81f53`): the two-state fits and the exact reference, from `tbode4.latent`'s chain. The chain matches v4's own `tbsim.TB(solver='ode')` cohort to within 2.3e-6 in every state's share (`param00`, arm 1, φ = 0.03).
-- **v0.10** (tbsim v0.10.3 @ `b92d7e8`, starsim v3.6.1 @ `3521adb4`): tb_LAI_TPT as run, an explicit exception to the no-v0.10-arms rule (user, 2026-11-04).
+- **v0.10** (tbsim v0.10.3 @ `b92d7e8`, starsim v3.6.1 @ `3521adb4`): tb_LAI_TPT as run, the reference for v0.10 behaviour that new experiments may run (user, 2026-11-04; rule revised 2026-11-05).
   - **It reproduces tb_LAI_TPT exactly:** at its own settings (20k agents, seeds 0 and 1), our analyzer's curve B equals `cohort_progression.FirstPassage`'s to 0. ProgressionY1 = 0.05390 and ProgressionRatio = 0.63825, as the calibration saved.
 
 ## Question
@@ -68,6 +68,7 @@ All values in this table are from the no-reinfection cohort, with weighted means
 
 - **Curves A, B and C** (`progression_by_time_arm*.png`):
   - **The two-state curves** at φ ≤ 0.03 lie close to tb_LAI_TPT's (B within 3% by 50 years, C within 5%). A is 2–6% lower.
+  - **tb_LAI_TPT's curves here are read from end-of-step snapshots,** as its calibration reads them. v0.10 can move an agent through asymptomatic TB and out again within a month, which snapshots miss. Counted from transitions, tb_LAI_TPT as run progresses more, and the two-state model is 4–15% below it (exp 17).
   - **Larger φ in arm 1** pushes B and C above tb_LAI_TPT's: B(50) ×1.12 at φ = 0.1 and ×1.33 at 0.3. Arm 2 keeps them close at every φ.
   - **The largest gap in B** between the two-state model and tb_LAI_TPT as run (3 months–20 years, by set) is 14–19% at φ ≤ 0.03. It falls at 3 months, where B is small.
 - **Fewer first exits to non-infectious TB** (−13 to −16%) is mostly v0.10's monthly step, not the latent structure. The exact model, with tb_LAI_TPT's own parameters, shows −22%. v0.10 applies each month's start-of-step progression hazard for the whole month, which overstates early progression (exp 08), most visibly to NON. For set B by year 1, as run 8.0% of infections have left to NON, against 6.1% in the exact model.

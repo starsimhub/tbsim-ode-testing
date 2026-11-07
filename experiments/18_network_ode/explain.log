@@ -1,0 +1,4 @@
+A month: predicted agents ÷ ODE prevalence 1.023 (reinfection multipliers {'rr_reinfection_cleared': 1.0, 'rr_reinfection_rec': 1.0344, 'rr_reinfection_treat': 0.9139})
+A week: predicted agents ÷ ODE prevalence 1.005 (reinfection multipliers {'rr_reinfection_cleared': 1.0, 'rr_reinfection_rec': 1.0076, 'rr_reinfection_treat': 0.9797})
+B2 month: predicted agents ÷ ODE prevalence 1.201 (reinfection multipliers {'rr_reinfection_cleared': 1.0747, 'rr_reinfection_rec': 1.0747, 'rr_reinfection_treat': 1.0747, 'rr_reinfection_inf': 1.0747})
+B2 week: predicted agents ÷ ODE prevalence 1.037 (reinfection multipliers {'rr_reinfection_cleared': 1.0158, 'rr_reinfection_rec': 1.0158, 'rr_reinfection_treat': 1.0158, 'rr_reinfection_inf': 1.0158})

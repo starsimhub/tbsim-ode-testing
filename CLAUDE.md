@@ -99,7 +99,13 @@ Reuse what is useful, but check it against current tbsim first.
   - Standard `tbsim.TB` lets agents carry on forward within a step, and stops agents moving backward, cutting time infectious. This is the whole cause of the ABM↔ODE gap: 0.5% / 1.8% / 3.8% of effective `beta` at daily / weekly / monthly `dt`, or 5% / 16% / 33% of prevalence near threshold.
   - `tbode.TBExact` (exact `expm(Q·dt)` sampling; constant hazards only) removes it: prevalence is 1.00 / 1.00 / 0.97 ± 0.02 of the ODE with 40 reps.
   - Transmission (`beta_edge_from_ode`) matches its per-step expectation, `1 − e^(−x)` with x = `beta`·w·`dt`. But that is a fraction of about x/2 below the ODE's flow, because the susceptible pool is fixed at the start of the step (exp 10). Near threshold at monthly `dt`, this costs up to 6% of prevalence (set A). Mass action with a linear per-step probability (`TBExactMassAction(infection_prob='linear')`) matches the ODE to within 1–2%. The random network behaves like mass action.
-- **Incidence: use `incidence_event_py` (`TBExact`, counted from transitions), not the snapshot-based `incidence_py`.** The snapshot misses 3.3% of episodes at monthly `dt` and 0.75% at weekly (exp 11). The event count matches the ODE's incidence per prevalent case to within 0.3%. Notifications will need a transition-based count too once treatment is added. **Decision (user, 2026-10-13): the transition-based count is the standard for ODE↔ABM comparisons.** **Decision (user, 2026-11-05): count only the first entry to ASY per episode**, as tb_LAI_TPT does. v4's `v4/common.py` `outputs()` counts every entry, so it isn't incidence by this definition (README Plan, "Next"). Deferred: whether calibration targets should exclude brief subclinical episodes. If so, define the rule by duration in both models, not by step boundaries (see exp 11's SUMMARY).
+- **Incidence: use `incidence_event_py` (`TBExact`, counted from transitions), not the snapshot-based `incidence_py`.** The snapshot misses 3.3% of episodes at monthly `dt` and 0.75% at weekly (exp 11). The event count matches the ODE's incidence per prevalent case to within 0.3%. Notifications will need a transition-based count too once treatment is added. **Decision (user, 2026-10-13): the transition-based count is the standard for ODE↔ABM comparisons.** **Decision (user, 2026-11-05): count only the first entry to ASY per episode**, as tb_LAI_TPT does. In v4, use `tbode4.fastode` (ODE) and exp 19's `Incidence` analyzer (agents). `v4/common.py`'s `outputs()` counts every entry, and misses remote → ASY, so it isn't incidence by this definition. Re-entries are about half of all entries (exp 19). Deferred: whether calibration targets should exclude brief subclinical episodes. If so, define the rule by duration in both models, not by step boundaries (see exp 11's SUMMARY).
+- **Network `beta` (exp 18):**
+  - **Starsim's fix:** since starsim `5ba36ebb`, newer than the v4 pins, Starsim's ODE of a network gives the same model as our matched `beta_edge`.
+  - **The gap both share:** neither matches agents for reinfection at a reduced risk. Set B on `RandomNet(10)` runs at 1.20× the ODE's prevalence at monthly `dt`, from 7–8% more reinfection in agents.
+  - **Not affected:** homogeneous mixing, as in exps 13–17.
+  - **The exp 18 environment:** tbsim `efeca56` works with starsim up to `bc2704b2`, not later. That environment is `experiments/18_network_ode/.venv`; run with `PYTHONPATH=v4`.
+- **tb_LAI_TPT's curve B (`cohort_progression.FirstPassage`) is read from end-of-step snapshots, so it misses agents who reach asymptomatic TB and leave it within a step** (v0.10 can move latent → ASY → NON in one step). At monthly `dt` that's about 11% of entries: ProgressionY1 is 0.060 counted from transitions, against 0.054 from snapshots and 0.052 for tb_LAI_TPT's model solved exactly in continuous time (exp 17, 12 sets). The snapshot loss roughly offsets v0.10's monthly overstatement of progression at 1 year, not at 10. When comparing with tb_LAI_TPT's progression, say which count is used. Exp 17's `run_lai_tpt.py` (`TBConstantFOI`) records every move.
 - **Use `TBExact(infection_timing='within')` from exp 08 on (under review).** It dates each new infection uniformly within its step (exp 07), which removes the half-step INFECTION artefact.
   - **Trade-off, found 2026-10-13:** the force of infection is taken from the start-of-step state. So `'within'` dates infections on average half a step after the infectiousness that caused them, making the generation interval half a step too long. `'start'` gets it right on average, but its end-of-step INFECTION snapshots read low.
   - Neither choice affects the equilibrium. Neither changes how many progress: the latent classes shift with the infection date.
@@ -127,9 +133,10 @@ Reuse what is useful, but check it against current tbsim first.
   - Bump the v4 pins only on purpose, and rerun `v4/tests/test_anchor.py` after each bump.
   - tbsim v4 still reports `__version__ = '0.10.3'`, so only the commit identifies it.
 - **Record versions.** Every experiment README has a "Track" line, and every run writes `versions*.json` via `tbode.save_versions` / `tbode4.save_versions`. The two environments can't import each other, so results cross between them as saved files (e.g. exp 12's `reference_v010.json`).
-- **Don't rerun v0.10 arms in new experiments;** compare against saved v0.10 results (user, 2026-11-03).
-  - **Exception (user, 2026-11-04):** exp 16 runs tb_LAI_TPT's own no-reinfection cohort (`cohort_progression.py`, v0.10 `tbsim.TB`) in the pinned v0.10 environment, as the reference for "tb_LAI_TPT as run".
-  - **The rule may be revisited,** since we also want to explore the implications of v4's changes against v0.10. tb_LAI_TPT stays on v0.10 for now. New projects will probably use v4, starting from tb_LAI_TPT's parameters.
+- **v0.10 arms in new experiments (rule revised by the user, 2026-11-05):**
+  - **Allowed as the "tb_LAI_TPT as run" reference:** v0.10's `tbsim.TB` at tb_LAI_TPT's settings (monthly `dt`), to see how v4's behaviour changes the original ABM's. Exps 16 and 17 do this, in the pinned v0.10 environment.
+  - **Not for v0.10 ABM↔ODE consistency:** that track is frozen. No new `TBExact` or `TBODE` work; compare against saved v0.10 results.
+  - tb_LAI_TPT stays on v0.10 for now. New projects will probably use v4, starting from tb_LAI_TPT's parameters.
 - **Starsim v4 compiles its kernels once** (`ss.compile()`, ~2 minutes).
 - ABM cost (exp 06): about 10.5 ms per step at 50k agents on one core, the same for `tbsim.TB` and `TBExact` and at every `dt`. A 100-year run takes ~13 s monthly, ~1 min weekly, ~6 min daily; parallel runs are somewhat slower each. Runs are on the user's laptop: use at most 4 cores, via `sc.parallelize(..., ncpus=tbode.ncpus)` over seeds.
 
@@ -166,9 +173,14 @@ Reuse what is useful, but check it against current tbsim first.
   - `compare.py`: outputs, summaries and plots
 - With all options off, `TBODE` must reproduce tbsim's `TB_ODE`; keep a regression test for this in `tests/`.
 - Experiments are numbered by question, not by table row; one row may need several experiments.
+- **Number an experiment or proposal only when its folder is created** (user, 2026-11-06). Refer to planned ones by description (e.g. "a treatment proposal, not yet written"), not by a reserved number, so numbers follow the folders without gaps.
 
 ## Style
 
 - Follow the Starsim style guide; use the Starsim-AI skills when writing Python. Max line length 200.
 - On a `tbsim.Sim`, use `sim.get_tb()`. Pass TB parameters directly as kwargs.
+- **Writing documents** (READMEs, SUMMARYs, proposals, CONVENTIONS.md):
+  - **Concise:** say each thing once, and cut what doesn't help the reader.
+  - **Plain language, for a scientific audience:** define terms and symbols where they first appear, and don't use the repo's shorthand without explaining it.
+  - **Standing on their own:** describe the current design or findings, not how the document got there. Don't refer to earlier versions or drafts of it ("now", "no longer", "revised", "as before"), and give decision dates only where they matter. This extends "a coherent, current document, not a log" under Conventions.
 - In Markdown, always leave a blank line before a list, including one that follows a lead-in line such as "**Design:**" or a nested list that follows continuation text. Some renderers otherwise merge the list into the paragraph above it.

@@ -3,7 +3,7 @@
 **Track:** both environments, with results passed between them as saved files.
 
 - **v4 environment** (`v4/.venv`; tbsim `origin/v4` @ `dcfb522`, starsim `origin/v4` @ `80c81f53`): the two-state fits and the exact reference curves. These use `tbode4.latent`, a deterministic Markov-chain calculation of the same model v4 declares.
-- **v0.10 environment** (repo root `.venv`; tbsim v0.10.3 @ `b92d7e8`, starsim v3.6.1 @ `3521adb4`): tb_LAI_TPT as run. This is an explicit exception to the rule of not rerunning v0.10 arms (user, 2026-11-04). The pinned environment reproduces tb_LAI_TPT's calibration values exactly: for `param00`, ProgressionY1 = 0.0539 and ProgressionRatio = 0.63825, from `cohort_progression.py` at its default settings.
+- **v0.10 environment** (repo root `.venv`; tbsim v0.10.3 @ `b92d7e8`, starsim v3.6.1 @ `3521adb4`): tb_LAI_TPT as run. New experiments use v0.10 only for this reference (user, 2026-11-04; rule revised 2026-11-05). The pinned environment reproduces tb_LAI_TPT's calibration values exactly: for `param00`, ProgressionY1 = 0.0539 and ProgressionRatio = 0.63825, from `cohort_progression.py` at its default settings.
 
 ## Question
 

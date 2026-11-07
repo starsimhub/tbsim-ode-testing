@@ -1,0 +1,176 @@
+Synthetic targets (the truth's outputs): {'prevalence': 0.005, 'prop_asymptomatic': 0.55834, 'prev_to_inc': 1.81771, 'ProgressionY1': 0.05233, 'ProgressionRatio': 0.63623, 'mort_to_inc': 0.21086}
+IMIS   0: n =  10,000, ESS =      5.9, expected unique in 3000 =    27.1 (target 1896), max weight 0.2632
+IMIS   1: n =  11,000, ESS =      3.5, expected unique in 3000 =    26.2 (target 1896), max weight 0.4681
+IMIS   2: n =  12,000, ESS =      3.5, expected unique in 3000 =    36.5 (target 1896), max weight 0.4689
+IMIS   3: n =  13,000, ESS =      3.3, expected unique in 3000 =    40.9 (target 1896), max weight 0.4851
+IMIS   4: n =  14,000, ESS =      6.4, expected unique in 3000 =    58.6 (target 1896), max weight 0.2644
+IMIS   5: n =  15,000, ESS =      7.0, expected unique in 3000 =    61.9 (target 1896), max weight 0.2912
+IMIS   6: n =  16,000, ESS =      9.2, expected unique in 3000 =    70.2 (target 1896), max weight 0.2100
+IMIS   7: n =  17,000, ESS =      8.3, expected unique in 3000 =    79.1 (target 1896), max weight 0.2810
+IMIS   8: n =  18,000, ESS =     12.6, expected unique in 3000 =    93.3 (target 1896), max weight 0.1656
+IMIS   9: n =  19,000, ESS =     14.0, expected unique in 3000 =   101.6 (target 1896), max weight 0.1857
+IMIS  10: n =  20,000, ESS =     20.4, expected unique in 3000 =   119.0 (target 1896), max weight 0.1205
+IMIS  11: n =  21,000, ESS =     25.6, expected unique in 3000 =   134.5 (target 1896), max weight 0.0973
+IMIS  12: n =  22,000, ESS =     28.4, expected unique in 3000 =   147.9 (target 1896), max weight 0.0905
+IMIS  13: n =  23,000, ESS =      1.8, expected unique in 3000 =   116.3 (target 1896), max weight 0.7354
+IMIS  14: n =  24,000, ESS =     21.3, expected unique in 3000 =   179.0 (target 1896), max weight 0.1246
+IMIS  15: n =  25,000, ESS =     22.5, expected unique in 3000 =   198.6 (target 1896), max weight 0.1490
+IMIS  16: n =  26,000, ESS =     22.6, expected unique in 3000 =   214.7 (target 1896), max weight 0.1382
+IMIS  17: n =  27,000, ESS =     22.5, expected unique in 3000 =   241.5 (target 1896), max weight 0.1399
+IMIS  18: n =  28,000, ESS =     28.8, expected unique in 3000 =   277.3 (target 1896), max weight 0.1339
+IMIS  19: n =  29,000, ESS =     48.5, expected unique in 3000 =   308.8 (target 1896), max weight 0.0683
+IMIS  20: n =  30,000, ESS =     58.0, expected unique in 3000 =   336.7 (target 1896), max weight 0.0540
+IMIS  21: n =  31,000, ESS =     63.6, expected unique in 3000 =   353.5 (target 1896), max weight 0.0478
+IMIS  22: n =  32,000, ESS =      5.2, expected unique in 3000 =   265.7 (target 1896), max weight 0.4230
+IMIS  23: n =  33,000, ESS =     34.6, expected unique in 3000 =   356.9 (target 1896), max weight 0.1307
+IMIS  24: n =  34,000, ESS =     47.9, expected unique in 3000 =   385.1 (target 1896), max weight 0.0873
+IMIS  25: n =  35,000, ESS =     82.9, expected unique in 3000 =   444.7 (target 1896), max weight 0.0417
+IMIS  26: n =  36,000, ESS =     10.1, expected unique in 3000 =   408.9 (target 1896), max weight 0.3074
+IMIS  27: n =  37,000, ESS =     76.1, expected unique in 3000 =   474.2 (target 1896), max weight 0.0696
+IMIS  28: n =  38,000, ESS =     38.6, expected unique in 3000 =   466.8 (target 1896), max weight 0.1231
+IMIS  29: n =  39,000, ESS =     71.5, expected unique in 3000 =   498.5 (target 1896), max weight 0.0792
+IMIS  30: n =  40,000, ESS =    100.2, expected unique in 3000 =   517.6 (target 1896), max weight 0.0316
+IMIS  31: n =  41,000, ESS =    104.0, expected unique in 3000 =   531.3 (target 1896), max weight 0.0325
+IMIS  32: n =  42,000, ESS =    119.0, expected unique in 3000 =   561.8 (target 1896), max weight 0.0319
+IMIS  33: n =  43,000, ESS =     76.3, expected unique in 3000 =   581.2 (target 1896), max weight 0.0820
+IMIS  34: n =  44,000, ESS =    129.2, expected unique in 3000 =   613.0 (target 1896), max weight 0.0297
+IMIS  35: n =  45,000, ESS =    139.5, expected unique in 3000 =   632.8 (target 1896), max weight 0.0275
+IMIS  36: n =  46,000, ESS =     55.9, expected unique in 3000 =   614.9 (target 1896), max weight 0.1123
+IMIS  37: n =  47,000, ESS =    149.0, expected unique in 3000 =   660.2 (target 1896), max weight 0.0261
+IMIS  38: n =  48,000, ESS =    135.9, expected unique in 3000 =   669.8 (target 1896), max weight 0.0363
+IMIS  39: n =  49,000, ESS =    146.0, expected unique in 3000 =   676.7 (target 1896), max weight 0.0309
+IMIS  40: n =  50,000, ESS =    115.9, expected unique in 3000 =   689.2 (target 1896), max weight 0.0553
+IMIS  41: n =  51,000, ESS =    161.7, expected unique in 3000 =   729.6 (target 1896), max weight 0.0293
+IMIS  42: n =  52,000, ESS =     84.9, expected unique in 3000 =   717.9 (target 1896), max weight 0.0812
+IMIS  43: n =  53,000, ESS =    184.0, expected unique in 3000 =   769.5 (target 1896), max weight 0.0230
+IMIS  44: n =  54,000, ESS =     49.6, expected unique in 3000 =   720.7 (target 1896), max weight 0.1179
+IMIS  45: n =  55,000, ESS =    202.6, expected unique in 3000 =   797.9 (target 1896), max weight 0.0215
+IMIS  46: n =  56,000, ESS =    223.4, expected unique in 3000 =   814.5 (target 1896), max weight 0.0208
+IMIS  47: n =  57,000, ESS =    224.0, expected unique in 3000 =   825.7 (target 1896), max weight 0.0211
+IMIS  48: n =  58,000, ESS =    182.6, expected unique in 3000 =   819.4 (target 1896), max weight 0.0411
+IMIS  49: n =  59,000, ESS =    245.4, expected unique in 3000 =   845.4 (target 1896), max weight 0.0189
+IMIS  50: n =  60,000, ESS =    244.6, expected unique in 3000 =   849.3 (target 1896), max weight 0.0188
+IMIS  51: n =  61,000, ESS =    260.3, expected unique in 3000 =   866.0 (target 1896), max weight 0.0156
+IMIS  52: n =  62,000, ESS =    269.5, expected unique in 3000 =   884.2 (target 1896), max weight 0.0161
+IMIS  53: n =  63,000, ESS =    135.1, expected unique in 3000 =   876.4 (target 1896), max weight 0.0661
+IMIS  54: n =  64,000, ESS =    286.9, expected unique in 3000 =   914.2 (target 1896), max weight 0.0143
+IMIS  55: n =  65,000, ESS =     49.0, expected unique in 3000 =   844.4 (target 1896), max weight 0.1328
+IMIS  56: n =  66,000, ESS =     55.1, expected unique in 3000 =   860.7 (target 1896), max weight 0.1217
+IMIS  57: n =  67,000, ESS =      5.3, expected unique in 3000 =   437.2 (target 1896), max weight 0.3348
+IMIS  58: n =  68,000, ESS =      8.9, expected unique in 3000 =   741.7 (target 1896), max weight 0.3326
+IMIS  59: n =  69,000, ESS =    165.4, expected unique in 3000 =   910.4 (target 1896), max weight 0.0439
+IMIS  60: n =  70,000, ESS =    231.9, expected unique in 3000 =   944.5 (target 1896), max weight 0.0301
+IMIS  61: n =  71,000, ESS =    162.7, expected unique in 3000 =   943.0 (target 1896), max weight 0.0542
+IMIS  62: n =  72,000, ESS =    284.8, expected unique in 3000 =   988.9 (target 1896), max weight 0.0178
+IMIS  63: n =  73,000, ESS =    304.0, expected unique in 3000 =  1006.5 (target 1896), max weight 0.0175
+IMIS  64: n =  74,000, ESS =      3.6, expected unique in 3000 =   554.0 (target 1896), max weight 0.5075
+IMIS  65: n =  75,000, ESS =     13.7, expected unique in 3000 =   872.9 (target 1896), max weight 0.2674
+IMIS  66: n =  76,000, ESS =    228.0, expected unique in 3000 =  1022.6 (target 1896), max weight 0.0413
+IMIS  67: n =  77,000, ESS =    311.8, expected unique in 3000 =  1038.1 (target 1896), max weight 0.0204
+IMIS  68: n =  78,000, ESS =    308.7, expected unique in 3000 =  1045.4 (target 1896), max weight 0.0211
+IMIS  69: n =  79,000, ESS =    126.4, expected unique in 3000 =  1023.1 (target 1896), max weight 0.0739
+IMIS  70: n =  80,000, ESS =    327.6, expected unique in 3000 =  1066.1 (target 1896), max weight 0.0168
+IMIS  71: n =  81,000, ESS =     28.3, expected unique in 3000 =   953.2 (target 1896), max weight 0.1815
+IMIS  72: n =  82,000, ESS =    278.7, expected unique in 3000 =  1083.1 (target 1896), max weight 0.0315
+IMIS  73: n =  83,000, ESS =    372.6, expected unique in 3000 =  1115.6 (target 1896), max weight 0.0122
+IMIS  74: n =  84,000, ESS =    308.6, expected unique in 3000 =  1105.9 (target 1896), max weight 0.0277
+IMIS  75: n =  85,000, ESS =    386.6, expected unique in 3000 =  1129.6 (target 1896), max weight 0.0109
+IMIS  76: n =  86,000, ESS =    182.1, expected unique in 3000 =  1084.2 (target 1896), max weight 0.0520
+IMIS  77: n =  87,000, ESS =    321.7, expected unique in 3000 =  1129.8 (target 1896), max weight 0.0256
+IMIS  78: n =  88,000, ESS =    322.2, expected unique in 3000 =  1151.9 (target 1896), max weight 0.0287
+IMIS  79: n =  89,000, ESS =    291.7, expected unique in 3000 =  1127.4 (target 1896), max weight 0.0260
+IMIS  80: n =  90,000, ESS =    103.8, expected unique in 3000 =  1087.8 (target 1896), max weight 0.0820
+IMIS  81: n =  91,000, ESS =    293.8, expected unique in 3000 =  1149.6 (target 1896), max weight 0.0275
+IMIS  82: n =  92,000, ESS =    369.0, expected unique in 3000 =  1185.6 (target 1896), max weight 0.0229
+IMIS  83: n =  93,000, ESS =    439.0, expected unique in 3000 =  1207.0 (target 1896), max weight 0.0108
+IMIS  84: n =  94,000, ESS =    450.0, expected unique in 3000 =  1213.6 (target 1896), max weight 0.0108
+IMIS  85: n =  95,000, ESS =    259.2, expected unique in 3000 =  1190.0 (target 1896), max weight 0.0408
+IMIS  86: n =  96,000, ESS =    484.8, expected unique in 3000 =  1237.1 (target 1896), max weight 0.0092
+IMIS  87: n =  97,000, ESS =    182.3, expected unique in 3000 =  1195.9 (target 1896), max weight 0.0609
+IMIS  88: n =  98,000, ESS =    499.4, expected unique in 3000 =  1249.3 (target 1896), max weight 0.0083
+IMIS  89: n =  99,000, ESS =    365.7, expected unique in 3000 =  1228.4 (target 1896), max weight 0.0233
+IMIS  90: n = 100,000, ESS =    488.9, expected unique in 3000 =  1259.4 (target 1896), max weight 0.0130
+IMIS  91: n = 101,000, ESS =    523.1, expected unique in 3000 =  1272.8 (target 1896), max weight 0.0079
+IMIS  92: n = 102,000, ESS =    518.4, expected unique in 3000 =  1282.0 (target 1896), max weight 0.0092
+IMIS  93: n = 103,000, ESS =      6.4, expected unique in 3000 =   836.4 (target 1896), max weight 0.3856
+IMIS  94: n = 104,000, ESS =     15.2, expected unique in 3000 =   972.4 (target 1896), max weight 0.2340
+IMIS  95: n = 105,000, ESS =     53.3, expected unique in 3000 =  1165.3 (target 1896), max weight 0.1288
+IMIS  96: n = 106,000, ESS =    355.5, expected unique in 3000 =  1282.5 (target 1896), max weight 0.0327
+IMIS  97: n = 107,000, ESS =    539.7, expected unique in 3000 =  1313.4 (target 1896), max weight 0.0080
+IMIS  98: n = 108,000, ESS =     46.2, expected unique in 3000 =  1189.8 (target 1896), max weight 0.1424
+IMIS  99: n = 109,000, ESS =    552.2, expected unique in 3000 =  1326.6 (target 1896), max weight 0.0079
+IMIS 100: n = 110,000, ESS =    564.6, expected unique in 3000 =  1330.0 (target 1896), max weight 0.0077
+IMIS 101: n = 111,000, ESS =    533.2, expected unique in 3000 =  1328.5 (target 1896), max weight 0.0142
+IMIS 102: n = 112,000, ESS =    380.0, expected unique in 3000 =  1318.8 (target 1896), max weight 0.0321
+IMIS 103: n = 113,000, ESS =    580.3, expected unique in 3000 =  1345.9 (target 1896), max weight 0.0073
+IMIS 104: n = 114,000, ESS =    559.8, expected unique in 3000 =  1341.0 (target 1896), max weight 0.0097
+IMIS 105: n = 115,000, ESS =    190.5, expected unique in 3000 =  1290.0 (target 1896), max weight 0.0574
+IMIS 106: n = 116,000, ESS =    456.7, expected unique in 3000 =  1343.0 (target 1896), max weight 0.0243
+IMIS 107: n = 117,000, ESS =    577.4, expected unique in 3000 =  1356.6 (target 1896), max weight 0.0083
+IMIS 108: n = 118,000, ESS =     41.2, expected unique in 3000 =  1222.4 (target 1896), max weight 0.1516
+IMIS 109: n = 119,000, ESS =    598.3, expected unique in 3000 =  1373.2 (target 1896), max weight 0.0076
+IMIS 110: n = 120,000, ESS =    619.9, expected unique in 3000 =  1383.0 (target 1896), max weight 0.0069
+IMIS 111: n = 121,000, ESS =    100.6, expected unique in 3000 =  1290.3 (target 1896), max weight 0.0912
+IMIS 112: n = 122,000, ESS =    504.7, expected unique in 3000 =  1370.5 (target 1896), max weight 0.0211
+IMIS 113: n = 123,000, ESS =    601.8, expected unique in 3000 =  1382.2 (target 1896), max weight 0.0079
+IMIS 114: n = 124,000, ESS =    617.3, expected unique in 3000 =  1388.2 (target 1896), max weight 0.0071
+IMIS 115: n = 125,000, ESS =    629.7, expected unique in 3000 =  1393.0 (target 1896), max weight 0.0067
+IMIS 116: n = 126,000, ESS =    640.9, expected unique in 3000 =  1399.2 (target 1896), max weight 0.0067
+IMIS 117: n = 127,000, ESS =    650.5, expected unique in 3000 =  1405.6 (target 1896), max weight 0.0066
+IMIS 118: n = 128,000, ESS =    671.4, expected unique in 3000 =  1413.8 (target 1896), max weight 0.0064
+IMIS 119: n = 129,000, ESS =    635.2, expected unique in 3000 =  1418.4 (target 1896), max weight 0.0129
+IMIS 120: n = 130,000, ESS =    437.2, expected unique in 3000 =  1407.3 (target 1896), max weight 0.0308
+IMIS 121: n = 131,000, ESS =    698.9, expected unique in 3000 =  1436.7 (target 1896), max weight 0.0062
+IMIS 122: n = 132,000, ESS =    655.6, expected unique in 3000 =  1442.9 (target 1896), max weight 0.0131
+IMIS 123: n = 133,000, ESS =    580.2, expected unique in 3000 =  1428.5 (target 1896), max weight 0.0181
+IMIS 124: n = 134,000, ESS =    488.9, expected unique in 3000 =  1429.4 (target 1896), max weight 0.0266
+IMIS 125: n = 135,000, ESS =    717.9, expected unique in 3000 =  1461.8 (target 1896), max weight 0.0076
+IMIS 126: n = 136,000, ESS =    749.7, expected unique in 3000 =  1478.6 (target 1896), max weight 0.0059
+IMIS 127: n = 137,000, ESS =    741.1, expected unique in 3000 =  1480.5 (target 1896), max weight 0.0079
+IMIS 128: n = 138,000, ESS =    768.9, expected unique in 3000 =  1490.5 (target 1896), max weight 0.0058
+IMIS 129: n = 139,000, ESS =    789.6, expected unique in 3000 =  1502.7 (target 1896), max weight 0.0056
+IMIS 130: n = 140,000, ESS =    547.4, expected unique in 3000 =  1457.1 (target 1896), max weight 0.0186
+IMIS 131: n = 141,000, ESS =    660.7, expected unique in 3000 =  1480.9 (target 1896), max weight 0.0115
+IMIS 132: n = 142,000, ESS =    737.0, expected unique in 3000 =  1500.5 (target 1896), max weight 0.0089
+IMIS 133: n = 143,000, ESS =    786.6, expected unique in 3000 =  1516.2 (target 1896), max weight 0.0069
+IMIS 134: n = 144,000, ESS =    792.1, expected unique in 3000 =  1519.3 (target 1896), max weight 0.0072
+IMIS 135: n = 145,000, ESS =    818.8, expected unique in 3000 =  1522.8 (target 1896), max weight 0.0053
+IMIS 136: n = 146,000, ESS =    847.0, expected unique in 3000 =  1533.5 (target 1896), max weight 0.0051
+IMIS 137: n = 147,000, ESS =    849.5, expected unique in 3000 =  1536.1 (target 1896), max weight 0.0051
+IMIS 138: n = 148,000, ESS =    873.9, expected unique in 3000 =  1553.6 (target 1896), max weight 0.0050
+IMIS 139: n = 149,000, ESS =    715.2, expected unique in 3000 =  1537.5 (target 1896), max weight 0.0133
+IMIS 140: n = 150,000, ESS =    798.9, expected unique in 3000 =  1553.0 (target 1896), max weight 0.0128
+IMIS 141: n = 151,000, ESS =    438.7, expected unique in 3000 =  1489.3 (target 1896), max weight 0.0288
+IMIS 142: n = 152,000, ESS =    686.7, expected unique in 3000 =  1535.4 (target 1896), max weight 0.0168
+IMIS 143: n = 153,000, ESS =    458.6, expected unique in 3000 =  1520.8 (target 1896), max weight 0.0325
+IMIS 144: n = 154,000, ESS =    845.5, expected unique in 3000 =  1566.1 (target 1896), max weight 0.0081
+IMIS 145: n = 155,000, ESS =    214.8, expected unique in 3000 =  1470.0 (target 1896), max weight 0.0494
+IMIS 146: n = 156,000, ESS =    712.1, expected unique in 3000 =  1558.2 (target 1896), max weight 0.0175
+IMIS 147: n = 157,000, ESS =    880.9, expected unique in 3000 =  1574.9 (target 1896), max weight 0.0069
+IMIS 148: n = 158,000, ESS =    903.5, expected unique in 3000 =  1585.8 (target 1896), max weight 0.0057
+IMIS 149: n = 159,000, ESS =    919.3, expected unique in 3000 =  1589.0 (target 1896), max weight 0.0050
+IMIS 150: n = 160,000, ESS =    696.8, expected unique in 3000 =  1577.1 (target 1896), max weight 0.0205
+reid: 160,000 model runs, 150 IMIS components, ESS 697, expected unique 1577 of 3000
+  parameter  prior_lo  prior_hi    mean   q025     q50    q975  ci_width_share_of_prior   truth  truth_in_95
+       beta      2.00    100.00 17.9205 8.8040 17.2204 30.6471                   0.2229 21.1434         True
+trans_asymp      0.50      1.00  0.7631 0.5173  0.7722  0.9740                   0.9134  0.9408         True
+         pi      0.20      1.00  0.3747 0.2087  0.3444  0.6853                   0.5957  0.2416         True
+    inf_cle      0.50      1.50  0.8517 0.5179  0.8090  1.3367                   0.8188  0.5366         True
+    inf_non      0.04      0.45  0.2850 0.0913  0.2921  0.4324                   0.8319  0.3507         True
+    inf_asy      0.01      0.60  0.3051 0.1598  0.3033  0.4733                   0.5314  0.2343         True
+   k_latent      0.10     12.00  7.0274 2.4638  7.1070 11.3463                   0.7464  4.6312         True
+        phi      0.00      0.10  0.0572 0.0151  0.0577  0.0937                   0.7852  0.0100        False
+    non_rec      0.14      0.23  0.1873 0.1436  0.1876  0.2261                   0.9161  0.1707         True
+    non_asy      0.21      0.28  0.2406 0.2137  0.2377  0.2744                   0.8666  0.2427         True
+    asy_non      0.70      2.03  1.4595 0.9189  1.4599  1.9389                   0.7669  1.7386         True
+    asy_sym      0.56      0.99  0.7979 0.6113  0.8001  0.9642                   0.8206  0.7435         True
+    sym_asy      0.46      0.85  0.6407 0.4789  0.6389  0.8172                   0.8675  0.6630         True
+   sym_dead      0.20      0.50  0.3653 0.2232  0.3726  0.4865                   0.8777  0.2627         True
+           target  in_likelihood  target_mean  target_lo  target_hi  post_q025  post_q50  post_q975
+       prevalence           True      0.00500    0.00418    0.00593    0.00391   0.00497    0.00604
+prop_asymptomatic           True      0.55851    0.48709    0.62815    0.50416   0.56160    0.62110
+      prev_to_inc           True      1.81771    1.39239    2.37296    1.49118   1.83713    2.33315
+    ProgressionY1           True      0.05233    0.04352    0.06291    0.04268   0.05222    0.06427
+ ProgressionRatio           True      0.63623    0.55358    0.73123    0.55771   0.63790    0.72752
+      mort_to_inc          False      0.11250    0.08771    0.14430    0.18821   0.29181    0.42381
+Saved reid_marginals.png, reid_fit.png

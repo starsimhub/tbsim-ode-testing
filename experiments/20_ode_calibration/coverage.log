@@ -1,0 +1,9 @@
+5000 prior draws: no endemic equilibrium in 47.0%
+           target  in_likelihood  target_mean  target_lo  target_hi  prior_p05  prior_p50  prior_p95  share_in_interval  share_below
+       prevalence           True       0.0031     0.0025     0.0039     0.0003     0.0595     0.2210             0.0358       0.1803
+prop_asymptomatic           True       0.6543     0.5843     0.7195     0.4782     0.5654     0.6519             0.3727       0.6273
+      prev_to_inc           True       1.5713     1.2036     2.0512     1.4430     2.0346     3.0209             0.5145       0.0000
+    ProgressionY1           True       0.0523     0.0435     0.0629     0.0056     0.0228     0.1068             0.1162       0.7310
+ ProgressionRatio           True       0.6630     0.5769     0.7620     0.2741     0.4940     0.8108             0.2650       0.6390
+      mort_to_inc          False       0.1125     0.0877     0.1443     0.1842     0.2989     0.4580             0.0060       0.0000
+Prior draws inside every target interval at once: 1 of 5000

@@ -10,13 +10,16 @@ The modelling conventions decided in this repo, written so they can be adopted i
 | 2 | [Latent progression: two states with remote progression](#2-latent-progression-two-states-with-remote-progression) | Tentative, for now (2026-11-05) |
 | 3 | [Latent reinfection and superinfection](#3-latent-reinfection-and-superinfection) | Decided for one strain; multistrain to revisit |
 | 4 | [Progression targets](#4-progression-targets) | Definitions fixed by tb_LAI_TPT |
-| 5 | [Incidence: first entry to asymptomatic TB, counted from transitions](#5-incidence-first-entry-to-asymptomatic-tb-counted-from-transitions) | Decided (2026-10-13, 2026-11-05); not yet in v4 |
+| 5 | [Incidence: first entry to asymptomatic TB, counted from transitions](#5-incidence-first-entry-to-asymptomatic-tb-counted-from-transitions) | Decided (2026-10-13, 2026-11-05); in v4 since exp 19 |
 | 6 | [Starting and comparing runs](#6-starting-and-comparing-runs) | Practice in this repo |
 | 7 | [Versions](#7-versions) | Practice in this repo |
+| 8 | [Calibrating the ODE: a standalone copy at equilibrium, with IMIS](#8-calibrating-the-ode-a-standalone-copy-at-equilibrium-with-imis) | Practice in this repo (2026-11-07) |
 
 ## 1. Per-contact `beta` on a random network
 
 **Decided (user, 2026-11-05):** match the ODE's infections per step, in our own code, not in base Starsim or TBsim, for now.
+
+**Decided (user, 2026-11-06): v4 agents mix homogeneously for the ODE recalibration.** With homogeneous mixing, agents match the ODE without any conversion (exps 13–17), so this section applies only to work on `RandomNet`. There, both this convention and Starsim's ODE of a network (starsim `5ba36ebb`, the same model) under-transmit reinfection at a reduced risk ([exp 18](experiments/18_network_ode/SUMMARY.md); fix proposed in [proposal 03](proposals/03_network_reinfection/proposal.md)). To combine homogeneous mixing with a household network later, add the homogeneous part as an explicit `ss.MixingPool` of everyone: in v4, homogeneous mixing is the default only when a sim has no networks (not yet tested).
 
 On `ss.RandomNet(n_contacts=K, dur=0)`, with fresh contacts each step, each contact transmits in a step with probability 1 − e^(−b·dt), where b is its per-contact `beta`. The ODE `beta` and b correspond when:
 
@@ -49,6 +52,7 @@ def beta_ode_from_edge(beta_edge, n_contacts, dt):
 - **Pitfalls:**
   - **v4's own mapping, `beta/K`, is low.** It's what Starsim v4's ODE approximation of a network assumes, and what tbsim's docs suggest. It gives about b·dt/2 fewer infections: 4% at monthly `dt`, and 22–26% less prevalence near threshold.
   - **`dt` matters.** A per-contact `beta` calibrated at one `dt` doesn't mean the same at another; convert through the ODE `beta`.
+  - **It matches only transmission at the susceptibles' rate.** Reinfection at a reduced risk rr runs on the same contacts at rr·b, and agents then transmit more than the ODE's rr·`beta`, because a smaller per-contact rate saturates less. In set B (rr = π = 0.24) at monthly `dt`, reinfection is 7–8% higher in agents than in the ODE, and prevalence is 1.20× the ODE's (1.05× weekly). Starsim's ODE of a network (starsim `5ba36ebb`) has the same gap. It is otherwise the same model as this convention, and could replace it (exp 18; open decision in README).
   - **Don't reuse tb_LAI_TPT's old `beta_ode_from_tb`.** It used −ln(1 − p) per contact, which is K·b, v4's low mapping. It was in `ode_testing/run_ode_vs_abm.py`, deleted in tb_LAI_TPT commit `bb19486` (2026-10-28).
 - **Evidence:** [exp 12](experiments/12_v4_setup/SUMMARY.md) (0.956 ± 0.003 of the ODE's infections per step with `beta/K`, 0.997 ± 0.003 matched); [exp 13](experiments/13_v4_pinned_rerun/SUMMARY.md); [proposal 01](proposals/01_network_beta/proposal.md).
 
@@ -68,7 +72,7 @@ tb = tbsim.TB(inf_non=inf_non, inf_asy=inf_asy, k_latent=k_latent,
 ```
 
 - **φ > 0, always.** With φ = 0 a remote infection never progresses, so the model is effectively a single latent state with raised clearance, outside tb_LAI_TPT's prior for clearance. Set aside (user, 2026-11-04).
-- **φ for now:** sweep a couple of values, about 0–0.03 (up to 0.1 if clearance may rise within its prior; [exp 16](experiments/16_two_state_vs_lai_tpt/SUMMARY.md)). Calibrate it eventually; it may only be identifiable with all the targets, burden data included.
+- **φ for now:** sweep a couple of values, about 0–0.03 (up to 0.1 if clearance may rise within its prior; [exp 16](experiments/16_two_state_vs_lai_tpt/SUMMARY.md)). Calibrate it eventually; it may only be identifiable with all the targets, burden data included. Exp 20's calibration without treatment (prior 0–0.1, five targets: burden and progression) didn't identify it. The likelihood is flat for φ from 0.01 to 0.1, so its posterior (0.008–0.095) reflects the prior.
 - **Fitting:** fit the recent rates and `k_latent` to the progression targets (convention 4), not by converting tb_LAI_TPT's `k`. The two models aren't the same, and tb_LAI_TPT's `k` was fitted with v0.10's monthly bias.
 - **Pitfalls:**
   - **Set both remote rates explicitly.** v4's defaults are `inf_non_remote=None` (the same as `inf_non`, so no front-loading to NON) and `inf_asy_remote=0`.
@@ -87,7 +91,7 @@ tb = tbsim.TB(inf_non=inf_non, inf_asy=inf_asy, k_latent=k_latent,
 | `rr_superinfection_latent` (with strains) | Recent latent, new strain | 1.0 | π |
 | `rr_superinfection_non` (with strains) | Non-infectious TB, new strain | 1.0 | π |
 
-- **The rule in v4:** reinfecting a remote infection makes it recent again. Reinfecting a recent one leaves it recent, which is what a clock reset means for a state without memory. Whether the rule matters with φ > 0 is exp 17.
+- **The rule in v4:** reinfecting a remote infection makes it recent again. Reinfecting a recent one leaves it recent, which is what a clock reset means for a state without memory. With φ = 0.003–0.03 it adds 83–93% as much progression as tb_LAI_TPT's model solved exactly (continuous time). Against tb_LAI_TPT as run (v0.10, monthly `dt`), which overstates progression after each infection, it's 75–84%. Either way that's about 0.5% of cumulative progression at set B's force of infection (exp 17).
 - **Multistrain: to revisit later** (user, 2026-11-05). The aim is v0.10 `TBResistant`'s behaviour where possible. The table above gives its single σ; what still differs is in the [options note](proposals/02_latent_progression/options.md#with-multiple-strains-drug-resistance), for example that v4 has no strain counts.
 
 ## 4. Progression targets
@@ -115,23 +119,24 @@ B(t) is the share of a cohort, all latent at t = 0, that has ever reached asympt
 **Why:**
 
 - **Transitions:** at monthly `dt`, snapshots miss 3.3% of episodes, because they're brief ([exp 11](experiments/11_incidence_counting/SUMMARY.md)).
-- **First entry:** this is tb_LAI_TPT's definition (`IncidenceTracker`). Re-entries could be a sizeable share of all entries, because people leave ASY for NON quickly (`asy_non` = 1.66 per year by default); not measured.
+- **First entry:** this is tb_LAI_TPT's definition (`IncidenceTracker`). Re-entries are about half of all entries (46% in set A, 50% in set B at 500/100k), because people leave ASY for NON quickly (`asy_non` ≈ 1.7 per year). So counting every entry roughly doubles incidence and halves prevalence ÷ incidence ([exp 19](experiments/19_v4_incidence/SUMMARY.md)).
 
 **Code:**
 
 - **v0.10, done:**
   - **ODE:** `tbode.TBODE`'s `incidence_py` counts entries to ASY from latent infection and from NON0, the non-infectious people not yet asymptomatic in this episode (`tbode/ode.py`). NON0 is a split of NON with the same rates, so it doesn't change the dynamics.
   - **Agents:** `tbode.TBExact`'s `new_episodes` (`incidence_event_py` in `tbode.compare`).
-- **v4, not yet:**
-  - **What's there:** `v4/common.py`'s `outputs()` counts **every** entry to ASY from latent or non-infectious TB, on both solvers. So it suits agent ↔ ODE checks, but it isn't this definition. Don't use it for incidence.
-  - **The likely fix:** split `non_infectious` the same way, into "not yet asymptomatic this episode" and "has been", with identical rates. Both solvers then run the same declared model, so both can count first entries. An agents-only flag wouldn't do, because the ODE couldn't count the same thing.
+- **v4, done ([exp 19](experiments/19_v4_incidence/SUMMARY.md)):**
+  - **ODE:** `tbode4.fastode`, a standalone copy of v4's ODE with NON split into NON0 and NON1 (identical rates). `flows(x, p).incidence` counts first entries; `summary()` gives the calibration outputs. It reproduces v4's ODE (`v4/tests/test_fastode.py`; rerun after bumping the v4 pins). v4's own declared model still has a single NON state.
+  - **Agents:** the `Incidence` analyzer in `experiments/19_v4_incidence/run.py`, with a per-agent flag for "has been asymptomatic this episode". It matches the ODE per prevalent case within 0.4%.
+  - **Don't use** `v4/common.py`'s `outputs()` for incidence. It counts every entry to ASY, and with the two-state model it also misses remote latent → ASY.
 - **Open:** whether calibration targets should leave out brief subclinical episodes. If so, define the rule by duration in both models, not by step boundaries.
 - **Notifications,** once treatment is on, need a transition-based count too.
 
 ## 6. Starting and comparing runs
 
 - **Start agents at the ODE's equilibrium** (`init=` in v4, exact) rather than burning in. Near threshold the approach to equilibrium is slow.
-- **Compare proportions, not counts.** Use the same outputs on both sides: state shares, prevalence (ASY + SYM), TB mortality, and incidence as in convention 5 (not yet available in v4). ABM infection counts include reinfections.
+- **Compare proportions, not counts.** Use the same outputs on both sides: state shares, prevalence (ASY + SYM), TB mortality, and incidence as in convention 5. ABM infection counts include reinfections.
 - **Reps:** show the mean ± SE across seeds and a 10–90% interval, with enough reps that the SE is small against the gap being tested. Near threshold, the spread across reps is about 14% of prevalence at 50k agents.
 - **v4 seeds are deterministic:** reps with the same seed and code repeat a run, so extra reps need new seeds.
 - **Step:** v4 agents match the ODE at monthly `dt`. v0.10's `tbsim.TB` doesn't, because of its step ordering and start-of-step hazards (exps 03–08); use `tbode.TBExact` there.
@@ -141,3 +146,35 @@ B(t) is the share of a cohort, all latent at t = 0, that has ever reached asympt
 - **Pin tbsim and starsim to exact git commits** in `pyproject.toml` / `uv.lock`, not editable checkouts shared with other projects. tbsim v4 still reports `__version__ = '0.10.3'`, so only the commit identifies it.
 - **Record the versions with every run's outputs** (`tbode4.save_versions`).
 - **After bumping the pins,** rerun an anchor test like `v4/tests/test_anchor.py` (the v4 ODE reproduces the reference ODE).
+
+## 8. Calibrating the ODE: a standalone copy at equilibrium, with IMIS
+
+**What:** calibrate the ODE with `tbode4.fastode`, a standalone copy of v4's TB ODE (our own code, outside Starsim's solver). Its outputs come from its endemic equilibrium:
+
+- **A short burn-in** (300 years with an adaptive solver), to land near the endemic equilibrium rather than the one where TB has died out.
+- **Then root-finding** for the state where every rate of change is zero.
+
+Sample the posterior with IMIS.
+
+**Why:** one equilibrium takes about 10 ms, against 0.1–0.3 s through Starsim, which steps a full sim for thousands of years. [Exp 20](experiments/20_ode_calibration/SUMMARY.md)'s calibration (228,000 model runs) took about 10 minutes on 4 cores, against roughly 2–5 hours through Starsim. The equilibria are the same: they agree to 1e-14 ([exp 19](experiments/19_v4_incidence/SUMMARY.md)).
+
+**Workflow** (`experiments/20_ode_calibration/calib.py` and `run.py`, reusable):
+
+1. **Coverage check:** about 5,000 prior draws. Does each target's interval fall inside the spread of the model's outputs, and do some draws satisfy every target at once? A target out of reach is a model or prior problem, not something calibration can fix (exp 20's mortality ÷ incidence without treatment).
+2. **Re-identification:** IMIS on synthetic targets from a known parameter set. It should recover the truth's best fit, and cover the truth in most marginals. A truth outside its interval can mean the parameter isn't identified; check whether the likelihood is flat in it (φ in exp 20).
+3. **Real targets.**
+
+**Settings and likelihoods:**
+
+- **IMIS:** 10,000 initial prior draws; 1,000 draws per added component; stop at (1 − 1/e)·3,000 expected unique points in a resample of 3,000. Allow 300 iterations: broad, weakly identified posteriors can need more than 150.
+- **Likelihoods:** Binomial for survey proportions, log-Normal (data σ) for ratios and the progression targets. The ODE is deterministic, so there's no simulation-noise term.
+- **Progression targets:** from `tbode4.latent`'s exact chain (convention 4).
+- **No endemic equilibrium:** a draw without one gets zero likelihood (`fastode.equilibrium` returns None).
+
+**Keeping it valid:**
+
+- **It is a second implementation of the model.** v4's own ODE stays the reference for ODE↔agents comparisons.
+  - **Every feature added to the model** (treatment next) goes into `fastode` too, and is tested against v4's ODE before it's used for calibration.
+  - **After bumping the v4 pins,** rerun `v4/tests/test_fastode.py`.
+- **The equilibrium shortcut needs constant rates.** With time-varying inputs (treatment scale-up, demography, trends over time), integrate trajectories with `fastode.run`, which is slower than root-finding but still far faster than Starsim. Or start from an equilibrium at an early year and integrate from there.
+- **Check identifiability:** compare each marginal with its prior. With few targets, many parameters stay near their priors (exp 20: `beta` and π constrained; φ and the non-infectious cascade not).

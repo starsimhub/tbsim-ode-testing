@@ -27,17 +27,17 @@ tbsim v4 replaced this with `k_latent`: two latent states, recent and remote, wi
 - **1. Fit to the data, which matters most:** B meets the progression targets within tb_LAI_TPT's priors: ≥ 92% of the posterior weight is within 1σ of both up to φ = 0.01, with the active-disease cascade fixed. A would need recalibrating too: at tb_LAI_TPT's parameters, it meets them for 26%.
 - **2. Consistency with tb_LAI_TPT as run, which matters less:**
   - **A** has tb_LAI_TPT's hazard.
-  - **B's cumulative progression** is within 2–6% for φ ≤ 0.03.
+  - **B's cumulative progression** is within 2–6% for φ ≤ 0.03, against tb_LAI_TPT's curves as it measures them (end-of-step snapshots). Counted from transitions, tb_LAI_TPT as run progresses more, and B is 4–15% below it, mostly from v0.10's monthly step (exp 17).
   - **B's latent infection behaves differently:** a lifelong floor in the hazard at φ·r₀, and more of the later progression coming from latent infection.
 - **3–6:**
   - B is exact under both solvers and already in v4, with strains.
   - It is smaller: 2 latent states against 8, or 30 compartments against 120 with tb_LAI_TPT's 2 drugs.
-  - Its reinfection rule doesn't reset recent infections. That made no measurable difference without remote progression, and is still to check with it (exp 17).
+  - Its reinfection rule doesn't reset recent infections. With φ = 0.003–0.03, latent reinfection adds 83–93% as much progression as tb_LAI_TPT's model solved exactly (continuous time), and 75–84% as much as tb_LAI_TPT as run (v0.10, monthly `dt`). At set B's force of infection that's about 0.5% of cumulative progression (exp 17).
 
 **What could reopen it:**
 
 - the full recalibration, with φ calibrated, can't fit the data within tb_LAI_TPT's priors;
-- exp 17 finds that the reinfection rule matters with φ > 0;
+- the reinfection rule matters at equilibrium, with tb_LAI_TPT's network, demography and treatment (in a cohort it doesn't: exp 17);
 - an intervention being modelled turns out to depend on how latent infection behaves, for example TPT given to latent infection only;
 - B's underlying behaviour lacks face validity, especially against the underlying dynamics of tb_LAI_TPT as run (criterion 2). Examples are the latent hazard, where later progression comes from, and how long infections stay latent.
 
@@ -94,7 +94,7 @@ Recent infections progress at `inf_non` / `inf_asy` and become remote at rate `k
   - **Latent infection behaves differently.** 27–35% of the progression in years 1–10 comes from people still latent at year 1, against 12.5% as run, where most of it comes through non-infectious TB. That matters for interventions on latent infection such as TPT. tb_LAI_TPT's TPT also acts on non-infectious TB, which limits the difference for this project.
   - **Time spent latent** is within 1%. Freeing clearance instead (arm 2) costs latent infection: ×0.70 at φ = 0.1.
 - **φ isn't identified by the progression targets.** With the cascade fixed, there are three parameters (r₀, `k_latent`, φ) for two targets. The plan is to calibrate φ in the full recalibration, jointly with the epidemiological targets (user, 2026-11-04). Exp 16 suggests a prior of about 0–0.03 with the cascade fixed, or up to about 0.1 if clearance may rise.
-- **Reinfection:** remote → recent. Reinfecting a recent infection does nothing, where the exact model resets the clock. The effect has been measured only without remote progression (below); with φ > 0 it is still to check (exp 17).
+- **Reinfection:** remote → recent. Reinfecting a recent infection does nothing, where tb_LAI_TPT's model resets the clock. Without remote progression the effect is negligible (below). With φ = 0.003–0.03, in a cohort at a constant force of infection, B's rule adds 83–93% as much progression as tb_LAI_TPT's model solved exactly (continuous time), about 0.5% of cumulative progression at set B's force of infection (exp 17).
 - **Solvers:** exact under both by construction, since every rate is constant. Agents ÷ ODE measured without remote progression: set B 1.01 ± 0.01 / 1.01 ± 0.01 at monthly / weekly `dt` (exp 13, 40 reps). v4's own ODE cohort with φ = 0.03 matches the deterministic chain used in exp 16 to 2.3e-6.
 - **Size:** 2 latent states. Parameters `k_latent` and φ, against `k` alone in v0.10.
 - **Pitfall:** `inf_non_remote=None` means "the same as `inf_non`", so by default only progression to asymptomatic TB is front-loaded. A proposal would tie both remote rates to φ.
@@ -230,7 +230,7 @@ Resistance is a low priority in the plan. But superinfecting a latent infection 
   - **Range:** about 0–0.03 from exp 16, or up to about 0.1 if clearance may rise within its prior. The long-term reactivation literature could inform it.
   - **Open:** whether to let `inf_cle`, `non_rec` and `non_asy` move to make room for larger φ, at the cost of less latent infection.
 - **Whether B's latent behaviour is acceptable** (criterion 2). It has a reactivation floor where tb_LAI_TPT's hazard declines to zero, and 2–3 times as much of the progression after year 1 comes from latent infection rather than non-infectious TB. Interventions on latent infection would be affected; tb_LAI_TPT's TPT also acts on non-infectious TB, which limits this.
-- **Reinfection of recent infections.** Is v4's "does nothing" acceptable as a modelling statement? It makes no measurable difference at φ = 0; exp 17 checks it with φ > 0. Or should we ask for a clock reset in principle?
+- **Reinfection of recent infections.** Is v4's "does nothing" acceptable as a modelling statement? It makes no measurable difference at φ = 0, and with φ ≤ 0.03 it changes cumulative progression by about 0.5% at set B's force of infection (exp 17). Or should we ask for a clock reset in principle?
 - **With strains: match v0.10's multistrain model where possible** (user, 2026-11-05).
   - **The parameters:** in v0.10's `TBResistant`, σ is the risk of reinfecting a latent infection, relative to someone susceptible, with the same strain or another one. It is `rr_reinfection_inf` (σ_L), and `rr_reinfection_non` (σ_N) for non-infectious TB. tb_LAI_TPT sets both to π.
   - **Matching them in v4 means setting three parameters to π:**

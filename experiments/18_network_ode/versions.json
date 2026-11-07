@@ -1,0 +1,19 @@
+{
+  "track": "v4 (exp 18 environment)",
+  "date": "2026-11-06T15:42:52",
+  "python": "3.13.12",
+  "tbsim": {
+    "version": "0.10.3",
+    "source": "https://github.com/starsimhub/tbsim",
+    "commit": "efeca562258b644115bb06edaa72ba6740ef9d3e"
+  },
+  "starsim": {
+    "version": "4.0.0rc3",
+    "source": "https://github.com/starsimhub/starsim",
+    "commit": "bc2704b227c53803faa2f2351d0ded274ecd0e34"
+  },
+  "repo": {
+    "commit": "7b20de226b0b95e5800a904c052ae8f11034c404",
+    "dirty": true
+  }
+}

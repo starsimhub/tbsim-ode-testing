@@ -1,0 +1,58 @@
+phi0.003: beta = 22.26180, prevalence = 500.00/100k, fit z = {'z_Y1': -2.244067815731702e-14, 'z_Ratio': -3.59649712202516e-14} (2 s)
+phi0.003_month 40 reps in 39 s; prevalence 1950–2000, agents ÷ ODE: 0.996 ± 0.012
+phi0.003_week  40 reps in 151 s; prevalence 1950–2000, agents ÷ ODE: 0.992 ± 0.010
+phi0.01: beta = 21.14343, prevalence = 500.00/100k, fit z = {'z_Y1': 0.00540550809452818, 'z_Ratio': -0.5804655631876068} (2 s)
+phi0.01_month  40 reps in 39 s; prevalence 1950–2000, agents ÷ ODE: 0.990 ± 0.010
+phi0.01_week   40 reps in 154 s; prevalence 1950–2000, agents ÷ ODE: 0.985 ± 0.011
+phi0.03: beta = 19.12147, prevalence = 500.00/100k, fit z = {'z_Y1': 0.034107110843166394, 'z_Ratio': -1.6490730910580855} (1 s)
+phi0.03_month  40 reps in 39 s; prevalence 1950–2000, agents ÷ ODE: 0.991 ± 0.007
+phi0.03_week   40 reps in 155 s; prevalence 1950–2000, agents ÷ ODE: 0.991 ± 0.009
+           arm         output  reps   mean     se    p10    p90
+phi0.003_month     prevalence    40 0.9958 0.0120 0.9178 1.0942
+phi0.003_month         latent    40 1.0238 0.0088 0.9631 1.0912
+phi0.003_month         recent    40 1.3285 0.0123 1.2474 1.4201
+phi0.003_month         remote    40 0.9944 0.0085 0.9352 1.0589
+phi0.003_month        cleared    40 0.9973 0.0006 0.9927 1.0019
+phi0.003_month      recovered    40 0.9985 0.0020 0.9837 1.0173
+phi0.003_month non_infectious    40 0.9966 0.0106 0.9272 1.0688
+phi0.003_month      tb_deaths    40 0.9892 0.0116 0.9085 1.0986
+ phi0.003_week     prevalence    40 0.9924 0.0102 0.9135 1.0721
+ phi0.003_week         latent    40 0.9990 0.0074 0.9421 1.0597
+ phi0.003_week         recent    40 1.0640 0.0086 0.9935 1.1283
+ phi0.003_week         remote    40 0.9927 0.0073 0.9364 1.0536
+ phi0.003_week        cleared    40 0.9985 0.0006 0.9945 1.0026
+ phi0.003_week      recovered    40 0.9996 0.0021 0.9837 1.0163
+ phi0.003_week non_infectious    40 0.9914 0.0090 0.9194 1.0653
+ phi0.003_week      tb_deaths    40 0.9935 0.0110 0.9104 1.0842
+ phi0.01_month     prevalence    40 0.9899 0.0096 0.9161 1.0772
+ phi0.01_month         latent    40 1.0190 0.0074 0.9598 1.0818
+ phi0.01_month         recent    40 1.2496 0.0096 1.1751 1.3386
+ phi0.01_month         remote    40 0.9901 0.0071 0.9350 1.0496
+ phi0.01_month        cleared    40 0.9967 0.0006 0.9921 1.0022
+ phi0.01_month      recovered    40 0.9961 0.0024 0.9771 1.0147
+ phi0.01_month non_infectious    40 0.9924 0.0084 0.9323 1.0643
+ phi0.01_month      tb_deaths    40 0.9875 0.0098 0.9187 1.0657
+  phi0.01_week     prevalence    40 0.9854 0.0109 0.9006 1.0590
+  phi0.01_week         latent    40 0.9938 0.0079 0.9365 1.0437
+  phi0.01_week         recent    40 1.0435 0.0088 0.9803 1.1075
+  phi0.01_week         remote    40 0.9876 0.0078 0.9318 1.0373
+  phi0.01_week        cleared    40 0.9981 0.0007 0.9910 1.0022
+  phi0.01_week      recovered    40 0.9967 0.0025 0.9789 1.0187
+  phi0.01_week non_infectious    40 0.9850 0.0099 0.9037 1.0581
+  phi0.01_week      tb_deaths    40 0.9870 0.0104 0.9173 1.0653
+ phi0.03_month     prevalence    40 0.9912 0.0074 0.9314 1.0519
+ phi0.03_month         latent    40 1.0207 0.0054 0.9784 1.0661
+ phi0.03_month         recent    40 1.1788 0.0066 1.1273 1.2369
+ phi0.03_month         remote    40 0.9922 0.0052 0.9517 1.0367
+ phi0.03_month        cleared    40 0.9966 0.0008 0.9925 1.0012
+ phi0.03_month      recovered    40 0.9947 0.0021 0.9809 1.0097
+ phi0.03_month non_infectious    40 0.9907 0.0066 0.9435 1.0430
+ phi0.03_month      tb_deaths    40 0.9882 0.0070 0.9296 1.0483
+  phi0.03_week     prevalence    40 0.9914 0.0093 0.9141 1.0687
+  phi0.03_week         latent    40 0.9984 0.0067 0.9396 1.0507
+  phi0.03_week         recent    40 1.0333 0.0075 0.9678 1.0988
+  phi0.03_week         remote    40 0.9921 0.0065 0.9347 1.0447
+  phi0.03_week        cleared    40 0.9982 0.0008 0.9921 1.0042
+  phi0.03_week      recovered    40 0.9976 0.0025 0.9804 1.0158
+  phi0.03_week non_infectious    40 0.9925 0.0086 0.9211 1.0686
+  phi0.03_week      tb_deaths    40 0.9897 0.0102 0.8956 1.0628
