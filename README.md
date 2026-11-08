@@ -72,10 +72,11 @@ Status: ⬜ not started · 🟡 in progress · ✅ matched · ⚠️ approximate
 
 ### Next, in order
 
-1. **Treatment, next** (user, 2026-11-06; the treatment row).
+1. **[Exp 22](experiments/22_network_conversion/README.md): convert the calibrated homogeneous parameters for `RandomNet(10, dur=0)`** (b, π′ and κ′ in closed form) and check that agents on the network reproduce the calibrated ODE, against converting `beta` alone. No Starsim change needed. Design drafted, for confirmation.
+2. **Treatment, next** (user, 2026-11-06; the treatment row).
    - **First:** decide a treatment proposal, not yet written (a fixed course with outcome probabilities, and failure back to the previous state, against v4's completion rate).
    - **Then:** add it to the ODE and agents, and recalibrate with mortality ÷ incidence brought back. Notifications will need a transition-based count, like incidence.
-2. **The remaining rows, in table order:** age structure and demography, child transmission, time-varying parameters, then the low-priority household network and drug resistance.
+3. **The remaining rows, in table order:** age structure and demography, child transmission, time-varying parameters, then the low-priority household network and drug resistance.
    - **Starting runs:** starting agents at an equilibrium is simple while rates have no memory. Age structure needs an initial age distribution, and fixed delays (treatment, relapse) need an initial time in state.
    - **Drug resistance:** v4's resistance agents against its ODE in our matched setup, and a check of what tb_LAI_TPT's `TBResistant` setup uses that v4 doesn't have.
 

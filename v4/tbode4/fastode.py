@@ -4,7 +4,7 @@ calibration: the same equations as one function of the state, with the equilibri
 about a second through Starsim). Checked against v4's ODE in tests/test_fastode.py and exp 19; rerun that test after bumping the
 v4 pins.
 
-Scope: homogeneous mixing, no treatment (diagnosis rate theta = 0), births replacing every death (mu, as tbsim.TB's own),
+Scope: homogeneous mixing (or, optionally, a random network with fresh contacts each step: see force()), no treatment (diagnosis rate theta = 0), births replacing every death (mu, as tbsim.TB's own),
 optionally the two latent states (k_latent > 0). Shares of a constant population.
 
 One state is split for counting only: non-infectious TB is NON0 (not yet asymptomatic in this episode) and NON1 (has been), with
@@ -16,13 +16,14 @@ import sciris as sc
 from scipy.integrate import solve_ivp
 from scipy.optimize import root
 
-__all__ = ['default_pars', 'make_pars', 'state_names', 'rhs', 'flows', 'run', 'equilibrium', 'summary']
+__all__ = ['default_pars', 'make_pars', 'state_names', 'force', 'rhs', 'flows', 'run', 'equilibrium', 'summary']
 
 # tbsim.tb_pars() at tbsim dcfb522 (rates per year), the parameters used here
 default_pars = dict(
     beta=9.0, trans_asymp=0.82, rr_reinfection_cleared=1.00, rr_reinfection_rec=0.21, rr_reinfection_treat=3.15, rr_reinfection_inf=0.21,
     inf_cle=1.90, inf_non=0.16, inf_asy=0.06, k_latent=0.0, inf_non_remote=None, inf_asy_remote=0.0,
     non_rec=0.18, non_asy=0.25, asy_non=1.66, asy_sym=0.88, sym_asy=0.54, sym_dead=0.34, mu=1/70,
+    net_contacts=0.0, net_step=0.0, # A random network with fresh contacts each step (off: 0); see flows()
 )
 
 state_names = ['susceptible', 'infection', 'infection_remote', 'cleared', 'recovered', 'non0', 'non1', 'asymptomatic', 'symptomatic']
@@ -40,19 +41,35 @@ def make_pars(**kwargs):
     return {k: float(v) for k, v in p.items()}
 
 
+def force(p, x, rr=1.0):
+    """
+    The force of infection on someone at relative risk rr (per year).
+
+    Homogeneous mixing (net_contacts = 0): rr·beta·(trans_asymp·A + Y), exposure being the share of the population in each state.
+
+    A random network with fresh contacts each step (net_contacts = K mean contacts, net_step = D years; beta is then per contact): each
+    contact transmits at most once in a step, with probability 1 − e^(−x) for its own per-step rate x, so each combination of target risk
+    and source infectiousness saturates on its own: (K/D)·[(1 − e^(−rr·beta·D))·Y + (1 − e^(−rr·trans_asymp·beta·D))·A]. This is what
+    agents on ss.RandomNet(dur=0) do, and what proposal 03 asks Starsim's ODE of a network to do (a reference version of that fix).
+    """
+    if not p['net_contacts']:
+        return rr*p['beta']*(p['trans_asymp']*x[A] + x[Y])
+    K, D, b = p['net_contacts'], p['net_step'], p['beta']
+    return (K/D)*(-np.expm1(-rr*b*D)*x[Y] - np.expm1(-rr*p['trans_asymp']*b*D)*x[A])
+
+
 def flows(x, p):
     """ Each transition's flow (per year, as a share of the population) at state x """
-    lam = p['beta']*(p['trans_asymp']*x[A] + x[Y]) # Homogeneous mixing: exposure is the share of the population in each state
     N = x[N0] + x[N1]
     f = sc.objdict(
-        transmission     = lam*x[S],
-        reinfect_cle     = p['rr_reinfection_cleared']*lam*x[C],
-        reinfect_rec     = p['rr_reinfection_rec']*lam*x[R],
+        transmission     = force(p, x)*x[S],
+        reinfect_cle     = force(p, x, p['rr_reinfection_cleared'])*x[C],
+        reinfect_rec     = force(p, x, p['rr_reinfection_rec'])*x[R],
         clearance        = p['inf_cle']*x[L],
         latent_non       = p['inf_non']*x[L],
         latent_asy       = p['inf_asy']*x[L],
         remote           = p['k_latent']*x[L],
-        reinfect_remote  = p['rr_reinfection_inf']*lam*x[M],
+        reinfect_remote  = force(p, x, p['rr_reinfection_inf'])*x[M],
         clearance_remote = p['inf_cle']*x[M],
         remote_non       = p['inf_non_remote']*x[M],
         remote_asy       = p['inf_asy_remote']*x[M],
@@ -125,6 +142,12 @@ def equilibrium(p, x0=None, burn=300, tol=1e-12):
         d[S] = z.sum() - 1 # Replace one equation (dx sum to 0 by construction) by the constraint
         return d
     sol = root(g, x, method='hybr', tol=tol)
+    if not sol.success: # The root-finder stalled: burn in longer, and retry from there
+        _, X = run(p, x, years=2000, t_eval=[2000], rtol=1e-10, atol=1e-13)
+        x = X[-1]
+        sol = root(g, x, method='hybr', tol=tol)
+        if not sol.success and np.max(np.abs(rhs(0, x, p))) < 1e-12: # Accept the burn-in's end if it is already at rest
+            sol = sc.objdict(success=True, x=x)
     if not sol.success or np.any(sol.x < -1e-12) or sol.x[A] + sol.x[Y] < 1e-9:
         return None
     return np.clip(sol.x, 0, None)
