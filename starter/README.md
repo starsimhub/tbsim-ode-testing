@@ -3,7 +3,7 @@
 `run_tbsim.py` runs TBsim v4 as an agent-based model and plots active TB prevalence, incidence and TB mortality over time:
 
 - **Agents:** 50,000, in 4 runs with different random seeds.
-- **Period:** 1900–2000, at monthly steps.
+- **Period:** 1950–2000, at monthly steps.
 
 It builds in the choices worked out in this repo (listed below), so you can start from a setup that is consistent with TBsim's ODE version and with the calibration.
 
@@ -32,7 +32,10 @@ If another Python environment is active, run `unset VIRTUAL_ENV` first. A run ta
 - **Reinfection:** anyone infected before can be reinfected, at a relative risk `pi` compared with someone never infected. Reinfection of remote latent infection makes it recent again.
 - **Homogeneous mixing:** everyone mixes with everyone, with no contact network. This matches TBsim's ODE directly and runs about twice as fast as a random network.
   - **If you need a random contact network,** the transmission parameters must be converted (`CONVENTIONS.md`, section 1), not just divided by the number of contacts.
-- **Starting at equilibrium:** agents start in each state in the proportions of the ODE's endemic equilibrium, computed from the parameters. So no long burn-in is needed, and the lines stay flat around the dashed equilibrium. If you change the parameters, the script recomputes the starting state.
+- **Starting at equilibrium:** agents start in each state in the proportions of the ODE's endemic equilibrium, computed from the parameters. If you change the parameters, the script recomputes the starting state.
+  - **The average needs no burn-in.** Averaged over runs, prevalence stays within about 2% of the equilibrium from the first year (240 runs, `experiments/21_calibrated_comparison`).
+  - **The spread between runs takes time to build up.** Every run starts from exactly the same proportions, so the runs are nearly identical at first. They take about 20–25 years to reach their full variability (about ±14% in a single year's prevalence). Starting in 1950 leaves enough time before 2000. If you want uncertainty bands for an earlier period, start earlier.
+  - **This works only while the model has no memory** beyond each person's current state. Age structure, fixed treatment or relapse delays, or parameters that change over time would need a realistic starting population, or a run through history, instead.
 - **Incidence** is counted as the first entry to asymptomatic TB in each episode, from the transitions in each step (`CONVENTIONS.md`, section 5). It's not counted from the number of people with TB at the end of each step, which misses short episodes. People who move between asymptomatic and non-infectious TB within one episode are counted once.
 - **TB mortality** is TB deaths per 100,000 per year. Births replace every death, so the population stays at 50,000.
 
@@ -43,4 +46,4 @@ If another Python environment is active, run `unset VIRTUAL_ENV` first. A run ta
   - **TB mortality is too high relative to incidence** (about 0.25 deaths per new case, against about 0.11 in the data), because nobody is cured. The calibration left this target out until treatment is added.
 - **No household network,** and none of the other structure in tb_LAI_TPT's model: no lower transmission from children, no time-varying parameters, no drug resistance.
 - **One parameter draw:** the results don't reflect uncertainty in the calibration. Rerun with other draws to see it.
-- **Noise:** at 50,000 agents, one run's prevalence varies by about 9% from run to run. The mean of 4 runs is uncertain by about ±5% (one standard error). Use more runs, or more agents, for precise comparisons.
+- **Noise:** at 50,000 agents, a run's prevalence averaged over 1950–1999 varies by about 9% from run to run (about 14% in a single year). The mean of 4 runs is uncertain by about ±5% (one standard error). Use more runs, or more agents, for precise comparisons.

@@ -1,7 +1,7 @@
 """
 A starting point for running TBsim v4 as agents, with the conventions worked out in this repo. See README.md.
 
-Starts 50,000 agents at the model's endemic equilibrium in 1900, runs to 2000 at monthly steps, saves the results, and plots
+Starts 50,000 agents at the model's endemic equilibrium in 1950, runs to 2000 at monthly steps, saves the results, and plots
 prevalence, incidence and TB mortality over time. Run from the repo root:
 
     v4/.venv/bin/python starter/run_tbsim.py
@@ -22,7 +22,7 @@ from tbode4 import fastode # noqa: E402  # A standalone copy of TBsim's ODE, use
 n_agents = 50_000
 n_reps = 4 # Independent runs, each with its own random seed
 seed0 = 1
-start, stop = 1900, 2000
+start, stop = 1950, 2000 # Runs take about 20-25 years to spread out from their shared starting state (README)
 dt = ss.months(1)
 ncpus = 4 # Runs in parallel, one per core
 
@@ -157,6 +157,6 @@ if __name__ == '__main__':
     df.to_csv(outdir / 'tbsim_burn_in.csv', index=False) # Yearly outputs of every run
     sc.save(outdir / 'tbsim_burn_in.obj', sc.objdict(pars=pars, init=init, ode_reference=ref, results=df)) # Everything needed to redraw the figure
     plot(df, ref)
-    print('Mean of the runs over 1950-1999, per 100,000:')
-    print(df[df.year >= 1950][['prevalence', 'incidence', 'mortality']].mean().round(0).to_string())
+    print(f'Mean of the runs over {start}-{stop - 1}, per 100,000:')
+    print(df[['prevalence', 'incidence', 'mortality']].mean().round(0).to_string())
     print('Saved tbsim_burn_in.csv, tbsim_burn_in.obj and tbsim_burn_in.png')
