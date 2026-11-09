@@ -1,0 +1,8 @@
+monthly fixed=True abm: share of courses ending in TB death 0.1788 (exact 0.1796; ratio 0.996)
+monthly fixed=True ode: share of courses ending in TB death 0.1798 (exact 0.1796; ratio 1.001)
+monthly fixed=False abm: share of courses ending in TB death 0.1646 (exact 0.1652; ratio 0.996)
+monthly fixed=False ode: share of courses ending in TB death 0.1652 (exact 0.1652; ratio 1.000)
+weekly fixed=True abm: share of courses ending in TB death 0.1784 (exact 0.1796; ratio 0.993)
+weekly fixed=True ode: share of courses ending in TB death 0.1792 (exact 0.1796; ratio 0.998)
+weekly fixed=False abm: share of courses ending in TB death 0.1650 (exact 0.1652; ratio 0.999)
+weekly fixed=False ode: share of courses ending in TB death 0.1652 (exact 0.1652; ratio 1.000)

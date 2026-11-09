@@ -14,6 +14,7 @@ The modelling conventions decided in this repo, written so they can be adopted i
 | 6 | [Starting and comparing runs](#6-starting-and-comparing-runs) | Practice in this repo |
 | 7 | [Versions](#7-versions) | Practice in this repo |
 | 8 | [Calibrating the ODE: a standalone copy at equilibrium, with IMIS](#8-calibrating-the-ode-a-standalone-copy-at-equilibrium-with-imis) | Practice in this repo (2026-11-07) |
+| 9 | [Treatment](#9-treatment) | Decided and implemented (2026-11-09; exp 23): fixed 6-month course; loss to follow-up on treatment to add |
 
 ## 1. Per-contact `beta` and reinfection risks on a random network
 
@@ -148,6 +149,7 @@ B(t) is the share of a cohort, all latent at t = 0, that has ever reached asympt
 
 - **Count from transitions,** not from end-of-step snapshots (2026-10-13).
 - **Count only the first entry to asymptomatic TB in each episode,** per person-year, as tb_LAI_TPT does (2026-11-05). Re-entries after ASY → NON → ASY don't count.
+- **Count relapses after treatment as new episodes** (2026-11-09), as tb_LAI_TPT and WHO do. A relapse goes straight to symptomatic TB, so the first-entry rule alone would miss it. A failed course continues the same episode. Implemented in [exp 23](experiments/23_treatment/README.md).
 
 **Why:**
 
@@ -164,7 +166,7 @@ B(t) is the share of a cohort, all latent at t = 0, that has ever reached asympt
   - **Agents:** the `Incidence` analyzer in `experiments/19_v4_incidence/run.py`, with a per-agent flag for "has been asymptomatic this episode". It matches the ODE per prevalent case within 0.4%.
   - **Don't use** `v4/common.py`'s `outputs()` for incidence. It counts every entry to ASY, and with the two-state model it also misses remote latent → ASY.
 - **Open:** whether calibration targets should leave out brief subclinical episodes. If so, define the rule by duration in both models, not by step boundaries.
-- **Notifications,** once treatment is on, need a transition-based count too.
+- **Notifications** are counted from transitions too ([convention 9](#9-treatment)).
 
 ## 6. Starting and comparing runs
 
@@ -211,3 +213,34 @@ Sample the posterior with IMIS.
   - **After bumping the v4 pins,** rerun `v4/tests/test_fastode.py`.
 - **The equilibrium shortcut needs constant rates.** With time-varying inputs (treatment scale-up, demography, trends over time), integrate trajectories with `fastode.run`, which is slower than root-finding but still far faster than Starsim. Or start from an equilibrium at an early year and integrate from there.
 - **Check identifiability:** compare each marginal with its prior. With few targets, many parameters stay near their priors (exp 20: `beta` and π constrained; φ and the non-infectious cascade not).
+
+## 9. Treatment
+
+**Status:** design agreed (user, 2026-11-09), to implement in our own code: a `tbsim.TB` subclass in `tbode4`, and `fastode`. Implemented as `tbode4.TBTreat` (v4's ODE and agents) and in `tbode4.fastode`; [exp 23](experiments/23_treatment/SUMMARY.md) checks it, and compares the design with tb_LAI_TPT and with tbsim v4 as it stands. The course is fixed (user, 2026-11-09): it gives about 1% less prevalence than a rate, through TB death on treatment, and v4's ODE runs it exactly. The parts that may belong in tbsim v4 itself are in [proposal 04](proposals/04_treatment/proposal.md).
+
+**The design:**
+
+- **Starting treatment:** a declared transition from symptomatic TB at θ(t) = −ln(1 − c(t)) per year, where c is the annual coverage (the share of people with symptomatic TB treated within a year). Make it time-varying with `ss.timeseries` and `ss.modify`, in both solvers. Using c itself as the rate understates treatment by 31–40% at c = 0.55–0.68.
+- **The outcome, drawn at the start:** a person starting treatment enters `treatment_success` with probability s = adherence × efficacy, or `treatment_fail` otherwise. A time-varying efficacy then applies at its value when treatment starts.
+- **Failure, back to the starting state:** one pair of treatment states for each state treatment can start from. That's exact in both solvers, with no per-person memory. Starting from symptomatic TB only, there's one pair.
+- **The course:** fixed, D = 0.5 years (user, 2026-11-09): `TBTreat(course='fixed')`, the default. In `fastode`, pass `tx_stages=12`: Erlang stages approximate the fixed course, within 0.1% of prevalence (exp 23); the default, 1, is a rate.
+- **After cure:** v4's `treated` state, reinfected at `rr_reinfection_treat` = π like every other reinfection (convention 3), not v4's default of 3.15 (user, 2026-11-09). Keeping a separate state costs nothing, keeps the number previously treated visible, and leaves room for a different risk later.
+- **Relapse:** a share `p_relapse` of successes goes to `relapsing` instead of `treated`, then to symptomatic TB at rate 1/1.5 per year. People waiting to relapse can't be reinfected.
+- **On treatment:** nobody transmits or is reinfected. People whose treatment will fail keep the TB death rate of the state they started from (`sym_dead`) for the course; people who will be cured don't die of TB (user, 2026-11-09). Count these deaths in TB mortality, and include them in any births that replace TB deaths (`tbsim.TB`'s replacement covers symptomatic TB only).
+- **Notifications:** every start of treatment, counted from the transitions into treatment, so restarts after failure or relapse count again. Report notifications ÷ incidence too.
+
+**Declaring it in Starsim v4:**
+
+- **A plain duration is a rate:** `dur=ss.years(0.5)` is the mean of an exponential dwell time, in both solvers. A fixed time needs `dur=ss.constant(ss.years(0.5))`. Agents then leave after exactly D, and the ODE runs it as slots of whole steps, exact to the step (or as k Erlang stages, with `stages=k`).
+- **A fixed exit can branch:** `ss.Transition(treatment_success, [treated, relapsing], dur=ss.constant(...), p=[None, p_relapse])` runs in both solvers.
+- **No flags:** keep every part of treatment as states and transitions, not per-person flags such as `diagnosed`, `pending_relapse` or `prior_state`. Stale flags caused most of v0.10's treatment pitfalls (re-initiation, test results carried into later courses).
+- **Restarting in the step of failure is correct:** v4 agents can fail and restart within one step, for a share 1 − e^(−θ·dt/2) of failures, as in continuous time.
+- **Dates of results:** results at index i hold the transitions of the step ending at i (index 0 is the starting state). An `ss.timeseries` change applies from the first step starting on or after its date, and monthly steps (30.44 days) don't line up with calendar months.
+
+**Starting runs:** before treatment starts, use the untreated equilibrium with nobody on treatment. A start at a treated equilibrium needs people in the treatment and `relapsing` states and, with a fixed course, a time already on treatment (uniform over the course). Otherwise start with nobody on treatment and burn in for a few years.
+
+**To add later (user, 2026-11-09):**
+
+- **Loss to follow-up during treatment:** leaving treatment early, back to the starting state.
+- **Lower coverage for children,** with age structure.
+- **Not planned:** partial benefit from incomplete treatment, and transmission on treatment.

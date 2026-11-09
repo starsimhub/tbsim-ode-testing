@@ -1,0 +1,4 @@
+abm fixed=True: starts 40940, success-exits 19979, fail-exits 19788; R 18051, L+relapsed share of success-exits ~ 0.097
+abm fixed=False: starts 40627, success-exits 19518, fail-exits 19429; R 17582, L+relapsed share of success-exits ~ 0.099
+ode fixed=True: starts 41154, success-exits 19971, fail-exits 19971; R 17974, L+relapsed share of success-exits ~ 0.100
+ode fixed=False: starts 40641, success-exits 19468, fail-exits 19468; R 17521, L+relapsed share of success-exits ~ 0.100

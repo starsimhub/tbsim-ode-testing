@@ -1,0 +1,39 @@
+Flagged cases and the transitions each agent made in that step:
+                check    uid   ti                         made scen course    dt  rep
+    start_while_on_tx  92675   58 tx_start + tx_cure + relapse   eq   rate month   11
+tb_death_from_success 270312  529 tx_cure + relapse + tb_death   eq   rate month   16
+    start_while_on_tx 210146  153 tx_start + tx_cure + relapse   eq  fixed month   12
+tb_death_from_success  83238   72 tx_cure + relapse + tb_death   eq  fixed month   21
+    start_while_on_tx 202756  353 tx_start + tx_cure + relapse   eq  fixed month   33
+    start_while_on_tx 198354 2208 tx_start + tx_cure + relapse   eq   rate  week   36
+    start_while_on_tx  22089  339 tx_start + tx_cure + relapse ramp   rate month    0
+    start_while_on_tx 307816  507 tx_start + tx_cure + relapse ramp   rate month   14
+tb_death_from_success 236924  371 tx_cure + relapse + tb_death ramp   rate month   30
+    start_while_on_tx 295781  634 tx_start + tx_cure + relapse ramp  fixed month    5
+tb_death_from_success 251090  346 tx_cure + relapse + tb_death ramp  fixed month   17
+    start_while_on_tx 319475  642 tx_start + tx_cure + relapse ramp  fixed month   23
+
+Agents ÷ ODE, each output per prevalent case (mean ± SE over 40 reps):
+scenario    dt course  incidence  incidence_se  notifications  notifications_se  on_treatment  on_treatment_se  mortality  mortality_se  mortality_tx  mortality_tx_se  relapse  relapse_se
+      eq month   rate     1.0000        0.0019         1.0039            0.0043        1.0089           0.0042     0.9997        0.0054        1.0051           0.0127   0.9896      0.0246
+      eq month  fixed     0.9979        0.0019         1.0008            0.0032        1.0007           0.0032     0.9961        0.0042        1.0011           0.0095   1.0123      0.0234
+      eq  week   rate     1.0004        0.0021         1.0039            0.0034        1.0013           0.0041     1.0100        0.0052        1.0110           0.0127   1.0232      0.0232
+      eq  week  fixed     1.0048        0.0016         0.9994            0.0031        1.0016           0.0031     1.0058        0.0045        1.0045           0.0118   0.9990      0.0244
+    ramp month   rate     0.9997        0.0018         1.0002            0.0042        0.9993           0.0055     0.9984        0.0030        0.9966           0.0112   1.0148      0.0238
+    ramp month  fixed     0.9991        0.0018         0.9952            0.0043        0.9949           0.0043     0.9930        0.0030        0.9960           0.0098   0.9789      0.0234
+    ramp  week   rate     1.0005        0.0021         1.0050            0.0039        1.0071           0.0049     0.9982        0.0030        1.0042           0.0092   1.0136      0.0237
+    ramp  week  fixed     1.0022        0.0019         1.0073            0.0053        1.0105           0.0051     0.9981        0.0035        0.9995           0.0133   0.9968      0.0266
+eq: prevalence agents ÷ ODE pooled over the 4 arms 0.9834 ± 0.0084
+ramp: prevalence agents ÷ ODE pooled over the 4 arms 1.0065 ± 0.0044
+
+ODE, scale-up, fixed course, per 100,000:
+      prevalence  incidence  notifications  mortality
+year                                                 
+1980       312.0      193.0            0.0       48.5
+1994       312.0      193.0            0.0       48.5
+2000       283.7      179.0           23.9       44.3
+2010       176.2      118.2           46.5       27.1
+2015       131.9       90.8           38.3       20.0
+2020        98.8       70.1           31.5       14.8
+2024        78.4       57.1           26.5       11.6
+2035        47.8       36.8           16.0        7.0

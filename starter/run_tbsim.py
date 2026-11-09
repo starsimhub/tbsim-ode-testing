@@ -6,6 +6,8 @@ prevalence, incidence and TB mortality over time. Run from the repo root:
 
     v4/.venv/bin/python starter/run_tbsim.py
 """
+import os
+os.environ.setdefault('NUMBA_NUM_THREADS', '1') # One thread per process (Starsim's kernels otherwise use every core); before importing starsim
 import sys
 import numpy as np
 import pandas as pd

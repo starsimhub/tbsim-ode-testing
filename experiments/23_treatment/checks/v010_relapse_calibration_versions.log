@@ -1,0 +1,4 @@
+dt.days 30.416666666666668
+course length in steps (end - start): [5.918]
+relapse gap in steps (ti_relapse - ti_treatment_end): [0.5918]
+dur_relapse dist: ss.constant(v=1.5)  sample rvs: [18. 18.]

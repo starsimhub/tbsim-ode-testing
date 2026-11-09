@@ -1,0 +1,12 @@
+[timing] abm fixed=True: starts by month [    0 12631  4633]; exits months 0-9 [    0     0     0     0     0     0     0 12631  4633     0]
+[timing] abm fixed=False: starts by month [    0 12821  5287]; exits months 0-9 [   0 1011 2237 2298 1979 1669 1325 1159  978  815]
+[timing] ode fixed=True: starts by month [    0 12642  4651]; exits months 0-9 [    0     0     0     0     0     0     0 12642  4651     0]
+[timing] ode fixed=False: starts by month [    0 12808  5320]; exits months 0-9 [   0 1163 2260 2257 1911 1618 1369 1159  981  830]
+[s(t) as p] abm starts 2000.1-2001: share to Ts = 0.202
+[s(t) as p] abm starts 2001-2002: share to Ts = 0.735
+[s(t) as p] abm exits Jan-May 2001: success share 0.206 (0.2 if drawn at start, 0.8 if at exit)
+[s(t) as p] ode starts 2000.1-2001: share to Ts = 0.200
+[s(t) as p] ode starts 2001-2002: share to Ts = 0.739
+[s(t) as p] ode exits Jan-May 2001: success share 0.200 (0.2 if drawn at start, 0.8 if at exit)
+[same step] fixed=True: failures 19847, failed and restarted in the same step 7793 (0.393; theta*dt = 1.00, 1-exp = 0.632)
+[same step] fixed=False: failures 19073, failed and restarted in the same step 8321 (0.436; theta*dt = 1.00, 1-exp = 0.632)
