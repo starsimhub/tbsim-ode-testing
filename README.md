@@ -88,6 +88,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ matched · ⚠️ approximate
   - **What the fix does:** Starsim's ODE of a network now gives the same model as our matched `beta`, so our override is no longer needed. The convention could become "calibrate and run the ODE on the network".
   - **What neither handles:** on a network, both under-transmit reinfection at a reduced risk relative to agents. Set B's agents run 1.20× the ODE's prevalence at monthly `dt`, 1.05× at weekly.
   - **Decided (user, 2026-11-06):** the ODE recalibration uses homogeneous mixing, where agents match the ODE (exps 13–17) and no `beta` conversion is needed.
+  - **Decided (user, 2026-11-08): agents mix homogeneously by default,** and use a network only when a feature needs real contacts (the household network, contact-targeted interventions). On `RandomNet(10, dur=0)`, converted agents match homogeneous ones but run about 2× slower, with the same noise (exps 21–22).
   - **Decided (user, 2026-11-08): for agents on a random network, convert `beta` and each `rr_reinfection_*`, and leave `trans_asymp` unchanged** (CONVENTIONS.md 1; `tbode4.rr_edge_from_ode`). The homogeneous calibration then carries over with no Starsim change ([exp 22](experiments/22_network_conversion/SUMMARY.md)). Revisit when Starsim's ODE of a network handles reinfection.
   - **Sent to Cliff:** a per-transition factor in Starsim's ODE of a network, with source infectiousness left linear as agents apply it ([proposal 03](proposals/03_network_reinfection/proposal.md)).
   - **Also open:** whether to move the v4 pins to these commits (the anchor test passes).
@@ -124,7 +125,7 @@ tbode/          v0.10 track: the ODE (ode.py), matched-ABM builders and analyzer
 tests/          v0.10 regression checks (e.g. TBODE with all features off reproduces tbsim's TB_ODE)
 v4/             v4 track: its own pyproject.toml and .venv. At the top: Cliff's v4 redo (common.py, run_*.py, analyze.py,
                 v4_findings.qmd, results/summary.md)
-  tbode4/       matched v4 sims as ODE or agents, and the network-beta mapping both ways (sims.py); latent-structure
+  tbode4/       matched v4 sims as ODE or agents, and the network beta and reinfection-risk mappings both ways (sims.py); latent-structure
                 calculations (latent.py); a standalone copy of the v4 ODE with first-entry incidence, for calibration
                 (fastode.py); versions.py
   tests/        test_anchor.py: the v4 ODE reproduces TB_ODE and TBODE (rerun after bumping the v4 pins);
@@ -134,6 +135,7 @@ proposals/      Proposed changes to tbsim and starsim, and the decisions on them
                 numbered like experiments (NN_name/), with the scripts and outputs behind them
 experiments/    One folder per experiment (NN_name/), numbered across both tracks: README.md (question, design, track),
                 run script(s), outputs, versions*.json, SUMMARY.md
+starter/        A starting script for new TBsim users (v4 agents with this repo's conventions), and its README
 ```
 
 ## Setup

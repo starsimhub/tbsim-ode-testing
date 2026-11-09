@@ -39,6 +39,7 @@ Facts from exp 12:
 Where v4's model differs from the v0.10 ABM (front-loading via `k_latent`, latent reinfection, treatment as a rate, network `beta`), see README "Versions and tracks". Decisions so far (user, 2026-11-05):
 
 - **Network `beta`:** the matched per-contact `beta` (proposal 01's preferred option) stays in our own code (`tbode4.beta_edge_from_ode`), not in base Starsim or TBsim, for now. Don't push it upstream.
+- **Homogeneous mixing by default (user, 2026-11-08):** v4 agents run without a network unless a feature needs real contacts (household network, contact-targeted interventions). Converted `RandomNet(10, dur=0)` matches it (exp 22) but runs about 2× slower with the same rep-to-rep noise, and needs rr′ recomputed whenever `beta` or `dt` changes.
 - **Network reinfection risks (user, 2026-11-08):** on `RandomNet(dur=0)`, also convert each `rr_reinfection_*` (`tbode4.rr_edge_from_ode`), with `trans_asymp` unchanged, until Starsim's ODE of a network handles reinfection (proposal 03, sent to Cliff). Rerun exp 22's `diagnose.py` after any Starsim bump. CONVENTIONS.md 1.
 - **Latent progression:** tentatively, v4's two latent states with remote progression = φ × the recent rates (option B in `proposals/02_latent_progression/options.md`), for now.
   - Not the version with no remote progression, which is effectively single-state.
