@@ -6,7 +6,7 @@ import sciris as sc
 import starsim as ss
 import tbsim
 
-__all__ = ['states', 'state_map', 'beta_edge_from_ode', 'beta_ode_from_edge', 'make_sim', 'shares', 'odepars_to_tb']
+__all__ = ['states', 'state_map', 'beta_edge_from_ode', 'beta_ode_from_edge', 'rr_edge_from_ode', 'rr_ode_from_edge', 'make_sim', 'shares', 'odepars_to_tb']
 
 # The model's states, and the matching compartment of the v0.10 ODE (tbode.TBODE)
 states = ['susceptible', 'infection', 'cleared', 'recovered', 'non_infectious', 'asymptomatic', 'symptomatic', 'treatment', 'treated']
@@ -54,6 +54,30 @@ def beta_ode_from_edge(beta_edge, n_contacts, dt):
         dt (float): the step, in years
     """
     return n_contacts*(-np.expm1(-beta_edge*dt))/dt
+
+
+def rr_edge_from_ode(rr, beta_edge, dt):
+    """
+    The relative risk that gives agents on ss.RandomNet the ODE's reinfections per step, for a transmission whose rate is rr times the
+    susceptibles' (tbsim's rr_reinfection_*), with the per-contact beta from beta_edge_from_ode (exp 22, CONVENTIONS.md 1)
+
+    As agents, a factor written into a transmission's rate saturates: a contact transmits with chance 1 − exp(−rr·beta_edge·dt), not rr
+    times a susceptible's chance q. This returns the rr' whose chance is rr·q: −ln(1 − rr·q)/(beta_edge·dt). Factors that scale a contact's
+    chance linearly as agents (another source's coefficient such as trans_asymp, rel_trans, rel_sus, modifiers) need no conversion. Depends
+    on how Starsim's agents transmit (starsim 80c81f53); rerun exp 22's diagnose.py after bumping it.
+
+    Args:
+        rr (float): the relative risk in the ODE (homogeneous mixing)
+        beta_edge (float): the per-contact beta (per year)
+        dt (float): the step, in years
+    """
+    q = -np.expm1(-beta_edge*dt)
+    return -np.log1p(-rr*q)/(beta_edge*dt)
+
+
+def rr_ode_from_edge(rr_edge, beta_edge, dt):
+    """ The ODE's relative risk that matches agents on ss.RandomNet with a given rr' and per-contact beta: the inverse of rr_edge_from_ode """
+    return np.expm1(-rr_edge*beta_edge*dt)/np.expm1(-beta_edge*dt)
 
 
 def make_sim(beta, solver='ode', dt=ss.months(1), start=1900, stop=2000, init=None, n_agents=None, total_pop=1e5, n_contacts=None, edge_beta='step',

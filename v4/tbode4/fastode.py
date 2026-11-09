@@ -48,14 +48,15 @@ def force(p, x, rr=1.0):
     Homogeneous mixing (net_contacts = 0): rr·beta·(trans_asymp·A + Y), exposure being the share of the population in each state.
 
     A random network with fresh contacts each step (net_contacts = K mean contacts, net_step = D years; beta is then per contact): each
-    contact transmits at most once in a step, with probability 1 − e^(−x) for its own per-step rate x, so each combination of target risk
-    and source infectiousness saturates on its own: (K/D)·[(1 − e^(−rr·beta·D))·Y + (1 − e^(−rr·trans_asymp·beta·D))·A]. This is what
-    agents on ss.RandomNet(dur=0) do, and what proposal 03 asks Starsim's ODE of a network to do (a reference version of that fix).
+    contact transmits at most once in a step. As v4's agents do it, the target's risk saturates at its own rate and the source's
+    infectiousness scales the chance linearly: a symptomatic contact transmits with chance 1 − e^(−rr·beta·D), an asymptomatic one with
+    trans_asymp times that, so the force is (K/D)·(1 − e^(−rr·beta·D))·(trans_asymp·A + Y). This is what agents on ss.RandomNet(dur=0) do
+    (exp 22's diagnose.py), and what proposal 03 asks Starsim's ODE of a network to do (a reference version of that fix).
     """
     if not p['net_contacts']:
         return rr*p['beta']*(p['trans_asymp']*x[A] + x[Y])
     K, D, b = p['net_contacts'], p['net_step'], p['beta']
-    return (K/D)*(-np.expm1(-rr*b*D)*x[Y] - np.expm1(-rr*p['trans_asymp']*b*D)*x[A])
+    return (K/D)*(-np.expm1(-rr*b*D))*(p['trans_asymp']*x[A] + x[Y])
 
 
 def flows(x, p):

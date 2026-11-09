@@ -49,3 +49,14 @@ def test_beta_edge_round_trip():
     assert np.isclose(K*(1 - np.exp(-b*dt)), beta_ode*dt)
     assert np.isclose(tbode4.beta_ode_from_edge(b, K, dt), beta_ode)  # The inverse recovers the ODE's beta
     assert b > beta_ode/K  # The matched per-contact beta is above v4's own mapping
+
+
+def test_rr_edge_round_trip():
+    """ The converted relative risk gives rr times a susceptible's chance per contact per step, and matches exp 22's conversion """
+    beta_ode, K, dt, rr = 12, 10, 1/12, 0.24
+    b = tbode4.beta_edge_from_ode(beta_ode, K, dt)
+    rr_e = tbode4.rr_edge_from_ode(rr, b, dt)
+    assert np.isclose(1 - np.exp(-rr_e*b*dt), rr*(1 - np.exp(-b*dt)))
+    assert np.isclose(tbode4.rr_ode_from_edge(rr_e, b, dt), rr)  # The inverse recovers the ODE's relative risk
+    assert rr_e < rr  # A reduced risk saturates less than a susceptible's, so it is converted down
+

@@ -34,7 +34,8 @@ calib = exp21.calib
 
 K = 10
 dts = sc.objdict(month=ss.months(1), week=ss.weeks(1))
-arms = sc.objdict(conv_month=('conv', 'month'), conveq_month=('conveq', 'month'), beta_month=('beta', 'month'), conveq_week=('conveq', 'week'))
+arms = sc.objdict(conv_month=('conv', 'month'), conveq_month=('conveq', 'month'), beta_month=('beta', 'month'), conveq_week=('conveq', 'week'),
+                  convk_month=('convk', 'month'), convk_week=('convk', 'week')) # Order fixes the seeds: new arms go at the end
 reps, seed0, n_agents = 20, 22000, 50_000
 fn = sc.objdict(conv=outdir / 'conversions.obj', runs=outdir / 'runs.obj')
 outputs_compared = exp21.outputs_compared
@@ -44,10 +45,12 @@ def convert(pars, dt_years, which='conv', x=None):
     """
     Per-contact network parameters for one homogeneous set (README). Returns tbsim/fastode parameters, with beta per contact.
 
-    - 'conv': b, pi' and kappa', each matching one combination of target and source per contact (reinfection from asymptomatic sources is
-      then not matched);
-    - 'conveq': b and kappa' as 'conv', and pi' chosen so the total force of reinfection at the homogeneous equilibrium x matches, so x is
-      also the network model's equilibrium;
+    - 'convk': b and pi', with kappa unchanged. v4's agents scale a contact's chance linearly by the source's infectiousness, so this
+      matches every combination of target and source per contact and per step: the conversion to use;
+    - 'conv': b, pi' and kappa' = -ln(1 - kappa*q)/(b*D), on the assumption that the source's infectiousness saturates too (it doesn't, so
+      transmission from asymptomatic sources is kappa'/kappa too low);
+    - 'conveq': b and kappa' as 'conv', and pi' chosen so the total force of reinfection at the homogeneous equilibrium x matches under that
+      same assumption;
     - 'beta': b only (CONVENTIONS.md 1).
     """
     from scipy.optimize import brentq
@@ -56,8 +59,11 @@ def convert(pars, dt_years, which='conv', x=None):
     q = -np.expm1(-b*D) # A susceptible's chance per symptomatic contact per step
     out = dict(pars, beta=b)
     rr = ['rr_reinfection_cleared', 'rr_reinfection_rec', 'rr_reinfection_treat', 'rr_reinfection_inf']
+    same = lambda v: -np.log1p(-v*q)/(b*D) # The relative rate whose per-step chance is v times a susceptible's
+    if which == 'convk':
+        for k in rr:
+            out[k] = same(pars[k])
     if which in ('conv', 'conveq'):
-        same = lambda v: -np.log1p(-v*q)/(b*D) # The relative rate whose per-step chance is v times a susceptible's
         for k in rr + ['trans_asymp']:
             out[k] = same(pars[k])
     if which == 'conveq':
@@ -178,13 +184,14 @@ def summarise():
 
 def plot(df):
     shown = ['prevalence', 'prop_asymptomatic', 'inc_per_prev', 'mortality', 'remote', 'cleared']
-    colors = dict(conv_month='#7fa7d6', conveq_month='#1f4e8c', beta_month='#c4620b', conveq_week='#2e8b57')
-    labels = dict(conv_month='Converted per combination, monthly', conveq_month='Converted, equilibrium-matched, monthly', beta_month='beta only (our convention), monthly', conveq_week='Converted, equilibrium-matched, weekly')
+    colors = dict(convk_month='#1f4e8c', convk_week='#2e8b57', beta_month='#c4620b', conv_month='#b9b9b9', conveq_month='#8c8c8c', conveq_week='#5e5e5e')
+    labels = dict(convk_month='Converted (b, π′; κ unchanged), monthly', convk_week='Converted (b, π′; κ unchanged), weekly', beta_month='beta only (our convention), monthly',
+                  conv_month='b, π′ and κ′, monthly', conveq_month='b, κ′, π′ equilibrium-matched, monthly', conveq_week='b, κ′, π′ equilibrium-matched, weekly')
     fig, axes = plt.subplots(2, 3, figsize=(15, 7.5), sharex=True)
     for ax, out in zip(axes.flat, shown):
-        for j, arm in enumerate(arms):
+        for j, arm in enumerate(labels):
             d = df[(df.output == out) & (df.arm == arm)].sort_values('set')
-            x = d.set + (j - 1.5)*0.2
+            x = d.set + (j - (len(arms) - 1)/2)*0.13
             ax.errorbar(x, d['mean'], yerr=2*d['se'], fmt='o', ms=4, capsize=2, color=colors[arm], label=labels[arm])
             ax.plot(x, d['predicted'], '_', ms=10, mew=2, color=colors[arm])
         ax.axhline(1, color='0.4', lw=0.8)
