@@ -1,7 +1,13 @@
 # Proposal 03: a saturation factor for each transition in Starsim's ODE of a network
 
 **For:** Starsim (Cliff). A follow-up to `5ba36ebb`, "add beta correction for ODEs on networks".
-**Status:** sent to Cliff, with a comment on the treatment of source infectiousness (see "Which factors saturate").
+**Status:** resolved upstream in starsim `6dcad9fd` (2026-11-09), and confirmed by [exp 25](../../experiments/25_starsim_network_fix/SUMMARY.md) at starsim `d83f4f87` with tbsim `619c296`.
+
+- **In Starsim's ODE of a network:** each transition by contact, and each source state, has its own saturation factor, as suggested below.
+- **For agents, done differently from below:** rather than leaving source infectiousness linear, every factor of a contact's hazard is inside the exponent (κ, `rel_trans`, `rel_sus`, modifiers), and the ODE matches that. This meets the acceptance criterion that agents and the ODE agree.
+- **Exp 25's acceptance test:** set B's monthly prevalence is 1.016 ± 0.011 of the network ODE, against 1.204 before. Every reinfection transition runs with first infection.
+
+The rest of this document is kept as the record of the request.
 **Evidence:** [exp 18](../../experiments/18_network_ode/SUMMARY.md), starsim `bc2704b2` with tbsim `efeca56`; [exp 22](../../experiments/22_network_conversion/README.md)'s per-step diagnostic (`diagnose.py`), starsim `80c81f53` with tbsim `dcfb522`. Agents' network transmission is the same code at both commits.
 
 ## Summary

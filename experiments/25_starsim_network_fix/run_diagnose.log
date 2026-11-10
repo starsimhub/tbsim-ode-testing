@@ -1,0 +1,17 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 0 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 0 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 0 s
+Mean degree 10.0000 (variance 5.000); self-loops per step 5.0; N 50102
+ set      transition  observed  obs_per_sat  obs_per_lin     se
+   3    transmission    113241       0.9963       1.0166 0.0030
+   3    reinfect_cle    135203       0.9931       1.0017 0.0027
+   3    reinfect_rec     11361       1.0197       1.0285 0.0096
+   3 reinfect_remote      6458       0.9639       0.9722 0.0120
+   7    transmission    118888       1.0034       1.0231 0.0029
+   7    reinfect_cle    148204       0.9988       1.0049 0.0026
+   7    reinfect_rec     11420       1.0063       1.0124 0.0094
+   7 reinfect_remote      6279       0.9481       0.9539 0.0120

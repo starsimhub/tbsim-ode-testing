@@ -1,0 +1,29 @@
+[project]
+name = "exp25-starsim-network-fix"
+version = "0.1.0"
+description = "Exp 25: acceptance test of Starsim's per-transition saturation on networks (starsim 6dcad9fd) against exps 18 and 22"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "sciris",
+    "matplotlib",
+    "starsim",
+    "tbsim",
+]
+
+[tool.uv]
+package = false
+
+# Pinned to exact commits, newer than the v4 track's (v4/pyproject.toml), so that track stays reproducible.
+# starsim: origin/v4 @ d83f4f87 (includes 6dcad9fd: every factor of a contact's hazard in the exponent as agents, and each transition's own
+# saturation factor in the ODE of a network). tbsim: origin/v4 @ 619c296 ("ss.fitting update").
+[tool.uv.sources]
+starsim = { git = "https://github.com/starsimhub/starsim", rev = "d83f4f87b8cac3138e272cf2d955d02baca0c6e9" }
+tbsim = { git = "https://github.com/starsimhub/tbsim", rev = "619c2963db9ee65990f4c5d23173e09d72c253dd" }
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]

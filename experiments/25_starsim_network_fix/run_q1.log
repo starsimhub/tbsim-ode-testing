@@ -1,0 +1,22 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+A_month (3 s)
+A_week (3 s)
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 1 s
+B2_month (4 s)
+B2_week (3 s)
+set    dt            flow     rr  agents_over_ode     se  predicted  exp18_rule  events_per_run
+  A month    transmission 1.0000           0.9932 0.0013        1.0      1.0000        22814.25
+  A month    reinfect_cle 1.0000           0.9940 0.0049        1.0      1.0000        52444.25
+  A month    reinfect_rec 0.2100           0.9944 0.0046        1.0      1.0342         2324.25
+  A  week    transmission 1.0000           1.0092 0.0056        1.0      1.0000         5337.25
+  A  week    reinfect_cle 1.0000           1.0034 0.0038        1.0      1.0000        12188.50
+  A  week    reinfect_rec 0.2100           1.0088 0.0184        1.0      1.0076          535.50
+ B2 month    transmission 1.0000           0.9822 0.0045        1.0      1.0000        25448.50
+ B2 month    reinfect_cle 0.2416           0.9857 0.0044        1.0      1.0701        35458.75
+ B2 month    reinfect_rec 0.2416           0.9727 0.0080        1.0      1.0701         3497.25
+ B2 month reinfect_remote 0.2416           0.9688 0.0025        1.0      1.0701         2265.75
+ B2  week    transmission 1.0000           0.9976 0.0053        1.0      1.0000         5980.00
+ B2  week    reinfect_cle 0.2416           0.9927 0.0017        1.0      1.0155         8194.50
+ B2  week    reinfect_rec 0.2416           0.9964 0.0352        1.0      1.0155          821.75
+ B2  week reinfect_remote 0.2416           0.9815 0.0390        1.0      1.0155          523.75

@@ -1,0 +1,13 @@
+/Users/tessryckman/Developer/tbsim-ode-testing/experiments/25_starsim_network_fix/.venv/lib/python3.13/site-packages/starsim/internals/timeline.py:656: RuntimeWarning: 
+start=years(0) and stop=years(3000) give a run of 3,000 years, which is probably not what was meant (a stop meant as a year, or a time in another unit?). Set ss.options.max_years = 0 to turn off this warning.
+  ss.warn(warnmsg)
+/Users/tessryckman/Developer/tbsim-ode-testing/experiments/25_starsim_network_fix/.venv/lib/python3.13/site-packages/starsim/internals/timeline.py:656: RuntimeWarning: 
+start=years(0) and stop=years(2000) give a run of 2,000 years, which is probably not what was meant (a stop meant as a year, or a time in another unit?). Set ss.options.max_years = 0 to turn off this warning.
+  ss.warn(warnmsg)
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+A mass action: beta = 9.92648 (1 s)
+A_net_month: per-contact b = 1.03002 (matched 1.03612, ratio 0.99411) (1 s)
+A_net_week: per-contact b = 1.00093 (matched 1.00222, ratio 0.99872) (3 s)
+B2 mass action: beta = 21.14343 (1 s)
+B2_net_month: per-contact b = 2.18487 (matched 2.32586, ratio 0.93938) (1 s)
+B2_net_week: per-contact b = 2.13000 (matched 2.15841, ratio 0.98684) (2 s)

@@ -31,7 +31,7 @@ default_pars = dict(
     beta=9.0, trans_asymp=0.82, rr_reinfection_cleared=1.00, rr_reinfection_rec=0.21, rr_reinfection_treat=3.15, rr_reinfection_inf=0.21,
     inf_cle=1.90, inf_non=0.16, inf_asy=0.06, k_latent=0.0, inf_non_remote=None, inf_asy_remote=0.0,
     non_rec=0.18, non_asy=0.25, asy_non=1.66, asy_sym=0.88, sym_asy=0.54, sym_dead=0.34, mu=1/70,
-    net_contacts=0.0, net_step=0.0, # A random network with fresh contacts each step (off: 0); see flows()
+    net_contacts=0.0, net_step=0.0, net_source_exp=0.0, # A random network with fresh contacts each step (off: 0); see force()
     tx_rate=0.0, tx_success=1.0, tx_dur=0.5, tx_stages=1, tx_p_relapse=0.0, dur_relapse=1.5, # Treatment (off: tx_rate = 0); see the docstring
 )
 
@@ -77,11 +77,16 @@ def force(p, x, rr=1.0):
     contact transmits at most once in a step. As v4's agents do it, the target's risk saturates at its own rate and the source's
     infectiousness scales the chance linearly: a symptomatic contact transmits with chance 1 − e^(−rr·beta·D), an asymptomatic one with
     trans_asymp times that, so the force is (K/D)·(1 − e^(−rr·beta·D))·(trans_asymp·A + Y). This is what agents on ss.RandomNet(dur=0) do
-    (exp 22's diagnose.py), and what proposal 03 asks Starsim's ODE of a network to do (a reference version of that fix).
+    (exp 22's diagnose.py, starsim 80c81f53), and what proposal 03 asks Starsim's ODE of a network to do (a reference version of that fix).
+
+    With net_source_exp = 1, the source's infectiousness is inside the exponent too, as agents do it from starsim 6dcad9fd (exp 25):
+    (K/D)·[(1 − e^(−rr·trans_asymp·beta·D))·A + (1 − e^(−rr·beta·D))·Y].
     """
     if not p['net_contacts']:
         return rr*p['beta']*(p['trans_asymp']*x[A] + x[Y])
     K, D, b = p['net_contacts'], p['net_step'], p['beta']
+    if p['net_source_exp']:
+        return (K/D)*(-np.expm1(-rr*p['trans_asymp']*b*D)*x[A] - np.expm1(-rr*b*D)*x[Y])
     return (K/D)*(-np.expm1(-rr*b*D))*(p['trans_asymp']*x[A] + x[Y])
 
 

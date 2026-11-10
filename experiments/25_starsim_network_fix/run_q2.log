@@ -1,0 +1,22 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+A_month    40 reps in 48 s; prevalence agents ÷ network ODE 1.005 ± 0.019
+A_week     40 reps in 198 s; prevalence agents ÷ network ODE 0.983 ± 0.017
+B2_month   40 reps in 51 s; prevalence agents ÷ network ODE 1.016 ± 0.011
+B2_week    40 reps in 211 s; prevalence agents ÷ network ODE 0.999 ± 0.008
+set    dt     output  reps   mean     se    p10    p90
+  A month prevalence    40 1.0055 0.0187 0.8611 1.1365
+  A month     latent    40 1.0939 0.0189 0.9482 1.2291
+  A month    cleared    40 0.9962 0.0032 0.9690 1.0180
+  A month  tb_deaths    40 1.0029 0.0189 0.8541 1.1256
+  A  week prevalence    40 0.9827 0.0171 0.8501 1.1044
+  A  week     latent    40 1.0032 0.0163 0.8779 1.1174
+  A  week    cleared    40 0.9930 0.0028 0.9733 1.0144
+  A  week  tb_deaths    40 0.9832 0.0169 0.8605 1.1155
+ B2 month prevalence    40 1.0157 0.0113 0.9274 1.0898
+ B2 month     latent    40 1.0371 0.0083 0.9669 1.0884
+ B2 month    cleared    40 0.9984 0.0007 0.9919 1.0028
+ B2 month  tb_deaths    40 1.0140 0.0110 0.9282 1.0930
+ B2  week prevalence    40 0.9993 0.0080 0.9285 1.0774
+ B2  week     latent    40 1.0054 0.0058 0.9543 1.0606
+ B2  week    cleared    40 0.9990 0.0005 0.9950 1.0036
+ B2  week  tb_deaths    40 1.0006 0.0078 0.9411 1.0517

@@ -1,0 +1,30 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 1 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 1 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 1 s
+s0_homog_month: 20 reps in 20 s
+s1_homog_month: 20 reps in 19 s
+s2_homog_month: 20 reps in 19 s
+s3_homog_month: 20 reps in 20 s
+s4_homog_month: 20 reps in 19 s
+s5_homog_month: 20 reps in 19 s
+s6_homog_month: 20 reps in 19 s
+s7_homog_month: 20 reps in 19 s
+s8_homog_month: 20 reps in 19 s
+s9_homog_month: 20 reps in 20 s
+s10_homog_month: 20 reps in 20 s
+s11_homog_month: 20 reps in 20 s
+        arm            output  sets   mean  se_between  min_set  max_set  predicted  max_abs_z  max_abs_z_vs_pred
+homog_month           cleared    12 0.9988      0.0010   0.9894   1.0029        1.0     1.4061             1.4061
+homog_month      inc_per_prev    12 0.9988      0.0009   0.9938   1.0055        1.0     2.4283             2.4283
+homog_month            latent    12 1.0506      0.0063   1.0197   1.0785        1.0     5.8030             5.8030
+homog_month       mort_to_inc    12 0.9987      0.0024   0.9774   1.0076        1.0     2.6911             2.6911
+homog_month         mortality    12 1.0057      0.0050   0.9773   1.0363        1.0     1.9212             1.9212
+homog_month       prev_to_inc    12 1.0014      0.0009   0.9948   1.0068        1.0     2.4479             2.4479
+homog_month        prevalence    12 1.0088      0.0054   0.9762   1.0466        1.0     2.3100             2.3100
+homog_month prop_asymptomatic    12 0.9987      0.0007   0.9951   1.0034        1.0     2.5027             2.5027
+homog_month            recent    12 1.4312      0.0415   1.1921   1.6729        1.0    28.3440            28.3440
+homog_month            remote    12 1.0034      0.0048   0.9732   1.0358        1.0     2.1895             2.1895

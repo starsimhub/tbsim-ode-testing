@@ -1,0 +1,46 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+s0_convk_month: 20 reps in 26 s
+s0_conv_month: 20 reps in 24 s
+s1_convk_month: 20 reps in 24 s
+s1_conv_month: 20 reps in 24 s
+s2_convk_month: 20 reps in 24 s
+s2_conv_month: 20 reps in 24 s
+s3_convk_month: 20 reps in 24 s
+s3_conv_month: 20 reps in 24 s
+s4_convk_month: 20 reps in 24 s
+s4_conv_month: 20 reps in 24 s
+s5_convk_month: 20 reps in 24 s
+s5_conv_month: 20 reps in 25 s
+s6_convk_month: 20 reps in 25 s
+s6_conv_month: 20 reps in 25 s
+s7_convk_month: 20 reps in 24 s
+s7_conv_month: 20 reps in 24 s
+s8_convk_month: 20 reps in 24 s
+s8_conv_month: 20 reps in 24 s
+s9_convk_month: 20 reps in 24 s
+s9_conv_month: 20 reps in 24 s
+s10_convk_month: 20 reps in 25 s
+s10_conv_month: 20 reps in 25 s
+s11_convk_month: 20 reps in 25 s
+s11_conv_month: 20 reps in 24 s
+        arm            output  sets   mean  se_between  min_set  max_set  predicted  max_abs_z  max_abs_z_vs_pred
+ conv_month           cleared    12 0.9926      0.0013   0.9858   1.0024     0.9967     4.3166             2.5647
+ conv_month      inc_per_prev    12 0.9983      0.0012   0.9911   1.0045     1.0000     2.3547             2.3547
+ conv_month            latent    12 1.0211      0.0058   0.9754   1.0520     0.9813     3.3440             5.9018
+ conv_month       mort_to_inc    12 1.0024      0.0016   0.9928   1.0081     1.0000     1.6357             1.6357
+ conv_month         mortality    12 0.9785      0.0061   0.9475   1.0123     0.9810     2.6511             1.4559
+ conv_month       prev_to_inc    12 1.0020      0.0012   0.9959   1.0094     1.0000     2.3796             2.3796
+ conv_month        prevalence    12 0.9783      0.0061   0.9443   1.0154     0.9810     2.7046             1.4095
+ conv_month prop_asymptomatic    12 0.9992      0.0006   0.9965   1.0037     1.0000     1.8687             1.8687
+ conv_month            recent    12 1.3912      0.0432   1.1565   1.6161     0.9808    29.3672            31.3219
+ conv_month            remote    12 0.9754      0.0053   0.9433   1.0011     0.9814     3.4008             1.6335
+convk_month           cleared    12 1.0040      0.0021   0.9942   1.0231     1.0071     3.6191             3.5338
+convk_month      inc_per_prev    12 0.9986      0.0015   0.9907   1.0083     1.0000     3.8489             3.8489
+convk_month            latent    12 1.0640      0.0105   1.0248   1.1538     1.0225     8.0407             5.8610
+convk_month       mort_to_inc    12 1.0002      0.0025   0.9858   1.0136     1.0000     2.9516             2.9516
+convk_month         mortality    12 1.0166      0.0093   0.9583   1.0827     1.0229     2.8202             3.2982
+convk_month       prev_to_inc    12 1.0016      0.0015   0.9920   1.0095     1.0000     3.8732             3.8732
+convk_month        prevalence    12 1.0184      0.0093   0.9691   1.0865     1.0229     2.8438             4.6323
+convk_month prop_asymptomatic    12 0.9995      0.0006   0.9967   1.0029     1.0000     1.8735             1.8735
+convk_month            recent    12 1.4486      0.0414   1.2389   1.6724     1.0231    52.3210            50.0430
+convk_month            remote    12 1.0161      0.0080   0.9751   1.0787     1.0225     2.8806             4.8980

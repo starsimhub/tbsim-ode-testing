@@ -1,0 +1,98 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+s0 convk_month: predicted prevalence ÷ homogeneous 1.0274; Starsim network ODE ÷ predicted 1.0010
+s0 conv_month: predicted prevalence ÷ homogeneous 0.9698; Starsim network ODE ÷ predicted 0.9988
+s0 convk_week: predicted prevalence ÷ homogeneous 1.0060; Starsim network ODE ÷ predicted 1.0002
+s0 conv_week: predicted prevalence ÷ homogeneous 0.9938; Starsim network ODE ÷ predicted 0.9998
+s1 convk_month: predicted prevalence ÷ homogeneous 1.0236; Starsim network ODE ÷ predicted 1.0011
+s1 conv_month: predicted prevalence ÷ homogeneous 0.9766; Starsim network ODE ÷ predicted 0.9987
+s1 convk_week: predicted prevalence ÷ homogeneous 1.0052; Starsim network ODE ÷ predicted 1.0002
+s1 conv_week: predicted prevalence ÷ homogeneous 0.9952; Starsim network ODE ÷ predicted 0.9997
+s2 convk_month: predicted prevalence ÷ homogeneous 1.0079; Starsim network ODE ÷ predicted 1.0003
+s2 conv_month: predicted prevalence ÷ homogeneous 0.9919; Starsim network ODE ÷ predicted 0.9995
+s2 convk_week: predicted prevalence ÷ homogeneous 1.0018; Starsim network ODE ÷ predicted 1.0001
+s2 conv_week: predicted prevalence ÷ homogeneous 0.9983; Starsim network ODE ÷ predicted 0.9999
+s3 convk_month: predicted prevalence ÷ homogeneous 1.0496; Starsim network ODE ÷ predicted 1.0042
+s3 conv_month: predicted prevalence ÷ homogeneous 0.9664; Starsim network ODE ÷ predicted 0.9972
+s3 convk_week: predicted prevalence ÷ homogeneous 1.0107; Starsim network ODE ÷ predicted 1.0010
+s3 conv_week: predicted prevalence ÷ homogeneous 0.9930; Starsim network ODE ÷ predicted 0.9995
+s4 convk_month: predicted prevalence ÷ homogeneous 1.0233; Starsim network ODE ÷ predicted 1.0024
+s4 conv_month: predicted prevalence ÷ homogeneous 0.9836; Starsim network ODE ÷ predicted 0.9985
+s4 convk_week: predicted prevalence ÷ homogeneous 1.0052; Starsim network ODE ÷ predicted 1.0005
+s4 conv_week: predicted prevalence ÷ homogeneous 0.9965; Starsim network ODE ÷ predicted 0.9997
+s5 convk_month: predicted prevalence ÷ homogeneous 1.0120; Starsim network ODE ÷ predicted 0.9986
+s5 conv_month: predicted prevalence ÷ homogeneous 0.9889; Starsim network ODE ÷ predicted 1.0002
+s5 convk_week: predicted prevalence ÷ homogeneous 1.0026; Starsim network ODE ÷ predicted 0.9997
+s5 conv_week: predicted prevalence ÷ homogeneous 0.9977; Starsim network ODE ÷ predicted 1.0000
+s6 convk_month: predicted prevalence ÷ homogeneous 1.0223; Starsim network ODE ÷ predicted 0.9991
+s6 conv_month: predicted prevalence ÷ homogeneous 0.9675; Starsim network ODE ÷ predicted 1.0000
+s6 convk_week: predicted prevalence ÷ homogeneous 1.0048; Starsim network ODE ÷ predicted 0.9998
+s6 conv_week: predicted prevalence ÷ homogeneous 0.9933; Starsim network ODE ÷ predicted 1.0000
+s7 convk_month: predicted prevalence ÷ homogeneous 1.0270; Starsim network ODE ÷ predicted 1.0010
+s7 conv_month: predicted prevalence ÷ homogeneous 0.9694; Starsim network ODE ÷ predicted 0.9987
+s7 convk_week: predicted prevalence ÷ homogeneous 1.0059; Starsim network ODE ÷ predicted 1.0002
+s7 conv_week: predicted prevalence ÷ homogeneous 0.9938; Starsim network ODE ÷ predicted 0.9997
+s8 convk_month: predicted prevalence ÷ homogeneous 1.0081; Starsim network ODE ÷ predicted 1.0009
+s8 conv_month: predicted prevalence ÷ homogeneous 0.9929; Starsim network ODE ÷ predicted 0.9993
+s8 convk_week: predicted prevalence ÷ homogeneous 1.0018; Starsim network ODE ÷ predicted 1.0002
+s8 conv_week: predicted prevalence ÷ homogeneous 0.9985; Starsim network ODE ÷ predicted 0.9999
+s9 convk_month: predicted prevalence ÷ homogeneous 1.0183; Starsim network ODE ÷ predicted 1.0022
+s9 conv_month: predicted prevalence ÷ homogeneous 0.9888; Starsim network ODE ÷ predicted 0.9988
+s9 convk_week: predicted prevalence ÷ homogeneous 1.0041; Starsim network ODE ÷ predicted 1.0005
+s9 conv_week: predicted prevalence ÷ homogeneous 0.9976; Starsim network ODE ÷ predicted 0.9997
+s10 convk_month: predicted prevalence ÷ homogeneous 1.0453; Starsim network ODE ÷ predicted 0.9991
+s10 conv_month: predicted prevalence ÷ homogeneous 0.9878; Starsim network ODE ÷ predicted 1.0005
+s10 convk_week: predicted prevalence ÷ homogeneous 1.0101; Starsim network ODE ÷ predicted 0.9998
+s10 conv_week: predicted prevalence ÷ homogeneous 0.9974; Starsim network ODE ÷ predicted 1.0001
+s11 convk_month: predicted prevalence ÷ homogeneous 1.0103; Starsim network ODE ÷ predicted 1.0003
+s11 conv_month: predicted prevalence ÷ homogeneous 0.9878; Starsim network ODE ÷ predicted 0.9996
+s11 convk_week: predicted prevalence ÷ homogeneous 1.0023; Starsim network ODE ÷ predicted 1.0001
+s11 conv_week: predicted prevalence ÷ homogeneous 0.9975; Starsim network ODE ÷ predicted 0.9999
+ set         arm    beta      b     pi  pi_net  kappa  kappa_net  pred_prevalence_ratio  starsim_ode_over_pred
+   0 convk_month 22.9123 2.5425 0.3497  0.3261 0.7294     0.7294                 1.0274                 1.0010
+   0  conv_month 22.9123 2.5425 0.3497  0.3261 0.7294     0.7079                 0.9698                 0.9988
+   0  convk_week 22.9123 2.3431 0.3497  0.3446 0.7294     0.7294                 1.0060                 1.0002
+   0   conv_week 22.9123 2.3431 0.3497  0.3446 0.7294     0.7250                 0.9938                 0.9998
+   1 convk_month 22.1029 2.4429 0.3518  0.3291 0.7488     0.7488                 1.0236                 1.0011
+   1  conv_month 22.1029 2.4429 0.3518  0.3291 0.7488     0.7290                 0.9766                 0.9987
+   1  convk_week 22.1029 2.2585 0.3518  0.3469 0.7488     0.7488                 1.0052                 1.0002
+   1   conv_week 22.1029 2.2585 0.3518  0.3469 0.7488     0.7447                 0.9952                 0.9997
+   2 convk_month 18.4725 2.0059 0.2985  0.2814 0.8643     0.8643                 1.0079                 1.0003
+   2  conv_month 18.4725 2.0059 0.2985  0.2814 0.8643     0.8541                 0.9919                 0.9995
+   2  convk_week 18.4725 1.8808 0.2985  0.2947 0.8643     0.8643                 1.0018                 1.0001
+   2   conv_week 18.4725 1.8808 0.2985  0.2947 0.8643     0.8621                 0.9983                 0.9999
+   3 convk_month 22.7071 2.5172 0.4411  0.4155 0.6260     0.6260                 1.0496                 1.0042
+   3  conv_month 22.7071 2.5172 0.4411  0.4155 0.6260     0.6011                 0.9664                 0.9972
+   3  convk_week 22.7071 2.3216 0.4411  0.4356 0.6260     0.6260                 1.0107                 1.0010
+   3   conv_week 22.7071 2.3216 0.4411  0.4356 0.6260     0.6208                 0.9930                 0.9995
+   4 convk_month 17.3629 1.8755 0.4161  0.3973 0.7654     0.7654                 1.0233                 1.0024
+   4  conv_month 17.3629 1.8755 0.4161  0.3973 0.7654     0.7510                 0.9836                 0.9985
+   4  convk_week 17.3629 1.7659 0.4161  0.4120 0.7654     0.7654                 1.0052                 1.0005
+   4   conv_week 17.3629 1.7659 0.4161  0.4120 0.7654     0.7623                 0.9965                 0.9997
+   5 convk_month 21.8647 2.4137 0.2160  0.1997 0.7806     0.7806                 1.0120                 0.9986
+   5  conv_month 21.8647 2.4137 0.2160  0.1997 0.7806     0.7628                 0.9889                 1.0002
+   5  convk_week 21.8647 2.2336 0.2160  0.2124 0.7806     0.7806                 1.0026                 0.9997
+   5   conv_week 21.8647 2.2336 0.2160  0.2124 0.7806     0.7769                 0.9977                 1.0000
+   6 convk_month 29.0180 3.3220 0.2017  0.1807 0.5746     0.5746                 1.0223                 0.9991
+   6  conv_month 29.0180 3.3220 0.2017  0.1807 0.5746     0.5404                 0.9675                 1.0000
+   6  convk_week 29.0180 2.9857 0.2017  0.1972 0.5746     0.5746                 1.0048                 0.9998
+   6   conv_week 29.0180 2.9857 0.2017  0.1972 0.5746     0.5676                 0.9933                 1.0000
+   7 convk_month 25.5601 2.8743 0.3270  0.3014 0.7343     0.7343                 1.0270                 1.0010
+   7  conv_month 25.5601 2.8743 0.3270  0.3014 0.7343     0.7101                 0.9694                 0.9987
+   7  convk_week 25.5601 2.6208 0.3270  0.3215 0.7343     0.7343                 1.0059                 1.0002
+   7   conv_week 25.5601 2.6208 0.3270  0.3215 0.7343     0.7293                 0.9938                 0.9997
+   8 convk_month 15.7968 1.6938 0.3283  0.3130 0.8618     0.8618                 1.0081                 1.0009
+   8  conv_month 15.7968 1.6938 0.3283  0.3130 0.8618     0.8531                 0.9929                 0.9993
+   8  convk_week 15.7968 1.6041 0.3283  0.3249 0.8618     0.8618                 1.0018                 1.0002
+   8   conv_week 15.7968 1.6041 0.3283  0.3249 0.8618     0.8600                 0.9985                 0.9999
+   9 convk_month 13.8896 1.4761 0.4499  0.4348 0.7951     0.7951                 1.0183                 1.0022
+   9  conv_month 13.8896 1.4761 0.4499  0.4348 0.7951     0.7848                 0.9888                 0.9988
+   9  convk_week 13.8896 1.4078 0.4499  0.4466 0.7951     0.7951                 1.0041                 1.0005
+   9   conv_week 13.8896 1.4078 0.4499  0.4466 0.7951     0.7929                 0.9976                 0.9997
+  10 convk_month 10.8777 1.1403 0.6606  0.6498 0.7172     0.7172                 1.0453                 0.9991
+  10  conv_month 10.8777 1.1403 0.6606  0.6498 0.7172     0.7074                 0.9878                 1.0005
+  10  convk_week 10.8777 1.0993 0.6606  0.6582 0.7172     0.7172                 1.0101                 0.9998
+  10   conv_week 10.8777 1.0993 0.6606  0.6582 0.7172     0.7150                 0.9974                 1.0001
+  11 convk_month 19.4953 2.1274 0.3389  0.3194 0.8833     0.8833                 1.0103                 1.0003
+  11  conv_month 19.4953 2.1274 0.3389  0.3194 0.8833     0.8737                 0.9878                 0.9996
+  11  convk_week 19.4953 1.9869 0.3389  0.3347 0.8833     0.8833                 1.0023                 1.0001
+  11   conv_week 19.4953 1.9869 0.3389  0.3347 0.8833     0.8813                 0.9975                 0.9999
