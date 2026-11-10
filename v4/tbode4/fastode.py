@@ -11,7 +11,7 @@ Treatment (optional, tx_rate > 0) is exp 23's design (CONVENTIONS.md 9), as decl
 treatment at tx_rate, entering a course that will cure them (probability tx_success) or fail. A course lasts tx_dur, as tx_stages Erlang
 stages (1: a rate; many: nearly fixed; TBTreat's exact fixed course is a conveyor of whole steps, which this copy approximates by stages).
 Failing courses face TB death at sym_dead and return to symptomatic TB; a share tx_p_relapse of cures relapse to symptomatic TB at rate
-1/dur_relapse, the rest go to `treated`. tx_rate and tx_success can be functions of time (years from the start of the run).
+1/dur_relapse, the rest go to `treated`. tx_rate, tx_success and sym_dead can be functions of time (years from the start of the run).
 
 One state is split for counting only: non-infectious TB is NON0 (not yet asymptomatic in this episode) and NON1 (has been), with
 identical rates, so incidence can be counted as the first entry to asymptomatic TB per episode (CONVENTIONS.md 5): progression
@@ -91,6 +91,7 @@ def flows(x, p, t=0.0):
     k = int(p['tx_stages'])
     succ, fail = x[TX:TX + k], x[TX + k:TX + 2*k] # The stages of courses that will cure and that will fail
     exit_rate = k/p['tx_dur'] # Each stage's rate of moving on
+    sym_dead = value(p, 'sym_dead', t)
     f = sc.objdict(
         transmission     = force(p, x)*x[S],
         reinfect_cle     = force(p, x, p['rr_reinfection_cleared'])*x[C],
@@ -109,12 +110,12 @@ def flows(x, p, t=0.0):
         improvement      = p['asy_non']*x[A],
         symptoms         = p['asy_sym']*x[A],
         remission        = p['sym_asy']*x[Y],
-        tb_death         = p['sym_dead']*x[Y],
+        tb_death         = sym_dead*x[Y],
         reinfect_trd     = force(p, x, p['rr_reinfection_treat'])*x[TR],
         tx_start         = value(p, 'tx_rate', t)*x[Y], # Notifications
         tx_cure          = exit_rate*succ[-1],
         tx_fail          = exit_rate*fail[-1],
-        tb_death_tx      = p['sym_dead']*fail.sum(), # TB deaths of people on courses that will fail
+        tb_death_tx      = sym_dead*fail.sum(), # TB deaths of people on courses that will fail
         relapse          = x[RL]/p['dur_relapse'],
     )
     f.tb_deaths = f.tb_death + f.tb_death_tx # TB mortality
@@ -143,7 +144,7 @@ def rhs(t, x, p):
     k = int(p['tx_stages'])
     s = value(p, 'tx_success', t)
     rate = k/p['tx_dur']
-    for first, inflow, death in [(TX, s*f.tx_start, 0.0), (TX + k, (1 - s)*f.tx_start, p['sym_dead'])]:
+    for first, inflow, death in [(TX, s*f.tx_start, 0.0), (TX + k, (1 - s)*f.tx_start, value(p, 'sym_dead', t))]:
         stages = x[first:first + k]
         into = np.concatenate([[inflow], rate*stages[:-1]])
         dx[first:first + k] = into - (rate + death + mu)*stages

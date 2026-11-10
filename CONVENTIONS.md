@@ -212,6 +212,8 @@ Sample the posterior with IMIS.
   - **Every feature added to the model** (treatment next) goes into `fastode` too, and is tested against v4's ODE before it's used for calibration.
   - **After bumping the v4 pins,** rerun `v4/tests/test_fastode.py`.
 - **The equilibrium shortcut needs constant rates.** With time-varying inputs (treatment scale-up, demography, trends over time), integrate trajectories with `fastode.run`, which is slower than root-finding but still far faster than Starsim. Or start from an equilibrium at an early year and integrate from there.
+- **Check convergence on parameters, not only predictions:** run IMIS again with another seed and compare the marginals. In exp 24, two seeds agreed on every prediction, but not on parameters along a ridge (`k_latent` with `inf_asy`).
+- **With time-varying inputs** (treatment scale-up), start each draw at its untreated equilibrium before the first change, and integrate from there (exp 24: about 90 ms per draw).
 - **Check identifiability:** compare each marginal with its prior. With few targets, many parameters stay near their priors (exp 20: `beta` and π constrained; φ and the non-infectious cascade not).
 
 ## 9. Treatment
