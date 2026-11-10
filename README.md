@@ -72,11 +72,21 @@ Status: ⬜ not started · 🟡 in progress · ✅ matched · ⚠️ approximate
 
 ### Next, in order
 
-1. **Treatment, next** (user, 2026-11-06; the treatment row).
+1. **Move the v4 pins to Cliff's network fix, next** (user, 2026-11-10; the baseline row's network, and every v4 row). [Exp 25](experiments/25_starsim_network_fix/SUMMARY.md) found that at starsim `d83f4f87` and tbsim `619c296`, agents on `RandomNet(dur=0)` match Starsim's network ODE, reinfection included. Steps, in order:
+   1. Pin `v4/pyproject.toml` (and `uv.lock`) to starsim `d83f4f87b8cac3138e272cf2d955d02baca0c6e9` and tbsim `619c2963db9ee65990f4c5d23173e09d72c253dd`, as `experiments/25_starsim_network_fix/pyproject.toml` does.
+   2. Fix `tbode4.TBTreat` for the new `ss.State`, which now takes `label` itself, so `TBTreat` passes it twice (`test_treat.py` fails).
+   3. Rerun `v4/tests/` (anchor, `fastode`, latent and treatment), then exp 23's agent-against-ODE treatment checks, at the new pins.
+   4. **Update the network convention** (CONVENTIONS.md 1, and the network decisions in CLAUDE.md): when a feature needs a network, calibrate on Starsim's network ODE, which is then the same model as agents. Homogeneous mixing stays the default. The closed-form conversion of a homogeneous calibration is approximate at these pins (κ converted: about 2% low at monthly steps, under 0.5% weekly). Keep it only as an approximate carry-over, with κ converted, or drop it.
+   5. **Retire our network workarounds,** keeping them only so exps 12–25 can be rerun:
+      - mark `tbode4.beta_edge_from_ode` and `rr_edge_from_ode` as tools for the old pins (`80c81f53`);
+      - document `fastode`'s network option (`net_contacts`, `net_step`, `net_source_exp`) as a reference only.
+
+      Keep the rest of `fastode`, since it isn't a workaround: its fast equilibrium for calibration, first-entry incidence, and treatment as Erlang stages.
+2. **Treatment** (user, 2026-11-06; the treatment row).
    - **Next:** check agents against the ODE with time-varying `sym_dead` and over-detection, at sets drawn from [exp 24](experiments/24_treatment_calibration/SUMMARY.md)'s posterior, through the scale-up (as exp 21 did without treatment).
    - **Open (exp 24):** the posterior's predictions agree between IMIS seeds, but its parameters don't along a ridge (`k_latent` with `inf_asy`, the shape of early latent progression). Decide whether parameter inference needs a longer run, a reparameterisation, or another sampler before analyses that depend on latent progression.
    - **Later (user, 2026-11-09):** death and loss to follow-up during treatment.
-2. **The remaining rows, in table order:** age structure and demography, child transmission, time-varying parameters, then the low-priority household network and drug resistance.
+3. **The remaining rows, in table order:** age structure and demography, child transmission, time-varying parameters, then the low-priority household network and drug resistance.
    - **Starting runs:** starting agents at an equilibrium is simple while rates have no memory. Age structure needs an initial age distribution, and fixed delays (treatment, relapse) need an initial time in state.
    - **Drug resistance:** v4's resistance agents against its ODE in our matched setup, and a check of what tb_LAI_TPT's `TBResistant` setup uses that v4 doesn't have.
 
@@ -98,7 +108,7 @@ These aren't ABM↔ODE consistency steps. They are changes to the model and its 
   - **Decided (user, 2026-11-08): agents mix homogeneously by default,** and use a network only when a feature needs real contacts (the household network, contact-targeted interventions). On `RandomNet(10, dur=0)`, converted agents match homogeneous ones but run about 2× slower, with the same noise (exps 21–22).
   - **Decided (user, 2026-11-08): for agents on a random network, convert `beta` and each `rr_reinfection_*`, and leave `trans_asymp` unchanged** (CONVENTIONS.md 1; `tbode4.rr_edge_from_ode`). The homogeneous calibration then carries over with no Starsim change ([exp 22](experiments/22_network_conversion/SUMMARY.md)). Revisit when Starsim's ODE of a network handles reinfection.
   - **Resolved upstream ([exp 25](experiments/25_starsim_network_fix/SUMMARY.md); [proposal 03](proposals/03_network_reinfection/proposal.md)):** at starsim `d83f4f87`, agents on `RandomNet(dur=0)` match Starsim's network ODE, reinfection included. Agents now put every factor inside the exponent, so the conversion above is approximate at those pins: about ±2% of prevalence monthly, under 0.5% weekly.
-  - **To decide:** at the new pins, whether the network convention becomes "calibrate on Starsim's network ODE", or the approximate conversion with κ converted. Also whether to move the v4 pins: the anchor test passes, but `tbode4.TBTreat` needs fixing first (`ss.State` changed).
+  - **Decided (user, 2026-11-10):** move the v4 pins to these commits, and with them, calibrate on Starsim's network ODE when a network is needed (Plan, step 1).
 - **Treatment:** decided (user, 2026-11-09): a fixed 6-month course (CONVENTIONS.md 9; exp 23). Open: whether to send [proposal 04](proposals/04_treatment/proposal.md) upstream, and with which of its two changes.
 
 ### Parameters
