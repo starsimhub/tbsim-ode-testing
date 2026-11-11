@@ -25,7 +25,7 @@ Facts from exp 12:
 
 - The v4 ODE equals `TBODE`.
 - Agents start at the equilibrium with `init=`.
-- On `RandomNet`, use the matched `beta_edge` (`tbode4.beta_edge_from_ode`, the default in `tbode4.make_sim`), not v4's `beta/K`, which is 4% low at monthly `dt`.
+- On `RandomNet`, v4's `beta/K` is 4% low at monthly `dt`. At the current pins, calibrate the per-contact `beta` on Starsim's network ODE instead (CONVENTIONS.md 1).
 
 **Cliff's v4 redo (2026-10-27).**
 
@@ -38,9 +38,8 @@ Facts from exp 12:
 
 Where v4's model differs from the v0.10 ABM (front-loading via `k_latent`, latent reinfection, treatment as a rate, network `beta`), see README "Versions and tracks". Decisions so far (user, 2026-11-05):
 
-- **Network `beta`:** the matched per-contact `beta` (proposal 01's preferred option) stays in our own code (`tbode4.beta_edge_from_ode`), not in base Starsim or TBsim, for now. Don't push it upstream.
-- **Homogeneous mixing by default (user, 2026-11-08):** v4 agents run without a network unless a feature needs real contacts (household network, contact-targeted interventions). Converted `RandomNet(10, dur=0)` matches it (exp 22) but runs about 2× slower with the same rep-to-rep noise, and needs rr′ recomputed whenever `beta` or `dt` changes.
-- **Network reinfection risks (user, 2026-11-08):** on `RandomNet(dur=0)`, also convert each `rr_reinfection_*` (`tbode4.rr_edge_from_ode`), with `trans_asymp` unchanged, until Starsim's ODE of a network handles reinfection (proposal 03, sent to Cliff). Rerun exp 22's `diagnose.py` after any Starsim bump. CONVENTIONS.md 1.
+- **Homogeneous mixing by default (user, 2026-11-08):** v4 agents run without a network unless a feature needs real contacts (household network, contact-targeted interventions). A random network runs about 2× slower with the same rep-to-rep noise (exps 21–22).
+- **On a network, calibrate on Starsim's network ODE (user, 2026-11-10):** at the current pins (starsim `d83f4f87`), it is the same model as agents on `RandomNet(dur=0)`, reinfection included (exp 25; proposal 03 resolved upstream). Converting a homogeneous calibration in closed form is only approximate there (about 2% of prevalence at monthly steps, with `trans_asymp` converted too). `tbode4.beta_edge_from_ode`, `rr_edge_from_ode` and `fastode`'s network option are kept only to rerun exps 12–25. CONVENTIONS.md 1.
 - **Treatment (user, 2026-11-09):** CONVENTIONS.md 9's design, implemented as `tbode4.TBTreat` and in `fastode` (exp 23), with a fixed 6-month course (`tx_stages=12` in `fastode`). People whose treatment will fail keep facing TB death (`sym_dead`) while on treatment; loss to follow-up is to add later; nobody transmits on treatment. Proposal 04 holds only the parts that may go upstream to tbsim v4.
 - **Latent progression:** tentatively, v4's two latent states with remote progression = φ × the recent rates (option B in `proposals/02_latent_progression/options.md`), for now.
   - Not the version with no remote progression, which is effectively single-state.
@@ -103,12 +102,13 @@ Reuse what is useful, but check it against current tbsim first.
   - `tbode.TBExact` (exact `expm(Q·dt)` sampling; constant hazards only) removes it: prevalence is 1.00 / 1.00 / 0.97 ± 0.02 of the ODE with 40 reps.
   - Transmission (`beta_edge_from_ode`) matches its per-step expectation, `1 − e^(−x)` with x = `beta`·w·`dt`. But that is a fraction of about x/2 below the ODE's flow, because the susceptible pool is fixed at the start of the step (exp 10). Near threshold at monthly `dt`, this costs up to 6% of prevalence (set A). Mass action with a linear per-step probability (`TBExactMassAction(infection_prob='linear')`) matches the ODE to within 1–2%. The random network behaves like mass action.
 - **Incidence: use `incidence_event_py` (`TBExact`, counted from transitions), not the snapshot-based `incidence_py`.** The snapshot misses 3.3% of episodes at monthly `dt` and 0.75% at weekly (exp 11). The event count matches the ODE's incidence per prevalent case to within 0.3%. Notifications will need a transition-based count too once treatment is added. **Decision (user, 2026-10-13): the transition-based count is the standard for ODE↔ABM comparisons.** **Decision (user, 2026-11-05): count only the first entry to ASY per episode**, as tb_LAI_TPT does. **Decision (user, 2026-11-09): also count relapses after treatment** (they go straight to SYM); from exp 23. In v4, use `tbode4.fastode` (ODE) and exp 19's `Incidence` analyzer (agents). `v4/common.py`'s `outputs()` counts every entry, and misses remote → ASY, so it isn't incidence by this definition. Re-entries are about half of all entries (exp 19). Deferred: whether calibration targets should exclude brief subclinical episodes. If so, define the rule by duration in both models, not by step boundaries (see exp 11's SUMMARY).
-- **Network `beta` (exp 18):**
-  - **Starsim's fix:** since starsim `5ba36ebb`, newer than the v4 pins, Starsim's ODE of a network gives the same model as our matched `beta_edge`.
-  - **The gap both share:** neither matches agents for reinfection at a reduced risk. Set B on `RandomNet(10)` runs at 1.20× the ODE's prevalence at monthly `dt`, from 7–8% more reinfection in agents.
-  - **Not affected:** homogeneous mixing, as in exps 13–17.
-  - **How v4 agents transmit on a network (exp 22):** per edge per step, the transition's rate for its most infectious source saturates (1 − e^(−rr·b·D)). Everything else multiplies that chance linearly: other sources' coefficients such as `trans_asymp`, `rel_trans`, `rel_sus`, and modifiers. So converting b and each `rr_reinfection_*`, with `trans_asymp` unchanged, makes agents on `RandomNet(dur=0)` reproduce the homogeneous ODE (1.000 ± 0.006 monthly over 12 sets).
+- **Network transmission in v4 (exps 18, 22, 25):**
+  - **At the current pins (starsim `d83f4f87`):** agents put every factor of a contact's hazard inside the exponent, 1 − e^(−rr·κ·b·D·`rel_trans`·`rel_sus`·modifiers), and Starsim's network ODE gives each transition and source state its own saturation factor. The two agree (set B monthly prevalence 1.016 ± 0.011; exp 25).
+  - **At the earlier pins (starsim `80c81f53`, `bc2704b2`):** only rr·b saturated, κ and the rest scaled the chance linearly, and the network ODE under-transmitted reinfection (set B 1.20× at monthly `dt`; exp 18). Converting b and each `rr_reinfection_*`, with `trans_asymp` unchanged, was then exact (exp 22).
+  - **Not affected:** homogeneous mixing.
   - **The exp 18 environment:** tbsim `efeca56` works with starsim up to `bc2704b2`, not later. That environment is `experiments/18_network_ode/.venv`; run with `PYTHONPATH=v4`.
+- **Known, unexplained, not pursued (user, 2026-11-10):** at the current pins, v4 agents give about 0.4% fewer TB deaths on treatment per person-time on a failing course than the ODE at monthly steps (0.996–0.997 ± 0.001; exp 26, `timeseries_check.py`). If it reappears, it's this, not a new problem; README, "Known unexplained differences in v4".
+- **Starsim `d83f4f87` indexes a step's flows by its start (exp 26):** a flow result at index i is the step from t_i to t_(i+1), for the ODE, agents and our `Incidence` analyzer alike; states at index i are at t_i. At `80c81f53` flows sat at the index of the step's end. The dynamics are unchanged (exp 23's ODE reproduced to 1e-7 once flows are re-dated). `tbode4.ode_incidence` and exp 23's `yearly()` follow the current indexing.
 - **tb_LAI_TPT's curve B (`cohort_progression.FirstPassage`) is read from end-of-step snapshots, so it misses agents who reach asymptomatic TB and leave it within a step** (v0.10 can move latent → ASY → NON in one step). At monthly `dt` that's about 11% of entries: ProgressionY1 is 0.060 counted from transitions, against 0.054 from snapshots and 0.052 for tb_LAI_TPT's model solved exactly in continuous time (exp 17, 12 sets). The snapshot loss roughly offsets v0.10's monthly overstatement of progression at 1 year, not at 10. When comparing with tb_LAI_TPT's progression, say which count is used. Exp 17's `run_lai_tpt.py` (`TBConstantFOI`) records every move.
 - **Use `TBExact(infection_timing='within')` from exp 08 on (under review).** It dates each new infection uniformly within its step (exp 07), which removes the half-step INFECTION artefact.
   - **Trade-off, found 2026-10-13:** the force of infection is taken from the start-of-step state. So `'within'` dates infections on average half a step after the infectiousness that caused them, making the generation interval half a step too long. `'start'` gets it right on average, but its end-of-step INFECTION snapshots read low.
@@ -129,12 +129,12 @@ Reuse what is useful, but check it against current tbsim first.
 
 - **Two tracks, two environments (user decision, 2026-11-03).** See README "Versions and tracks".
   - **v0.10 (frozen, exps 01–11):** the repo root's `.venv` and `tbode/`, with tbsim v0.10.3 @ `b92d7e8` and starsim v3.6.1 @ `3521adb4`.
-  - **v4 (active, exps 12 on):** `v4/.venv` and `v4/tbode4/`, with tbsim `origin/v4` @ `dcfb522` and starsim `origin/v4` @ `80c81f53`.
+  - **v4 (active, exps 12 on):** `v4/.venv` and `v4/tbode4/`, with tbsim `origin/v4` @ `619c296` and starsim `origin/v4` @ `d83f4f87` (4.0.0rc4), from exp 26 on. Exps 12–25 ran at tbsim `dcfb522` and starsim `80c81f53`; rerunning them needs those pins (git history of `v4/pyproject.toml` and `v4/uv.lock`) and the matching `tbode4`.
 
   Run v4 scripts from the repo root with `v4/.venv/bin/python`. If `VIRTUAL_ENV` points elsewhere (e.g. tb_LAI_TPT's), unset it.
 
 - **Both environments pin tbsim and starsim to exact git commits** in `pyproject.toml` and `uv.lock`. Never point them back at the editable `../tbsim` / `../starsim` checkouts: tb_LAI_TPT shares those, and they move.
-  - Bump the v4 pins only on purpose, and rerun `v4/tests/test_anchor.py` after each bump.
+  - Bump the v4 pins only on purpose, and rerun `v4/tests/` after each bump. Check that results are indexed as before (CONVENTIONS.md 7).
   - tbsim v4 still reports `__version__ = '0.10.3'`, so only the commit identifies it.
 - **Record versions.** Every experiment README has a "Track" line, and every run writes `versions*.json` via `tbode.save_versions` / `tbode4.save_versions`. The two environments can't import each other, so results cross between them as saved files (e.g. exp 12's `reference_v010.json`).
 - **v0.10 arms in new experiments (rule revised by the user, 2026-11-05):**

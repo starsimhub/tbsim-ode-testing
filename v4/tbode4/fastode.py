@@ -1,10 +1,10 @@
 """
-A standalone copy of tbsim v4's TB ODE (tbsim.TB as declared at tbsim dcfb522, run by Starsim's compartmental solver), for
+A standalone copy of tbsim v4's TB ODE (tbsim.TB as declared at tbsim dcfb522 and unchanged at 619c296, run by Starsim's compartmental solver), for
 calibration: the same equations as one function of the state, with the equilibrium found by root-finding (milliseconds, against
 about a second through Starsim). Checked against v4's ODE in tests/test_fastode.py and exp 19; rerun that test after bumping the
 v4 pins.
 
-Scope: homogeneous mixing (or, optionally, a random network with fresh contacts each step: see force()), births replacing every death
+Scope: homogeneous mixing (the network option in force() is a reference only, not for calibration), births replacing every death
 (mu, as tbsim.TB's own), optionally the two latent states (k_latent > 0). Shares of a constant population.
 
 Treatment (optional, tx_rate > 0) is exp 23's design (CONVENTIONS.md 9), as declared in tbode4.TBTreat: people with symptomatic TB start
@@ -26,7 +26,7 @@ from scipy.optimize import root
 
 __all__ = ['default_pars', 'make_pars', 'state_names', 'names', 'force', 'rhs', 'flows', 'run', 'equilibrium', 'summary']
 
-# tbsim.tb_pars() at tbsim dcfb522 (rates per year), the parameters used here
+# tbsim.tb_pars() at tbsim dcfb522 and 619c296 (rates per year), the parameters used here
 default_pars = dict(
     beta=9.0, trans_asymp=0.82, rr_reinfection_cleared=1.00, rr_reinfection_rec=0.21, rr_reinfection_treat=3.15, rr_reinfection_inf=0.21,
     inf_cle=1.90, inf_non=0.16, inf_asy=0.06, k_latent=0.0, inf_non_remote=None, inf_asy_remote=0.0,
@@ -81,6 +81,9 @@ def force(p, x, rr=1.0):
 
     With net_source_exp = 1, the source's infectiousness is inside the exponent too, as agents do it from starsim 6dcad9fd (exp 25):
     (K/D)·[(1 − e^(−rr·trans_asymp·beta·D))·A + (1 − e^(−rr·beta·D))·Y].
+
+    The network option (net_contacts, net_step, net_source_exp) is a reference only, kept so exps 22 and 25 can be rerun: to calibrate on a
+    network, use Starsim's ODE of the network (CONVENTIONS.md 1), which net_source_exp = 1 matches to within 0.4% (exp 25).
     """
     if not p['net_contacts']:
         return rr*p['beta']*(p['trans_asymp']*x[A] + x[Y])

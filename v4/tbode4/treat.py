@@ -47,19 +47,19 @@ class TBTreat(tbsim.TB):
         dur = ss.constant(ss.years(tx_dur)) if course == 'fixed' else ss.years(tx_dur) # A plain duration is the mean of an exponential
         staged = dict(stages=stages) if (stages and course == 'fixed') else {}
         self.define_states(
-            ss.State('treatment_success', label='On treatment, will be cured'),
-            ss.State('treatment_fail',    label='On treatment, will fail'),
-            ss.State('relapsing',         label='Cured, will relapse'),
+            ss.State(name='treatment_success', label='On treatment, will be cured'),
+            ss.State(name='treatment_fail',    label='On treatment, will fail'),
+            ss.State(name='relapsing',         label='Cured, will relapse'),
         )
         self.define_transitions(
-            tx_start    = ss.Transition(self.symptomatic, [self.treatment_success, self.treatment_fail], rate=rate, p=[tx_success, None]),
-            tx_cure     = ss.Transition(self.treatment_success, [self.treated, self.relapsing], dur=dur, p=[None, tx_p_relapse], **staged),
+            tx_start    = ss.Transition(self.symptomatic, {self.treatment_success: tx_success, self.treatment_fail: None}, rate=rate),
+            tx_cure     = ss.Transition(self.treatment_success, {self.treated: None, self.relapsing: tx_p_relapse}, dur=dur, **staged),
             tx_fail     = ss.Transition(self.treatment_fail, self.symptomatic, dur=dur, **staged),
             tb_death_tx = ss.death(self.treatment_fail, rate=sym_dead),
             relapse     = ss.Transition(self.relapsing, self.symptomatic, dur=ss.years(dur_relapse_tx)),
         )
         if isinstance(getattr(self, 'replace', None), ss.Transition): # Births replace TB deaths on treatment too, as tbsim.TB's replace does those from symptomatic TB
-            self.define_transitions(replace_tx=ss.null >> self.susceptible @ sym_dead*self.treatment_fail.n)
+            self.define_transitions(replace_tx=ss.unborn >> self.susceptible @ sym_dead*self.treatment_fail.n)
         self.tx = sc.objdict(tx_rate=tx_rate, tx_success=tx_success, tx_dur=tx_dur, course=course, stages=stages, tx_p_relapse=tx_p_relapse, dur_relapse_tx=dur_relapse_tx)
         return
 
@@ -84,8 +84,8 @@ def lai_tpt_treatment(row=None, step=1/12, end=2024):
     times = np.round(np.arange(1995, end + step/2, step), 6)
     times = np.concatenate([[t0], times])
     covg = np.interp(times, cov_t, cov_v)
-    tx_rate = ss.timeseries({float(t): ss.peryear(float(theta_from_coverage(c))) for t, c in zip(times, covg)}, mode='linear')
-    tx_success = ss.timeseries({t0: 0.0, 1995.0: r['efficacy_1995'], 2024.0: r['efficacy_2024']}, mode='linear')
+    tx_rate = ss.timeseries({float(t): ss.peryear(float(theta_from_coverage(c))) for t, c in zip(times, covg)}, interpolation='linear')
+    tx_success = ss.timeseries({t0: 0.0, 1995.0: r['efficacy_1995'], 2024.0: r['efficacy_2024']}, interpolation='linear')
     coverage = lambda t: np.interp(t, cov_t, cov_v, left=0)
     efficacy = lambda t: np.interp(t, [t0, 1995, 2024], [0.0, r['efficacy_1995'], r['efficacy_2024']], left=0)
     return sc.objdict(tx_rate=tx_rate, tx_success=tx_success, coverage=coverage, efficacy=efficacy, p_relapse=r['p_relapse'])
@@ -238,7 +238,7 @@ def tx_outputs(sim, incidence=None):
     """
     Per step, per person per year (as shares of the living): prevalence, incidence (with relapses), notifications, the share on
     treatment, TB mortality (with deaths on treatment), and their parts. `incidence` is the agents' Incidence analyzer, or for the
-    ODE the output of ode_incidence()
+    ODE the output of ode_incidence(). Stocks at index i are at t_i; flows at index i are the step from t_i to t_(i+1) (see ode_incidence())
     """
     r = sim.results.tb
     alive = np.asarray(sim.results.alive.values, dtype=float)
@@ -268,6 +268,9 @@ def ode_incidence(sim, non0):
     latent infection. Each step's inflow (the step's latent_non + remote_non) is taken as uniform within the step, and NON0 is carried
     forward exactly; worsening from NON0 is non_asy × NON0's person-time in the step.
 
+    Starsim's flow results at index i are the step from t_i to t_(i+1), as are those of agents and the Incidence analyzer (starsim d83f4f87,
+    exp 26). At the earlier pins (starsim 80c81f53, exps 19–25), index i held the step ending at t_i, and this function followed that.
+
     Args:
         sim: a run of TBTreat with solver='ode'
         non0 (float): NON0 at the start, in people
@@ -285,8 +288,9 @@ def ode_incidence(sim, non0):
     b = (dt - a)/(rr*dt) # Person-time per person entering uniformly over the step
     n0 = np.zeros(len(inflow)); first_non = np.zeros(len(inflow))
     n0[0] = non0
-    for i in range(1, len(inflow)): # Index i holds the step ending at i
-        first_non[i] = non_asy*(n0[i-1]*a + inflow[i]*b)
-        n0[i] = n0[i-1]*decay + inflow[i]*(1 - decay)/(rr*dt)
+    for i in range(len(inflow)): # Index i holds the step from t_i to t_(i+1); n0[i] is NON0 at t_i
+        first_non[i] = non_asy*(n0[i]*a + inflow[i]*b)
+        if i + 1 < len(inflow):
+            n0[i+1] = n0[i]*decay + inflow[i]*(1 - decay)/(rr*dt)
     first = get('latent_asy') + get('remote_asy') + first_non + get('relapse')
     return sc.objdict(first=first, non0=n0, first_non=first_non)

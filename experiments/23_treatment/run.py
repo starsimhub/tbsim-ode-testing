@@ -14,8 +14,8 @@ import sciris as sc
 import starsim as ss
 import matplotlib.pyplot as plt
 
-outdir = sc.thispath(__file__)
-root = outdir.parent.parent
+outdir = sc.path(os.environ.get('TB_EXP23_FOLDER', sc.thispath(__file__))) # TB_EXP23_FOLDER redirects the outputs (exp 26 reruns this at newer pins)
+root = sc.thispath(__file__).parent.parent
 sys.path.insert(0, str(root / 'v4'))
 import tbode4 # noqa: E402
 from tbode4 import fastode as fo # noqa: E402
@@ -77,10 +77,14 @@ def starting_state(scen, course):
     return init, d['non0'], d['non1']/(d['non0'] + d['non1'])
 
 
+stocks = ['prevalence', 'on_treatment']
+flows_at_start = True # Where Starsim puts a step's flows: index i is the step from t_i to t_(i+1) from starsim d83f4f87 on (exp 26); the step ending at t_i before (exp 23)
+
+
 def yearly(out, dt_year):
     """ Yearly means per 100,000 of each output (per step: flows per year, stocks at the step's end), dated by the middle of each step """
     year = np.floor(out.year[1:] - dt_year/2 + 1e-9).astype(int)
-    df = pd.DataFrame({k: out[k][1:]*1e5 for k in outputs})
+    df = pd.DataFrame({k: (out[k][1:] if (k in stocks or not flows_at_start) else out[k][:-1])*1e5 for k in outputs})
     df['year'] = year
     return df.groupby('year').mean()
 

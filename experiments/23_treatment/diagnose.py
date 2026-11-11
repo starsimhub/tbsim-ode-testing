@@ -11,8 +11,9 @@ import pandas as pd
 import sciris as sc
 import starsim as ss
 
-outdir = sc.thispath(__file__)
-spec = importlib.util.spec_from_file_location('exp23', outdir / 'run.py')
+outdir = sc.path(os.environ.get('TB_EXP23_FOLDER', sc.thispath(__file__))) # TB_EXP23_FOLDER redirects the outputs (exp 26 reruns this at newer pins)
+here = sc.thispath(__file__)
+spec = importlib.util.spec_from_file_location('exp23', here / 'run.py')
 r = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(r)
 import tbode4 # noqa: E402

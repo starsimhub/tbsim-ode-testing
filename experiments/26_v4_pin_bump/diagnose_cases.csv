@@ -1,0 +1,13 @@
+check,uid,ti,made,scen,course,dt,rep
+start_while_on_tx,125074,326,tx_start + tx_cure + relapse,eq,rate,month,22
+start_while_on_tx,290065,575,tx_start + tx_cure + relapse,eq,rate,month,27
+start_while_on_tx,271900,510,tx_start + tx_cure + relapse,eq,fixed,month,0
+tb_death_from_success,121554,489,tx_cure + relapse + tb_death,eq,fixed,month,10
+start_while_on_tx,226892,387,tx_start + tx_cure + relapse,eq,fixed,month,11
+start_while_on_tx,240418,459,tx_start + tx_cure + relapse,eq,fixed,month,22
+start_while_on_tx,213382,117,tx_start + tx_cure + relapse,eq,fixed,month,34
+start_while_on_tx,10011,427,tx_start + tx_cure + relapse,eq,fixed,month,34
+tb_death_from_success,44190,505,tx_cure + relapse + tb_death,ramp,rate,month,8
+tb_death_from_success,101442,333,tx_cure + relapse + tb_death,ramp,rate,month,27
+start_while_on_tx,268627,344,tx_start + tx_cure + relapse,ramp,fixed,month,0
+start_while_on_tx,283117,478,tx_start + tx_cure + relapse,ramp,fixed,month,0

@@ -1,0 +1,6 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+Prevalence agents ÷ ODE, eq, fixed course, weekly steps, (2005, 2050) (mean ± SE over reps):
+      reps   n  prevalence       se      p10      p90
+ reps 0-39  40    0.951925 0.016047 0.824653 1.047375
+reps 40-99  60    1.007460 0.013192 0.881079 1.110831
+   all 100 100    0.985246 0.010501 0.846906 1.106828

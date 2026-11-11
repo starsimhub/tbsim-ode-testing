@@ -3,6 +3,8 @@
 **Status:** done; see [SUMMARY.md](SUMMARY.md). Preliminary checks of how v4 and tb_LAI_TPT behave are in [checks/](checks/README.md). The agents' runs were restarted once, with Starsim's kernels limited to one thread per process so the run stays within 4 cores.
 **Track:** v4 (`v4/.venv`; tbsim `origin/v4` @ `dcfb522`, starsim `origin/v4` @ `80c81f53`). One check also runs v0.10 `Tx` as tb_LAI_TPT ran it.
 
+**At later pins:** [exp 26](../26_v4_pin_bump/SUMMARY.md) reruns `run.py` and `diagnose.py` at starsim `d83f4f87` and tbsim `619c296`, with `TB_EXP23_FOLDER` sending the outputs there. Starsim then indexes a step's flows by its start, which `run.py` follows (`flows_at_start = True`). To rerun this experiment at its own pins, check out the repo at its commit (`10aacf0`), whose `v4/uv.lock` and `tbode4` match them.
+
 ## Background
 
 **The treatment design** (agreed with the user, 2026-11-09; the rules are in [CONVENTIONS.md, section 9](../../CONVENTIONS.md#9-treatment)):

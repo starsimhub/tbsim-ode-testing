@@ -1,0 +1,6 @@
+Agents ÷ ODE, 1995–2035, monthly steps, 400,000 agents (mean ± SE over 8 seeds):
+ scen course  reps  starts  starts_se  on_fail  on_fail_se  deaths_tx  deaths_tx_se  deaths_per_on_fail  deaths_per_on_fail_se  share_dying  share_dying_se
+const   rate     8  1.0019     0.0002   0.9983      0.0006     0.9940        0.0010              0.9957                 0.0008       0.9921          0.0009
+const  fixed     8  1.0006     0.0003   1.0010      0.0005     0.9974        0.0010              0.9964                 0.0010       0.9969          0.0009
+ ramp   rate     8  0.9993     0.0002   0.9978      0.0004     0.9938        0.0005              0.9960                 0.0007       0.9945          0.0005
+ ramp  fixed     8  0.9986     0.0002   0.9988      0.0003     0.9955        0.0006              0.9967                 0.0007       0.9972          0.0006

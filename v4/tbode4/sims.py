@@ -30,6 +30,10 @@ def beta_edge_from_ode(beta_ode, n_contacts, dt):
     K·q·w, for w the infectious share (weighted by trans_asymp). Setting it to the ODE's beta_ode·w·dt gives q = beta_ode·dt/K.
     v4's own mapping, beta_ode/K (as its ODE approximation of the network assumes), gives about b·dt/2 fewer infections (4% at monthly dt).
 
+    A tool for the v4 track's earlier pins (starsim 80c81f53), kept so exps 12–25 can be rerun. From starsim d83f4f87 on, Starsim's ODE of
+    the network is the same model as agents on it, so calibrate the per-contact beta on that ODE instead (CONVENTIONS.md 1); this mapping is
+    then only an approximate carry-over of a homogeneous calibration (exp 25).
+
     Args:
         beta_ode (float): the ODE's beta (per year)
         n_contacts (int): K
@@ -63,8 +67,11 @@ def rr_edge_from_ode(rr, beta_edge, dt):
 
     As agents, a factor written into a transmission's rate saturates: a contact transmits with chance 1 − exp(−rr·beta_edge·dt), not rr
     times a susceptible's chance q. This returns the rr' whose chance is rr·q: −ln(1 − rr·q)/(beta_edge·dt). Factors that scale a contact's
-    chance linearly as agents (another source's coefficient such as trans_asymp, rel_trans, rel_sus, modifiers) need no conversion. Depends
-    on how Starsim's agents transmit (starsim 80c81f53); rerun exp 22's diagnose.py after bumping it.
+    chance linearly as agents (another source's coefficient such as trans_asymp, rel_trans, rel_sus, modifiers) need no conversion.
+
+    Exact only at the v4 track's earlier pins (starsim 80c81f53), kept so exps 12–25 can be rerun. From starsim d83f4f87 on, agents put
+    every factor inside the exponent, so no conversion is exact: converting each rr_reinfection_* and trans_asymp with this function gives
+    about 2% too little prevalence at monthly steps and under 0.5% at weekly ones (exp 25). Calibrate on Starsim's ODE of the network instead.
 
     Args:
         rr (float): the relative risk in the ODE (homogeneous mixing)
@@ -94,7 +101,8 @@ def make_sim(beta, solver='ode', dt=ss.months(1), start=1900, stop=2000, init=No
         n_agents (int): agents, for solver='abm'
         total_pop (float): the population (as an ODE, or the people the agents stand for)
         n_contacts (int): with a number, an ss.RandomNet with this mean degree (fresh contacts each step); None: homogeneous mixing
-        edge_beta (str): on a network, the beta of each contact: 'step' (beta_edge_from_ode, matching the ODE's infections per step, as in v0.10)
+        edge_beta (str): on a network, the beta of each contact: 'given' (beta is already per contact, e.g. calibrated on Starsim's ODE of the
+            network, CONVENTIONS.md 1), 'step' (beta_edge_from_ode, matching the ODE's infections per step, exact at the earlier pins only),
             or 'rate' (beta/n_contacts, v4's own mapping)
         mu (float): background mortality, per year, with births at the same per-person rate
         replace_tb_deaths (bool): True: births also replace each TB death, so N is constant (tbsim.TB's own mu, as the reference ODE);
@@ -115,8 +123,8 @@ def make_sim(beta, solver='ode', dt=ss.months(1), start=1900, stop=2000, init=No
             beta = beta_edge_from_ode(beta, n_contacts, dt.years)
         elif edge_beta == 'rate':
             beta = beta/n_contacts
-        else:
-            raise ValueError(f"edge_beta must be 'step' or 'rate', not {edge_beta}")
+        elif edge_beta != 'given':
+            raise ValueError(f"edge_beta must be 'given', 'step' or 'rate', not {edge_beta}")
     if replace_tb_deaths:
         tb = tbsim.TB(beta=beta, mu=mu, init=init, **tb_kw)
     else:

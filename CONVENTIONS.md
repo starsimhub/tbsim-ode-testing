@@ -2,11 +2,11 @@
 
 The modelling conventions decided in this repo, written so they can be adopted in a new repo or brought into tb_LAI_TPT. Each says what to do, the code, when it's valid, the pitfalls, and where it was decided. The evidence is in the linked experiments and proposals.
 
-**They assume tbsim v4 on starsim v4** (tbsim `origin/v4` @ `dcfb522`, starsim `origin/v4` @ `80c81f53`, the versions tested here), unless a section says otherwise. tb_LAI_TPT is on v0.10. Bringing these conventions into it means moving it to v4 (or to `tbode.TBExact` for v0.10 agents), and recalibrating (see [Progression targets](#4-progression-targets)).
+**They assume tbsim v4 on starsim v4** (tbsim `origin/v4` @ `619c296`, starsim `origin/v4` @ `d83f4f87`, the versions tested here; exps 12–25 ran at tbsim `dcfb522` and starsim `80c81f53`), unless a section says otherwise. tb_LAI_TPT is on v0.10. Bringing these conventions into it means moving it to v4 (or to `tbode.TBExact` for v0.10 agents), and recalibrating (see [Progression targets](#4-progression-targets)).
 
 | # | Convention | Status |
 |---|---|---|
-| 1 | [Per-contact `beta` and reinfection risks on a random network](#1-per-contact-beta-and-reinfection-risks-on-a-random-network) | Decided (2026-11-05; reinfection risks 2026-11-08) |
+| 1 | [Contact networks: homogeneous mixing by default; on a random network, calibrate on Starsim's ODE of the network](#1-contact-networks-homogeneous-mixing-by-default-on-a-random-network-calibrate-on-starsims-ode-of-the-network) | Decided (2026-11-08; network ODE 2026-11-10) |
 | 2 | [Latent progression: two states with remote progression](#2-latent-progression-two-states-with-remote-progression) | Tentative, for now (2026-11-05) |
 | 3 | [Latent reinfection and superinfection](#3-latent-reinfection-and-superinfection) | Decided for one strain; multistrain to revisit |
 | 4 | [Progression targets](#4-progression-targets) | Definitions fixed by tb_LAI_TPT |
@@ -16,79 +16,34 @@ The modelling conventions decided in this repo, written so they can be adopted i
 | 8 | [Calibrating the ODE: a standalone copy at equilibrium, with IMIS](#8-calibrating-the-ode-a-standalone-copy-at-equilibrium-with-imis) | Practice in this repo (2026-11-07) |
 | 9 | [Treatment](#9-treatment) | Decided and implemented (2026-11-09; exp 23): fixed 6-month course; loss to follow-up on treatment to add |
 
-## 1. Per-contact `beta` and reinfection risks on a random network
+## 1. Contact networks: homogeneous mixing by default; on a random network, calibrate on Starsim's ODE of the network
 
-**Decided (user, 2026-11-05):** match the ODE's infections per step, in our own code, not in base Starsim or TBsim, for now.
+**Decided (user, 2026-11-08): agents mix homogeneously by default,** with no network, and use one only when a feature needs real contacts (a household network, contact-targeted interventions). Homogeneous agents match the ODE with no conversion (exps 13–17, 21, 25). In v4, homogeneous mixing is the default only when a sim has no networks. To combine it with a household network, add the homogeneous part as an explicit `ss.MixingPool` of everyone (not yet tested).
 
-**Decided (user, 2026-11-08): convert each reinfection risk too, and leave `trans_asymp` unchanged**, until Starsim's ODE of a network handles reinfection ([proposal 03](proposals/03_network_reinfection/proposal.md)). See "Reinfection risks" below.
+**Decided (user, 2026-11-10): on a random network, calibrate on Starsim's ODE of the network,** which is the same model as agents on it. Its parameters are per contact: b, the per-contact `beta`, and the reinfection risks as they act on a contact.
 
-**Decided (user, 2026-11-06): v4 agents mix homogeneously for the ODE recalibration.** With homogeneous mixing, agents match the ODE without any conversion (exps 13–17), so this section applies only to work on `RandomNet`: running a homogeneous calibration as agents on the network. Starsim's ODE of a network (starsim `5ba36ebb`) converts `beta` as we do but not the reinfection risks, so it under-transmits reinfection relative to agents ([exp 18](experiments/18_network_ode/SUMMARY.md)). To combine homogeneous mixing with a household network later, add the homogeneous part as an explicit `ss.MixingPool` of everyone: in v4, homogeneous mixing is the default only when a sim has no networks (not yet tested).
+**How transmission works on `ss.RandomNet(n_contacts=K, dur=0)`,** with fresh contacts every step and K the mean degree (about K/2 edges per agent, transmitting both ways):
 
-On `ss.RandomNet(n_contacts=K, dur=0)`, with fresh contacts each step, each contact transmits in a step with probability 1 − e^(−b·dt), where b is its per-contact `beta`. The ODE `beta` and b correspond when:
+- **Agents:** an edge from u to v transmits in a step of length D with chance 1 − e^(−rr·κ·b·D·`rel_trans`[u]·`rel_sus`[v]·modifiers). Here rr is the transition's relative risk (1 for susceptibles, `rr_reinfection_*` for reinfection) and κ the source state's infectiousness (`trans_asymp` for asymptomatic TB, 1 for symptomatic).
+- **Starsim's ODE of the network:** each transition and each source state has its own saturation factor (1 − e^(−x))/x, with x = rr·κ·b·D.
+- **They agree:** per transition, agents give 0.97–1.01 of the network ODE's flows, reinfection included; at equilibrium, prevalence is 1.016 ± 0.011 of the ODE in set B and 1.005 ± 0.019 in set A at monthly steps (exp 25).
 
-> `beta_ode` = K · (1 − e^(−b·dt)) / dt
+**Code here:** `tbode4.make_sim(b, n_contacts=K, edge_beta='given', solver='ode')` runs the network ODE with a per-contact b, and `solver='abm'` the matching agents. `tbode4.fastode`'s network option with `net_source_exp=1` reproduces the network ODE to within 0.4% (exp 25), but is kept as a reference, not for calibration.
 
-```python
-import numpy as np
+**Carrying over a homogeneous calibration instead is approximate.** With q = 1 − e^(−b·D):
 
-def beta_edge_from_ode(beta_ode, n_contacts, dt):
-    """ Per-contact beta (per year) for agents on ss.RandomNet that matches an ODE beta; dt in years """
-    q = beta_ode*dt/n_contacts  # Each contact's chance of transmission in a step
-    return -np.log1p(-q)/dt
+> b = −ln(1 − `beta`·D/K)/D, and each rr′ = −ln(1 − rr·q)/(b·D), with κ′ the same function of κ
 
-def beta_ode_from_edge(beta_edge, n_contacts, dt):
-    """ The inverse: the ODE beta that matches a per-contact beta, e.g. one calibrated in an ABM """
-    return n_contacts*(-np.expm1(-beta_edge*dt))/dt
-```
+(`tbode4.beta_edge_from_ode`, and `tbode4.rr_edge_from_ode` for each `rr_reinfection_*` and for `trans_asymp`). On exp 20's posterior at monthly steps this gives 0.978 ± 0.006 of the homogeneous ODE's prevalence (0.94–1.02 by set); weekly, 0.996 is predicted (exp 25). No choice of b, rr′ and κ′ is exact, because every factor multiplies inside the exponent. Ratios per prevalent case (the share asymptomatic, incidence) stay within 0.2%, so the error is in the level of the epidemic, not its natural history. Leaving κ unconverted gives about 2% too much prevalence instead.
 
-- **Code here:**
-  - `tbode4.beta_edge_from_ode` and `tbode4.beta_ode_from_edge` (`v4/tbode4/sims.py`); `tbode4.make_sim` uses the first by default (`edge_beta='step'`).
-  - On v0.10: `tbode.beta_edge_from_ode`.
-  - Tested in `v4/tests/test_anchor.py::test_beta_edge_round_trip`.
-- **Which direction:**
-  - **Starting from an ODE `beta`** (porting a calibrated ODE to agents): `beta_edge_from_ode`.
-  - **Starting from an ABM's per-contact `beta`** (as tb_LAI_TPT calibrates): `beta_ode_from_edge` gives the ODE equivalent. The ABM itself doesn't change.
-- **Valid only:**
-  - for networks with fresh contacts every step (`dur=0`), which behave like mass action;
-  - with K the **mean degree**. That's what `n_contacts` is on `ss.RandomNet`: about K/2 edges per agent, with transmission both ways. Checked on starsim 3.6.1 and v4.
-- **Not covered: networks whose edges persist,** such as tb_LAI_TPT's `HouseholdNetFixed`. They have no ODE counterpart, and their `beta` (tb_LAI_TPT's `beta * rel_beta_hh`) isn't converted this way.
+- **Valid only for networks with fresh contacts every step** (`dur=0`). Networks whose edges persist, such as tb_LAI_TPT's `HouseholdNetFixed`, are untested.
 - **Pitfalls:**
-  - **v4's own mapping, `beta/K`, is low.** It's what Starsim v4's ODE approximation of a network assumes, and what tbsim's docs suggest. It gives about b·dt/2 fewer infections: 4% at monthly `dt`, and 22–26% less prevalence near threshold.
-  - **`dt` matters.** A per-contact `beta` calibrated at one `dt` doesn't mean the same at another; convert through the ODE `beta`.
-  - **Converting `beta` alone matches only transmission at the susceptibles' rate.** Reinfection at a reduced risk rr runs on the same contacts at rr·b, and agents then transmit more than the ODE's rr·`beta`, because a smaller per-contact rate saturates less. In set B (rr = π = 0.24) at monthly `dt`, reinfection is 7–8% higher in agents than in the ODE, and prevalence is 1.20× the ODE's (1.05× weekly; exp 18). Over exp 20's posterior it's 1.07–1.26× (exp 22). Starsim's ODE of a network (starsim `5ba36ebb`) has the same gap, and is otherwise the same model as the `beta` conversion. Hence the reinfection risks below.
-  - **Don't reuse tb_LAI_TPT's old `beta_ode_from_tb`.** It used −ln(1 − p) per contact, which is K·b, v4's low mapping. It was in `ode_testing/run_ode_vs_abm.py`, deleted in tb_LAI_TPT commit `bb19486` (2026-10-28).
-- **Evidence:** [exp 12](experiments/12_v4_setup/SUMMARY.md) (0.956 ± 0.003 of the ODE's infections per step with `beta/K`, 0.997 ± 0.003 matched); [exp 13](experiments/13_v4_pinned_rerun/SUMMARY.md); [proposal 01](proposals/01_network_beta/proposal.md).
-
-**Reinfection risks.** As agents, a factor written into a transmission's rate saturates per contact, and every other factor scales a contact's chance linearly. On a contact in a step D:
-
-- **The rate saturates:** for the transition's most infectious source state, a contact transmits with chance 1 − e^(−rr·b·D).
-- **Linear factors multiply that chance:** another source state's coefficient (κ, `trans_asymp`, for asymptomatic TB), per-agent `rel_trans` and `rel_sus`, and modifiers on the transmission.
-
-So convert what saturates and leave what's linear. With q = 1 − e^(−b·dt), set each `rr_reinfection_*` to
-
-> rr′ = −ln(1 − rr·q)/(b·dt)
-
-so that a reinfection's chance per contact is rr·q, and leave `trans_asymp` unchanged. Every combination of target and source then transmits what the homogeneous model's flows give over a step: q, κ·q, rr·q and κ·rr·q. The other parameters don't involve contacts and carry over unchanged.
-
-```python
-def rr_edge_from_ode(rr, beta_edge, dt):
-    """ The relative risk that gives agents on ss.RandomNet the ODE's reinfections per step; beta_edge from beta_edge_from_ode, dt in years """
-    q = -np.expm1(-beta_edge*dt)
-    return -np.log1p(-rr*q)/(beta_edge*dt)
-
-def rr_ode_from_edge(rr_edge, beta_edge, dt):
-    """ The inverse: the ODE's relative risk that matches agents with a given rr' """
-    return np.expm1(-rr_edge*beta_edge*dt)/np.expm1(-beta_edge*dt)
-```
-
-- **Code here:** `tbode4.rr_edge_from_ode` and `tbode4.rr_ode_from_edge` (`v4/tbode4/sims.py`), tested in `v4/tests/test_anchor.py::test_rr_edge_round_trip`. For the standalone ODE, the network option of `tbode4.fastode` (`net_contacts`, `net_step`) gives the network model with unconverted parameters.
-- **Result:** a homogeneous calibration converted this way reproduces the calibrated ODE on `RandomNet(10, dur=0)`: prevalence 1.000 ± 0.006 monthly and 0.999 ± 0.006 weekly over 12 posterior sets, with every ratio per prevalent case within 0.2% ([exp 22](experiments/22_network_conversion/SUMMARY.md)).
-- **Pitfalls:**
-  - **Don't convert `trans_asymp`.** Agents apply it linearly, so converting it as if it saturated cuts transmission from asymptomatic TB, and prevalence comes out 2–5% low at monthly `dt` (exp 22).
-  - **Factors applied linearly need no conversion.** That includes products that act on `rel_sus` or `rel_trans` (e.g. TPT or vaccines) and `ss.modify` of a transmission. Only parameters written into a transmission's rate, here `rr_reinfection_*`, are converted.
-  - **rr′ depends on b and `dt`.** Recompute it whenever `beta` or `dt` changes. Starting from an agent model calibrated per contact (as tb_LAI_TPT is), `rr_ode_from_edge` gives the ODE's relative risk.
-  - **It depends on how Starsim's agents transmit** (checked at starsim `80c81f53`; the same code at `bc2704b2`). After bumping Starsim, rerun exp 22's `diagnose.py`, which measures each class's infections per step against both rules.
-- **When to revisit:** once Starsim's ODE of a network applies a factor per transition (proposal 03), calibrating on the network ODE with unconverted risks is the same model, parametrised per contact. Then choose between that and calibrating with homogeneous mixing and converting.
+  - **v4's own mapping, b = `beta`/K, is low:** about b·D/2 fewer infections, 4% at monthly steps, and 22–26% less prevalence near threshold (exp 12).
+  - **The step matters.** A per-contact b means something different at another D; recalibrate, or carry over through the homogeneous `beta`.
+  - **The network ODE's b isn't the matched conversion:** in set B at monthly steps it is 0.94× the converted b, because reinfection at a reduced risk and asymptomatic sources saturate less than first infection from symptomatic sources (exp 25).
+  - **Don't reuse tb_LAI_TPT's old `beta_ode_from_tb`.** It took −ln(1 − p) per contact, which is K·b, the low mapping above.
+  - **At the v4 track's earlier pins (starsim `80c81f53`, exps 12–25), transmission differed:** only rr·b saturated, κ and the other factors scaled the chance linearly, and the network ODE applied the susceptibles' saturation to every transition, so it under-transmitted reinfection (set B ran at 1.20× the ODE's prevalence; exp 18). Converting b and each rr, with κ unchanged, was then exact (1.000 ± 0.006; exp 22). That's why `beta_edge_from_ode` and `rr_edge_from_ode` exist; they are kept so those experiments can be rerun.
+- **Evidence:** [exp 25](experiments/25_starsim_network_fix/SUMMARY.md); before Starsim's fix, [exp 12](experiments/12_v4_setup/SUMMARY.md), [exp 18](experiments/18_network_ode/SUMMARY.md) and [exp 22](experiments/22_network_conversion/SUMMARY.md); [proposal 01](proposals/01_network_beta/proposal.md) and [proposal 03](proposals/03_network_reinfection/proposal.md), which Starsim's fix resolves.
 
 ## 2. Latent progression: two states with remote progression
 
@@ -181,6 +136,7 @@ B(t) is the share of a cohort, all latent at t = 0, that has ever reached asympt
 - **Pin tbsim and starsim to exact git commits** in `pyproject.toml` / `uv.lock`, not editable checkouts shared with other projects. tbsim v4 still reports `__version__ = '0.10.3'`, so only the commit identifies it.
 - **Record the versions with every run's outputs** (`tbode4.save_versions`).
 - **After bumping the pins,** rerun an anchor test like `v4/tests/test_anchor.py` (the v4 ODE reproduces the reference ODE).
+- **After bumping the pins, also check how results are indexed.** Starsim `d83f4f87` moved a step's flows from the index of the step's end to the index of its start, while states stayed at their times; code that dates flows (e.g. yearly means) then shifts them by a step. Check that a flow at index i equals the change in its source's state from i to i + 1 (exp 26).
 
 ## 8. Calibrating the ODE: a standalone copy at equilibrium, with IMIS
 
