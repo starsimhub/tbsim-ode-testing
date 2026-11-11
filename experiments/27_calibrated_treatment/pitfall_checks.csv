@@ -1,0 +1,3 @@
+dt,starts,start_while_on_tx,start_not_symptomatic,relapse_not_from_success,tb_death_from_success,bg_death_rate_success,mu,course_years_mean,share_courses_at_mode,mode_years,alive_min_share,alive_max_share
+month,1530347,43,0,0,13,0.014261898415983361,0.014285714285714285,0.5,1.0,0.5,0.98902,1.007965
+week,1521590,2,0,0,0,0.014328111374761391,0.014285714285714285,0.49999905742232786,0.928620577264332,0.4986301369863014,0.991125,1.007525
