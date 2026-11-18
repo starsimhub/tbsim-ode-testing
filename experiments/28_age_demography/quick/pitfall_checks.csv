@@ -1,0 +1,5 @@
+set,dt,starts,fails,cures,restart_same_step,start_while_on_tx,start_not_symptomatic,relapse_not_from_success,tb_death_from_success,bg_death_from_success,success_person_steps,symptomatic_person_steps,courses_timed,course_steps_sum,course_steps_sq
+0,month,14,7,4,0,0,0,0,0,0,27,27499,11,66,396
+0,week,17,5,5,0,0,0,0,0,0,162,107149,10,261,6813
+6,month,13,4,3,0,0,0,0,0,0,29,28864,7,42,252
+6,week,15,7,2,0,0,0,0,0,0,93,109946,9,234,6084

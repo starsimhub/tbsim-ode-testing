@@ -1,0 +1,290 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+Bundled WPP rates (decades, linear between them) against tb_LAI_TPT annual files, every 5 years. TFR from 5-year groups (bundled, 10-54) and single years (tb_LAI_TPT, 15-49); tfr_bundled_15_49 leaves out 10-14 and 50-54. e0 from the death rates (constant within each group).
+ year  tfr_bundled  tfr_lai  tfr_bundled_15_49  asfr_max_rel_diff  asfr_age_of_max  e0_female_bundled  e0_female_lai  mx_female_max_rel_diff  mx_female_age_of_max  e0_male_bundled  e0_male_lai  mx_male_max_rel_diff  mx_male_age_of_max
+ 1950        5.735    5.672              5.676              0.033               45             40.035         40.035               1.331e-05                   100           41.546       41.546             3.180e-05                 100
+ 1955        5.829    5.849              5.769              0.023               15             42.250         42.724               4.659e-02                     1           43.713       44.087             4.457e-02                   1
+ 1960        5.923    5.855              5.861              0.021               45             44.610         44.610               1.698e-05                   100           46.010       46.010             3.021e-05                 100
+ 1965        5.770    5.878              5.709              0.044               40             46.167         44.720               1.162e-01                    10           47.415       45.811             1.533e-01                  10
+ 1970        5.616    5.564              5.557              0.022               15             47.789         47.789               4.733e-07                   100           48.877       48.877             2.013e-05                 100
+ 1975        5.199    5.135              5.140              0.040               40             50.435         50.081               5.222e-02                    20           51.137       50.993             4.856e-02                   5
+ 1980        4.782    4.715              4.723              0.018               45             53.308         53.308               1.882e-05                   100           53.518       53.518             1.658e-05                 100
+ 1985        4.415    4.375              4.362              0.079               15             56.160         56.580               8.081e-02                    25           55.625       55.816             5.000e-02                  25
+ 1990        4.048    3.997              4.002              0.029               40             59.220         59.220               1.338e-05                   100           57.826       57.826             1.370e-05                 100
+ 1995        3.699    3.612              3.662              0.167               40             61.399         61.320               2.472e-02                    50           59.679       59.749             2.004e-02                  10
+ 2000        3.351    3.321              3.323              0.024               45             63.685         63.685               1.875e-06                   100           61.646       61.646             8.899e-06                 100
+ 2005        2.978    2.941              2.960              0.191               15             66.134         66.270               6.448e-02                    50           63.553       63.503             4.209e-02                  30
+ 2010        2.605    2.590              2.597              0.013               40             68.707         68.707               1.267e-05                   100           65.549       65.549             3.109e-06                 100
+ 2015        2.328    2.285              2.322              0.524               15             70.257         70.847               1.688e-01                   100           66.978       67.740             2.819e-01                 100
+ 2020        2.050    2.045              2.048              0.017               45             71.849         71.849               2.313e-05                   100           68.445       68.445             2.819e-05                 100
+ 2025        1.968    1.942              1.966              0.040               30             73.508         74.048               1.886e-01                   100           70.084       70.875             2.632e-01                 100
+ 2030        1.886    1.882              1.884              0.019               45             75.320         75.320               7.357e-06                   100           71.913       71.913             5.532e-06                 100
+ 2035        1.845    1.837              1.844              0.069               15             76.379         76.453               2.690e-02                     0           72.880       72.911             1.321e-02                   0
+ 2040        1.805    1.803              1.804              0.009               45             77.485         77.485               1.504e-05                   100           73.884       73.884             1.754e-05                 100
+ 2045        1.783    1.779              1.782              0.043               15             78.367         78.421               3.128e-02                     0           74.806       74.827             2.574e-02                   0
+ 2050        1.762    1.764              1.761              0.007               35             79.286         79.286               3.136e-06                   100           75.764       75.764             1.090e-05                 100
+
+Largest relative difference over 1950-2050: ASFR 0.717, mx female 0.304, mx male 0.528
+Largest |TFR difference| (15-49): 0.178; |e0 difference|: female 3.42, male 2.97 years
+
+inputs finished in 0 s
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+  Compiling the compartmental solvers with Numba, estimated time: 60-150 s
+  Compiled the compartmental solvers with Numba in 27 s
+D1 done (30 s)
+D2 done (33 s)
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 1 s
+  Compiling the agent solver with Numba, estimated time: 2-15 s
+  Compiled the agent solver with Numba in 2 s
+Stage 1 done (66 s; agent runs 31 s each on average)
+Stage 1: population ÷ 1950 (mean over reps; agents 10 reps of 100,000 at the start), and its ratios between arms
+arm       D1      D2      D3      D4      D5  D1 SE  D2 SE   D3 SE   D4 SE   D5 SE
+year                                                                              
+1950  1.0000  1.0000  1.0000  1.0000  1.0000    0.0    0.0  0.0000  0.0000  0.0000
+1960  1.2721  1.2705  1.2457  1.2308  1.2386    0.0    0.0  0.0010  0.0012  0.0007
+1970  1.6249  1.6132  1.5535  1.5257  1.5347    0.0    0.0  0.0019  0.0021  0.0011
+1980  2.0665  2.0505  1.9385  1.8854  1.8964    0.0    0.0  0.0031  0.0027  0.0018
+1990  2.5975  2.5921  2.4201  2.3294  2.3550    0.0    0.0  0.0048  0.0042  0.0031
+2000  3.1859  3.2061  2.9617  2.8274  2.8517    0.0    0.0  0.0064  0.0049  0.0040
+2010  3.7463  3.8133  3.4984  3.3191  3.3451    0.0    0.0  0.0087  0.0059  0.0055
+2020  4.1941  4.3291  3.9618  3.7397  3.7788    0.0    0.0  0.0100  0.0069  0.0063
+2030  4.5491  4.7641  4.3565  4.0965  4.1284    0.0    0.0  0.0113  0.0082  0.0068
+2040  4.8337  5.1263  4.6895  4.3970  4.4224    0.0    0.0  0.0133  0.0087  0.0076
+2050  5.0205  5.3739  4.9172  4.5998  4.6182    0.0    0.0  0.0144  0.0094  0.0088
+
+      D1 vs WPP   D2/D1   D3/D1   D4/D3   D5/D4
+year                                           
+1950     1.0000  1.0000  1.0000  1.0000  1.0000
+1960     1.0103  0.9988  0.9793  0.9881  1.0063
+1970     1.0308  0.9928  0.9561  0.9821  1.0059
+1980     1.0411  0.9923  0.9381  0.9726  1.0058
+1990     1.0399  0.9979  0.9317  0.9625  1.0110
+2000     1.0428  1.0063  0.9297  0.9547  1.0086
+2010     1.0433  1.0179  0.9338  0.9488  1.0078
+2020     1.0354  1.0322  0.9446  0.9439  1.0105
+2030     1.0329  1.0472  0.9577  0.9403  1.0078
+2040     1.0316  1.0605  0.9702  0.9376  1.0058
+2050     1.0351  1.0704  0.9794  0.9354  1.0040
+
+Age shares (mean over reps), by arm, with WPP:
+0-14:
+arm       D1      D2      D3      D4      D5     WPP
+year                                                
+1950  0.3793  0.3793  0.3798  0.3795  0.3787  0.3793
+1960  0.3986  0.4081  0.4007  0.3946  0.3980  0.4058
+1970  0.4035  0.4145  0.4075  0.4018  0.4039  0.4136
+1980  0.3940  0.4037  0.3938  0.3874  0.3870  0.3980
+1990  0.3756  0.3875  0.3821  0.3742  0.3766  0.3856
+2000  0.3495  0.3605  0.3565  0.3500  0.3492  0.3555
+2010  0.3120  0.3200  0.3161  0.3116  0.3096  0.3134
+2020  0.2682  0.2718  0.2690  0.2659  0.2645  0.2635
+2030  0.2321  0.2333  0.2316  0.2295  0.2278  0.2239
+2040  0.2084  0.2091  0.2085  0.2075  0.2058  0.1993
+2050  0.1912  0.1889  0.1875  0.1871  0.1861  0.1779
+15-29:
+arm       D1      D2      D3      D4      D5     WPP
+year                                                
+1950  0.2722  0.2722  0.2716  0.2722  0.2730  0.2722
+1960  0.2565  0.2504  0.2527  0.2558  0.2538  0.2502
+1970  0.2593  0.2551  0.2504  0.2507  0.2512  0.2513
+1980  0.2667  0.2707  0.2717  0.2694  0.2725  0.2766
+1990  0.2700  0.2732  0.2682  0.2683  0.2675  0.2719
+2000  0.2699  0.2747  0.2706  0.2686  0.2697  0.2751
+2010  0.2686  0.2760  0.2748  0.2716  0.2738  0.2784
+2020  0.2625  0.2709  0.2690  0.2666  0.2647  0.2702
+2030  0.2448  0.2495  0.2470  0.2455  0.2448  0.2468
+2040  0.2222  0.2207  0.2171  0.2156  0.2154  0.2140
+2050  0.2043  0.2018  0.1994  0.1986  0.1973  0.1938
+30-49:
+arm       D1      D2      D3      D4      D5     WPP
+year                                                
+1950  0.2310  0.2310  0.2313  0.2308  0.2307  0.2310
+1960  0.2200  0.2192  0.2225  0.2251  0.2241  0.2212
+1970  0.2107  0.2064  0.2142  0.2179  0.2164  0.2094
+1980  0.2125  0.2023  0.2054  0.2110  0.2092  0.1995
+1990  0.2228  0.2159  0.2190  0.2220  0.2222  0.2166
+2000  0.2360  0.2330  0.2379  0.2407  0.2420  0.2386
+2010  0.2522  0.2505  0.2516  0.2543  0.2539  0.2514
+2020  0.2720  0.2734  0.2754  0.2754  0.2767  0.2766
+2030  0.2865  0.2931  0.2967  0.2956  0.2963  0.2989
+2040  0.2880  0.2965  0.2994  0.2985  0.2973  0.3018
+2050  0.2800  0.2834  0.2839  0.2834  0.2840  0.2858
+50-64:
+arm       D1      D2      D3      D4      D5     WPP
+year                                                
+1950  0.0865  0.0865  0.0865  0.0866  0.0867  0.0865
+1960  0.0885  0.0883  0.0912  0.0913  0.0909  0.0899
+1970  0.0871  0.0871  0.0904  0.0920  0.0911  0.0891
+1980  0.0857  0.0844  0.0887  0.0909  0.0903  0.0865
+1990  0.0885  0.0833  0.0887  0.0919  0.0911  0.0856
+2000  0.0965  0.0888  0.0890  0.0932  0.0920  0.0867
+2010  0.1095  0.1038  0.1065  0.1089  0.1099  0.1074
+2020  0.1261  0.1217  0.1241  0.1272  0.1277  0.1257
+2030  0.1457  0.1426  0.1422  0.1444  0.1443  0.1448
+2040  0.1647  0.1659  0.1675  0.1681  0.1701  0.1729
+2050  0.1790  0.1857  0.1890  0.1889  0.1892  0.1956
+65+:
+arm       D1      D2      D3      D4      D5     WPP
+year                                                
+1950  0.0310  0.0310  0.0308  0.0308  0.0309  0.0310
+1960  0.0365  0.0340  0.0329  0.0333  0.0332  0.0330
+1970  0.0394  0.0370  0.0376  0.0376  0.0375  0.0366
+1980  0.0412  0.0388  0.0403  0.0412  0.0410  0.0395
+1990  0.0431  0.0400  0.0420  0.0435  0.0426  0.0404
+2000  0.0482  0.0430  0.0458  0.0475  0.0471  0.0441
+2010  0.0578  0.0497  0.0510  0.0536  0.0529  0.0494
+2020  0.0713  0.0622  0.0625  0.0649  0.0664  0.0642
+2030  0.0908  0.0814  0.0826  0.0850  0.0868  0.0856
+2040  0.1167  0.1078  0.1076  0.1103  0.1114  0.1119
+2050  0.1455  0.1403  0.1402  0.1420  0.1435  0.1468
+
+Crude birth and death rates per 1,000, every 10 years (calendar-year totals ÷ mean population):
+       D1 cbr   D1 cdr   D2 cbr   D2 cdr   D3 cbr   D3 cdr   D4 cbr   D4 cdr   D5 cbr   D5 cdr
+year                                                                                          
+1950  45.8311  21.6415  45.8306  21.6355  40.4848  21.3630  39.7131  21.8579  40.2776  21.8088
+1960  44.2728  19.4850  43.5257  19.1767  42.2427  19.3340  41.8476  19.8558  41.8236  19.8992
+1970  41.8152  17.3183  40.8248  16.8132  38.7362  17.0556  38.6004  17.4082  38.5236  17.2993
+1980  37.4674  13.9071  37.4682  13.5105  36.4848  13.6846  35.6334  14.2065  35.7439  14.0879
+1990  32.9679  11.0961  33.1982  10.6030  32.2810  10.7204  31.8837  11.2147  31.9428  11.2321
+2000  27.6884   9.2387  28.0621   8.5984  27.2852   8.7422  27.0535   9.0777  27.0332   9.1249
+2010  21.4640   8.0209  21.9331   7.2040  21.5922   7.2405  21.4027   7.5323  21.7159   7.6155
+2020  16.8427   8.0724  17.3394   7.0848  17.2161   7.0986  17.0040   7.3010  16.8406   7.5526
+2030  15.0009   7.8413  15.4092   6.8834  15.3468   6.7807  15.3396   7.0162  15.0732   7.0896
+2040  13.4212   8.6664  13.4998   7.6646  13.4472   7.5482  13.4318   7.7718  13.2788   7.8762
+2050  12.2181   9.5432  12.0659   8.6286  11.9365   8.5698  12.0066   8.6585  11.8406   8.7570
+
+Agents' realized fertility (deliveries ÷ women, by mother's age group) ÷ the bundled rates interpolated to mid-year, mean over reps:
+D3:
+          10      15      20      25      30      35      40      45      50     TFR
+1950  0.2450  0.8508  0.8573  0.9141  0.9514  0.9769  1.0494  1.3992  3.4781  0.9135
+1960  0.2050  0.8356  0.9281  1.0142  1.0480  1.0855  1.2421  1.7244  3.4091  0.9965
+1970  0.2547  0.8566  0.9204  1.0167  1.0383  1.0899  1.2453  1.5931  4.1113  0.9908
+1980  0.2268  0.8607  0.9315  1.0313  1.0912  1.1272  1.2787  1.5390  3.6702  0.9957
+1990  0.2384  0.8427  0.9253  1.0564  1.1238  1.1707  1.2424  1.5532  2.7201  0.9931
+2000  0.2501  0.8457  0.9184  1.0610  1.1483  1.2254  1.2485  1.8184  2.9381  0.9964
+2010  0.2686  0.8362  0.8752  1.0549  1.1736  1.1977  1.3094  1.6705  2.1227  0.9976
+2020  0.3014  0.8451  0.8579  0.9880  1.1249  1.2940  1.2903  2.0408  2.1322  0.9986
+2030  0.5146  0.8435  0.8575  0.9721  1.0949  1.3069  1.2797  2.4491  1.5101  0.9983
+2040  0.2258  0.8794  0.8579  0.9443  1.0722  1.3373  1.3658  2.6547  1.3003  0.9987
+2050  0.3760  0.8007  0.8532  0.9329  1.0427  1.3530  1.3652  2.8300  2.0958  0.9952
+D4:
+       10      15      20      25      30      35      40      45      50     TFR
+1950  0.0  0.8361  0.8561  0.8998  0.9454  0.9738  1.0830  1.5236  2.4667  0.9067
+1960  0.0  0.8250  0.9157  1.0077  1.0253  1.0859  1.2411  1.8185  3.0586  0.9849
+1970  0.0  0.8279  0.9314  1.0159  1.0585  1.0887  1.2358  1.5191  3.2229  0.9887
+1980  0.0  0.8351  0.9263  1.0284  1.0723  1.1460  1.3165  1.4640  2.5680  0.9853
+1990  0.0  0.8343  0.9237  1.0532  1.1432  1.1927  1.2332  1.5405  2.2587  0.9914
+2000  0.0  0.8346  0.9238  1.0637  1.1577  1.2217  1.3473  1.5994  1.9079  0.9969
+2010  0.0  0.8572  0.8705  1.0361  1.2033  1.2463  1.3697  1.6446  1.1904  0.9983
+2020  0.0  0.8202  0.8521  0.9907  1.1215  1.2798  1.3723  2.2122  0.6678  0.9966
+2030  0.0  0.8296  0.8595  0.9763  1.1006  1.3169  1.3754  2.1922  0.7382  1.0031
+2040  0.0  0.8215  0.8486  0.9594  1.0795  1.3391  1.3194  2.5729  0.4217  1.0016
+2050  0.0  0.7854  0.8837  0.9249  1.0636  1.3436  1.4317  2.9602  0.7654  1.0049
+D5:
+       10      15      20      25      30      35      40      45      50     TFR
+1950  0.0  0.8148  0.8919  0.9239  0.9346  0.9758  1.0827  1.2247  0.8421  0.9131
+1960  0.0  0.7468  0.9682  1.0223  1.0486  1.0938  1.1452  1.4110  1.1890  0.9864
+1970  0.0  0.7502  0.9905  1.0323  1.0549  1.0788  1.2211  1.3013  1.1331  0.9911
+1980  0.0  0.7518  0.9843  1.0356  1.0535  1.1175  1.1942  1.2025  0.9125  0.9780
+1990  0.0  0.7430  0.9938  1.0642  1.1075  1.1408  1.1878  1.2905  1.1360  0.9902
+2000  0.0  0.7350  0.9861  1.0723  1.1279  1.1342  1.2234  1.3403  1.3310  0.9920
+2010  0.0  0.5715  0.9335  1.0982  1.1531  1.1116  1.1559  1.2798  0.4798  0.9992
+2020  0.0  0.4730  0.8548  1.0381  1.1150  1.1884  1.2428  1.6781  0.1247  0.9894
+2030  0.0  0.4378  0.8232  1.0199  1.1143  1.2078  1.2457  1.5759  0.4969  0.9899
+2040  0.0  0.4034  0.8023  0.9873  1.1251  1.2100  1.1950  1.8146  0.3392  0.9919
+2050  0.0  0.2813  0.7848  0.9740  1.0997  1.2709  1.2614  1.7855  0.4220  0.9958
+
+The ODE's aging alone (exponential exits at 1 ÷ width, no deaths): model age of people born at time 0
+ years  mean_age  sd_age
+    10   12.4454  6.5836
+    25   27.4987 10.8084
+    50   52.4877 15.4958
+    75   76.4758 17.1658
+
+WPP populations are as given by ss.data.population (decadal, interpolated); the ODE and agents leave out migration.
+
+demog finished in 67 s

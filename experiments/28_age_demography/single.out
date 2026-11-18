@@ -1,0 +1,70 @@
+set 0 month: 4.3 s (states sum to alive within 8.88e-16; peak memory so far 0.44 GB)
+set 0 week: 23.3 s (states sum to alive within 8.88e-16; peak memory so far 0.97 GB)
+set 6 month: 4.0 s (states sum to alive within 6.66e-16; peak memory so far 1.05 GB)
+set 6 week: 22.4 s (states sum to alive within 8.88e-16; peak memory so far 1.56 GB)
+Arm S done (54 s)
+/Users/tessryckman/Developer/tbsim-ode-testing/experiments/28_age_demography/run.py:641: RuntimeWarning: invalid value encountered in scalar divide
+  d = {k: aw[k]/ow[k] for k in compared}
+/Users/tessryckman/Developer/tbsim-ode-testing/experiments/28_age_demography/run.py:642: RuntimeWarning: invalid value encountered in scalar divide
+  d.update({f'{k}_per_case': (aw[k]/aw.prevalence)/(ow[k]/ow.prevalence) for k in per_case})
+/Users/tessryckman/Developer/tbsim-ode-testing/experiments/28_age_demography/run.py:806: RuntimeWarning: invalid value encountered in scalar divide
+  d = {k: sw[k]/ow[k] for k in compared}
+/Users/tessryckman/Developer/tbsim-ode-testing/experiments/28_age_demography/run.py:807: RuntimeWarning: invalid value encountered in scalar divide
+  d.update({f'{k}_per_case': (sw[k]/sw.prevalence)/(ow[k]/ow.prevalence) for k in per_case})
+/Users/tessryckman/Developer/tbsim-ode-testing/experiments/28_age_demography/run.py:641: RuntimeWarning: invalid value encountered in scalar divide
+  d = {k: aw[k]/ow[k] for k in compared}
+/Users/tessryckman/Developer/tbsim-ode-testing/experiments/28_age_demography/run.py:642: RuntimeWarning: invalid value encountered in scalar divide
+  d.update({f'{k}_per_case': (aw[k]/aw.prevalence)/(ow[k]/ow.prevalence) for k in per_case})
+Arm S run times: set 0 month 4.3 s, set 0 week 23.3 s, set 6 month 4.0 s, set 6 week 22.4 s (main arm, 22 groups: set 0 month 29.6 s, set 0 week 23.5 s, set 6 month 4.8 s, set 6 week 21.1 s; the first includes compiling)
+
+Agents ÷ S (the ODE with single years of age; 1.00 = match), mean ± SE over 20 reps, window means of yearly values
+set                                 0                                                                                         6                                                                           
+dt                              month                                         week                                        month                                         week                              
+window                           late            pre        scaleup           late            pre        scaleup           late            pre        scaleup           late            pre        scaleup
+output                                                                                                                                                                                                    
+prevalence              1.013 ± 0.008  0.980 ± 0.005  0.993 ± 0.005  0.991 ± 0.007  0.977 ± 0.005  0.983 ± 0.006  1.007 ± 0.006  0.986 ± 0.007  0.992 ± 0.006  1.003 ± 0.009  0.988 ± 0.006  0.984 ± 0.005
+prop_asymptomatic       0.999 ± 0.001  0.998 ± 0.001  0.999 ± 0.000  0.999 ± 0.001  1.000 ± 0.001  0.999 ± 0.000  1.000 ± 0.001  0.998 ± 0.001  0.999 ± 0.001  1.000 ± 0.001  0.998 ± 0.001  1.000 ± 0.001
+incidence_per_case      0.997 ± 0.002  0.991 ± 0.001  0.996 ± 0.001  0.999 ± 0.002  0.994 ± 0.001  0.998 ± 0.001  1.001 ± 0.001  0.990 ± 0.001  0.998 ± 0.002  1.003 ± 0.002  0.991 ± 0.001  0.999 ± 0.002
+notifications_per_case  0.999 ± 0.003      nan ± nan  0.994 ± 0.003  1.000 ± 0.002      nan ± nan  1.000 ± 0.003  1.000 ± 0.003      nan ± nan  0.998 ± 0.003  0.995 ± 0.005      nan ± nan  1.004 ± 0.003
+mortality_per_case      1.002 ± 0.005  0.995 ± 0.002  0.999 ± 0.002  1.003 ± 0.006  1.001 ± 0.002  1.004 ± 0.002  1.001 ± 0.006  0.996 ± 0.003  0.997 ± 0.003  0.992 ± 0.005  1.001 ± 0.003  0.999 ± 0.003
+recent                  1.628 ± 0.010  1.569 ± 0.007  1.596 ± 0.006  1.118 ± 0.007  1.090 ± 0.004  1.105 ± 0.005  1.167 ± 0.006  1.135 ± 0.006  1.149 ± 0.005  1.037 ± 0.008  1.012 ± 0.005  1.018 ± 0.004
+remote                  1.008 ± 0.006  0.972 ± 0.004  0.988 ± 0.003  0.992 ± 0.006  0.972 ± 0.003  0.983 ± 0.004  1.003 ± 0.004  0.976 ± 0.005  0.988 ± 0.004  0.999 ± 0.007  0.980 ± 0.004  0.984 ± 0.004
+cleared                 1.001 ± 0.001  1.008 ± 0.001  1.002 ± 0.000  1.000 ± 0.001  1.010 ± 0.001  1.003 ± 0.001  1.002 ± 0.001  1.013 ± 0.001  1.003 ± 0.001  1.001 ± 0.002  1.013 ± 0.001  1.002 ± 0.001
+alive                   0.915 ± 0.001  0.954 ± 0.001  0.919 ± 0.001  0.916 ± 0.001  0.954 ± 0.001  0.920 ± 0.001  0.912 ± 0.001  0.952 ± 0.001  0.916 ± 0.001  0.917 ± 0.001  0.954 ± 0.001  0.920 ± 0.001
+prev_0-14               1.032 ± 0.008  1.000 ± 0.005  1.013 ± 0.005  1.013 ± 0.010  0.998 ± 0.005  1.004 ± 0.005  1.023 ± 0.008  1.003 ± 0.007  1.006 ± 0.005  1.003 ± 0.011  1.006 ± 0.007  1.003 ± 0.006
+prev_15-29              1.011 ± 0.008  0.960 ± 0.005  0.977 ± 0.004  1.000 ± 0.007  0.954 ± 0.006  0.971 ± 0.005  1.017 ± 0.005  0.978 ± 0.006  0.993 ± 0.006  1.025 ± 0.009  0.976 ± 0.006  0.984 ± 0.004
+prev_30-49              0.993 ± 0.011  0.973 ± 0.007  0.985 ± 0.006  0.969 ± 0.007  0.968 ± 0.007  0.973 ± 0.007  0.985 ± 0.008  0.969 ± 0.009  0.981 ± 0.007  0.989 ± 0.008  0.978 ± 0.006  0.967 ± 0.006
+prev_50-64              1.020 ± 0.013  0.978 ± 0.008  1.002 ± 0.007  0.976 ± 0.011  0.980 ± 0.011  0.976 ± 0.011  1.011 ± 0.011  0.993 ± 0.009  0.975 ± 0.010  0.984 ± 0.013  0.983 ± 0.009  0.965 ± 0.008
+prev_65+                1.023 ± 0.010  0.987 ± 0.012  0.990 ± 0.011  0.978 ± 0.013  0.983 ± 0.009  0.980 ± 0.009  1.010 ± 0.010  0.987 ± 0.011  0.984 ± 0.011  1.000 ± 0.011  0.982 ± 0.012  0.988 ± 0.011
+share_0-14              0.994 ± 0.001  0.982 ± 0.000  0.988 ± 0.000  0.994 ± 0.000  0.982 ± 0.001  0.988 ± 0.001  0.994 ± 0.000  0.981 ± 0.000  0.988 ± 0.000  0.994 ± 0.001  0.982 ± 0.000  0.989 ± 0.000
+share_15-29             0.988 ± 0.000  0.995 ± 0.000  0.991 ± 0.000  0.994 ± 0.000  0.996 ± 0.000  0.995 ± 0.000  0.987 ± 0.000  0.995 ± 0.000  0.991 ± 0.000  0.994 ± 0.000  0.997 ± 0.000  0.996 ± 0.000
+share_30-49             1.011 ± 0.000  1.021 ± 0.001  1.010 ± 0.000  1.007 ± 0.000  1.018 ± 0.001  1.005 ± 0.000  1.011 ± 0.000  1.021 ± 0.000  1.010 ± 0.000  1.006 ± 0.000  1.018 ± 0.000  1.005 ± 0.000
+share_50-64             1.003 ± 0.001  1.038 ± 0.001  1.019 ± 0.001  1.002 ± 0.001  1.038 ± 0.001  1.020 ± 0.001  1.004 ± 0.001  1.040 ± 0.001  1.020 ± 0.001  1.001 ± 0.001  1.037 ± 0.001  1.019 ± 0.001
+share_65+               1.008 ± 0.001  1.027 ± 0.001  1.032 ± 0.002  1.009 ± 0.001  1.027 ± 0.002  1.031 ± 0.002  1.009 ± 0.001  1.031 ± 0.001  1.034 ± 0.002  1.008 ± 0.001  1.025 ± 0.002  1.029 ± 0.001
+
+S ÷ the main arm's ODE (WPP's 22 groups), window means
+set                          0                                               6                                        
+dt                       month                    week                   month                    week                
+window                    late     pre scaleup    late     pre scaleup    late     pre scaleup    late     pre scaleup
+output                                                                                                                
+prevalence              1.0048  0.9890  0.9952  1.0048  0.9890  0.9952  0.9985  0.9918  0.9905  0.9985  0.9919  0.9905
+prop_asymptomatic       1.0002  0.9998  1.0002  1.0002  0.9998  1.0002  1.0002  0.9997  1.0002  1.0002  0.9997  1.0002
+incidence_per_case      1.0026  0.9988  1.0029  1.0026  0.9988  1.0029  1.0032  0.9976  1.0031  1.0032  0.9976  1.0031
+notifications_per_case  0.9996     NaN  1.0014  0.9996     NaN  1.0013  0.9995     NaN  1.0012  0.9995     NaN  1.0011
+mortality_per_case      0.9996  1.0002  0.9990  0.9995  1.0002  0.9990  0.9995  1.0004  0.9996  0.9995  1.0004  0.9995
+recent                  1.0086  0.9873  0.9992  1.0086  0.9873  0.9991  1.0029  0.9887  0.9947  1.0029  0.9887  0.9947
+remote                  1.0072  0.9881  0.9980  1.0072  0.9881  0.9980  1.0021  0.9892  0.9940  1.0021  0.9892  0.9940
+cleared                 0.9971  1.0033  0.9978  0.9971  1.0033  0.9978  0.9953  1.0048  0.9965  0.9953  1.0048  0.9965
+alive                   1.0510  0.9960  1.0202  1.0510  0.9960  1.0201  1.0510  0.9958  1.0199  1.0510  0.9958  1.0199
+prev_0-14               1.0535  1.0238  1.0374  1.0535  1.0238  1.0374  1.0176  1.0213  1.0187  1.0176  1.0213  1.0187
+prev_15-29              1.0160  0.9428  0.9586  1.0160  0.9428  0.9586  1.0464  0.9806  0.9942  1.0464  0.9806  0.9943
+prev_30-49              0.9384  0.9555  0.9528  0.9384  0.9556  0.9528  0.9475  0.9444  0.9428  0.9475  0.9445  0.9428
+prev_50-64              0.9734  0.9846  0.9819  0.9735  0.9846  0.9819  0.9431  0.9752  0.9519  0.9432  0.9753  0.9519
+prev_65+                0.9948  0.9901  0.9901  0.9949  0.9901  0.9901  0.9692  0.9906  0.9688  0.9692  0.9907  0.9688
+share_0-14              1.0049  1.0238  1.0239  1.0049  1.0238  1.0239  1.0051  1.0240  1.0241  1.0051  1.0239  1.0241
+share_15-29             1.0106  0.9973  1.0247  1.0106  0.9973  1.0247  1.0108  0.9975  1.0251  1.0109  0.9975  1.0251
+share_30-49             1.0249  0.9783  0.9960  1.0248  0.9783  0.9959  1.0250  0.9779  0.9957  1.0249  0.9779  0.9956
+share_50-64             0.9891  0.9825  0.9491  0.9890  0.9825  0.9491  0.9888  0.9823  0.9482  0.9887  0.9823  0.9482
+share_65+               0.9085  0.9404  0.8785  0.9084  0.9405  0.8785  0.9074  0.9404  0.8773  0.9073  0.9405  0.8773
+
+single finished in 56 s

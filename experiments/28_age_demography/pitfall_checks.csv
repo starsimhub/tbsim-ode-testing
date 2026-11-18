@@ -1,0 +1,5 @@
+set,dt,starts,fails,cures,restart_same_step,start_while_on_tx,start_not_symptomatic,relapse_not_from_success,tb_death_from_success,bg_death_from_success,success_person_steps,symptomatic_person_steps,courses_timed,course_steps_sum,course_steps_sq
+0,month,314354,109377,183117,3666,7,0,0,5,0,1105684,10189985,292494,1754964,10529784
+0,week,310962,108088,181033,898,0,0,0,1,0,4752756,43786928,289121,7537370,196517668
+6,month,298574,149550,124786,5530,12,0,0,4,0,752615,9263839,274336,1646016,9876096
+6,week,298577,149019,125045,1286,0,0,0,0,0,3279300,40195561,274064,7145108,186297796
