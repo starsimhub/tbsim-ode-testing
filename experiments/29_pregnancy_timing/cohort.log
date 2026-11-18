@@ -1,0 +1,10 @@
+Cohort-component projection (exact aging, monthly) as the reference. Population ÷ 1950, ratio to it:
+  1960: agents (P2b) 0.9998, ODE R8x 1.0005, ODE exact aging 0.9998
+  1980: agents (P2b) 0.9992, ODE R8x 1.0026, ODE exact aging 1.0004
+  2000: agents (P2b) 1.0003, ODE R8x 1.0037, ODE exact aging 1.0009
+  2020: agents (P2b) 1.0017, ODE R8x 1.0035, ODE exact aging 1.0013
+  2050: agents (P2b) 1.0029, ODE R8x 1.0025, ODE exact aging 1.0014
+Share in each 5-year group (0–84), ratio to the projection: largest gap over 1955–2050, and its age group and year
+  agents (P2b): largest 1.028 (ages 80–84, 1960); ranges at 0–4, 5–9, 15–19, 35–39, 80–84: {0: '0.979–0.993', 5: '1.012–1.026', 15: '0.978–1.008', 35: '0.994–1.027', 80: '0.977–1.028'}
+  ODE R8x: largest 1.083 (ages 80–84, 1965); ranges at 0–4, 5–9, 15–19, 35–39, 80–84: {0: '0.982–1.002', 5: '0.985–1.013', 15: '0.980–1.020', 35: '0.976–1.030', 80: '0.977–1.083'}
+  ODE exact aging: largest 1.050 (ages 80–84, 1965); ranges at 0–4, 5–9, 15–19, 35–39, 80–84: {0: '0.988–1.001', 5: '0.987–1.007', 15: '0.982–1.011', 35: '0.977–1.018', 80: '0.971–1.050'}

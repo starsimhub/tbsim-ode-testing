@@ -265,9 +265,9 @@ def demog_outputs(sim):
     out = sc.objdict(years=years, total=total, pyr=pyr, alive=alive[idx], rates=pd.DataFrame(rows), asfr_real=None)
     if 'pregnancy' in r: # Agents: realized fertility by mother's age group (deliveries in each calendar year ÷ mean women), for the inputs' groups
         try:
-            fbins = list(wpp.fert_ages) + [55]
-            dv = regroup(*by_age_sex(r.pregnancy.delivery, 'female'), fbins)[:, :-1]
-            women = regroup(*by_age_sex(r.sis.S, 'female'), fbins)[:, :-1]
+            fbins = [0] + list(wpp.fert_ages) + [55] # A group below 10 too, so that younger girls aren't counted in 10–14 (regroup clips them into the first group)
+            dv = regroup(*by_age_sex(r.pregnancy.delivery, 'female'), fbins)[:, 1:-1]
+            women = regroup(*by_age_sex(r.sis.S, 'female'), fbins)[:, 1:-1]
             real = []
             for y in years[:-1]:
                 m = (yv >= y - 1e-9) & (yv < y + 1 - 1e-9)

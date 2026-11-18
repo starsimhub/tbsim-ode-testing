@@ -1,6 +1,6 @@
 # 28: Summary
 
-**Track:** v4 (tbsim `619c296`, starsim `d83f4f87`; `versions.json`). Run on zebra on 2026-11-12, except arm S (below), run on a laptop on 2026-11-18 with the same pins. The zebra checkout was marked dirty, but its `run.py` was identical to this folder's before arm S was added.
+**Track:** v4 (tbsim `619c296`, starsim `d83f4f87`; `versions.json`). Run on zebra on 2026-11-12, except arm S (below), run on a laptop on 2026-11-18 with the same pins. Stage 1 was rerun there with the same seeds after a fix to its realized-fertility calculation (exp 29); its populations are unchanged. The zebra checkout was marked dirty, but its `run.py` was identical to this folder's before arm S was added.
 
 **Question:** with India's WPP 2024 fertility and mortality, the 1950 age distribution and a growing population, do v4's agents reproduce v4's ODE? First for demography alone (stage 1), then with exp 27's TB model and treatment (stage 2).
 
@@ -46,10 +46,15 @@
 | D5 (tb_LAI_TPT's files) ÷ D4 | 1.006 | 1.006 | 1.009 | 1.011 | 1.004 |
 
 - **D3 misses the 1% criterion:** its population is 7% below D1's by 2000, and 2% below by 2050.
-- **The ODE's aging isn't the cause.** D2, with single years of age, ages people nearly exactly. Its age shares match the agents' (Finding 2), but its population is further from the agents' than D1's is (D3 ÷ D2 = 0.915 from 2020). D1 comes closer because its aging spreads people into older, higher-mortality ages, which slows its growth. That offsets part of the agents' gap by chance.
-- **The cause is the births.** Agents' crude birth rate is 12% below D2's in 1950 and 3–5% below it from 1960 to 2000 (`demog.log`). Their total fertility realized from deliveries is 0.99–1.00 of the input from 1960 on (0.91 in 1950). But deliveries come at older ages: ages 15–24 get 0.80–0.93 of the input rate, and ages 35–49 get 1.0–2.8 of it.
+- **The ODE's aging isn't the cause.** D2, with single years of age, ages people much more closely, though not exactly: finer groups take about another 2% off its population by 2000 (exp 29). Its age shares match the agents' (Finding 2), but its population is further from the agents' than D1's is (D3 ÷ D2 = 0.915 from 2020). D1 comes closer because its aging spreads people into older, higher-mortality ages, which slows its growth. That offsets part of the agents' gap by chance.
+- **The cause is the births.** Agents' crude birth rate is 12% below D2's in 1950 and 3–5% below it from 1960 to 2000 (`demog.log`). Their total fertility realized from deliveries is 1.00 of the input from 1960 on (0.92 in 1950). But deliveries come at older ages: ages 15–24 get 0.80–0.93 of the input rate, and ages 35–49 get 1.0–2.8 of it.
 - **How `ss.Pregnancy` produces this:** it applies the fertility rate to a woman's age at conception and delivers 32–42 weeks later. It rescales the rate to women who aren't already pregnant, and a fetus is lost if its mother dies. Births come about 0.75 years later in a mother's life than in the ODE, which lengthens each generation.
-- **How much that explains:** a rough estimate is about 3% of population by 2000 at India's 1950–1990 growth (0.75 years of a generation of about 28). With the low first year and pregnancy losses to maternal death, that may account for about two thirds of the 7.6%. This isn't tested.
+- **The full account** ([exp 29](../29_pregnancy_timing/SUMMARY.md)) of D3's 7.5% gap to D2 in 2000:
+  - 3.3% is the age at which `ss.Pregnancy` applies fertility, fixed by shifting the rates younger by its mean gestation;
+  - 0.5% is too few women pregnant at the start, fixed by overriding `ss.Pregnancy`'s `burnin_plan()`;
+  - 1.9% is the ODE's start: Starsim's compartmental solver starts with half of each age women, where WPP's 1950 population for India has 48.6%. Every ODE run here, D1 and D2 and stage 2's, starts that way;
+  - 2.2% is D2's own aging error.
+  With all four dealt with, agents match the ODE within 0.1%.
 - **Against WPP,** the agents (D3) come closer than the ODE: 0.97 of WPP in 2000 and 1.01 in 2050. WPP includes net migration, which both models leave out.
 - **Starsim's defaults (D4) cost another 5–6% of population** by 2050, from ignoring fertility under 15 and using the nearest decade's rates. tb_LAI_TPT's annual files (D5) change population by under 1.1%.
 - **Input check:** the interpolated bundled rates agree with tb_LAI_TPT's annual files at each decade. In between, interpolation differs by up to 0.18 in total fertility (ages 15–49) and up to 3.4 years in life expectancy at birth (1965; `inputs.log`, `inputs.png`).
@@ -182,7 +187,7 @@ Both start from the same state in 1950. Exp 24's calibration fitted the targets 
 
 ## Next
 
-- **Isolate the population gap:** does D3 match D2 when `ss.Pregnancy`'s gestation is set to one step, or when the ODE's births are delayed by 0.75 years? Is the rest pregnancy loss from maternal death and the start in 1950?
+- **Isolate the population gap:** done in [exp 29](../29_pregnancy_timing/SUMMARY.md).
 - **A starting state with ages** (the ODE's steady state with 1950's demography, B2 at 2150), handed to agents, to remove the long settling.
 - Then the next row: no transmission under age 10.
 
