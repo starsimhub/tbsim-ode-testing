@@ -108,7 +108,7 @@ Agents age exactly. The ODE ages people by moving them between age groups at a c
 - **With WPP's start in both, agents match the exactly aged ODE within 0.1%,** as with the 50/50 start.
 - **The share of births that are girls matters:** 48.6% instead of 50% costs 2.1% of population by 2000 and 5.5% by 2050. WPP has its own sex ratio at birth, which isn't in the pinned `starsim_data` (2.2.0; a newer version has it). The ODE can't take it independently of its start: its births follow the starting split.
 
-## Finding 3b: with these fixes, broad age shares match within about 1%; 5-year groups show bands of 1.5–4% in agents, not yet explained
+## Finding 3b: with these fixes, broad age shares match within about 1%; bands of 1.5–4% in agents' 5-year groups come from how their ages are stored
 
 ![Ages with both pregnancy fixes and WPP's start in both models: population and five age shares over time (agents mean and range of 10 reps, the eighth-year ODE, exact aging extrapolated, WPP), pyramids, and agents ÷ ODE by 5-year group and year](ages.png)
 
@@ -132,13 +132,15 @@ Agents age exactly. The ODE ages people by moving them between age groups at a c
 - **What they aren't:**
   - **Births at the start:** agents' crude birth rate matches the ODE's in 1950–1955 (P2b ÷ R8x 1.00).
   - **The ODE's aging at young ages:** it has converged there (R4x ÷ R8x within 0.6%).
-  - **A reporting error in agents:** their results by age group match a direct count of their ages.
+  - **A difference between agents' results and their ages:** their results by age group match a direct count of their stored ages (both bin the same stored values; see the cause below).
 - **An independent check puts the bands in the agents.** A cohort-component projection outside Starsim (`cohort.py`) uses the same WPP rates, births at WPP's rate for each woman's current age (48.63% girls), and exact aging by single months.
   - **Population:** agents and the exactly aged ODE are both within 0.3% of it through 2050.
   - **The ODE:** within about 0.5% of it in every 5-year group, apart from a diagonal stripe, the ODE's smoothing described below.
   - **Agents:** they keep the fixed-age bands against it (0–4: 0.98–0.99; 5–9: 1.01–1.03; 15–19, 35–39 and 80–84: up to 2–3%).
-
-  So something about how agents born during the run age, or meet age-specific rates, at particular ages differs from exact aging. The cause isn't known yet.
+- **The cause: agents' ages are 32-bit floats that grow by a month each step.**
+  - **The problem:** agents born during the run have ages that are exact multiples of a month, so a whole month's births reach each integer age together. There the stored age carries a rounding error of up to 4e-4 years, whose sign depends on the age: just below the edge at 1, 10, 15 and 40, at or just above it at 5, 20, 25, 30 and 35. So each 5-year group holds 59, 60 or 61 months of them instead of 60, ±1/60 or 1.7%. That accounts for every band (0–4 low, 5–9 high, 15–19 low, 35–39 high), and for each appearing as the first agents born in the run reach that edge. Agents present at the start have continuous ages, so they're unaffected.
+  - **The test** (`births_test.py`): agents with births from `ss.Births` show the same bands, with WPP's deaths (B0) or one death rate at every age (B1), so they come from neither `ss.Pregnancy` nor age-specific death rates. Counting B1's ages with 1e-3 years added removes the banded pattern: 15–19 goes from 0.984 to 1.002, 35–39 from 1.015 to 1.000 and 40–44 from 0.986 to 1.004. The rest of B1's difference is smooth, not banded: agents are a month ahead of the projection in age, and have 2–3% fewer people at older ages, probably from `ss.Births`'s crude birth rate (not checked); the main arms don't use `ss.Births`.
+  - **What it means:** it's mostly an artefact of how ages are binned, in Starsim's results by age group. It also has a small real effect: age-specific rates switch a month early or late at those edges for agents born during the run (one month in 60 of a 5-year group). It's smaller at weekly steps (one step in 260).
 - **The cycles in the age shares against R** (`ratios.png`, bottom row) are a different thing: the ODE's smoothing of sharp features in the age distribution.
   - **The start:** WPP's 1950 population comes in 5-year groups, so both models start with a step at each group boundary. Agents and the projection age people exactly, so the steps stay sharp; each time one passes 50 or 65, the share above it jumps. The ODE spreads cohorts as they age, so its shares change smoothly.
   - **The join between the 1950 population and those born after 1950** is another sharp feature. It passes 15 around 1965, 50 around 2000 and 65 around 2015, the largest dips in those panels and the diagonal stripe against the projection.
@@ -184,7 +186,7 @@ Agents age exactly. The ODE ages people by moving them between age groups at a c
 ## Next
 
 - **The proposal to Starsim** from Findings 1 and 3–5: [proposal 06](../../proposals/06_pregnancy/proposal.md), not sent.
-- **The bands in agents' 5-year age shares (Finding 3b):** find why agents born during the run depart from exact aging at particular ages. A first test is agents with births from `ss.Births` instead of `ss.Pregnancy`, to see whether the bands come from pregnancy or from the agent solver.
+- **Agents' age groups:** count agents' ages with a small tolerance (e.g. 1e-3 years) in our own analyzers when comparing by age group; Starsim's results by age group can't be rebinned afterwards.
 - **The sex ratio at birth:** WPP's series, when `starsim_data` is next updated, if the ODE can be given it.
 - **Then TB with the corrected demography:** a starting state with ages for both solvers, with fixes 1 and 2 for agents and finer ODE ages; first time a TB run with quarter- or eighth-year ODE ages.
 
@@ -192,6 +194,7 @@ Agents age exactly. The ODE ages people by moving them between age groups at a c
 
 - `run.py` → `runs.obj` (every run's yearly outputs), `summary.log`, `ratios.csv`, `shares.csv`, `fertility.csv`, `balance.csv`, `ratios.png`, `fertility_by_age.png`, `ages.png`, `versions.json`.
 - `cohort.py` → `cohort.obj`, `cohort.log`, `cohort_check.png`: the cohort-component projection, compared with P2b, R4x and R8x.
+- `births_test.py` → `births_test.obj`, `births_test.log`, `births_test.png` (B0, WPP's deaths) and `births_test_const.*` (B1, `EXP29_CONST_MX=0.015`): agents with `ss.Births` against the projection with the same births.
 - Logs of the runs: `run.out` (R to R4, P0 to P1w), `more.out` (P2, P3, R8), `more_p3s.out`, `more_p2s.out`, `more_joint.out` (R4x, R8x, P2b). The `more` step runs the arms listed in `later` and merges them into `runs.obj`.
 - `quick/`: the quick test of every step (`EXP29_QUICK=1`).
 - Uses exp 28's `run.py` for the WPP rates, deaths, the ODE's births and the output helpers.

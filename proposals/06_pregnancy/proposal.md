@@ -23,8 +23,9 @@ We compared Starsim's agents with its compartmental (ODE) solver, using India's 
 | The compartmental solver starts with half of each age female; WPP's 1950 population has 48.6% | 1.9% (2.1% by 2050) | 5 (a workaround exists) |
 | Single-year age groups don't age people exactly in the compartmental solver | 2.2% | None: use finer groups |
 
-Two more changes affect what users see, not the dynamics:
+Three more changes affect mostly what users see, not the dynamics:
 
+- **Change 6:** agents' ages are stored as 32-bit floats, so results by age group are off by one step's births at some whole-year ages.
 - **Change 3:** `ss.Pregnancy`'s loss results don't count pregnancies lost when the mother dies.
 - **Change 4:** a warning about double-counted births is a false positive.
 
@@ -140,6 +141,17 @@ But the compartmental solver's births are then as female as its starting populat
 - **The default:** when a sim is stratified by age and sex and given a population with both (`ss.population(country, year)`), start the compartmental solver from the population's joint split by age and sex, as agents do.
 - **Births' sex:** take it from `ss.birth`'s `p_female` in the compartmental solver too (or from a sex ratio at birth), independently of the starting split. WPP's sex ratio at birth isn't in `starsim_data` 2.2.0, but a newer version has it.
 - **Documentation:** say how the compartmental solver sets the sex of births.
+
+## 6. Agents' ages at whole years
+
+**What happens now.** Agents' ages are 32-bit floats, increased by the step each step. Agents born during a run have ages that are exact multiples of the step. At monthly steps, a month's births all reach each whole-year age together, with a stored rounding error (up to 4e-4 years after 80 years) whose sign depends on the age.
+
+- **Below the edge:** they're counted in the group below for one more step, at ages 1, 10, 15 and 40.
+- **At or above it:** they're counted in the group above on time, at ages 5, 20, 25, 30 and 35.
+
+**What it does** (exp 29, `births_test.py`): results by 5-year age group are 1.7% high or low (±1 month in 60) for these agents. That holds with `ss.Pregnancy` or `ss.Births`, and with age-specific or constant death rates. Counting the same ages with 1e-3 years added removes the bands. Age-specific rates switch a step early or late at the same edges, a small effect on dynamics.
+
+**Proposal.** Store ages as 64-bit floats, or compute them from each agent's time of birth; and bin ages with a tolerance (e.g. half a step), so that agents reaching an edge together are binned the same way at every edge.
 
 ## Not proposed
 
