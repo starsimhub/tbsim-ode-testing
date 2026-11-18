@@ -1,5 +1,5 @@
 """
-Experiment 29, v4 environment: do agents' fixed-age bands in 5-year age shares (SUMMARY.md, Finding 3b) come from ss.Pregnancy or from the agent
+Experiment 29, v4 environment: do agents' fixed-age bands in 5-year age shares (SUMMARY.md, Finding 5) come from ss.Pregnancy or from the agent
 solver? Agents with births from ss.Births at a constant crude rate (B0), against the cohort-component projection with the same births. Run from the
 repo root after run.py and cohort.py:
 

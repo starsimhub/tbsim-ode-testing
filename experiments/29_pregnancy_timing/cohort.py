@@ -1,6 +1,6 @@
 """
 Experiment 29, v4 environment: an independent cohort-component projection, outside Starsim, with exact aging, as a third reference for the age shares
-of agents (P2b) and the ODE (R4x, R8x). See SUMMARY.md, Finding 3b. Run from the repo root after run.py:
+of agents (P2b) and the ODE (R4x, R8x). See SUMMARY.md, Finding 5. Run from the repo root after run.py:
 
     PYTHONPATH=v4 v4/.venv/bin/python experiments/29_pregnancy_timing/cohort.py
 
