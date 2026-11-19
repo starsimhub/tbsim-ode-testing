@@ -1,9 +1,9 @@
 # Proposal 06: births and the starting population, agents against the compartmental solver
 
 **For:** Starsim v4 (`ss.Pregnancy` in `starsim/demographics.py`; the compartmental solver's starting population in `starsim/sim.py`).
-**Status:** draft, not sent.
+**Status:** sent to Starsim as a GitHub issue (2026-11-19).
 **Track:** starsim `origin/v4` @ `d83f4f87` (4.0.0rc4), tbsim `origin/v4` @ `619c296`.
-**Evidence:** [exp 29](../../experiments/29_pregnancy_timing/SUMMARY.md) (agents with `ss.Pregnancy` against the compartmental solver's births); [exp 28](../../experiments/28_age_demography/SUMMARY.md) (where the gap was found).
+**Evidence:** [exp 29](https://github.com/starsimhub/tbsim-ode-testing/blob/main/experiments/29_pregnancy_timing/SUMMARY.md) (agents with `ss.Pregnancy` against the compartmental solver's births); [exp 28](https://github.com/starsimhub/tbsim-ode-testing/blob/main/experiments/28_age_demography/SUMMARY.md) (where the gap was found).
 
 ## Summary
 
@@ -13,8 +13,8 @@ We compared Starsim's agents with its compartmental (ODE) solver, using India's 
   - **The compartmental solver** takes births as `ss.birth(rate=ss.by(age, sex))`.
   - **Agents** can't take that, so they use `ss.Pregnancy` with the same age-specific fertility rates.
   - **Deaths** are the same in both, `ss.death(rate=ss.by(age, sex))`.
-- **The gap:** agents' population was 7.5% smaller by 2000.
-- **What explains it:** all of it, by three things in Starsim and one in how finely the compartmental model is split by age. With all four dealt with, the two match within 0.1% through 2050. Change 5 also covers how the compartmental solver sets the sex of births, which it ties to the starting population.
+- **The gap:** agents' population was 7.5% smaller by 2000 than the compartmental solver's with single-year age groups.
+- **What explains it:** all of it, by three things in Starsim and one in how finely the compartmental model is split by age. With all four dealt with, agents are within 0.1% of the compartmental solver's population through 2050 (extrapolated to exact aging), and within about 1% of its share in each broad age group (0–14, 15–29, 30–49, 50–64, 65+).
 
 | Part of the gap, India, 2000 | Size | Proposed change |
 |---|---|---|
@@ -23,11 +23,11 @@ We compared Starsim's agents with its compartmental (ODE) solver, using India's 
 | The compartmental solver starts with half of each age female; WPP's 1950 population has 48.6% | 1.9% (2.1% by 2050) | 5 (a workaround exists) |
 | Single-year age groups don't age people exactly in the compartmental solver | 2.2% | None: use finer groups |
 
-Three more changes affect mostly what users see, not the dynamics:
+Change 5 also covers how the compartmental solver sets the sex of births, which it ties to the starting population. Three more changes affect mostly what users see, not the dynamics:
 
-- **Change 6:** agents' ages are stored as 32-bit floats, so results by age group are off by one step's births at some whole-year ages.
 - **Change 3:** `ss.Pregnancy`'s loss results don't count pregnancies lost when the mother dies.
 - **Change 4:** a warning about double-counted births is a false positive.
+- **Change 6:** agents' ages are stored as 32-bit floats, so results by age group are off by one step's births at some whole-year ages.
 
 ## The setting
 
@@ -44,13 +44,15 @@ Three more changes affect mostly what users see, not the dynamics:
 
 **What it does:**
 
-| India, WPP 2024, agents (10 reps) | As now | Rates shifted to age at delivery |
+| India, WPP 2024, agents (mean of 10 reps; ranges over decades and age groups, 1950s–2040s) | As now | Rates shifted to age at delivery |
 |---|---|---|
 | Realized fertility ÷ WPP's rate, by age at delivery, ages 15–24 | 0.84–0.93 | 0.99–1.04 |
 | Realized fertility ÷ WPP's rate, ages 35–49 | 1.08–2.71 | 0.98–1.03 |
 | Mean age at childbearing, against WPP's | 0.77–0.81 years older | within 0.04 years |
 | Total fertility ÷ WPP's | 0.99–1.00 | 1.00 |
 | Population in 2000 | 1 | 1.034 (1.055 by 2050) |
+
+The fertility rows are from runs with changes 1 and 2; the population row is change 1 alone. The shifted rates give 1.1–1.3 of WPP's at ages 10–14 to 2000, where WPP's rate is tiny next to that at 15–19: the spread of gestation brings a few conceptions at the 15–19 rate to deliveries before 15.
 
 The compartmental solver confirms the size of the effect from the other side. Shifting its fertility 0.77 years *older* lowers its population by 3.2% by 2000 and 5.0% by 2050.
 
@@ -60,7 +62,7 @@ The compartmental solver confirms the size of the effect from the other side. Sh
 a = (age if idx is None else age[idx]) + self.mean_dur_pregnancy  # Rates by age at delivery, as WPP's are
 ```
 
-Our workaround gives the same result: a table on a quarter-year age grid, in which a woman conceiving at age x gets the rate for age x + 0.769 (`shifted_table()` in exp 29's `run.py`).
+Our workaround gives the same result: a table on a quarter-year age grid, in which a woman conceiving at age x gets the rate for age x + 0.769 (`shifted_table()` in [exp 29's `run.py`](https://github.com/starsimhub/tbsim-ode-testing/blob/main/experiments/29_pregnancy_timing/run.py)).
 
 **Choices for the maintainers:**
 
@@ -70,9 +72,9 @@ Our workaround gives the same result: a table on a quarter-year age grid, in whi
 
 ## 2. The share pregnant at the start
 
-**What happens now.** `burnin_plan()` gives each woman who could conceive the chance `-np.expm1(-rate*dt*steps)` of being pregnant at the start, with `steps*dt` the mean gestation d rounded to whole steps. In a steady state, the share pregnant in an age group is its birth rate × gestation, h·d. The exponential form is lower: at h = 0.284 per year (India 1950, ages 20–24) and d = 0.769, it gives 0.196 against 0.218, 10% too few.
+**What happens now.** `burnin_plan()` gives each woman who could conceive the chance `-np.expm1(-rate*dt*steps)` of being pregnant at the start, with `steps*dt` the mean gestation d rounded to whole steps. In a steady state, the share pregnant in an age group is its birth rate × gestation, h·d. The exponential form is lower: at h = 0.284 per year (India 1950, ages 20–24) and d rounded to 0.75 years at monthly steps, it gives 0.192 against 0.218, 12% too few (10% from the exponential form, the rest from the rounding).
 
-**What it does:** with change 1 applied, 3,189 women were pregnant at the start in one run of 100,000 agents. The compartmental solver's births per year × gestation give about 3,530. Agents' crude birth rate in 1950 was 0.90 of the compartmental solver's (mean of 10 reps).
+**What it does:** with change 1 applied, agents' crude birth rate in 1950 was 0.90 of the compartmental solver's (mean of 10 reps). About 2% of that is the compartmental solver's extra women (change 5); the rest is the start.
 
 **Proposal.** Use the steady-state share, with the unrounded mean gestation:
 
@@ -81,7 +83,7 @@ d = ss.solvers.convert(ss.years(self.mean_dur_pregnancy), engine.sim.unit_base)
 return np.minimum(rate*d, 1)*kept
 ```
 
-Overriding `burnin_plan()` this way (`PregnancyStart` in exp 29's `run.py`) gave 3,489 women pregnant at the start (mean of 10 runs), and 0.5% more population from 2000. The compartmental form's `backfill_burnin()` may want the same check.
+Overriding `burnin_plan()` this way (`PregnancyStart` in [exp 29's `run.py`](https://github.com/starsimhub/tbsim-ode-testing/blob/main/experiments/29_pregnancy_timing/run.py)) raised the women pregnant at the start from 3,189 (one run without it) to 3,489 (mean of 10 runs), and population by 0.5% from 2000. With both models started from the same population, agents' crude birth rate in 1950 is then 1.003–1.008 of the compartmental solver's (± 0.004). The compartmental form's `backfill_burnin()` may want the same check.
 
 ## 3. Losses at the mother's death, in the results
 
@@ -97,11 +99,11 @@ r = sim.results.pregnancy  # miscarriage, stillbirth, abortion, antepartum: all 
 lost = r.P.values[0] + r.conception.values[:-1].sum() - r.delivery.values[:-1].sum() - r.P.values[-1]  # 454; about 488 expected; exactly 0 with no deaths
 ```
 
-In exp 29's India runs, the four results summed to 0, against 47,131 pregnancies lost this way (6 per 1,000 births in the 1950s, falling to 0.5 by the 2040s).
+In exp 29's India runs (80 agent runs), the four results summed to 0, against 126,823 pregnancies lost this way (6 per 1,000 births in the 1950s, falling to 0.5 by the 2040s).
 
 **Proposal.** Count these losses in the `miscarriage` and `stillbirth` results, or in a separate result (e.g. `loss_maternal_death`), so the four results plus deliveries balance conceptions. We haven't traced why the flow counts added in `on_death()` don't reach the results; it may be that they're added after the step's results are recorded.
 
-These losses don't need offsetting in the fertility rate. A woman who dies while pregnant drops out of the count of women as well as of births, so births per woman alive at delivery already equal the input rate (realized total fertility 1.000). Raising conception to offset them overshoots, to 1.006.
+These losses don't need offsetting in the fertility rate. A woman who dies while pregnant drops out of the count of women as well as of births, so births per woman alive at delivery already equal the input rate (realized total fertility 0.999–1.004 of WPP's). Raising conception to offset them overshoots, to 1.003–1.007 to 2000.
 
 ## 4. The warning about double-counted births
 
@@ -149,9 +151,13 @@ But the compartmental solver's births are then as female as its starting populat
 - **Below the edge:** they're counted in the group below for one more step, at ages 1, 10, 15 and 40.
 - **At or above it:** they're counted in the group above on time, at ages 5, 20, 25, 30 and 35.
 
-**What it does** (exp 29, `births_test.py`): results by 5-year age group are 1.7% high or low (±1 month in 60) for these agents. That holds with `ss.Pregnancy` or `ss.Births`, and with age-specific or constant death rates. Counting the same ages with 1e-3 years added removes the bands. Age-specific rates switch a step early or late at the same edges, a small effect on dynamics.
+**What it does** (exp 29, [`births_test.py`](https://github.com/starsimhub/tbsim-ode-testing/blob/main/experiments/29_pregnancy_timing/births_test.py)): results by 5-year age group are 1.7% high or low (±1 month in 60) for these agents. That holds with `ss.Pregnancy` or `ss.Births`, and with age-specific or constant death rates. Counting the same ages with 1e-3 years added removes the bands. Age-specific rates switch a step early or late at the same edges, a small effect on dynamics.
 
 **Proposal.** Store ages as 64-bit floats, or compute them from each agent's time of birth; and bin ages with a tolerance (e.g. half a step), so that agents reaching an edge together are binned the same way at every edge.
+
+## Not explained
+
+At weekly steps, agents with change 1 had 0.5–0.8% less population than at monthly steps from 2000, with the same fertility by age. We haven't looked into it.
 
 ## Not proposed
 

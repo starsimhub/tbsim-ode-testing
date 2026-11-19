@@ -65,9 +65,9 @@ The four together predict P0 ÷ R = 0.925, as measured.
 ## Finding 2: fix 2 works, and pregnancy losses need no offset
 
 - **Fix 2, the start:**
-  - **The problem:** `ss.Pregnancy`'s `burnin_plan()` makes each woman pregnant at the start with probability 1 − e^(−h·d), with h her conception rate and d the mean gestation (in practice d rounded to whole steps, 0.75 years at monthly steps). The steady-state share pregnant is h·d, so it seeds about 10% too few pregnancies at the peak rate (0.284 per year at ages 20–24 in 1950).
+  - **The problem:** `ss.Pregnancy`'s `burnin_plan()` makes each woman pregnant at the start with probability 1 − e^(−h·d), with h her conception rate and d the mean gestation (in practice d rounded to whole steps, 0.75 years at monthly steps). The steady-state share pregnant is h·d, so it seeds 12% too few pregnancies at the peak rate (0.284 per year at ages 20–24 in 1950): 10% from the exponential form, the rest from the rounding.
   - **The fix:** P2 overrides it with h·d, using the unrounded mean gestation (`PregnancyStart` in `run.py`).
-  - **The effect:** women pregnant at the start go from 3,189 (one P1 run) to 3,489 (mean of 10 P2 runs), against about 3,530 expected from the ODE's births. Population rises 0.3% by 1951 and 0.5% from 2000 (P2 ÷ P1).
+  - **The effect:** women pregnant at the start go from 3,189 (one P1 run) to 3,489 (mean of 10 P2 runs). Agents' crude birth rate in 1950 goes from 0.90 of R's (P1) to 1.003–1.008 ± 0.004 of the ODE's with the same start in both (P2s ÷ R4, P2b ÷ R4x; Finding 4). Population rises 0.3% by 1951 and 0.5% from 2000 (P2 ÷ P1).
 - **Pregnancies lost when the mother dies:** 6.0 per 1,000 births in the 1950s, falling to 1.5 by the 2000s and 0.5 by the 2040s. Fertility per woman doesn't suffer, though: P2's realized total fertility is 0.999–1.004 of WPP's.
   - **Why:** births are counted per woman alive at delivery. A woman who dies while pregnant is missing from that count as well as from the births, in agents as in the ODE.
   - **Offsetting overshoots.** P3 raises conception by the chance of the mother's death during the pregnancy, e^(m·d). Its realized fertility comes out 1.003–1.007 in the 1950s–2000s, and P3s is 0.5–0.9% above the ODE from 2000 (Finding 4's table).
@@ -147,7 +147,7 @@ Agents age exactly. The ODE ages people by moving them between age groups at a c
 ## Finding 6: two reporting problems in `ss.Pregnancy`
 
 - **Its loss results miss losses at the mother's death.**
-  - **In these runs:** its `miscarriage`, `stillbirth`, `abortion` and `antepartum` results summed to 0 over P0's, P1's and P1w's runs, against 47,131 pregnancies lost by balance (pregnant at the start + conceptions − deliveries − pregnant at the end).
+  - **In these runs:** its `miscarriage`, `stillbirth`, `abortion` and `antepartum` results summed to 0 over all 80 agent runs, against 126,823 pregnancies lost by balance (pregnant at the start + conceptions − deliveries − pregnant at the end).
   - **In a check:** at a death rate of 0.2 per year, the balance gave 454 against about 488 expected. Without deaths it gave exactly 0.
 - **A false-positive warning.** Every agent run warns that "pregnancy makes births, and so does the sim's ss.Births or ss.birth()". The flow holding `ss.death` has an `n_born` attribute. Births equal deliveries, and the population changes by exactly births minus deaths at every step, in every run (`balance.csv`).
 
@@ -172,7 +172,7 @@ Agents age exactly. The ODE ages people by moving them between age groups at a c
 
 ## Next
 
-- **The proposal to Starsim:** [proposal 06](../../proposals/06_pregnancy/proposal.md), not sent.
+- **The proposal to Starsim:** [proposal 06](../../proposals/06_pregnancy/proposal.md), sent as a GitHub issue (2026-11-19).
 - **The sex ratio at birth:** WPP's series, when `starsim_data` is next updated, if the ODE can be given it.
 - **Then TB with the corrected demography:** a starting state with ages for both solvers, with this setup; first time a TB run with quarter- or eighth-year ODE ages.
 
