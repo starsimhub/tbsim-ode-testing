@@ -90,7 +90,7 @@ Getting there needed a fix to how Starsim's agents take a starting state by age 
 
 ## Files
 
-- `run.py`: `check` (the quick test of the starting state), `timing`, `start`, `tb` (ODE, then agents), `agents` (agents only), `more` (extra reps for set 6, merged into `runs.obj`), `summary` (tables and figures). The quick test of every step is in `quick/`.
+- `run.py`: its starting-state code and drawn start are now `tbode4.start` (`settled_start()`, `use_drawn_start()`; identical tables and agents for the same seed); `run.py` keeps its own copy. Steps: `check` (the quick test of the starting state), `timing`, `start`, `tb` (ODE, then agents), `agents` (agents only), `more` (extra reps for set 6, merged into `runs.obj`), `summary` (tables and figures). The quick test of every step is in `quick/`.
 - `start.obj`: the two starting states (each state's share by single year of age and sex, the frozen run's drift, the share of non-infectious people already asymptomatic).
 - `ode.obj`: the ODE at each width, set and step. `runs.obj`: agents with the drawn start. `runs_rounded.obj`: the first agent runs, with Starsim's rounded start.
 - `summary.log`: every table, including exp 28's for comparison. `by_window.csv` (against exact aging), `by_window_single.csv` (against single years), `by_window_rounded.csv`, `ode_widths.csv`, `pitfall_checks.csv`.

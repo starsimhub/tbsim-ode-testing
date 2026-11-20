@@ -14,6 +14,7 @@ from .sims import *
 from .latent import *
 from .treat import *
 from .demog import *
+from .start import *
 from . import fastode
 
 ncpus = 4 # Cores for sc.parallelize in experiment scripts; runs are on a laptop, so don't raise this

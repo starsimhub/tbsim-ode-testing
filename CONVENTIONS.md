@@ -216,7 +216,7 @@ Sample the posterior with IMIS.
 - **Seed the steady-state share pregnant at the start:** h·d for a woman with conception rate h, with d the unrounded mean gestation. `burnin_plan()` gives 1 − e^(−h·d) with d rounded to whole steps, 12% too few at peak fertility, and 0.5% too little population from 2000.
 - **Give births the ODE's share of girls** through `ss.Pregnancy`'s `p_female` (see the ODE's start below). The share matters: 48.6% girls instead of 50% is 2.1% less population by 2000 and 5.5% by 2050.
 - **Don't offset pregnancies lost when the mother dies.** Births per woman alive at delivery already match the input rate; raising conception overshoots (about +0.5%).
-- **Code:** `tbode4.demog`: `agent_demographics()` (the shifted table from `shifted_fertility()`, `PregnancyStart`, `p_female`, the deaths), `ode_demographics()`, `joint_sex()`, `age_edges()` and `WPP`. Exp 30's starting table and drawn start (`starting_state()`, `_drawn_start` in its `run.py`) are still experiment code; move them into `tbode4` before reusing them.
+- **Code:** `tbode4.demog`: `agent_demographics()` (the shifted table from `shifted_fertility()`, `PregnancyStart`, `p_female`, the deaths), `ode_demographics()`, `joint_sex()`, `age_edges()` and `WPP`; the starting states by age below are in `tbode4.start` (tested in `v4/tests/test_start.py`).
 
 **The ODE:**
 
@@ -229,8 +229,8 @@ Sample the posterior with IMIS.
 
 - **One table by single year of age and sex for both solvers.** The ODE takes a table as coarse as its age groups or coarser. Agents need age groups no coarser than the table's bins, or they start with wrong shares when several states are given. So stratify agents by single years of age (and sex); that only affects their results and how they read the table.
 - **Give every state but susceptible,** which takes the rest. Agents refuse a share by group for every state ("the initial values sum to 0"), though the ODE accepts it.
-- **Draw agents' counts in each group, don't round them.** Starsim gives each state round(share × agents in the group), which loses rare states (e.g. active TB) in small old-age groups: 65+ prevalence started at 0.49–0.73 of the ODE's with 100,000 agents. While agents' states are set, swap `Compartmental.round_preserving` for a multinomial draw seeded by the run's seed (exp 30's `_drawn_start`).
-- **For a starting state with ages,** run the ODE with the starting year's demography frozen until the shares by age settle (200 years in exp 30), and average its groups to single years (exp 30's `starting_state()`).
+- **Draw agents' counts in each group, don't round them.** Starsim gives each state round(share × agents in the group), which loses rare states (e.g. active TB) in small old-age groups: 65+ prevalence started at 0.49–0.73 of the ODE's with 100,000 agents. While agents' states are set, swap `Compartmental.round_preserving` for a multinomial draw seeded by the run's seed: call `tbode4.use_drawn_start()` before initializing agents.
+- **For a starting state with ages,** run the ODE with the starting year's demography frozen until the shares by age settle (200 years in exp 30), and average its groups to single years: `tbode4.settled_start(sim)` on the run gives the table and the `init=` tables.
 
 **Pitfalls:**
 
