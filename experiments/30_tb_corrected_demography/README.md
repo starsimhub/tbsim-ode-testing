@@ -1,6 +1,6 @@
 # 30: Do v4's agents match its ODE with TB, treatment and the corrected demography?
 
-**Status:** design, not run.
+**Status:** run (findings in `SUMMARY.md`).
 **Track:** v4 (`v4/.venv`; tbsim `origin/v4` @ `619c296`, starsim `origin/v4` @ `d83f4f87`).
 **Run on:** zebra.
 
@@ -41,6 +41,7 @@ Exp 28's stage 2, with two changes: the corrected demography, and the starting s
   - **How:** run the ODE with eighth-year ages, 1950's fertility and mortality frozen, no treatment and `sym_dead` at its pre-1995 value, from exp 28's starting state, for 200 years (exp 28's B2 settled within 77; checked by the largest change in any group's share over the last 20 years). Average each age and sex group's TB state shares to single years of age, weighted by the frozen run's people, and start both solvers from that table, on WPP's 1950 population (`init=` with `ss.by(age, sex)`, every state but susceptible, which takes the rest).
   - **Why single years:** the ODE takes a table as coarse as its groups or coarser, so one table serves every width. Agents need age groups no coarser than the table's bins, so agents are stratified by single years of age; their groups only report results and read the table. Two Starsim behaviours found in the quick test, both avoided this way: agents given a table finer than their age groups start with wrong shares when several states are given (most adults susceptible, with WPP's groups and an eighth-year table), and they refuse a share by group for every state, susceptible included ("the initial values sum to 0").
   - **What it isn't:** with frozen rates the population's own age distribution moves towards the stable one, and the force of infection with it. So the shares are those of the frozen model's age distribution, not exactly an equilibrium at WPP's 1950 ages, and the runs settle a little after 1950. Both solvers start from the same state, so agents ÷ ODE is still a fair comparison; the ODE alone shows how far it moves before 1995.
+  - **Agents' counts drawn, not rounded:** Starsim's agent solver gives each state an exact count in each age and sex group, round(share × agents in the group). That loses rare states in small groups (Starsim's rounded start; SUMMARY.md, Finding 3). So, while agents' states are set at the start, each group's counts are drawn from a multinomial seeded by the run's seed (`_drawn_start` in `run.py`), which in distribution is the same as drawing each agent's state from its row. The agent runs were first made with Starsim's rounded start (`runs_rounded.obj`, kept for comparison); the rounding showed in their 65+ prevalence in 1950, and they were rerun with the drawn start and the same seeds.
   - **For incidence:** the share of non-infectious people already asymptomatic this episode, from the frozen run's NON0 (non-infectious, not yet asymptomatic this episode; tracked as in exp 28), for the ODE's first-entry incidence (NON0 at the start) and agents' `Incidence` flag (drawn at random among non-infectious people, the same share at every age).
 - **The quick test** (laptop, before running):
   - **The ODE** starts exactly at the table at every width (largest difference in any group and state about 5e-16).
@@ -48,9 +49,9 @@ Exp 28's stage 2, with two changes: the corrected demography, and the starting s
   - **Agents' population with TB** is 0.9997 ± 0.0018 of the eighth-year ODE's in 1990 (8 reps of 100,000; births, all deaths and TB deaths each within SE). Stratifying agents by single years leaves their demography unchanged, and so does the TB module without infection.
   - **`tbode4`'s demography** (moved from exp 29) reproduces exp 29's fertility table, ages and female share exactly.
 - **The ODE's age groups:** single, quarter- and eighth-year groups, all affordable with TB (in the quick test, 1950–1998 at weekly steps took 11, 15 and 22 s). Quarter and eighth give the ODE extrapolated to exact aging (2 × eighth − quarter), as in exp 29; single years link back to exp 28's arm S. The rates stay on WPP's groups.
-- **Agents:** monthly and weekly steps, 20 reps each per set, new seeds; 100,000 agents at the start. Incidence and the pitfall checks are counted with `tbode4.Incidence` and `tbode4.TxChecks`. Results by age group are counted in our own analyzer (`AgeCounts`) with 1e-3 years added to ages (agents' 32-bit ages otherwise put ±1.7% bands in 5-year groups; exp 29).
+- **Agents:** monthly and weekly steps, 20 reps each per set, new seeds, and 40 more for set 6 at both steps (its first 20 reps were 2% high at weekly steps in 2025–40; `run.py more`); 100,000 agents at the start. Incidence and the pitfall checks are counted with `tbode4.Incidence` and `tbode4.TxChecks`. Results by age group are counted in our own analyzer (`AgeCounts`) with 1e-3 years added to ages (agents' 32-bit ages otherwise put ±1.7% bands in 5-year groups; exp 29).
 - **Years:** 1950–2041, as in exp 28.
-- **Size:** 2 sets × 2 steps × 20 reps = 80 agent runs, about 52 s each monthly and 168 s weekly in exp 28 (2.4 core-hours), plus 12 ODE runs of up to about a minute each and two frozen runs. On zebra, in parallel.
+- **Size:** 2 sets × 2 steps × 20 reps = 80 agent runs, plus 80 for set 6's extra reps, about 52 s each monthly and 168 s weekly in exp 28 (2.4 core-hours), plus 12 ODE runs of up to about a minute each and two frozen runs. On zebra, in parallel.
 
 ## Measured
 

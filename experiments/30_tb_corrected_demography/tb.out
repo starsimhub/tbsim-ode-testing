@@ -1,0 +1,258 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+set 0: frozen run 11 s; largest change in a group's share over its last 20 years: [('cleared', 3.6417226900731237e-08), ('recovered', 3.4465276216311125e-08), ('susceptible', 1.3817046284891887e-08)]; share flagged 0.6628
+set 6: frozen run 11 s; largest change in a group's share over its last 20 years: [('susceptible', 2.8580084569518327e-06), ('cleared', 2.274004369140492e-06), ('recovered', 1.5520975445298957e-06)]; share flagged 0.6221
+Starting states done (24 s)
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+ODE set 0 month single: 5 s
+ODE set 0 month quarter: 7 s
+ODE set 0 month eighth: 9 s
+ODE set 0 week single: 23 s
+ODE set 0 week quarter: 33 s
+ODE set 0 week eighth: 44 s
+ODE set 6 month single: 5 s
+ODE set 6 month quarter: 6 s
+ODE set 6 month eighth: 9 s
+ODE set 6 week single: 22 s
+ODE set 6 week quarter: 27 s
+ODE set 6 week eighth: 45 s
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+/home/tess/tbsim-ode-testing/v4/.venv/lib/python3.13/site-packages/starsim/demographics.py:872: RuntimeWarning: 
+pregnancy makes births, and so does the sim's ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.
+  ss.warn(f'{self.name} makes births, and so does the sim\'s ss.Births or ss.birth(): the two add up. Keep only one, unless both are meant.')
+tb finished in 458 s; agent runs 141 s each on average

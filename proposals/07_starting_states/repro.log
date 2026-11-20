@@ -1,0 +1,13 @@
+1. Counts by group are rounded to whole agents: a share of 0.3% infected at every age, agents stratified by single years of age
+   seed 1: infected aged 0–14, 15–49, 50–64, 65–79, 80+: [21, 33, 0, 0, 0]
+   seed 2: infected aged 0–14, 15–49, 50–64, 65–79, 80+: [21, 34, 0, 0, 0]
+   seed 3: infected aged 0–14, 15–49, 50–64, 65–79, 80+: [20, 35, 0, 0, 0]
+   expected (0.3% of each band): [23.2, 29.9, 5.0, 1.7, 0.2]
+
+2. A table finer than the agents' age groups, with two states given: I = 0.1 and R = 0.5 at every age, by single year; agents stratified by 5-year groups (expected S 0.4, I 0.1, R 0.5)
+   shares by age band [0, 5, 15, 30, 50, 70, 101] {'S': [0.436, 0.463, 0.459, 0.454, 0.443, 0.432], 'I': [0.102, 0.096, 0.102, 0.099, 0.104, 0.085], 'R': [0.462, 0.441, 0.439, 0.447, 0.453, 0.483]}
+   the same table, agents stratified by single years: {'S': [0.4, 0.4, 0.4, 0.4, 0.4, 0.396], 'I': [0.1, 0.1, 0.1, 0.1, 0.1, 0.098], 'R': [0.5, 0.5, 0.5, 0.5, 0.499, 0.506]}
+
+3. The same table with a share for every state, the first included (S = 0.4, I = 0.1, R = 0.5 at every age, by single year)
+   agents stratified by single years: initialized
+   agents stratified by 5-year groups: ValueError: The initial values of "sir" sum to 0, not 1, and it is not clear where the rest start: S is given a value, which is kept, and no other state is left without one.
