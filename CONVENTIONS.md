@@ -13,7 +13,7 @@ The modelling conventions decided in this repo, written so they can be adopted i
 | 5 | [Incidence: first entry to asymptomatic TB, counted from transitions](#5-incidence-first-entry-to-asymptomatic-tb-counted-from-transitions) | Decided (2026-10-13, 2026-11-05); in v4 since exp 19 |
 | 6 | [Starting and comparing runs](#6-starting-and-comparing-runs) | Practice in this repo |
 | 7 | [Versions](#7-versions) | Practice in this repo |
-| 8 | [Calibrating the ODE: a standalone copy at equilibrium, with IMIS](#8-calibrating-the-ode-a-standalone-copy-at-equilibrium-with-imis) | Practice in this repo (2026-11-07) |
+| 8 | [Calibrating the ODE: a standalone copy at equilibrium, with IMIS](#8-calibrating-the-ode-a-standalone-copy-at-equilibrium-with-imis) | Practice in this repo (2026-11-07; with ages and demography, exp 31) |
 | 9 | [Treatment](#9-treatment) | Decided and implemented (2026-11-09; exp 23): fixed 6-month course; loss to follow-up on treatment to add |
 | 10 | [Demography: births, ages and the starting population](#10-demography-births-ages-and-the-starting-population) | Practice in this repo (2026-11-19; exps 28–30); tested with TB and treatment (exp 30) |
 
@@ -166,11 +166,25 @@ Sample the posterior with IMIS.
 **Keeping it valid:**
 
 - **It is a second implementation of the model.** v4's own ODE stays the reference for ODE↔agents comparisons.
-  - **Every feature added to the model** (treatment next) goes into `fastode` too, and is tested against v4's ODE before it's used for calibration.
+  - **Every feature added to the model** (child transmission next) goes into `fastode_age` too (and `fastode`, while it's used), and is tested against v4's ODE before it's used for calibration.
   - **After bumping the v4 pins,** rerun `v4/tests/test_fastode.py`.
 - **The equilibrium shortcut needs constant rates.** With time-varying inputs (treatment scale-up, demography, trends over time), integrate trajectories with `fastode.run`, which is slower than root-finding but still far faster than Starsim. Or start from an equilibrium at an early year and integrate from there.
 - **Check convergence on parameters, not only predictions:** run IMIS again with another seed and compare the marginals. In exp 24, two seeds agreed on every prediction, but not on parameters along a ridge (`k_latent` with `inf_asy`).
 - **With time-varying inputs** (treatment scale-up), start each draw at its untreated equilibrium before the first change, and integrate from there (exp 24: about 90 ms per draw).
+
+**With ages and demography (convention 10): `tbode4.fastode_age`** ([exp 31](experiments/31_fastode_ages/SUMMARY.md)), about 1.1 s per draw against about 15 s through Starsim's quarter-year ODE.
+
+- **The model:** `run_cohort()`, exact aging by cohort, at monthly steps with the force of infection at mid-step (`foi='mid'`). Groups are one step wide and move up one group each step. Within a step, the TB transitions are one matrix exponential for every age.
+  - **Accuracy:** within 0.1% of exact aging (exp 30's extrapolated reference), and within 0.06% of weekly steps on every target at 20 prior draws. It converges at second order.
+  - **Not the start-of-step force of infection:** that converges at first order and is 2–4% off at monthly steps.
+- **Each draw's start:** `settle(years=100)` (1950's demography frozen, no treatment, from the untreated equilibrium without ages), then `start_table()`; then 1950–2041 from that table. 100 years gives the same targets as 200 to 0.002%; 50 doesn't settle every draw.
+- **Its copy of v4's ODE,** `run_rate()` (quarter-year groups aged at a rate), matches Starsim's within 0.15% in every year. `v4/tests/test_fastode_age.py` checks it against v4's ODE run live; rerun it after bumping the v4 pins.
+- **Pitfalls in exact aging by cohort** (each an error proportional to the step):
+  - **Rates by age over a step:** a group ages a whole width during the step, so it takes the mean of its own rate and the next group's. The lower edge's rate alone put population 1.2% low by 2020 at monthly steps.
+  - **Newborns:** they need half a step of TB transitions.
+  - **The step's births** belong in the predicted end-of-step population, the force of infection's denominator.
+  - **Steps that put WPP's age edges on the grid:** quarter-year, monthly, 1/52 year.
+- **Comparing runs at different steps:** use stocks on 1 January and flows over calendar years (`calendar()`), not yearly means of end-of-step values. Those shift by half a step, up to 0.4% when prevalence falls fast.
 - **Check identifiability:** compare each marginal with its prior. With few targets, many parameters stay near their priors (exp 20: `beta` and π constrained; φ and the non-infectious cascade not).
 
 ## 9. Treatment
@@ -220,6 +234,7 @@ Sample the posterior with IMIS.
 
 **The ODE:**
 
+- **For calibration, `tbode4.fastode_age`'s exact aging by cohort instead** (convention 8, exp 31): no spread of ages, within 0.1% of exact aging at monthly steps. v4's own ODE, with the groups below, stays the reference for comparisons with agents.
 - **Age groups of a quarter year** (`age_edges(0.25)`). The ODE ages people by constant-rate exits, so a cohort's ages spread with variance (age × group width). With TB and treatment (exp 30), quarter-year groups are within 0.5% of exact aging in population and prevalence by age, at about 30 s per weekly run (1950–2040, one core). Single years are faster (about 22 s) but overstate population by 1.2–1.9% and put prevalence by age up to 2.7% off; WPP's 5-year groups are worse (up to 7% in population against single years, 14% in the 65+ share, 10% in prevalence by age). Keep the rates on their own groups (map each fine group to its rate group).
 - **When a comparison needs better than 0.5%** (e.g. agents against the ODE), also run eighth-year groups (within 0.3%, about 45 s) and extrapolate to exact aging as 2 × eighth − quarter (exps 29–30).
 - **Start from the population's split by sex within each age group,** with a joint split: `sim.stratify(age=edges, sex=ss.levels(['female', 'male'], fractions=ss.by(table, dims=['age', 'sex'])))` (`joint_sex()` in `tbode4.demog`). By default the compartmental solver takes the population's ages but starts half of each age female, 1.9% too much population by 2000 for India (48.6% female in 1950).
