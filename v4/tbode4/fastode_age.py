@@ -218,7 +218,7 @@ def initial(lay, lows, table, share_flagged, pop=None, country='India', year=195
 #%% Outputs
 
 def _stocks(X, lay, lows):
-    """ What is recorded of a state: each compartment's total, and the living and active TB by exp 28's five groups and at 15+ """
+    """ What is recorded of a state: each compartment's total, and the living and active TB by exp 28's five groups, and the living, active and asymptomatic TB at 15+ """
     tot = X[:lay.ns].sum(axis=(1, 2))
     alive_g = X[:lay.ns].sum(axis=(0, 1))
     active_g = (X[A] + X[Y]).sum(axis=0)
@@ -226,7 +226,7 @@ def _stocks(X, lay, lows):
     a5 = np.bincount(g5, weights=alive_g, minlength=len(groups5))
     p5 = np.bincount(g5, weights=active_g, minlength=len(groups5))
     adult = lows >= 15 - 1e-9
-    return tot, a5, p5, np.array([alive_g[adult].sum(), active_g[adult].sum()])
+    return tot, a5, p5, np.array([alive_g[adult].sum(), active_g[adult].sum(), X[A].sum(axis=0)[adult].sum()])
 
 
 def per_step(year, tot, a5, p5, adult, flows, lay, dt):
@@ -248,6 +248,7 @@ def per_step(year, tot, a5, p5, adult, flows, lay, dt):
         out[f'prev_{g}'] = p5[:, k]/a5[:, k]
         out[f'share_{g}'] = a5[:, k]/a5.sum(axis=1)
     out['prev_15+'] = adult[:, 1]/adult[:, 0]
+    out['prop_asymptomatic_15+'] = adult[:, 2]/adult[:, 1]
     out.alive = alive/alive[0]
     out.tx_start = fl('tx_start')/alive # Per person per step, for targets()
     out.deaths = (fl('tb_death') + fl('tb_death_tx'))/alive
@@ -256,9 +257,9 @@ def per_step(year, tot, a5, p5, adult, flows, lay, dt):
     return out
 
 
-stock_keys = ['prevalence', 'prop_asymptomatic', 'on_treatment', 'recent', 'remote', 'cleared', 'alive', 'prev_15+'] + [f'prev_{g}' for g in groups5] + [f'share_{g}' for g in groups5]
+stock_keys = ['prevalence', 'prop_asymptomatic', 'on_treatment', 'recent', 'remote', 'cleared', 'alive', 'prev_15+', 'prop_asymptomatic_15+'] + [f'prev_{g}' for g in groups5] + [f'share_{g}' for g in groups5]
 flow_keys = ['incidence', 'notifications', 'mortality', 'mortality_tx', 'relapse']
-unscaled = ['prop_asymptomatic', 'alive'] + [f'share_{g}' for g in groups5]
+unscaled = ['prop_asymptomatic', 'prop_asymptomatic_15+', 'alive'] + [f'share_{g}' for g in groups5]
 
 
 def yearly(out, dt):
@@ -334,7 +335,7 @@ def run_cohort(p, h, start, stop, table=None, share_flagged=0.0, X0=None, demog=
     parts = generator_parts(p, lay)
     nsteps = int(round((stop - start)/h))
     year = start + np.arange(nsteps + 1)*h
-    tot = np.zeros((nsteps + 1, lay.ns)); a5 = np.zeros((nsteps + 1, 5)); p5 = np.zeros_like(a5); adult = np.zeros((nsteps + 1, 2))
+    tot = np.zeros((nsteps + 1, lay.ns)); a5 = np.zeros((nsteps + 1, 5)); p5 = np.zeros_like(a5); adult = np.zeros((nsteps + 1, 3))
     flows = np.zeros((nsteps + 1, len(counter_names)))
     people = np.arange(lay.ns)
     cnt = np.array([lay.cnt[c] for c in counter_names])
@@ -445,7 +446,7 @@ def run_rate(p, width, start, stop, t_eval_step, table=None, share_flagged=0.0, 
     sol = solve_ivp(rhs, (start, year[-1]), z0, t_eval=year, method='RK45', rtol=rtol, atol=atol)
     if not sol.success:
         raise RuntimeError(sol.message)
-    tot = np.zeros((len(year), ns)); a5 = np.zeros((len(year), 5)); p5 = np.zeros_like(a5); adult = np.zeros((len(year), 2))
+    tot = np.zeros((len(year), ns)); a5 = np.zeros((len(year), 5)); p5 = np.zeros_like(a5); adult = np.zeros((len(year), 3))
     for i in range(len(year)):
         X = np.zeros((lay.n, 2, ng)); X[:ns] = sol.y[:ns*2*ng, i].reshape(ns, 2, ng)
         tot[i], a5[i], p5[i], adult[i] = _stocks(X, lay, lows)

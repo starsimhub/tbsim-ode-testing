@@ -1,0 +1,1096 @@
+Starsim kernels: Numba, NOT COMPILED (the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+=== coverage (160 workers) ===
+5000 prior draws in 61 s on 160 workers (1.96 s per draw per worker); no endemic state in 45.7%; errors 0
+           target  target_mean  target_lo  target_hi  prior_p05  prior_p50  prior_p95  share_in_interval  share_below
+       prevalence       0.0031     0.0025     0.0039     0.0001     0.0318     0.1677             0.0416       0.2365
+prop_asymptomatic       0.6543     0.5843     0.7195     0.5645     0.6641     0.7619             0.7153       0.0998
+      prev_to_inc       1.5713     1.2045     2.0496     1.1611     1.6759     2.4880             0.7134       0.0681
+      mort_to_inc       0.1125     0.0877     0.1443     0.0301     0.0902     0.2085             0.3109       0.4825
+    prev_to_notif       2.6597     2.0830     3.3961     1.8533     2.9833     4.7442             0.5473       0.1134
+        inc_ratio       0.7897     0.6342     0.9833     0.4285     0.7858     1.0165             0.5672       0.2810
+       mort_ratio       0.6579     0.5196     0.8330     0.1987     0.4395     0.7603             0.3212       0.6582
+  prev_2040_ratio       0.8064     0.5556     1.1705     0.1154     0.5337     0.9552             0.4766       0.5227
+    ProgressionY1       0.0523     0.0435     0.0629     0.0056     0.0224     0.1068             0.1100       0.7340
+ ProgressionRatio       0.6630     0.5769     0.7620     0.2769     0.4963     0.8124             0.2714       0.6314
+Prior draws inside every target interval at once: 0 of 5000
+=== coverage done in 1.0 min ===
+=== reid (160 workers) ===
+Synthetic targets (the truth's outputs): {'prevalence': 0.0022, 'prop_asymptomatic': 0.6545, 'prev_to_inc': 1.37627, 'mort_to_inc': 0.08684, 'prev_to_notif': 2.26495, 'inc_ratio': 0.74968, 'mort_ratio': 0.48566, 'prev_2040_ratio': 0.60742, 'ProgressionY1': 0.05193, 'ProgressionRatio': 0.74216, 'prevalence_all_2020': 0.00238, 'prevalence_15plus_1995': 0.00477, 'prevalence_15plus_2024': 0.00192, 'incidence_2024': 0.00141, 'notifications_2020': 0.00097, 'mortality_2024': 0.00012, 'population_2020': 3.8224, 'error': 0.0}
+IMIS   0: n =  10,000, ESS =      3.1, expected unique in 3000 =    11.1 (target 1896), max weight 0.4919, max ll -9.495, 0 s
+IMIS   1: n =  11,000, ESS =      2.5, expected unique in 3000 =     9.5 (target 1896), max weight 0.5648, max ll -8.285, 3 s
+IMIS   2: n =  12,000, ESS =      2.2, expected unique in 3000 =    10.0 (target 1896), max weight 0.6086, max ll -8.285, 5 s
+IMIS   3: n =  13,000, ESS =      2.0, expected unique in 3000 =    11.3 (target 1896), max weight 0.6737, max ll -8.285, 8 s
+IMIS   4: n =  14,000, ESS =      2.7, expected unique in 3000 =    14.0 (target 1896), max weight 0.5305, max ll -8.285, 13 s
+IMIS   5: n =  15,000, ESS =      1.0, expected unique in 3000 =     1.9 (target 1896), max weight 0.9996, max ll -2.615, 17 s
+IMIS   6: n =  16,000, ESS =      2.0, expected unique in 3000 =    11.6 (target 1896), max weight 0.6352, max ll -2.341, 24 s
+IMIS   7: n =  17,000, ESS =      5.4, expected unique in 3000 =    24.6 (target 1896), max weight 0.2898, max ll 2.594, 32 s
+IMIS   8: n =  18,000, ESS =      4.9, expected unique in 3000 =    27.4 (target 1896), max weight 0.2932, max ll 2.594, 35 s
+IMIS   9: n =  19,000, ESS =      3.2, expected unique in 3000 =    29.0 (target 1896), max weight 0.4616, max ll 2.594, 49 s
+IMIS  10: n =  20,000, ESS =      1.2, expected unique in 3000 =    18.7 (target 1896), max weight 0.9072, max ll 2.594, 54 s
+IMIS  11: n =  21,000, ESS =      3.0, expected unique in 3000 =    41.0 (target 1896), max weight 0.4840, max ll 2.594, 67 s
+IMIS  12: n =  22,000, ESS =      2.8, expected unique in 3000 =    50.7 (target 1896), max weight 0.5639, max ll 2.594, 77 s
+IMIS  13: n =  23,000, ESS =      1.9, expected unique in 3000 =    53.1 (target 1896), max weight 0.7191, max ll 2.594, 87 s
+IMIS  14: n =  24,000, ESS =      9.6, expected unique in 3000 =    93.8 (target 1896), max weight 0.1757, max ll 2.594, 95 s
+IMIS  15: n =  25,000, ESS =      9.4, expected unique in 3000 =   106.0 (target 1896), max weight 0.2017, max ll 2.594, 103 s
+IMIS  16: n =  26,000, ESS =      8.4, expected unique in 3000 =   123.0 (target 1896), max weight 0.3089, max ll 2.594, 112 s
+IMIS  17: n =  27,000, ESS =     15.8, expected unique in 3000 =   138.9 (target 1896), max weight 0.1773, max ll 2.594, 122 s
+IMIS  18: n =  28,000, ESS =      2.6, expected unique in 3000 =    90.2 (target 1896), max weight 0.6073, max ll 2.594, 128 s
+IMIS  19: n =  29,000, ESS =     16.2, expected unique in 3000 =   161.7 (target 1896), max weight 0.1792, max ll 2.594, 138 s
+IMIS  20: n =  30,000, ESS =     21.8, expected unique in 3000 =   199.8 (target 1896), max weight 0.1219, max ll 2.594, 147 s
+IMIS  21: n =  31,000, ESS =     24.9, expected unique in 3000 =   212.7 (target 1896), max weight 0.0941, max ll 2.594, 156 s
+IMIS  22: n =  32,000, ESS =      2.8, expected unique in 3000 =   137.5 (target 1896), max weight 0.5813, max ll 2.594, 164 s
+IMIS  23: n =  33,000, ESS =     13.3, expected unique in 3000 =   210.7 (target 1896), max weight 0.2224, max ll 3.503, 178 s
+IMIS  24: n =  34,000, ESS =     29.2, expected unique in 3000 =   270.4 (target 1896), max weight 0.0832, max ll 3.503, 197 s
+IMIS  25: n =  35,000, ESS =     24.1, expected unique in 3000 =   271.1 (target 1896), max weight 0.1285, max ll 3.503, 213 s
+IMIS  26: n =  36,000, ESS =     34.1, expected unique in 3000 =   295.9 (target 1896), max weight 0.0648, max ll 3.503, 234 s
+IMIS  27: n =  37,000, ESS =      3.0, expected unique in 3000 =   201.7 (target 1896), max weight 0.5761, max ll 3.503, 250 s
+IMIS  28: n =  38,000, ESS =     38.0, expected unique in 3000 =   334.3 (target 1896), max weight 0.0676, max ll 3.503, 262 s
+IMIS  29: n =  39,000, ESS =     27.3, expected unique in 3000 =   316.6 (target 1896), max weight 0.1402, max ll 3.503, 273 s
+IMIS  30: n =  40,000, ESS =     44.2, expected unique in 3000 =   347.5 (target 1896), max weight 0.0594, max ll 3.558, 290 s
+IMIS  31: n =  41,000, ESS =     43.2, expected unique in 3000 =   382.2 (target 1896), max weight 0.0530, max ll 3.657, 306 s
+IMIS  32: n =  42,000, ESS =     40.7, expected unique in 3000 =   398.8 (target 1896), max weight 0.0657, max ll 3.657, 323 s
+IMIS  33: n =  43,000, ESS =      1.6, expected unique in 3000 =   176.8 (target 1896), max weight 0.7948, max ll 3.657, 333 s
+IMIS  34: n =  44,000, ESS =     42.8, expected unique in 3000 =   423.1 (target 1896), max weight 0.0529, max ll 3.657, 346 s
+IMIS  35: n =  45,000, ESS =     11.1, expected unique in 3000 =   240.0 (target 1896), max weight 0.2124, max ll 3.657, 359 s
+IMIS  36: n =  46,000, ESS =     13.2, expected unique in 3000 =   272.6 (target 1896), max weight 0.1477, max ll 3.792, 369 s
+IMIS  37: n =  47,000, ESS =     12.0, expected unique in 3000 =   328.2 (target 1896), max weight 0.1878, max ll 3.792, 379 s
+IMIS  38: n =  48,000, ESS =     13.1, expected unique in 3000 =   374.8 (target 1896), max weight 0.2256, max ll 3.792, 390 s
+IMIS  39: n =  49,000, ESS =     22.5, expected unique in 3000 =   438.3 (target 1896), max weight 0.1731, max ll 3.792, 409 s
+IMIS  40: n =  50,000, ESS =      2.5, expected unique in 3000 =   260.2 (target 1896), max weight 0.6340, max ll 3.792, 419 s
+IMIS  41: n =  51,000, ESS =      1.6, expected unique in 3000 =   118.7 (target 1896), max weight 0.7835, max ll 3.792, 431 s
+IMIS  42: n =  52,000, ESS =      6.1, expected unique in 3000 =   365.4 (target 1896), max weight 0.3933, max ll 3.792, 441 s
+IMIS  43: n =  53,000, ESS =     43.2, expected unique in 3000 =   482.4 (target 1896), max weight 0.1033, max ll 3.792, 454 s
+IMIS  44: n =  54,000, ESS =     63.8, expected unique in 3000 =   525.9 (target 1896), max weight 0.0416, max ll 3.792, 473 s
+IMIS  45: n =  55,000, ESS =     65.5, expected unique in 3000 =   551.9 (target 1896), max weight 0.0444, max ll 3.792, 483 s
+IMIS  46: n =  56,000, ESS =     74.4, expected unique in 3000 =   565.0 (target 1896), max weight 0.0428, max ll 3.792, 492 s
+IMIS  47: n =  57,000, ESS =     42.6, expected unique in 3000 =   549.2 (target 1896), max weight 0.1176, max ll 3.792, 512 s
+IMIS  48: n =  58,000, ESS =     77.2, expected unique in 3000 =   583.2 (target 1896), max weight 0.0421, max ll 3.792, 528 s
+IMIS  49: n =  59,000, ESS =     87.3, expected unique in 3000 =   621.3 (target 1896), max weight 0.0374, max ll 3.792, 549 s
+IMIS  50: n =  60,000, ESS =     63.9, expected unique in 3000 =   619.4 (target 1896), max weight 0.0804, max ll 3.792, 570 s
+IMIS  51: n =  61,000, ESS =     69.6, expected unique in 3000 =   622.2 (target 1896), max weight 0.0703, max ll 3.792, 587 s
+IMIS  52: n =  62,000, ESS =     91.7, expected unique in 3000 =   649.5 (target 1896), max weight 0.0383, max ll 3.792, 608 s
+IMIS  53: n =  63,000, ESS =      3.8, expected unique in 3000 =   103.2 (target 1896), max weight 0.4068, max ll 3.792, 615 s
+IMIS  54: n =  64,000, ESS =      2.6, expected unique in 3000 =   170.4 (target 1896), max weight 0.4651, max ll 3.792, 636 s
+IMIS  55: n =  65,000, ESS =      1.8, expected unique in 3000 =   258.9 (target 1896), max weight 0.7551, max ll 3.792, 653 s
+IMIS  56: n =  66,000, ESS =     55.2, expected unique in 3000 =   615.6 (target 1896), max weight 0.0990, max ll 3.792, 673 s
+IMIS  57: n =  67,000, ESS =    105.3, expected unique in 3000 =   685.7 (target 1896), max weight 0.0298, max ll 3.792, 693 s
+IMIS  58: n =  68,000, ESS =    113.4, expected unique in 3000 =   716.2 (target 1896), max weight 0.0318, max ll 3.792, 706 s
+IMIS  59: n =  69,000, ESS =      5.6, expected unique in 3000 =   335.0 (target 1896), max weight 0.3763, max ll 3.792, 722 s
+IMIS  60: n =  70,000, ESS =     13.2, expected unique in 3000 =   425.7 (target 1896), max weight 0.1809, max ll 3.792, 745 s
+IMIS  61: n =  71,000, ESS =     13.6, expected unique in 3000 =   508.0 (target 1896), max weight 0.2114, max ll 3.792, 755 s
+IMIS  62: n =  72,000, ESS =     20.8, expected unique in 3000 =   584.2 (target 1896), max weight 0.1389, max ll 3.792, 769 s
+IMIS  63: n =  73,000, ESS =     26.2, expected unique in 3000 =   637.6 (target 1896), max weight 0.1585, max ll 3.792, 784 s
+IMIS  64: n =  74,000, ESS =     53.6, expected unique in 3000 =   706.0 (target 1896), max weight 0.1087, max ll 3.792, 804 s
+IMIS  65: n =  75,000, ESS =    132.6, expected unique in 3000 =   773.5 (target 1896), max weight 0.0300, max ll 3.792, 824 s
+IMIS  66: n =  76,000, ESS =    143.1, expected unique in 3000 =   799.0 (target 1896), max weight 0.0294, max ll 3.792, 835 s
+IMIS  67: n =  77,000, ESS =    153.9, expected unique in 3000 =   822.9 (target 1896), max weight 0.0283, max ll 3.792, 843 s
+IMIS  68: n =  78,000, ESS =    164.0, expected unique in 3000 =   842.3 (target 1896), max weight 0.0279, max ll 3.792, 853 s
+IMIS  69: n =  79,000, ESS =      1.4, expected unique in 3000 =    47.1 (target 1896), max weight 0.8251, max ll 3.792, 860 s
+IMIS  70: n =  80,000, ESS =      6.0, expected unique in 3000 =   572.4 (target 1896), max weight 0.4030, max ll 3.792, 872 s
+IMIS  71: n =  81,000, ESS =    153.0, expected unique in 3000 =   838.0 (target 1896), max weight 0.0391, max ll 3.792, 894 s
+IMIS  72: n =  82,000, ESS =    180.3, expected unique in 3000 =   858.9 (target 1896), max weight 0.0231, max ll 3.792, 909 s
+IMIS  73: n =  83,000, ESS =      1.1, expected unique in 3000 =    89.2 (target 1896), max weight 0.9607, max ll 3.792, 917 s
+IMIS  74: n =  84,000, ESS =     91.3, expected unique in 3000 =   856.0 (target 1896), max weight 0.0848, max ll 3.792, 930 s
+IMIS  75: n =  85,000, ESS =    221.0, expected unique in 3000 =   897.1 (target 1896), max weight 0.0177, max ll 3.792, 951 s
+IMIS  76: n =  86,000, ESS =     11.5, expected unique in 3000 =   630.4 (target 1896), max weight 0.2605, max ll 3.792, 961 s
+IMIS  77: n =  87,000, ESS =     29.8, expected unique in 3000 =   747.3 (target 1896), max weight 0.1567, max ll 3.792, 978 s
+IMIS  78: n =  88,000, ESS =     80.9, expected unique in 3000 =   866.7 (target 1896), max weight 0.0935, max ll 3.792, 995 s
+IMIS  79: n =  89,000, ESS =      2.5, expected unique in 3000 =   451.8 (target 1896), max weight 0.6356, max ll 3.792, 1015 s
+IMIS  80: n =  90,000, ESS =     44.4, expected unique in 3000 =   853.8 (target 1896), max weight 0.1374, max ll 3.792, 1032 s
+IMIS  81: n =  91,000, ESS =    203.3, expected unique in 3000 =   935.6 (target 1896), max weight 0.0274, max ll 3.792, 1054 s
+IMIS  82: n =  92,000, ESS =     58.1, expected unique in 3000 =   880.5 (target 1896), max weight 0.1135, max ll 3.792, 1071 s
+IMIS  83: n =  93,000, ESS =    181.0, expected unique in 3000 =   951.6 (target 1896), max weight 0.0399, max ll 3.792, 1090 s
+IMIS  84: n =  94,000, ESS =    234.1, expected unique in 3000 =   978.6 (target 1896), max weight 0.0254, max ll 3.792, 1110 s
+IMIS  85: n =  95,000, ESS =    260.7, expected unique in 3000 =   993.8 (target 1896), max weight 0.0180, max ll 3.792, 1123 s
+IMIS  86: n =  96,000, ESS =    117.9, expected unique in 3000 =   928.8 (target 1896), max weight 0.0610, max ll 3.792, 1137 s
+IMIS  87: n =  97,000, ESS =    240.4, expected unique in 3000 =  1002.4 (target 1896), max weight 0.0283, max ll 3.792, 1153 s
+IMIS  88: n =  98,000, ESS =      4.9, expected unique in 3000 =   696.8 (target 1896), max weight 0.4492, max ll 3.792, 1168 s
+IMIS  89: n =  99,000, ESS =     18.3, expected unique in 3000 =   803.3 (target 1896), max weight 0.2085, max ll 3.792, 1183 s
+IMIS  90: n = 100,000, ESS =     57.6, expected unique in 3000 =   907.5 (target 1896), max weight 0.1174, max ll 3.792, 1203 s
+IMIS  91: n = 101,000, ESS =    213.8, expected unique in 3000 =   988.3 (target 1896), max weight 0.0302, max ll 3.792, 1222 s
+IMIS  92: n = 102,000, ESS =    268.9, expected unique in 3000 =  1017.5 (target 1896), max weight 0.0159, max ll 3.792, 1239 s
+IMIS  93: n = 103,000, ESS =     40.9, expected unique in 3000 =   862.7 (target 1896), max weight 0.1302, max ll 3.792, 1258 s
+IMIS  94: n = 104,000, ESS =    111.6, expected unique in 3000 =   970.8 (target 1896), max weight 0.0706, max ll 3.792, 1276 s
+IMIS  95: n = 105,000, ESS =      3.0, expected unique in 3000 =   565.2 (target 1896), max weight 0.5774, max ll 3.792, 1298 s
+IMIS  96: n = 106,000, ESS =    167.1, expected unique in 3000 =   980.6 (target 1896), max weight 0.0364, max ll 3.792, 1314 s
+IMIS  97: n = 107,000, ESS =    188.3, expected unique in 3000 =   993.5 (target 1896), max weight 0.0319, max ll 3.792, 1336 s
+IMIS  98: n = 108,000, ESS =    238.1, expected unique in 3000 =  1030.4 (target 1896), max weight 0.0257, max ll 3.792, 1349 s
+IMIS  99: n = 109,000, ESS =    266.2, expected unique in 3000 =  1049.4 (target 1896), max weight 0.0170, max ll 3.792, 1368 s
+IMIS 100: n = 110,000, ESS =    281.2, expected unique in 3000 =  1067.1 (target 1896), max weight 0.0148, max ll 3.792, 1382 s
+IMIS 101: n = 111,000, ESS =    278.8, expected unique in 3000 =  1066.4 (target 1896), max weight 0.0190, max ll 3.792, 1392 s
+IMIS 102: n = 112,000, ESS =     29.2, expected unique in 3000 =   954.7 (target 1896), max weight 0.1788, max ll 3.792, 1412 s
+IMIS 103: n = 113,000, ESS =    298.1, expected unique in 3000 =  1077.8 (target 1896), max weight 0.0141, max ll 3.792, 1424 s
+IMIS 104: n = 114,000, ESS =    244.5, expected unique in 3000 =  1061.1 (target 1896), max weight 0.0322, max ll 3.792, 1433 s
+IMIS 105: n = 115,000, ESS =    305.0, expected unique in 3000 =  1083.3 (target 1896), max weight 0.0139, max ll 3.792, 1445 s
+IMIS 106: n = 116,000, ESS =    314.9, expected unique in 3000 =  1082.2 (target 1896), max weight 0.0133, max ll 3.792, 1457 s
+IMIS 107: n = 117,000, ESS =      3.9, expected unique in 3000 =   494.5 (target 1896), max weight 0.5046, max ll 3.792, 1474 s
+IMIS 108: n = 118,000, ESS =     46.6, expected unique in 3000 =   843.8 (target 1896), max weight 0.0924, max ll 3.792, 1486 s
+IMIS 109: n = 119,000, ESS =     71.6, expected unique in 3000 =   965.5 (target 1896), max weight 0.0909, max ll 3.792, 1498 s
+IMIS 110: n = 120,000, ESS =    141.9, expected unique in 3000 =  1032.9 (target 1896), max weight 0.0430, max ll 3.792, 1507 s
+IMIS 111: n = 121,000, ESS =    165.5, expected unique in 3000 =  1044.6 (target 1896), max weight 0.0416, max ll 3.792, 1523 s
+IMIS 112: n = 122,000, ESS =    190.9, expected unique in 3000 =  1059.4 (target 1896), max weight 0.0350, max ll 3.792, 1536 s
+IMIS 113: n = 123,000, ESS =    151.8, expected unique in 3000 =  1048.8 (target 1896), max weight 0.0507, max ll 3.792, 1554 s
+IMIS 114: n = 124,000, ESS =    224.6, expected unique in 3000 =  1082.1 (target 1896), max weight 0.0311, max ll 3.792, 1571 s
+IMIS 115: n = 125,000, ESS =    267.8, expected unique in 3000 =  1115.7 (target 1896), max weight 0.0295, max ll 3.792, 1578 s
+IMIS 116: n = 126,000, ESS =    280.6, expected unique in 3000 =  1120.4 (target 1896), max weight 0.0260, max ll 3.792, 1595 s
+IMIS 117: n = 127,000, ESS =    249.2, expected unique in 3000 =  1116.2 (target 1896), max weight 0.0350, max ll 3.792, 1612 s
+IMIS 118: n = 128,000, ESS =    243.2, expected unique in 3000 =  1105.6 (target 1896), max weight 0.0283, max ll 3.792, 1634 s
+IMIS 119: n = 129,000, ESS =    284.0, expected unique in 3000 =  1125.2 (target 1896), max weight 0.0267, max ll 3.792, 1646 s
+IMIS 120: n = 130,000, ESS =    335.8, expected unique in 3000 =  1143.6 (target 1896), max weight 0.0164, max ll 3.792, 1659 s
+IMIS 121: n = 131,000, ESS =    190.3, expected unique in 3000 =  1126.2 (target 1896), max weight 0.0530, max ll 3.792, 1675 s
+IMIS 122: n = 132,000, ESS =    357.2, expected unique in 3000 =  1160.6 (target 1896), max weight 0.0129, max ll 3.792, 1689 s
+IMIS 123: n = 133,000, ESS =     53.5, expected unique in 3000 =   986.6 (target 1896), max weight 0.1069, max ll 3.792, 1705 s
+IMIS 124: n = 134,000, ESS =    109.6, expected unique in 3000 =  1062.1 (target 1896), max weight 0.0711, max ll 3.792, 1721 s
+IMIS 125: n = 135,000, ESS =    209.1, expected unique in 3000 =  1135.0 (target 1896), max weight 0.0482, max ll 3.792, 1737 s
+IMIS 126: n = 136,000, ESS =    318.4, expected unique in 3000 =  1160.4 (target 1896), max weight 0.0241, max ll 3.861, 1750 s
+IMIS 127: n = 137,000, ESS =    370.6, expected unique in 3000 =  1180.6 (target 1896), max weight 0.0121, max ll 3.861, 1759 s
+IMIS 128: n = 138,000, ESS =    295.1, expected unique in 3000 =  1163.5 (target 1896), max weight 0.0295, max ll 3.861, 1780 s
+IMIS 129: n = 139,000, ESS =    378.4, expected unique in 3000 =  1194.9 (target 1896), max weight 0.0124, max ll 3.861, 1800 s
+IMIS 130: n = 140,000, ESS =    389.3, expected unique in 3000 =  1204.3 (target 1896), max weight 0.0120, max ll 3.861, 1818 s
+IMIS 131: n = 141,000, ESS =    368.5, expected unique in 3000 =  1197.5 (target 1896), max weight 0.0179, max ll 3.861, 1836 s
+IMIS 132: n = 142,000, ESS =    406.3, expected unique in 3000 =  1215.5 (target 1896), max weight 0.0117, max ll 3.861, 1848 s
+IMIS 133: n = 143,000, ESS =    123.8, expected unique in 3000 =  1138.7 (target 1896), max weight 0.0723, max ll 3.861, 1868 s
+IMIS 134: n = 144,000, ESS =    302.1, expected unique in 3000 =  1205.4 (target 1896), max weight 0.0331, max ll 3.861, 1884 s
+IMIS 135: n = 145,000, ESS =    424.6, expected unique in 3000 =  1223.9 (target 1896), max weight 0.0113, max ll 3.861, 1901 s
+IMIS 136: n = 146,000, ESS =    448.1, expected unique in 3000 =  1241.9 (target 1896), max weight 0.0104, max ll 3.861, 1922 s
+IMIS 137: n = 147,000, ESS =     49.7, expected unique in 3000 =  1140.2 (target 1896), max weight 0.1362, max ll 3.861, 1945 s
+IMIS 138: n = 148,000, ESS =    467.9, expected unique in 3000 =  1252.4 (target 1896), max weight 0.0100, max ll 3.861, 1958 s
+IMIS 139: n = 149,000, ESS =     22.5, expected unique in 3000 =  1083.0 (target 1896), max weight 0.2078, max ll 3.861, 1975 s
+IMIS 140: n = 150,000, ESS =    460.7, expected unique in 3000 =  1261.2 (target 1896), max weight 0.0136, max ll 3.861, 1988 s
+IMIS 141: n = 151,000, ESS =    459.5, expected unique in 3000 =  1257.8 (target 1896), max weight 0.0136, max ll 3.861, 2008 s
+IMIS 142: n = 152,000, ESS =    418.8, expected unique in 3000 =  1246.8 (target 1896), max weight 0.0205, max ll 3.861, 2016 s
+IMIS 143: n = 153,000, ESS =    487.3, expected unique in 3000 =  1263.3 (target 1896), max weight 0.0094, max ll 3.861, 2027 s
+IMIS 144: n = 154,000, ESS =    374.0, expected unique in 3000 =  1247.3 (target 1896), max weight 0.0275, max ll 3.861, 2040 s
+IMIS 145: n = 155,000, ESS =    424.9, expected unique in 3000 =  1255.5 (target 1896), max weight 0.0201, max ll 3.861, 2061 s
+IMIS 146: n = 156,000, ESS =    483.1, expected unique in 3000 =  1267.2 (target 1896), max weight 0.0094, max ll 3.870, 2081 s
+IMIS 147: n = 157,000, ESS =    494.9, expected unique in 3000 =  1278.2 (target 1896), max weight 0.0093, max ll 3.870, 2091 s
+IMIS 148: n = 158,000, ESS =     13.6, expected unique in 3000 =  1040.1 (target 1896), max weight 0.2694, max ll 3.870, 2113 s
+IMIS 149: n = 159,000, ESS =    470.3, expected unique in 3000 =  1281.7 (target 1896), max weight 0.0160, max ll 3.870, 2134 s
+IMIS 150: n = 160,000, ESS =     50.4, expected unique in 3000 =  1178.6 (target 1896), max weight 0.1357, max ll 3.870, 2156 s
+IMIS 151: n = 161,000, ESS =    521.2, expected unique in 3000 =  1298.5 (target 1896), max weight 0.0090, max ll 3.870, 2173 s
+IMIS 152: n = 162,000, ESS =     43.3, expected unique in 3000 =  1141.1 (target 1896), max weight 0.1402, max ll 3.870, 2196 s
+IMIS 153: n = 163,000, ESS =    215.8, expected unique in 3000 =  1257.5 (target 1896), max weight 0.0539, max ll 3.870, 2217 s
+IMIS 154: n = 164,000, ESS =    466.3, expected unique in 3000 =  1287.9 (target 1896), max weight 0.0170, max ll 3.870, 2238 s
+IMIS 155: n = 165,000, ESS =    497.3, expected unique in 3000 =  1284.6 (target 1896), max weight 0.0112, max ll 3.870, 2256 s
+IMIS 156: n = 166,000, ESS =    524.2, expected unique in 3000 =  1295.5 (target 1896), max weight 0.0102, max ll 3.870, 2270 s
+IMIS 157: n = 167,000, ESS =    547.5, expected unique in 3000 =  1307.0 (target 1896), max weight 0.0073, max ll 3.870, 2293 s
+IMIS 158: n = 168,000, ESS =    535.9, expected unique in 3000 =  1307.1 (target 1896), max weight 0.0102, max ll 3.870, 2306 s
+IMIS 159: n = 169,000, ESS =    114.7, expected unique in 3000 =  1242.6 (target 1896), max weight 0.0849, max ll 3.870, 2318 s
+IMIS 160: n = 170,000, ESS =    564.1, expected unique in 3000 =  1324.6 (target 1896), max weight 0.0072, max ll 3.870, 2331 s
+IMIS 161: n = 171,000, ESS =    185.5, expected unique in 3000 =  1279.2 (target 1896), max weight 0.0621, max ll 3.870, 2345 s
+IMIS 162: n = 172,000, ESS =    574.8, expected unique in 3000 =  1333.5 (target 1896), max weight 0.0072, max ll 3.870, 2358 s
+IMIS 163: n = 173,000, ESS =    589.6, expected unique in 3000 =  1348.9 (target 1896), max weight 0.0069, max ll 3.870, 2380 s
+IMIS 164: n = 174,000, ESS =    409.7, expected unique in 3000 =  1313.6 (target 1896), max weight 0.0264, max ll 3.870, 2402 s
+IMIS 165: n = 175,000, ESS =    542.0, expected unique in 3000 =  1333.9 (target 1896), max weight 0.0126, max ll 3.870, 2416 s
+IMIS 166: n = 176,000, ESS =    583.0, expected unique in 3000 =  1349.9 (target 1896), max weight 0.0085, max ll 3.870, 2436 s
+IMIS 167: n = 177,000, ESS =    229.6, expected unique in 3000 =  1310.1 (target 1896), max weight 0.0535, max ll 3.870, 2449 s
+IMIS 168: n = 178,000, ESS =    599.4, expected unique in 3000 =  1357.8 (target 1896), max weight 0.0065, max ll 3.870, 2467 s
+IMIS 169: n = 179,000, ESS =    531.1, expected unique in 3000 =  1351.5 (target 1896), max weight 0.0174, max ll 3.870, 2488 s
+IMIS 170: n = 180,000, ESS =    613.0, expected unique in 3000 =  1369.6 (target 1896), max weight 0.0065, max ll 3.870, 2510 s
+IMIS 171: n = 181,000, ESS =    604.9, expected unique in 3000 =  1369.4 (target 1896), max weight 0.0094, max ll 3.870, 2522 s
+IMIS 172: n = 182,000, ESS =    624.6, expected unique in 3000 =  1375.3 (target 1896), max weight 0.0060, max ll 3.870, 2534 s
+IMIS 173: n = 183,000, ESS =     10.8, expected unique in 3000 =  1067.8 (target 1896), max weight 0.3028, max ll 3.870, 2556 s
+IMIS 174: n = 184,000, ESS =    505.4, expected unique in 3000 =  1359.6 (target 1896), max weight 0.0213, max ll 3.870, 2566 s
+IMIS 175: n = 185,000, ESS =    204.5, expected unique in 3000 =  1320.2 (target 1896), max weight 0.0590, max ll 3.870, 2589 s
+IMIS 176: n = 186,000, ESS =    630.4, expected unique in 3000 =  1377.4 (target 1896), max weight 0.0060, max ll 3.870, 2612 s
+IMIS 177: n = 187,000, ESS =     51.2, expected unique in 3000 =  1246.4 (target 1896), max weight 0.1353, max ll 3.870, 2633 s
+IMIS 178: n = 188,000, ESS =    652.7, expected unique in 3000 =  1387.8 (target 1896), max weight 0.0056, max ll 3.870, 2645 s
+IMIS 179: n = 189,000, ESS =    506.2, expected unique in 3000 =  1359.5 (target 1896), max weight 0.0212, max ll 3.870, 2659 s
+IMIS 180: n = 190,000, ESS =    663.5, expected unique in 3000 =  1392.2 (target 1896), max weight 0.0055, max ll 3.870, 2669 s
+IMIS 181: n = 191,000, ESS =    680.0, expected unique in 3000 =  1405.2 (target 1896), max weight 0.0056, max ll 3.870, 2692 s
+IMIS 182: n = 192,000, ESS =    654.0, expected unique in 3000 =  1400.4 (target 1896), max weight 0.0102, max ll 3.870, 2705 s
+IMIS 183: n = 193,000, ESS =    686.5, expected unique in 3000 =  1407.9 (target 1896), max weight 0.0056, max ll 3.870, 2715 s
+IMIS 184: n = 194,000, ESS =      2.5, expected unique in 3000 =   659.1 (target 1896), max weight 0.6365, max ll 3.870, 2731 s
+IMIS 185: n = 195,000, ESS =    156.9, expected unique in 3000 =  1341.8 (target 1896), max weight 0.0716, max ll 3.870, 2744 s
+IMIS 186: n = 196,000, ESS =    686.2, expected unique in 3000 =  1410.3 (target 1896), max weight 0.0061, max ll 3.870, 2764 s
+IMIS 187: n = 197,000, ESS =    573.7, expected unique in 3000 =  1397.9 (target 1896), max weight 0.0188, max ll 3.870, 2780 s
+IMIS 188: n = 198,000, ESS =    693.9, expected unique in 3000 =  1415.3 (target 1896), max weight 0.0056, max ll 3.870, 2801 s
+IMIS 189: n = 199,000, ESS =     87.9, expected unique in 3000 =  1267.7 (target 1896), max weight 0.0917, max ll 3.870, 2821 s
+IMIS 190: n = 200,000, ESS =    699.7, expected unique in 3000 =  1423.0 (target 1896), max weight 0.0054, max ll 3.870, 2836 s
+IMIS 191: n = 201,000, ESS =    690.6, expected unique in 3000 =  1421.8 (target 1896), max weight 0.0074, max ll 3.870, 2845 s
+IMIS 192: n = 202,000, ESS =    707.5, expected unique in 3000 =  1428.1 (target 1896), max weight 0.0053, max ll 3.870, 2853 s
+IMIS 193: n = 203,000, ESS =    632.0, expected unique in 3000 =  1418.1 (target 1896), max weight 0.0153, max ll 3.870, 2863 s
+IMIS 194: n = 204,000, ESS =    653.1, expected unique in 3000 =  1418.3 (target 1896), max weight 0.0118, max ll 3.870, 2885 s
+IMIS 195: n = 205,000, ESS =    706.2, expected unique in 3000 =  1435.4 (target 1896), max weight 0.0084, max ll 3.870, 2906 s
+IMIS 196: n = 206,000, ESS =    648.4, expected unique in 3000 =  1427.9 (target 1896), max weight 0.0144, max ll 3.870, 2927 s
+IMIS 197: n = 207,000, ESS =     70.3, expected unique in 3000 =  1312.7 (target 1896), max weight 0.1142, max ll 3.870, 2950 s
+IMIS 198: n = 208,000, ESS =    667.6, expected unique in 3000 =  1422.7 (target 1896), max weight 0.0104, max ll 3.870, 2967 s
+IMIS 199: n = 209,000, ESS =    705.8, expected unique in 3000 =  1437.4 (target 1896), max weight 0.0084, max ll 3.870, 2988 s
+IMIS 200: n = 210,000, ESS =    716.4, expected unique in 3000 =  1438.7 (target 1896), max weight 0.0062, max ll 3.870, 3009 s
+IMIS 201: n = 211,000, ESS =    734.3, expected unique in 3000 =  1447.4 (target 1896), max weight 0.0055, max ll 3.870, 3031 s
+IMIS 202: n = 212,000, ESS =     52.2, expected unique in 3000 =  1256.4 (target 1896), max weight 0.1308, max ll 3.870, 3052 s
+IMIS 203: n = 213,000, ESS =    371.5, expected unique in 3000 =  1384.6 (target 1896), max weight 0.0314, max ll 3.870, 3069 s
+IMIS 204: n = 214,000, ESS =    556.6, expected unique in 3000 =  1418.5 (target 1896), max weight 0.0158, max ll 3.870, 3081 s
+IMIS 205: n = 215,000, ESS =    628.3, expected unique in 3000 =  1431.4 (target 1896), max weight 0.0143, max ll 3.870, 3100 s
+IMIS 206: n = 216,000, ESS =    701.8, expected unique in 3000 =  1447.0 (target 1896), max weight 0.0103, max ll 3.870, 3117 s
+IMIS 207: n = 217,000, ESS =    755.6, expected unique in 3000 =  1462.6 (target 1896), max weight 0.0049, max ll 3.870, 3127 s
+IMIS 208: n = 218,000, ESS =     20.6, expected unique in 3000 =  1125.7 (target 1896), max weight 0.1884, max ll 3.870, 3150 s
+IMIS 209: n = 219,000, ESS =     50.4, expected unique in 3000 =  1298.9 (target 1896), max weight 0.1359, max ll 3.870, 3165 s
+IMIS 210: n = 220,000, ESS =    542.3, expected unique in 3000 =  1423.5 (target 1896), max weight 0.0224, max ll 3.870, 3186 s
+IMIS 211: n = 221,000, ESS =    716.8, expected unique in 3000 =  1451.9 (target 1896), max weight 0.0091, max ll 3.870, 3203 s
+IMIS 212: n = 222,000, ESS =    748.3, expected unique in 3000 =  1457.3 (target 1896), max weight 0.0077, max ll 3.870, 3225 s
+IMIS 213: n = 223,000, ESS =    769.3, expected unique in 3000 =  1465.7 (target 1896), max weight 0.0050, max ll 3.870, 3243 s
+IMIS 214: n = 224,000, ESS =    511.5, expected unique in 3000 =  1432.9 (target 1896), max weight 0.0253, max ll 3.870, 3266 s
+IMIS 215: n = 225,000, ESS =    602.5, expected unique in 3000 =  1439.5 (target 1896), max weight 0.0182, max ll 3.870, 3280 s
+IMIS 216: n = 226,000, ESS =    727.0, expected unique in 3000 =  1459.2 (target 1896), max weight 0.0108, max ll 3.870, 3301 s
+IMIS 217: n = 227,000, ESS =    781.3, expected unique in 3000 =  1472.1 (target 1896), max weight 0.0049, max ll 3.870, 3323 s
+IMIS 218: n = 228,000, ESS =    787.3, expected unique in 3000 =  1476.8 (target 1896), max weight 0.0046, max ll 3.870, 3342 s
+IMIS 219: n = 229,000, ESS =    794.4, expected unique in 3000 =  1480.9 (target 1896), max weight 0.0046, max ll 3.870, 3360 s
+IMIS 220: n = 230,000, ESS =    562.7, expected unique in 3000 =  1462.9 (target 1896), max weight 0.0242, max ll 3.870, 3369 s
+IMIS 221: n = 231,000, ESS =    351.1, expected unique in 3000 =  1443.8 (target 1896), max weight 0.0410, max ll 3.870, 3386 s
+IMIS 222: n = 232,000, ESS =    726.2, expected unique in 3000 =  1478.6 (target 1896), max weight 0.0127, max ll 3.870, 3405 s
+IMIS 223: n = 233,000, ESS =    800.6, expected unique in 3000 =  1490.2 (target 1896), max weight 0.0045, max ll 3.870, 3417 s
+IMIS 224: n = 234,000, ESS =    551.6, expected unique in 3000 =  1463.3 (target 1896), max weight 0.0248, max ll 3.870, 3430 s
+IMIS 225: n = 235,000, ESS =    794.5, expected unique in 3000 =  1490.5 (target 1896), max weight 0.0066, max ll 3.870, 3452 s
+IMIS 226: n = 236,000, ESS =    814.4, expected unique in 3000 =  1495.3 (target 1896), max weight 0.0044, max ll 3.870, 3466 s
+IMIS 227: n = 237,000, ESS =    718.7, expected unique in 3000 =  1487.0 (target 1896), max weight 0.0146, max ll 3.870, 3474 s
+IMIS 228: n = 238,000, ESS =    741.9, expected unique in 3000 =  1487.4 (target 1896), max weight 0.0125, max ll 3.870, 3493 s
+IMIS 229: n = 239,000, ESS =    759.2, expected unique in 3000 =  1487.2 (target 1896), max weight 0.0092, max ll 3.870, 3515 s
+IMIS 230: n = 240,000, ESS =    399.2, expected unique in 3000 =  1456.1 (target 1896), max weight 0.0366, max ll 3.870, 3536 s
+IMIS 231: n = 241,000, ESS =    792.1, expected unique in 3000 =  1491.1 (target 1896), max weight 0.0073, max ll 3.870, 3555 s
+IMIS 232: n = 242,000, ESS =    809.5, expected unique in 3000 =  1492.4 (target 1896), max weight 0.0051, max ll 3.870, 3578 s
+IMIS 233: n = 243,000, ESS =    773.6, expected unique in 3000 =  1490.2 (target 1896), max weight 0.0103, max ll 3.870, 3598 s
+IMIS 234: n = 244,000, ESS =    825.4, expected unique in 3000 =  1499.8 (target 1896), max weight 0.0047, max ll 3.870, 3615 s
+IMIS 235: n = 245,000, ESS =    833.7, expected unique in 3000 =  1505.0 (target 1896), max weight 0.0043, max ll 3.870, 3631 s
+IMIS 236: n = 246,000, ESS =    838.8, expected unique in 3000 =  1508.2 (target 1896), max weight 0.0043, max ll 3.870, 3645 s
+IMIS 237: n = 247,000, ESS =    618.9, expected unique in 3000 =  1474.5 (target 1896), max weight 0.0151, max ll 3.870, 3666 s
+IMIS 238: n = 248,000, ESS =    751.9, expected unique in 3000 =  1499.4 (target 1896), max weight 0.0118, max ll 3.870, 3683 s
+IMIS 239: n = 249,000, ESS =      1.6, expected unique in 3000 =   474.3 (target 1896), max weight 0.7930, max ll 3.870, 3705 s
+IMIS 240: n = 250,000, ESS =    821.5, expected unique in 3000 =  1514.6 (target 1896), max weight 0.0082, max ll 3.870, 3727 s
+IMIS 241: n = 251,000, ESS =    855.4, expected unique in 3000 =  1523.3 (target 1896), max weight 0.0050, max ll 3.870, 3749 s
+IMIS 242: n = 252,000, ESS =    817.4, expected unique in 3000 =  1516.4 (target 1896), max weight 0.0089, max ll 3.870, 3770 s
+IMIS 243: n = 253,000, ESS =    869.4, expected unique in 3000 =  1530.0 (target 1896), max weight 0.0048, max ll 3.870, 3786 s
+IMIS 244: n = 254,000, ESS =      7.9, expected unique in 3000 =  1117.2 (target 1896), max weight 0.3558, max ll 3.870, 3798 s
+IMIS 245: n = 255,000, ESS =    812.6, expected unique in 3000 =  1517.5 (target 1896), max weight 0.0095, max ll 3.870, 3815 s
+IMIS 246: n = 256,000, ESS =    863.2, expected unique in 3000 =  1526.5 (target 1896), max weight 0.0054, max ll 3.870, 3832 s
+IMIS 247: n = 257,000, ESS =    879.0, expected unique in 3000 =  1531.7 (target 1896), max weight 0.0042, max ll 3.870, 3850 s
+IMIS 248: n = 258,000, ESS =    885.1, expected unique in 3000 =  1538.3 (target 1896), max weight 0.0042, max ll 3.870, 3862 s
+IMIS 249: n = 259,000, ESS =     73.4, expected unique in 3000 =  1407.9 (target 1896), max weight 0.1126, max ll 3.870, 3885 s
+IMIS 250: n = 260,000, ESS =    448.9, expected unique in 3000 =  1494.1 (target 1896), max weight 0.0332, max ll 3.870, 3908 s
+IMIS 251: n = 261,000, ESS =     72.4, expected unique in 3000 =  1406.9 (target 1896), max weight 0.1135, max ll 3.870, 3930 s
+IMIS 252: n = 262,000, ESS =    829.5, expected unique in 3000 =  1525.9 (target 1896), max weight 0.0102, max ll 3.870, 3944 s
+IMIS 253: n = 263,000, ESS =    890.5, expected unique in 3000 =  1536.9 (target 1896), max weight 0.0040, max ll 3.870, 3966 s
+IMIS 254: n = 264,000, ESS =    898.3, expected unique in 3000 =  1543.0 (target 1896), max weight 0.0040, max ll 3.870, 3987 s
+IMIS 255: n = 265,000, ESS =    828.3, expected unique in 3000 =  1535.7 (target 1896), max weight 0.0112, max ll 3.870, 4001 s
+IMIS 256: n = 266,000, ESS =    902.9, expected unique in 3000 =  1546.5 (target 1896), max weight 0.0040, max ll 3.870, 4020 s
+IMIS 257: n = 267,000, ESS =    895.4, expected unique in 3000 =  1550.0 (target 1896), max weight 0.0058, max ll 3.870, 4034 s
+IMIS 258: n = 268,000, ESS =     47.1, expected unique in 3000 =  1367.6 (target 1896), max weight 0.1410, max ll 3.870, 4044 s
+IMIS 259: n = 269,000, ESS =    556.2, expected unique in 3000 =  1524.6 (target 1896), max weight 0.0276, max ll 3.870, 4065 s
+IMIS 260: n = 270,000, ESS =    272.5, expected unique in 3000 =  1491.3 (target 1896), max weight 0.0516, max ll 3.870, 4086 s
+IMIS 261: n = 271,000, ESS =    898.0, expected unique in 3000 =  1549.2 (target 1896), max weight 0.0060, max ll 3.870, 4103 s
+IMIS 262: n = 272,000, ESS =    915.3, expected unique in 3000 =  1556.8 (target 1896), max weight 0.0040, max ll 3.870, 4123 s
+IMIS 263: n = 273,000, ESS =    762.3, expected unique in 3000 =  1545.7 (target 1896), max weight 0.0162, max ll 3.870, 4133 s
+IMIS 264: n = 274,000, ESS =    849.6, expected unique in 3000 =  1549.2 (target 1896), max weight 0.0104, max ll 3.870, 4150 s
+IMIS 265: n = 275,000, ESS =    922.6, expected unique in 3000 =  1560.4 (target 1896), max weight 0.0051, max ll 3.870, 4167 s
+IMIS 266: n = 276,000, ESS =    935.3, expected unique in 3000 =  1563.6 (target 1896), max weight 0.0043, max ll 3.870, 4180 s
+IMIS 267: n = 277,000, ESS =     44.3, expected unique in 3000 =  1348.5 (target 1896), max weight 0.1398, max ll 3.870, 4191 s
+IMIS 268: n = 278,000, ESS =    217.3, expected unique in 3000 =  1458.0 (target 1896), max weight 0.0536, max ll 3.870, 4201 s
+IMIS 269: n = 279,000, ESS =    415.9, expected unique in 3000 =  1484.1 (target 1896), max weight 0.0236, max ll 3.870, 4220 s
+IMIS 270: n = 280,000, ESS =    595.5, expected unique in 3000 =  1536.1 (target 1896), max weight 0.0248, max ll 3.870, 4239 s
+IMIS 271: n = 281,000, ESS =     64.7, expected unique in 3000 =  1433.0 (target 1896), max weight 0.1208, max ll 3.870, 4257 s
+IMIS 272: n = 282,000, ESS =    898.5, expected unique in 3000 =  1569.0 (target 1896), max weight 0.0095, max ll 3.870, 4272 s
+IMIS 273: n = 283,000, ESS =    962.7, expected unique in 3000 =  1581.4 (target 1896), max weight 0.0038, max ll 3.870, 4284 s
+IMIS 274: n = 284,000, ESS =    764.5, expected unique in 3000 =  1564.3 (target 1896), max weight 0.0152, max ll 3.870, 4297 s
+IMIS 275: n = 285,000, ESS =    897.9, expected unique in 3000 =  1579.9 (target 1896), max weight 0.0103, max ll 3.870, 4309 s
+IMIS 276: n = 286,000, ESS =    829.2, expected unique in 3000 =  1571.9 (target 1896), max weight 0.0125, max ll 3.870, 4321 s
+IMIS 277: n = 287,000, ESS =    925.4, expected unique in 3000 =  1587.7 (target 1896), max weight 0.0089, max ll 3.870, 4334 s
+IMIS 278: n = 288,000, ESS =    979.6, expected unique in 3000 =  1596.9 (target 1896), max weight 0.0038, max ll 3.870, 4348 s
+IMIS 279: n = 289,000, ESS =    966.3, expected unique in 3000 =  1596.1 (target 1896), max weight 0.0059, max ll 3.870, 4360 s
+IMIS 280: n = 290,000, ESS =    994.3, expected unique in 3000 =  1601.7 (target 1896), max weight 0.0038, max ll 3.912, 4380 s
+IMIS 281: n = 291,000, ESS =   1006.1, expected unique in 3000 =  1608.2 (target 1896), max weight 0.0038, max ll 3.912, 4403 s
+IMIS 282: n = 292,000, ESS =    886.0, expected unique in 3000 =  1601.2 (target 1896), max weight 0.0132, max ll 3.912, 4418 s
+IMIS 283: n = 293,000, ESS =   1020.0, expected unique in 3000 =  1614.9 (target 1896), max weight 0.0038, max ll 3.912, 4427 s
+IMIS 284: n = 294,000, ESS =   1026.0, expected unique in 3000 =  1618.9 (target 1896), max weight 0.0038, max ll 3.912, 4446 s
+IMIS 285: n = 295,000, ESS =    998.2, expected unique in 3000 =  1614.3 (target 1896), max weight 0.0068, max ll 3.912, 4455 s
+IMIS 286: n = 296,000, ESS =   1032.8, expected unique in 3000 =  1623.5 (target 1896), max weight 0.0038, max ll 3.912, 4471 s
+IMIS 287: n = 297,000, ESS =    470.7, expected unique in 3000 =  1554.6 (target 1896), max weight 0.0302, max ll 3.912, 4485 s
+IMIS 288: n = 298,000, ESS =    774.9, expected unique in 3000 =  1588.1 (target 1896), max weight 0.0132, max ll 3.912, 4507 s
+IMIS 289: n = 299,000, ESS =    891.8, expected unique in 3000 =  1613.4 (target 1896), max weight 0.0134, max ll 3.912, 4522 s
+IMIS 290: n = 300,000, ESS =     11.0, expected unique in 3000 =  1261.3 (target 1896), max weight 0.3009, max ll 3.912, 4534 s
+IMIS 291: n = 301,000, ESS =   1032.5, expected unique in 3000 =  1627.7 (target 1896), max weight 0.0059, max ll 3.912, 4547 s
+IMIS 292: n = 302,000, ESS =    164.6, expected unique in 3000 =  1547.5 (target 1896), max weight 0.0724, max ll 3.912, 4558 s
+IMIS 293: n = 303,000, ESS =   1027.8, expected unique in 3000 =  1631.7 (target 1896), max weight 0.0063, max ll 3.912, 4570 s
+IMIS 294: n = 304,000, ESS =   1059.7, expected unique in 3000 =  1638.7 (target 1896), max weight 0.0038, max ll 3.912, 4580 s
+IMIS 295: n = 305,000, ESS =   1067.8, expected unique in 3000 =  1642.1 (target 1896), max weight 0.0038, max ll 3.912, 4595 s
+IMIS 296: n = 306,000, ESS =     74.7, expected unique in 3000 =  1516.6 (target 1896), max weight 0.1125, max ll 3.912, 4608 s
+IMIS 297: n = 307,000, ESS =   1059.0, expected unique in 3000 =  1644.5 (target 1896), max weight 0.0053, max ll 3.912, 4634 s
+IMIS 298: n = 308,000, ESS =   1073.8, expected unique in 3000 =  1646.6 (target 1896), max weight 0.0047, max ll 3.912, 4668 s
+IMIS 299: n = 309,000, ESS =   1088.2, expected unique in 3000 =  1651.6 (target 1896), max weight 0.0037, max ll 3.912, 4695 s
+IMIS 300: n = 310,000, ESS =   1096.6, expected unique in 3000 =  1654.9 (target 1896), max weight 0.0037, max ll 3.912, 4738 s
+IMIS mixture density, running against recomputed: largest relative difference 0.0e+00
+=== reid done in 81.1 min ===
+=== real (160 workers) ===
+IMIS   0: n =  10,000, ESS =      1.0, expected unique in 3000 =     5.5 (target 1896), max weight 0.9954, max ll -9.304, 0 s
+IMIS   1: n =  11,000, ESS =      3.7, expected unique in 3000 =    12.2 (target 1896), max weight 0.4054, max ll -9.304, 2 s
+IMIS   2: n =  12,000, ESS =      1.6, expected unique in 3000 =    12.9 (target 1896), max weight 0.7688, max ll -9.304, 5 s
+IMIS   3: n =  13,000, ESS =      2.8, expected unique in 3000 =    16.9 (target 1896), max weight 0.4559, max ll -9.304, 8 s
+IMIS   4: n =  14,000, ESS =      1.2, expected unique in 3000 =    13.4 (target 1896), max weight 0.9167, max ll -4.655, 14 s
+IMIS   5: n =  15,000, ESS =      1.8, expected unique in 3000 =    27.0 (target 1896), max weight 0.7435, max ll -1.177, 20 s
+IMIS   6: n =  16,000, ESS =      6.8, expected unique in 3000 =    49.7 (target 1896), max weight 0.2568, max ll -0.573, 30 s
+IMIS   7: n =  17,000, ESS =      5.9, expected unique in 3000 =    63.6 (target 1896), max weight 0.3574, max ll -0.573, 37 s
+IMIS   8: n =  18,000, ESS =      9.0, expected unique in 3000 =    86.0 (target 1896), max weight 0.2616, max ll -0.573, 43 s
+IMIS   9: n =  19,000, ESS =      9.0, expected unique in 3000 =   100.1 (target 1896), max weight 0.2856, max ll -0.573, 51 s
+IMIS  10: n =  20,000, ESS =     16.5, expected unique in 3000 =   114.9 (target 1896), max weight 0.1659, max ll 0.526, 57 s
+IMIS  11: n =  21,000, ESS =      3.3, expected unique in 3000 =    18.3 (target 1896), max weight 0.4737, max ll 0.526, 65 s
+IMIS  12: n =  22,000, ESS =     10.9, expected unique in 3000 =    92.9 (target 1896), max weight 0.1814, max ll 1.007, 80 s
+IMIS  13: n =  23,000, ESS =      6.8, expected unique in 3000 =   120.2 (target 1896), max weight 0.3082, max ll 1.007, 94 s
+IMIS  14: n =  24,000, ESS =     13.8, expected unique in 3000 =   167.1 (target 1896), max weight 0.2312, max ll 1.007, 107 s
+IMIS  15: n =  25,000, ESS =     23.9, expected unique in 3000 =   193.6 (target 1896), max weight 0.1264, max ll 1.169, 117 s
+IMIS  16: n =  26,000, ESS =      5.0, expected unique in 3000 =   151.1 (target 1896), max weight 0.3657, max ll 1.580, 134 s
+IMIS  17: n =  27,000, ESS =     23.0, expected unique in 3000 =   229.6 (target 1896), max weight 0.1356, max ll 1.580, 155 s
+IMIS  18: n =  28,000, ESS =      9.3, expected unique in 3000 =   217.2 (target 1896), max weight 0.2355, max ll 1.933, 175 s
+IMIS  19: n =  29,000, ESS =     28.6, expected unique in 3000 =   275.8 (target 1896), max weight 0.1240, max ll 1.933, 190 s
+IMIS  20: n =  30,000, ESS =     38.0, expected unique in 3000 =   319.6 (target 1896), max weight 0.0777, max ll 1.933, 207 s
+IMIS  21: n =  31,000, ESS =      1.9, expected unique in 3000 =   148.1 (target 1896), max weight 0.7325, max ll 1.933, 218 s
+IMIS  22: n =  32,000, ESS =     21.9, expected unique in 3000 =   294.1 (target 1896), max weight 0.1183, max ll 1.933, 230 s
+IMIS  23: n =  33,000, ESS =     43.4, expected unique in 3000 =   355.0 (target 1896), max weight 0.0580, max ll 1.933, 247 s
+IMIS  24: n =  34,000, ESS =      1.6, expected unique in 3000 =   168.0 (target 1896), max weight 0.8006, max ll 1.933, 268 s
+IMIS  25: n =  35,000, ESS =     46.1, expected unique in 3000 =   397.9 (target 1896), max weight 0.0561, max ll 1.933, 285 s
+IMIS  26: n =  36,000, ESS =     13.3, expected unique in 3000 =   377.5 (target 1896), max weight 0.2456, max ll 2.217, 310 s
+IMIS  27: n =  37,000, ESS =     38.5, expected unique in 3000 =   434.3 (target 1896), max weight 0.1070, max ll 2.217, 345 s
+IMIS  28: n =  38,000, ESS =     52.7, expected unique in 3000 =   468.2 (target 1896), max weight 0.0534, max ll 2.506, 365 s
+IMIS  29: n =  39,000, ESS =     35.0, expected unique in 3000 =   486.8 (target 1896), max weight 0.1219, max ll 2.506, 387 s
+IMIS  30: n =  40,000, ESS =     57.8, expected unique in 3000 =   518.7 (target 1896), max weight 0.0518, max ll 2.506, 410 s
+IMIS  31: n =  41,000, ESS =     31.0, expected unique in 3000 =   469.3 (target 1896), max weight 0.1092, max ll 2.506, 432 s
+IMIS  32: n =  42,000, ESS =     39.4, expected unique in 3000 =   518.5 (target 1896), max weight 0.1168, max ll 2.506, 450 s
+IMIS  33: n =  43,000, ESS =     64.6, expected unique in 3000 =   563.5 (target 1896), max weight 0.0514, max ll 2.684, 470 s
+IMIS  34: n =  44,000, ESS =      1.0, expected unique in 3000 =    11.9 (target 1896), max weight 0.9807, max ll 2.684, 479 s
+IMIS  35: n =  45,000, ESS =      4.6, expected unique in 3000 =   202.8 (target 1896), max weight 0.3873, max ll 2.684, 506 s
+IMIS  36: n =  46,000, ESS =      5.8, expected unique in 3000 =   281.7 (target 1896), max weight 0.3502, max ll 2.684, 533 s
+IMIS  37: n =  47,000, ESS =      6.5, expected unique in 3000 =   405.1 (target 1896), max weight 0.3769, max ll 2.684, 551 s
+IMIS  38: n =  48,000, ESS =     78.7, expected unique in 3000 =   596.2 (target 1896), max weight 0.0485, max ll 2.684, 573 s
+IMIS  39: n =  49,000, ESS =      4.0, expected unique in 3000 =   423.7 (target 1896), max weight 0.4961, max ll 2.684, 586 s
+IMIS  40: n =  50,000, ESS =     90.6, expected unique in 3000 =   626.0 (target 1896), max weight 0.0428, max ll 2.684, 605 s
+IMIS  41: n =  51,000, ESS =      1.8, expected unique in 3000 =   276.4 (target 1896), max weight 0.7350, max ll 2.684, 628 s
+IMIS  42: n =  52,000, ESS =      8.3, expected unique in 3000 =   430.9 (target 1896), max weight 0.2794, max ll 2.684, 657 s
+IMIS  43: n =  53,000, ESS =     11.1, expected unique in 3000 =   532.9 (target 1896), max weight 0.2848, max ll 2.684, 674 s
+IMIS  44: n =  54,000, ESS =     56.1, expected unique in 3000 =   645.4 (target 1896), max weight 0.0986, max ll 2.794, 697 s
+IMIS  45: n =  55,000, ESS =     17.1, expected unique in 3000 =   597.1 (target 1896), max weight 0.2297, max ll 2.794, 710 s
+IMIS  46: n =  56,000, ESS =     86.0, expected unique in 3000 =   672.9 (target 1896), max weight 0.0533, max ll 2.794, 727 s
+IMIS  47: n =  57,000, ESS =    102.0, expected unique in 3000 =   692.9 (target 1896), max weight 0.0348, max ll 2.794, 752 s
+IMIS  48: n =  58,000, ESS =     88.5, expected unique in 3000 =   677.2 (target 1896), max weight 0.0510, max ll 2.794, 776 s
+IMIS  49: n =  59,000, ESS =    108.1, expected unique in 3000 =   720.4 (target 1896), max weight 0.0337, max ll 2.897, 796 s
+IMIS  50: n =  60,000, ESS =    116.7, expected unique in 3000 =   755.7 (target 1896), max weight 0.0331, max ll 2.897, 822 s
+IMIS  51: n =  61,000, ESS =      6.9, expected unique in 3000 =   486.9 (target 1896), max weight 0.3104, max ll 2.897, 832 s
+IMIS  52: n =  62,000, ESS =     10.2, expected unique in 3000 =   609.1 (target 1896), max weight 0.3060, max ll 2.897, 853 s
+IMIS  53: n =  63,000, ESS =    110.4, expected unique in 3000 =   768.8 (target 1896), max weight 0.0465, max ll 2.897, 874 s
+IMIS  54: n =  64,000, ESS =    131.5, expected unique in 3000 =   790.9 (target 1896), max weight 0.0279, max ll 2.897, 892 s
+IMIS  55: n =  65,000, ESS =      9.5, expected unique in 3000 =   554.8 (target 1896), max weight 0.2942, max ll 2.897, 911 s
+IMIS  56: n =  66,000, ESS =     25.8, expected unique in 3000 =   693.3 (target 1896), max weight 0.1781, max ll 2.897, 941 s
+IMIS  57: n =  67,000, ESS =     25.0, expected unique in 3000 =   668.7 (target 1896), max weight 0.1727, max ll 2.897, 973 s
+IMIS  58: n =  68,000, ESS =     66.6, expected unique in 3000 =   748.0 (target 1896), max weight 0.0799, max ll 2.897, 1005 s
+IMIS  59: n =  69,000, ESS =     98.1, expected unique in 3000 =   787.4 (target 1896), max weight 0.0607, max ll 2.897, 1024 s
+IMIS  60: n =  70,000, ESS =    140.8, expected unique in 3000 =   821.2 (target 1896), max weight 0.0280, max ll 2.897, 1053 s
+IMIS  61: n =  71,000, ESS =    147.5, expected unique in 3000 =   829.6 (target 1896), max weight 0.0237, max ll 2.897, 1073 s
+IMIS  62: n =  72,000, ESS =    153.9, expected unique in 3000 =   836.6 (target 1896), max weight 0.0235, max ll 2.897, 1094 s
+IMIS  63: n =  73,000, ESS =    161.7, expected unique in 3000 =   855.2 (target 1896), max weight 0.0238, max ll 2.897, 1130 s
+IMIS  64: n =  74,000, ESS =      1.3, expected unique in 3000 =   157.4 (target 1896), max weight 0.8617, max ll 2.897, 1156 s
+IMIS  65: n =  75,000, ESS =     15.6, expected unique in 3000 =   599.4 (target 1896), max weight 0.1983, max ll 3.041, 1179 s
+IMIS  66: n =  76,000, ESS =     26.4, expected unique in 3000 =   691.3 (target 1896), max weight 0.1531, max ll 3.041, 1205 s
+IMIS  67: n =  77,000, ESS =     15.0, expected unique in 3000 =   708.9 (target 1896), max weight 0.2337, max ll 3.041, 1237 s
+IMIS  68: n =  78,000, ESS =     46.1, expected unique in 3000 =   850.4 (target 1896), max weight 0.1341, max ll 3.041, 1254 s
+IMIS  69: n =  79,000, ESS =     46.2, expected unique in 3000 =   803.8 (target 1896), max weight 0.1020, max ll 3.041, 1277 s
+IMIS  70: n =  80,000, ESS =     72.4, expected unique in 3000 =   844.9 (target 1896), max weight 0.0930, max ll 3.041, 1305 s
+IMIS  71: n =  81,000, ESS =    115.6, expected unique in 3000 =   837.4 (target 1896), max weight 0.0448, max ll 3.041, 1326 s
+IMIS  72: n =  82,000, ESS =     43.3, expected unique in 3000 =   714.2 (target 1896), max weight 0.0923, max ll 3.041, 1367 s
+IMIS  73: n =  83,000, ESS =     54.4, expected unique in 3000 =   805.0 (target 1896), max weight 0.1024, max ll 3.041, 1398 s
+IMIS  74: n =  84,000, ESS =    100.7, expected unique in 3000 =   864.5 (target 1896), max weight 0.0680, max ll 3.041, 1425 s
+IMIS  75: n =  85,000, ESS =    163.0, expected unique in 3000 =   908.4 (target 1896), max weight 0.0339, max ll 3.041, 1451 s
+IMIS  76: n =  86,000, ESS =    134.9, expected unique in 3000 =   901.8 (target 1896), max weight 0.0516, max ll 3.041, 1476 s
+IMIS  77: n =  87,000, ESS =    189.4, expected unique in 3000 =   933.8 (target 1896), max weight 0.0281, max ll 3.041, 1497 s
+IMIS  78: n =  88,000, ESS =    141.3, expected unique in 3000 =   904.2 (target 1896), max weight 0.0533, max ll 3.041, 1518 s
+IMIS  79: n =  89,000, ESS =    208.3, expected unique in 3000 =   944.6 (target 1896), max weight 0.0156, max ll 3.041, 1538 s
+IMIS  80: n =  90,000, ESS =      5.1, expected unique in 3000 =   488.5 (target 1896), max weight 0.3564, max ll 3.041, 1575 s
+IMIS  81: n =  91,000, ESS =      6.2, expected unique in 3000 =   652.9 (target 1896), max weight 0.3991, max ll 3.041, 1613 s
+IMIS  82: n =  92,000, ESS =    162.9, expected unique in 3000 =   911.3 (target 1896), max weight 0.0340, max ll 3.041, 1646 s
+IMIS  83: n =  93,000, ESS =    200.6, expected unique in 3000 =   943.9 (target 1896), max weight 0.0237, max ll 3.041, 1688 s
+IMIS  84: n =  94,000, ESS =    223.5, expected unique in 3000 =   972.3 (target 1896), max weight 0.0152, max ll 3.041, 1732 s
+IMIS  85: n =  95,000, ESS =     88.4, expected unique in 3000 =   895.8 (target 1896), max weight 0.0642, max ll 3.041, 1769 s
+IMIS  86: n =  96,000, ESS =    121.0, expected unique in 3000 =   937.4 (target 1896), max weight 0.0581, max ll 3.041, 1810 s
+IMIS  87: n =  97,000, ESS =    232.0, expected unique in 3000 =   996.3 (target 1896), max weight 0.0145, max ll 3.041, 1834 s
+IMIS  88: n =  98,000, ESS =    198.0, expected unique in 3000 =   976.2 (target 1896), max weight 0.0329, max ll 3.041, 1848 s
+IMIS  89: n =  99,000, ESS =     17.9, expected unique in 3000 =   841.0 (target 1896), max weight 0.2308, max ll 3.041, 1875 s
+IMIS  90: n = 100,000, ESS =    232.8, expected unique in 3000 =   998.2 (target 1896), max weight 0.0143, max ll 3.041, 1909 s
+IMIS  91: n = 101,000, ESS =    245.9, expected unique in 3000 =  1005.2 (target 1896), max weight 0.0134, max ll 3.041, 1919 s
+IMIS  92: n = 102,000, ESS =      1.9, expected unique in 3000 =   423.9 (target 1896), max weight 0.7250, max ll 3.041, 1950 s
+IMIS  93: n = 103,000, ESS =      1.2, expected unique in 3000 =   199.6 (target 1896), max weight 0.9026, max ll 3.041, 1980 s
+IMIS  94: n = 104,000, ESS =    240.0, expected unique in 3000 =  1002.5 (target 1896), max weight 0.0212, max ll 3.041, 2010 s
+IMIS  95: n = 105,000, ESS =     18.6, expected unique in 3000 =   860.0 (target 1896), max weight 0.2266, max ll 3.041, 2039 s
+IMIS  96: n = 106,000, ESS =    260.4, expected unique in 3000 =  1015.1 (target 1896), max weight 0.0146, max ll 3.041, 2077 s
+IMIS  97: n = 107,000, ESS =    269.4, expected unique in 3000 =  1029.0 (target 1896), max weight 0.0119, max ll 3.041, 2116 s
+IMIS  98: n = 108,000, ESS =    275.1, expected unique in 3000 =  1037.7 (target 1896), max weight 0.0120, max ll 3.041, 2142 s
+IMIS  99: n = 109,000, ESS =    282.0, expected unique in 3000 =  1042.7 (target 1896), max weight 0.0128, max ll 3.041, 2163 s
+IMIS 100: n = 110,000, ESS =     26.5, expected unique in 3000 =   868.6 (target 1896), max weight 0.1831, max ll 3.041, 2197 s
+IMIS 101: n = 111,000, ESS =    157.3, expected unique in 3000 =   993.2 (target 1896), max weight 0.0439, max ll 3.041, 2228 s
+IMIS 102: n = 112,000, ESS =    211.5, expected unique in 3000 =  1039.3 (target 1896), max weight 0.0376, max ll 3.041, 2251 s
+IMIS 103: n = 113,000, ESS =    278.0, expected unique in 3000 =  1067.6 (target 1896), max weight 0.0198, max ll 3.041, 2279 s
+IMIS 104: n = 114,000, ESS =    299.3, expected unique in 3000 =  1079.6 (target 1896), max weight 0.0115, max ll 3.041, 2315 s
+IMIS 105: n = 115,000, ESS =    161.7, expected unique in 3000 =  1043.4 (target 1896), max weight 0.0575, max ll 3.041, 2338 s
+IMIS 106: n = 116,000, ESS =    307.5, expected unique in 3000 =  1083.0 (target 1896), max weight 0.0112, max ll 3.041, 2380 s
+IMIS 107: n = 117,000, ESS =    288.8, expected unique in 3000 =  1083.5 (target 1896), max weight 0.0177, max ll 3.041, 2396 s
+IMIS 108: n = 118,000, ESS =    318.3, expected unique in 3000 =  1104.9 (target 1896), max weight 0.0112, max ll 3.041, 2433 s
+IMIS 109: n = 119,000, ESS =     18.1, expected unique in 3000 =   945.2 (target 1896), max weight 0.2309, max ll 3.041, 2468 s
+IMIS 110: n = 120,000, ESS =    324.9, expected unique in 3000 =  1121.4 (target 1896), max weight 0.0111, max ll 3.041, 2491 s
+IMIS 111: n = 121,000, ESS =     10.2, expected unique in 3000 =   882.9 (target 1896), max weight 0.3104, max ll 3.041, 2523 s
+IMIS 112: n = 122,000, ESS =    333.1, expected unique in 3000 =  1134.0 (target 1896), max weight 0.0109, max ll 3.041, 2542 s
+IMIS 113: n = 123,000, ESS =    108.0, expected unique in 3000 =  1060.9 (target 1896), max weight 0.0674, max ll 3.041, 2578 s
+IMIS 114: n = 124,000, ESS =    115.4, expected unique in 3000 =  1050.2 (target 1896), max weight 0.0621, max ll 3.041, 2602 s
+IMIS 115: n = 125,000, ESS =     29.1, expected unique in 3000 =   962.8 (target 1896), max weight 0.1750, max ll 3.041, 2629 s
+IMIS 116: n = 126,000, ESS =    180.2, expected unique in 3000 =  1090.0 (target 1896), max weight 0.0506, max ll 3.041, 2650 s
+IMIS 117: n = 127,000, ESS =    134.9, expected unique in 3000 =  1076.7 (target 1896), max weight 0.0676, max ll 3.041, 2681 s
+IMIS 118: n = 128,000, ESS =    311.1, expected unique in 3000 =  1135.9 (target 1896), max weight 0.0187, max ll 3.041, 2721 s
+IMIS 119: n = 129,000, ESS =    219.8, expected unique in 3000 =  1119.7 (target 1896), max weight 0.0427, max ll 3.041, 2742 s
+IMIS 120: n = 130,000, ESS =    328.0, expected unique in 3000 =  1145.2 (target 1896), max weight 0.0137, max ll 3.041, 2765 s
+IMIS 121: n = 131,000, ESS =    308.3, expected unique in 3000 =  1140.8 (target 1896), max weight 0.0202, max ll 3.041, 2782 s
+IMIS 122: n = 132,000, ESS =    340.8, expected unique in 3000 =  1157.0 (target 1896), max weight 0.0132, max ll 3.041, 2817 s
+IMIS 123: n = 133,000, ESS =      1.3, expected unique in 3000 =   249.9 (target 1896), max weight 0.8856, max ll 3.041, 2837 s
+IMIS 124: n = 134,000, ESS =    362.8, expected unique in 3000 =  1175.0 (target 1896), max weight 0.0103, max ll 3.041, 2863 s
+IMIS 125: n = 135,000, ESS =    373.1, expected unique in 3000 =  1186.3 (target 1896), max weight 0.0103, max ll 3.041, 2899 s
+IMIS 126: n = 136,000, ESS =    378.7, expected unique in 3000 =  1187.1 (target 1896), max weight 0.0096, max ll 3.041, 2916 s
+IMIS 127: n = 137,000, ESS =    383.5, expected unique in 3000 =  1192.1 (target 1896), max weight 0.0097, max ll 3.041, 2932 s
+IMIS 128: n = 138,000, ESS =    139.4, expected unique in 3000 =  1124.1 (target 1896), max weight 0.0580, max ll 3.041, 2964 s
+IMIS 129: n = 139,000, ESS =    213.1, expected unique in 3000 =  1151.5 (target 1896), max weight 0.0440, max ll 3.041, 2992 s
+IMIS 130: n = 140,000, ESS =    315.7, expected unique in 3000 =  1175.8 (target 1896), max weight 0.0256, max ll 3.041, 3013 s
+IMIS 131: n = 141,000, ESS =     89.1, expected unique in 3000 =  1118.2 (target 1896), max weight 0.0952, max ll 3.041, 3046 s
+IMIS 132: n = 142,000, ESS =    377.6, expected unique in 3000 =  1197.9 (target 1896), max weight 0.0154, max ll 3.041, 3067 s
+IMIS 133: n = 143,000, ESS =    402.0, expected unique in 3000 =  1209.0 (target 1896), max weight 0.0093, max ll 3.041, 3088 s
+IMIS 134: n = 144,000, ESS =    338.9, expected unique in 3000 =  1173.4 (target 1896), max weight 0.0242, max ll 3.041, 3108 s
+IMIS 135: n = 145,000, ESS =    277.8, expected unique in 3000 =  1185.2 (target 1896), max weight 0.0368, max ll 3.041, 3134 s
+IMIS 136: n = 146,000, ESS =    361.4, expected unique in 3000 =  1189.2 (target 1896), max weight 0.0195, max ll 3.041, 3171 s
+IMIS 137: n = 147,000, ESS =    402.1, expected unique in 3000 =  1204.7 (target 1896), max weight 0.0126, max ll 3.041, 3190 s
+IMIS 138: n = 148,000, ESS =    417.4, expected unique in 3000 =  1215.9 (target 1896), max weight 0.0104, max ll 3.041, 3215 s
+IMIS 139: n = 149,000, ESS =    428.6, expected unique in 3000 =  1229.5 (target 1896), max weight 0.0089, max ll 3.041, 3233 s
+IMIS 140: n = 150,000, ESS =      5.4, expected unique in 3000 =   703.0 (target 1896), max weight 0.4113, max ll 3.041, 3248 s
+IMIS 141: n = 151,000, ESS =     21.8, expected unique in 3000 =  1013.5 (target 1896), max weight 0.2092, max ll 3.041, 3267 s
+IMIS 142: n = 152,000, ESS =    282.7, expected unique in 3000 =  1169.3 (target 1896), max weight 0.0346, max ll 3.041, 3295 s
+IMIS 143: n = 153,000, ESS =    407.9, expected unique in 3000 =  1203.9 (target 1896), max weight 0.0124, max ll 3.041, 3322 s
+IMIS 144: n = 154,000, ESS =    436.5, expected unique in 3000 =  1221.9 (target 1896), max weight 0.0085, max ll 3.041, 3357 s
+IMIS 145: n = 155,000, ESS =    433.3, expected unique in 3000 =  1216.8 (target 1896), max weight 0.0095, max ll 3.041, 3374 s
+IMIS 146: n = 156,000, ESS =    442.7, expected unique in 3000 =  1229.6 (target 1896), max weight 0.0084, max ll 3.041, 3395 s
+IMIS 147: n = 157,000, ESS =    107.1, expected unique in 3000 =  1130.8 (target 1896), max weight 0.0764, max ll 3.041, 3434 s
+IMIS 148: n = 158,000, ESS =    240.7, expected unique in 3000 =  1194.7 (target 1896), max weight 0.0464, max ll 3.041, 3451 s
+IMIS 149: n = 159,000, ESS =    457.4, expected unique in 3000 =  1236.4 (target 1896), max weight 0.0079, max ll 3.041, 3470 s
+IMIS 150: n = 160,000, ESS =    264.1, expected unique in 3000 =  1196.3 (target 1896), max weight 0.0326, max ll 3.041, 3504 s
+IMIS 151: n = 161,000, ESS =    341.3, expected unique in 3000 =  1227.0 (target 1896), max weight 0.0305, max ll 3.041, 3531 s
+IMIS 152: n = 162,000, ESS =      6.6, expected unique in 3000 =   895.5 (target 1896), max weight 0.3885, max ll 3.041, 3563 s
+IMIS 153: n = 163,000, ESS =    455.3, expected unique in 3000 =  1248.9 (target 1896), max weight 0.0096, max ll 3.041, 3586 s
+IMIS 154: n = 164,000, ESS =      6.8, expected unique in 3000 =   915.6 (target 1896), max weight 0.3836, max ll 3.041, 3610 s
+IMIS 155: n = 165,000, ESS =    480.8, expected unique in 3000 =  1274.0 (target 1896), max weight 0.0077, max ll 3.055, 3647 s
+IMIS 156: n = 166,000, ESS =    346.9, expected unique in 3000 =  1245.9 (target 1896), max weight 0.0295, max ll 3.055, 3685 s
+IMIS 157: n = 167,000, ESS =    463.6, expected unique in 3000 =  1275.3 (target 1896), max weight 0.0129, max ll 3.055, 3703 s
+IMIS 158: n = 168,000, ESS =    488.0, expected unique in 3000 =  1285.8 (target 1896), max weight 0.0076, max ll 3.055, 3733 s
+IMIS 159: n = 169,000, ESS =     27.8, expected unique in 3000 =  1076.7 (target 1896), max weight 0.1816, max ll 3.055, 3764 s
+IMIS 160: n = 170,000, ESS =    495.9, expected unique in 3000 =  1288.9 (target 1896), max weight 0.0075, max ll 3.055, 3796 s
+IMIS 161: n = 171,000, ESS =    489.4, expected unique in 3000 =  1289.6 (target 1896), max weight 0.0102, max ll 3.055, 3833 s
+IMIS 162: n = 172,000, ESS =    511.0, expected unique in 3000 =  1298.5 (target 1896), max weight 0.0072, max ll 3.055, 3872 s
+IMIS 163: n = 173,000, ESS =    467.9, expected unique in 3000 =  1292.0 (target 1896), max weight 0.0167, max ll 3.055, 3905 s
+IMIS 164: n = 174,000, ESS =    520.1, expected unique in 3000 =  1305.7 (target 1896), max weight 0.0085, max ll 3.055, 3939 s
+IMIS 165: n = 175,000, ESS =    527.5, expected unique in 3000 =  1320.6 (target 1896), max weight 0.0071, max ll 3.055, 3970 s
+IMIS 166: n = 176,000, ESS =     46.0, expected unique in 3000 =  1135.2 (target 1896), max weight 0.1362, max ll 3.055, 4000 s
+IMIS 167: n = 177,000, ESS =    234.4, expected unique in 3000 =  1253.4 (target 1896), max weight 0.0461, max ll 3.055, 4030 s
+IMIS 168: n = 178,000, ESS =    424.9, expected unique in 3000 =  1299.4 (target 1896), max weight 0.0200, max ll 3.055, 4054 s
+IMIS 169: n = 179,000, ESS =    452.6, expected unique in 3000 =  1299.5 (target 1896), max weight 0.0137, max ll 3.055, 4080 s
+IMIS 170: n = 180,000, ESS =    252.5, expected unique in 3000 =  1285.2 (target 1896), max weight 0.0460, max ll 3.055, 4111 s
+IMIS 171: n = 181,000, ESS =    505.5, expected unique in 3000 =  1333.5 (target 1896), max weight 0.0128, max ll 3.055, 4152 s
+IMIS 172: n = 182,000, ESS =    310.5, expected unique in 3000 =  1310.8 (target 1896), max weight 0.0390, max ll 3.055, 4184 s
+IMIS 173: n = 183,000, ESS =    542.4, expected unique in 3000 =  1348.0 (target 1896), max weight 0.0114, max ll 3.055, 4207 s
+IMIS 174: n = 184,000, ESS =    568.7, expected unique in 3000 =  1359.6 (target 1896), max weight 0.0068, max ll 3.055, 4236 s
+IMIS 175: n = 185,000, ESS =     23.9, expected unique in 3000 =  1163.4 (target 1896), max weight 0.2015, max ll 3.055, 4278 s
+IMIS 176: n = 186,000, ESS =    530.1, expected unique in 3000 =  1359.2 (target 1896), max weight 0.0151, max ll 3.055, 4312 s
+IMIS 177: n = 187,000, ESS =    582.1, expected unique in 3000 =  1373.1 (target 1896), max weight 0.0068, max ll 3.055, 4350 s
+IMIS 178: n = 188,000, ESS =    522.7, expected unique in 3000 =  1364.7 (target 1896), max weight 0.0166, max ll 3.055, 4381 s
+IMIS 179: n = 189,000, ESS =    592.5, expected unique in 3000 =  1379.2 (target 1896), max weight 0.0062, max ll 3.055, 4420 s
+IMIS 180: n = 190,000, ESS =    293.9, expected unique in 3000 =  1334.7 (target 1896), max weight 0.0428, max ll 3.055, 4442 s
+IMIS 181: n = 191,000, ESS =    583.0, expected unique in 3000 =  1375.0 (target 1896), max weight 0.0089, max ll 3.055, 4485 s
+IMIS 182: n = 192,000, ESS =    601.5, expected unique in 3000 =  1385.1 (target 1896), max weight 0.0061, max ll 3.055, 4519 s
+IMIS 183: n = 193,000, ESS =    267.1, expected unique in 3000 =  1345.0 (target 1896), max weight 0.0472, max ll 3.055, 4534 s
+IMIS 184: n = 194,000, ESS =    610.8, expected unique in 3000 =  1398.0 (target 1896), max weight 0.0061, max ll 3.055, 4551 s
+IMIS 185: n = 195,000, ESS =    598.3, expected unique in 3000 =  1397.0 (target 1896), max weight 0.0093, max ll 3.055, 4591 s
+IMIS 186: n = 196,000, ESS =    565.3, expected unique in 3000 =  1393.5 (target 1896), max weight 0.0141, max ll 3.055, 4616 s
+IMIS 187: n = 197,000, ESS =    621.5, expected unique in 3000 =  1402.7 (target 1896), max weight 0.0060, max ll 3.055, 4639 s
+IMIS 188: n = 198,000, ESS =    564.1, expected unique in 3000 =  1394.3 (target 1896), max weight 0.0153, max ll 3.055, 4664 s
+IMIS 189: n = 199,000, ESS =    248.3, expected unique in 3000 =  1360.4 (target 1896), max weight 0.0510, max ll 3.055, 4705 s
+IMIS 190: n = 200,000, ESS =    630.0, expected unique in 3000 =  1408.8 (target 1896), max weight 0.0060, max ll 3.055, 4743 s
+IMIS 191: n = 201,000, ESS =      1.3, expected unique in 3000 =   113.8 (target 1896), max weight 0.8617, max ll 3.055, 4759 s
+IMIS 192: n = 202,000, ESS =      6.1, expected unique in 3000 =   554.0 (target 1896), max weight 0.2997, max ll 3.055, 4792 s
+IMIS 193: n = 203,000, ESS =      6.7, expected unique in 3000 =   716.3 (target 1896), max weight 0.3673, max ll 3.055, 4812 s
+IMIS 194: n = 204,000, ESS =     27.0, expected unique in 3000 =  1000.1 (target 1896), max weight 0.1161, max ll 3.055, 4837 s
+IMIS 195: n = 205,000, ESS =     31.7, expected unique in 3000 =  1113.6 (target 1896), max weight 0.1265, max ll 3.055, 4871 s
+IMIS 196: n = 206,000, ESS =     50.1, expected unique in 3000 =  1208.0 (target 1896), max weight 0.1322, max ll 3.055, 4907 s
+IMIS 197: n = 207,000, ESS =    304.0, expected unique in 3000 =  1350.5 (target 1896), max weight 0.0264, max ll 3.055, 4938 s
+IMIS 198: n = 208,000, ESS =    288.8, expected unique in 3000 =  1340.0 (target 1896), max weight 0.0252, max ll 3.055, 4976 s
+IMIS 199: n = 209,000, ESS =     70.6, expected unique in 3000 =  1226.9 (target 1896), max weight 0.0998, max ll 3.055, 5015 s
+IMIS 200: n = 210,000, ESS =    193.5, expected unique in 3000 =  1318.6 (target 1896), max weight 0.0499, max ll 3.055, 5045 s
+IMIS 201: n = 211,000, ESS =    337.7, expected unique in 3000 =  1363.5 (target 1896), max weight 0.0250, max ll 3.055, 5078 s
+IMIS 202: n = 212,000, ESS =    406.9, expected unique in 3000 =  1387.0 (target 1896), max weight 0.0248, max ll 3.055, 5117 s
+IMIS 203: n = 213,000, ESS =    521.2, expected unique in 3000 =  1410.8 (target 1896), max weight 0.0215, max ll 3.055, 5140 s
+IMIS 204: n = 214,000, ESS =    616.0, expected unique in 3000 =  1419.4 (target 1896), max weight 0.0117, max ll 3.055, 5163 s
+IMIS 205: n = 215,000, ESS =    656.9, expected unique in 3000 =  1433.1 (target 1896), max weight 0.0056, max ll 3.055, 5201 s
+IMIS 206: n = 216,000, ESS =    665.7, expected unique in 3000 =  1445.8 (target 1896), max weight 0.0056, max ll 3.055, 5221 s
+IMIS 207: n = 217,000, ESS =    522.4, expected unique in 3000 =  1429.1 (target 1896), max weight 0.0223, max ll 3.055, 5251 s
+IMIS 208: n = 218,000, ESS =    662.6, expected unique in 3000 =  1444.7 (target 1896), max weight 0.0073, max ll 3.055, 5293 s
+IMIS 209: n = 219,000, ESS =    673.7, expected unique in 3000 =  1445.3 (target 1896), max weight 0.0056, max ll 3.055, 5319 s
+IMIS 210: n = 220,000, ESS =     39.6, expected unique in 3000 =  1291.1 (target 1896), max weight 0.1556, max ll 3.055, 5357 s
+IMIS 211: n = 221,000, ESS =      5.7, expected unique in 3000 =   991.7 (target 1896), max weight 0.4185, max ll 3.055, 5386 s
+IMIS 212: n = 222,000, ESS =    685.0, expected unique in 3000 =  1448.4 (target 1896), max weight 0.0054, max ll 3.055, 5410 s
+IMIS 213: n = 223,000, ESS =    606.3, expected unique in 3000 =  1444.2 (target 1896), max weight 0.0164, max ll 3.055, 5434 s
+IMIS 214: n = 224,000, ESS =    694.4, expected unique in 3000 =  1452.1 (target 1896), max weight 0.0063, max ll 3.055, 5462 s
+IMIS 215: n = 225,000, ESS =    686.5, expected unique in 3000 =  1449.7 (target 1896), max weight 0.0080, max ll 3.055, 5493 s
+IMIS 216: n = 226,000, ESS =    714.7, expected unique in 3000 =  1461.2 (target 1896), max weight 0.0052, max ll 3.055, 5518 s
+IMIS 217: n = 227,000, ESS =    181.0, expected unique in 3000 =  1384.4 (target 1896), max weight 0.0652, max ll 3.055, 5551 s
+IMIS 218: n = 228,000, ESS =    386.0, expected unique in 3000 =  1417.8 (target 1896), max weight 0.0352, max ll 3.055, 5589 s
+IMIS 219: n = 229,000, ESS =    688.3, expected unique in 3000 =  1452.4 (target 1896), max weight 0.0068, max ll 3.055, 5620 s
+IMIS 220: n = 230,000, ESS =    701.9, expected unique in 3000 =  1455.2 (target 1896), max weight 0.0066, max ll 3.055, 5644 s
+IMIS 221: n = 231,000, ESS =    727.6, expected unique in 3000 =  1466.7 (target 1896), max weight 0.0052, max ll 3.055, 5680 s
+IMIS 222: n = 232,000, ESS =    659.3, expected unique in 3000 =  1450.6 (target 1896), max weight 0.0119, max ll 3.055, 5709 s
+IMIS 223: n = 233,000, ESS =    706.5, expected unique in 3000 =  1463.1 (target 1896), max weight 0.0086, max ll 3.055, 5724 s
+IMIS 224: n = 234,000, ESS =    427.0, expected unique in 3000 =  1417.5 (target 1896), max weight 0.0268, max ll 3.055, 5759 s
+IMIS 225: n = 235,000, ESS =    585.8, expected unique in 3000 =  1446.2 (target 1896), max weight 0.0194, max ll 3.055, 5790 s
+IMIS 226: n = 236,000, ESS =    734.3, expected unique in 3000 =  1474.4 (target 1896), max weight 0.0051, max ll 3.055, 5818 s
+IMIS 227: n = 237,000, ESS =      8.1, expected unique in 3000 =  1087.2 (target 1896), max weight 0.3506, max ll 3.055, 5846 s
+IMIS 228: n = 238,000, ESS =    710.7, expected unique in 3000 =  1472.0 (target 1896), max weight 0.0090, max ll 3.055, 5874 s
+IMIS 229: n = 239,000, ESS =    740.7, expected unique in 3000 =  1479.9 (target 1896), max weight 0.0051, max ll 3.055, 5911 s
+IMIS 230: n = 240,000, ESS =    646.6, expected unique in 3000 =  1461.8 (target 1896), max weight 0.0146, max ll 3.055, 5949 s
+IMIS 231: n = 241,000, ESS =    728.7, expected unique in 3000 =  1476.4 (target 1896), max weight 0.0079, max ll 3.055, 5973 s
+IMIS 232: n = 242,000, ESS =    392.4, expected unique in 3000 =  1427.5 (target 1896), max weight 0.0268, max ll 3.055, 6007 s
+IMIS 233: n = 243,000, ESS =    515.9, expected unique in 3000 =  1455.0 (target 1896), max weight 0.0261, max ll 3.055, 6040 s
+IMIS 234: n = 244,000, ESS =    754.1, expected unique in 3000 =  1484.4 (target 1896), max weight 0.0049, max ll 3.055, 6072 s
+IMIS 235: n = 245,000, ESS =     59.4, expected unique in 3000 =  1356.0 (target 1896), max weight 0.1258, max ll 3.055, 6097 s
+IMIS 236: n = 246,000, ESS =    760.4, expected unique in 3000 =  1488.7 (target 1896), max weight 0.0049, max ll 3.055, 6119 s
+IMIS 237: n = 247,000, ESS =     16.5, expected unique in 3000 =  1209.9 (target 1896), max weight 0.2442, max ll 3.055, 6149 s
+IMIS 238: n = 248,000, ESS =    666.3, expected unique in 3000 =  1473.9 (target 1896), max weight 0.0121, max ll 3.055, 6191 s
+IMIS 239: n = 249,000, ESS =    699.8, expected unique in 3000 =  1477.2 (target 1896), max weight 0.0106, max ll 3.055, 6228 s
+IMIS 240: n = 250,000, ESS =    636.3, expected unique in 3000 =  1452.5 (target 1896), max weight 0.0127, max ll 3.055, 6255 s
+IMIS 241: n = 251,000, ESS =    710.8, expected unique in 3000 =  1471.0 (target 1896), max weight 0.0092, max ll 3.055, 6280 s
+IMIS 242: n = 252,000, ESS =    750.8, expected unique in 3000 =  1490.1 (target 1896), max weight 0.0083, max ll 3.055, 6309 s
+IMIS 243: n = 253,000, ESS =     36.3, expected unique in 3000 =  1309.0 (target 1896), max weight 0.1630, max ll 3.055, 6341 s
+IMIS 244: n = 254,000, ESS =    707.5, expected unique in 3000 =  1481.8 (target 1896), max weight 0.0096, max ll 3.055, 6374 s
+IMIS 245: n = 255,000, ESS =    779.9, expected unique in 3000 =  1499.6 (target 1896), max weight 0.0060, max ll 3.055, 6417 s
+IMIS 246: n = 256,000, ESS =    469.8, expected unique in 3000 =  1473.6 (target 1896), max weight 0.0309, max ll 3.055, 6440 s
+IMIS 247: n = 257,000, ESS =    789.3, expected unique in 3000 =  1502.1 (target 1896), max weight 0.0048, max ll 3.055, 6459 s
+IMIS 248: n = 258,000, ESS =    795.2, expected unique in 3000 =  1506.5 (target 1896), max weight 0.0047, max ll 3.055, 6473 s
+IMIS 249: n = 259,000, ESS =    718.0, expected unique in 3000 =  1497.7 (target 1896), max weight 0.0134, max ll 3.055, 6504 s
+IMIS 250: n = 260,000, ESS =    789.3, expected unique in 3000 =  1505.7 (target 1896), max weight 0.0060, max ll 3.055, 6542 s
+IMIS 251: n = 261,000, ESS =    802.8, expected unique in 3000 =  1510.7 (target 1896), max weight 0.0047, max ll 3.055, 6574 s
+IMIS 252: n = 262,000, ESS =    364.7, expected unique in 3000 =  1472.7 (target 1896), max weight 0.0401, max ll 3.055, 6613 s
+IMIS 253: n = 263,000, ESS =    812.5, expected unique in 3000 =  1516.1 (target 1896), max weight 0.0047, max ll 3.055, 6634 s
+IMIS 254: n = 264,000, ESS =    819.8, expected unique in 3000 =  1522.0 (target 1896), max weight 0.0047, max ll 3.055, 6656 s
+IMIS 255: n = 265,000, ESS =    285.5, expected unique in 3000 =  1456.5 (target 1896), max weight 0.0481, max ll 3.055, 6698 s
+IMIS 256: n = 266,000, ESS =    764.2, expected unique in 3000 =  1507.8 (target 1896), max weight 0.0105, max ll 3.055, 6741 s
+IMIS 257: n = 267,000, ESS =    824.5, expected unique in 3000 =  1524.6 (target 1896), max weight 0.0053, max ll 3.055, 6764 s
+IMIS 258: n = 268,000, ESS =    471.4, expected unique in 3000 =  1474.8 (target 1896), max weight 0.0244, max ll 3.055, 6799 s
+IMIS 259: n = 269,000, ESS =    622.8, expected unique in 3000 =  1499.9 (target 1896), max weight 0.0170, max ll 3.055, 6836 s
+IMIS 260: n = 270,000, ESS =    719.4, expected unique in 3000 =  1509.8 (target 1896), max weight 0.0142, max ll 3.055, 6872 s
+IMIS 261: n = 271,000, ESS =    819.2, expected unique in 3000 =  1525.2 (target 1896), max weight 0.0071, max ll 3.055, 6908 s
+IMIS 262: n = 272,000, ESS =    842.4, expected unique in 3000 =  1533.5 (target 1896), max weight 0.0047, max ll 3.095, 6938 s
+IMIS 263: n = 273,000, ESS =    806.5, expected unique in 3000 =  1527.0 (target 1896), max weight 0.0093, max ll 3.095, 6962 s
+IMIS 264: n = 274,000, ESS =    857.6, expected unique in 3000 =  1541.2 (target 1896), max weight 0.0044, max ll 3.095, 6989 s
+IMIS 265: n = 275,000, ESS =    207.7, expected unique in 3000 =  1457.7 (target 1896), max weight 0.0604, max ll 3.095, 7028 s
+IMIS 266: n = 276,000, ESS =    780.5, expected unique in 3000 =  1529.5 (target 1896), max weight 0.0098, max ll 3.095, 7047 s
+IMIS 267: n = 277,000, ESS =     64.7, expected unique in 3000 =  1371.7 (target 1896), max weight 0.1175, max ll 3.095, 7079 s
+IMIS 268: n = 278,000, ESS =    472.7, expected unique in 3000 =  1499.2 (target 1896), max weight 0.0312, max ll 3.095, 7118 s
+IMIS 269: n = 279,000, ESS =    822.7, expected unique in 3000 =  1539.9 (target 1896), max weight 0.0092, max ll 3.095, 7139 s
+IMIS 270: n = 280,000, ESS =    771.4, expected unique in 3000 =  1525.2 (target 1896), max weight 0.0109, max ll 3.095, 7163 s
+IMIS 271: n = 281,000, ESS =    836.7, expected unique in 3000 =  1537.0 (target 1896), max weight 0.0067, max ll 3.095, 7203 s
+IMIS 272: n = 282,000, ESS =    709.5, expected unique in 3000 =  1528.8 (target 1896), max weight 0.0170, max ll 3.095, 7237 s
+IMIS 273: n = 283,000, ESS =    873.0, expected unique in 3000 =  1551.0 (target 1896), max weight 0.0052, max ll 3.095, 7268 s
+IMIS 274: n = 284,000, ESS =    601.5, expected unique in 3000 =  1530.0 (target 1896), max weight 0.0244, max ll 3.095, 7296 s
+IMIS 275: n = 285,000, ESS =    890.9, expected unique in 3000 =  1554.9 (target 1896), max weight 0.0047, max ll 3.095, 7316 s
+IMIS 276: n = 286,000, ESS =    900.9, expected unique in 3000 =  1560.6 (target 1896), max weight 0.0045, max ll 3.095, 7336 s
+IMIS 277: n = 287,000, ESS =    400.4, expected unique in 3000 =  1515.9 (target 1896), max weight 0.0380, max ll 3.095, 7362 s
+IMIS 278: n = 288,000, ESS =    877.5, expected unique in 3000 =  1558.6 (target 1896), max weight 0.0079, max ll 3.095, 7396 s
+IMIS 279: n = 289,000, ESS =    755.4, expected unique in 3000 =  1551.7 (target 1896), max weight 0.0163, max ll 3.095, 7417 s
+IMIS 280: n = 290,000, ESS =    916.8, expected unique in 3000 =  1570.7 (target 1896), max weight 0.0043, max ll 3.095, 7434 s
+IMIS 281: n = 291,000, ESS =    485.2, expected unique in 3000 =  1519.2 (target 1896), max weight 0.0299, max ll 3.095, 7451 s
+IMIS 282: n = 292,000, ESS =    804.5, expected unique in 3000 =  1551.9 (target 1896), max weight 0.0116, max ll 3.095, 7476 s
+IMIS 283: n = 293,000, ESS =    881.0, expected unique in 3000 =  1564.9 (target 1896), max weight 0.0079, max ll 3.095, 7515 s
+IMIS 284: n = 294,000, ESS =    919.2, expected unique in 3000 =  1573.6 (target 1896), max weight 0.0059, max ll 3.095, 7538 s
+IMIS 285: n = 295,000, ESS =    939.8, expected unique in 3000 =  1581.4 (target 1896), max weight 0.0042, max ll 3.095, 7561 s
+IMIS 286: n = 296,000, ESS =    889.7, expected unique in 3000 =  1574.3 (target 1896), max weight 0.0076, max ll 3.095, 7586 s
+IMIS 287: n = 297,000, ESS =    674.2, expected unique in 3000 =  1556.5 (target 1896), max weight 0.0211, max ll 3.095, 7614 s
+IMIS 288: n = 298,000, ESS =    921.1, expected unique in 3000 =  1579.6 (target 1896), max weight 0.0067, max ll 3.095, 7646 s
+IMIS 289: n = 299,000, ESS =    949.3, expected unique in 3000 =  1585.7 (target 1896), max weight 0.0041, max ll 3.095, 7671 s
+IMIS 290: n = 300,000, ESS =    959.7, expected unique in 3000 =  1591.0 (target 1896), max weight 0.0041, max ll 3.095, 7705 s
+IMIS 291: n = 301,000, ESS =    950.7, expected unique in 3000 =  1586.9 (target 1896), max weight 0.0045, max ll 3.095, 7727 s
+IMIS 292: n = 302,000, ESS =    113.3, expected unique in 3000 =  1487.9 (target 1896), max weight 0.0892, max ll 3.095, 7751 s
+IMIS 293: n = 303,000, ESS =    962.2, expected unique in 3000 =  1588.2 (target 1896), max weight 0.0042, max ll 3.095, 7790 s
+IMIS 294: n = 304,000, ESS =    969.7, expected unique in 3000 =  1593.3 (target 1896), max weight 0.0041, max ll 3.095, 7806 s
+IMIS 295: n = 305,000, ESS =    984.5, expected unique in 3000 =  1601.6 (target 1896), max weight 0.0041, max ll 3.095, 7839 s
+IMIS 296: n = 306,000, ESS =   1000.9, expected unique in 3000 =  1606.7 (target 1896), max weight 0.0041, max ll 3.095, 7876 s
+IMIS 297: n = 307,000, ESS =   1012.2, expected unique in 3000 =  1612.1 (target 1896), max weight 0.0040, max ll 3.095, 7898 s
+IMIS 298: n = 308,000, ESS =   1020.6, expected unique in 3000 =  1615.7 (target 1896), max weight 0.0040, max ll 3.095, 7916 s
+IMIS 299: n = 309,000, ESS =   1011.4, expected unique in 3000 =  1614.7 (target 1896), max weight 0.0054, max ll 3.095, 7942 s
+IMIS 300: n = 310,000, ESS =   1034.1, expected unique in 3000 =  1621.3 (target 1896), max weight 0.0040, max ll 3.095, 7972 s
+IMIS mixture density, running against recomputed: largest relative difference 0.0e+00
+=== real done in 136.4 min ===
+=== real_seed2 (160 workers) ===
+IMIS   0: n =  10,000, ESS =      1.1, expected unique in 3000 =     4.4 (target 1896), max weight 0.9446, max ll -4.804, 0 s
+IMIS   1: n =  11,000, ESS =      1.2, expected unique in 3000 =     7.0 (target 1896), max weight 0.9068, max ll -4.804, 5 s
+IMIS   2: n =  12,000, ESS =      3.0, expected unique in 3000 =    14.1 (target 1896), max weight 0.4568, max ll -2.265, 10 s
+IMIS   3: n =  13,000, ESS =      1.8, expected unique in 3000 =    12.8 (target 1896), max weight 0.7102, max ll -2.265, 15 s
+IMIS   4: n =  14,000, ESS =      4.0, expected unique in 3000 =    23.3 (target 1896), max weight 0.3830, max ll -1.895, 30 s
+IMIS   5: n =  15,000, ESS =      2.7, expected unique in 3000 =    31.9 (target 1896), max weight 0.5738, max ll -1.169, 39 s
+IMIS   6: n =  16,000, ESS =      3.4, expected unique in 3000 =    48.6 (target 1896), max weight 0.4769, max ll 2.335, 51 s
+IMIS   7: n =  17,000, ESS =      6.3, expected unique in 3000 =    69.6 (target 1896), max weight 0.2497, max ll 2.335, 63 s
+IMIS   8: n =  18,000, ESS =      5.0, expected unique in 3000 =    89.3 (target 1896), max weight 0.3451, max ll 2.335, 75 s
+IMIS   9: n =  19,000, ESS =     16.9, expected unique in 3000 =   129.6 (target 1896), max weight 0.1669, max ll 2.335, 87 s
+IMIS  10: n =  20,000, ESS =     18.4, expected unique in 3000 =   154.0 (target 1896), max weight 0.1170, max ll 2.616, 100 s
+IMIS  11: n =  21,000, ESS =      7.1, expected unique in 3000 =   155.9 (target 1896), max weight 0.3476, max ll 2.616, 115 s
+IMIS  12: n =  22,000, ESS =      7.6, expected unique in 3000 =   150.2 (target 1896), max weight 0.2952, max ll 2.616, 135 s
+IMIS  13: n =  23,000, ESS =     13.0, expected unique in 3000 =   201.8 (target 1896), max weight 0.1756, max ll 2.616, 161 s
+IMIS  14: n =  24,000, ESS =     14.6, expected unique in 3000 =   239.6 (target 1896), max weight 0.1506, max ll 3.227, 178 s
+IMIS  15: n =  25,000, ESS =      4.5, expected unique in 3000 =   201.3 (target 1896), max weight 0.4503, max ll 3.227, 193 s
+IMIS  16: n =  26,000, ESS =     14.1, expected unique in 3000 =   272.7 (target 1896), max weight 0.1813, max ll 3.227, 219 s
+IMIS  17: n =  27,000, ESS =     16.4, expected unique in 3000 =   310.8 (target 1896), max weight 0.1912, max ll 3.227, 241 s
+IMIS  18: n =  28,000, ESS =     25.4, expected unique in 3000 =   353.3 (target 1896), max weight 0.1044, max ll 3.227, 261 s
+IMIS  19: n =  29,000, ESS =      1.4, expected unique in 3000 =   158.9 (target 1896), max weight 0.8365, max ll 3.227, 271 s
+IMIS  20: n =  30,000, ESS =     27.9, expected unique in 3000 =   397.0 (target 1896), max weight 0.1137, max ll 3.227, 294 s
+IMIS  21: n =  31,000, ESS =      8.1, expected unique in 3000 =   324.1 (target 1896), max weight 0.3196, max ll 3.227, 307 s
+IMIS  22: n =  32,000, ESS =     21.6, expected unique in 3000 =   410.3 (target 1896), max weight 0.1621, max ll 3.227, 323 s
+IMIS  23: n =  33,000, ESS =     12.1, expected unique in 3000 =   335.4 (target 1896), max weight 0.1954, max ll 3.227, 340 s
+IMIS  24: n =  34,000, ESS =     30.7, expected unique in 3000 =   447.5 (target 1896), max weight 0.1032, max ll 3.227, 356 s
+IMIS  25: n =  35,000, ESS =      7.4, expected unique in 3000 =   340.1 (target 1896), max weight 0.3211, max ll 3.227, 375 s
+IMIS  26: n =  36,000, ESS =     14.5, expected unique in 3000 =   419.2 (target 1896), max weight 0.2266, max ll 3.227, 403 s
+IMIS  27: n =  37,000, ESS =     34.6, expected unique in 3000 =   478.4 (target 1896), max weight 0.0933, max ll 3.227, 432 s
+IMIS  28: n =  38,000, ESS =     44.2, expected unique in 3000 =   494.7 (target 1896), max weight 0.0835, max ll 3.227, 449 s
+IMIS  29: n =  39,000, ESS =     41.5, expected unique in 3000 =   496.1 (target 1896), max weight 0.0932, max ll 3.227, 462 s
+IMIS  30: n =  40,000, ESS =     52.4, expected unique in 3000 =   531.8 (target 1896), max weight 0.0752, max ll 3.227, 489 s
+IMIS  31: n =  41,000, ESS =     12.5, expected unique in 3000 =   439.2 (target 1896), max weight 0.1959, max ll 3.227, 506 s
+IMIS  32: n =  42,000, ESS =     15.1, expected unique in 3000 =   492.1 (target 1896), max weight 0.2380, max ll 3.227, 523 s
+IMIS  33: n =  43,000, ESS =     58.9, expected unique in 3000 =   553.4 (target 1896), max weight 0.0600, max ll 3.227, 539 s
+IMIS  34: n =  44,000, ESS =     58.7, expected unique in 3000 =   553.0 (target 1896), max weight 0.0612, max ll 3.227, 562 s
+IMIS  35: n =  45,000, ESS =     52.4, expected unique in 3000 =   544.4 (target 1896), max weight 0.0638, max ll 3.389, 586 s
+IMIS  36: n =  46,000, ESS =     67.4, expected unique in 3000 =   582.4 (target 1896), max weight 0.0463, max ll 3.389, 610 s
+IMIS  37: n =  47,000, ESS =     71.2, expected unique in 3000 =   596.3 (target 1896), max weight 0.0464, max ll 3.389, 629 s
+IMIS  38: n =  48,000, ESS =     75.2, expected unique in 3000 =   610.7 (target 1896), max weight 0.0489, max ll 3.389, 644 s
+IMIS  39: n =  49,000, ESS =     19.0, expected unique in 3000 =   516.4 (target 1896), max weight 0.1948, max ll 3.389, 658 s
+IMIS  40: n =  50,000, ESS =     43.1, expected unique in 3000 =   591.7 (target 1896), max weight 0.1115, max ll 3.389, 690 s
+IMIS  41: n =  51,000, ESS =     13.9, expected unique in 3000 =   539.4 (target 1896), max weight 0.2530, max ll 3.389, 709 s
+IMIS  42: n =  52,000, ESS =     72.5, expected unique in 3000 =   629.5 (target 1896), max weight 0.0607, max ll 3.389, 734 s
+IMIS  43: n =  53,000, ESS =     90.8, expected unique in 3000 =   654.3 (target 1896), max weight 0.0346, max ll 3.389, 762 s
+IMIS  44: n =  54,000, ESS =      2.0, expected unique in 3000 =   271.2 (target 1896), max weight 0.6957, max ll 3.389, 779 s
+IMIS  45: n =  55,000, ESS =     18.1, expected unique in 3000 =   537.7 (target 1896), max weight 0.2102, max ll 3.389, 802 s
+IMIS  46: n =  56,000, ESS =     56.1, expected unique in 3000 =   606.6 (target 1896), max weight 0.0763, max ll 3.389, 827 s
+IMIS  47: n =  57,000, ESS =     68.9, expected unique in 3000 =   651.6 (target 1896), max weight 0.0731, max ll 3.389, 851 s
+IMIS  48: n =  58,000, ESS =      2.5, expected unique in 3000 =   336.7 (target 1896), max weight 0.6280, max ll 3.389, 876 s
+IMIS  49: n =  59,000, ESS =     26.8, expected unique in 3000 =   621.2 (target 1896), max weight 0.1739, max ll 3.389, 894 s
+IMIS  50: n =  60,000, ESS =     94.9, expected unique in 3000 =   689.1 (target 1896), max weight 0.0332, max ll 3.389, 914 s
+IMIS  51: n =  61,000, ESS =     99.3, expected unique in 3000 =   715.6 (target 1896), max weight 0.0321, max ll 3.389, 929 s
+IMIS  52: n =  62,000, ESS =    104.8, expected unique in 3000 =   743.1 (target 1896), max weight 0.0320, max ll 3.389, 958 s
+IMIS  53: n =  63,000, ESS =    112.6, expected unique in 3000 =   771.5 (target 1896), max weight 0.0336, max ll 3.389, 975 s
+IMIS  54: n =  64,000, ESS =     42.6, expected unique in 3000 =   696.9 (target 1896), max weight 0.1142, max ll 3.389, 997 s
+IMIS  55: n =  65,000, ESS =     73.4, expected unique in 3000 =   751.1 (target 1896), max weight 0.0834, max ll 3.389, 1015 s
+IMIS  56: n =  66,000, ESS =    123.5, expected unique in 3000 =   774.5 (target 1896), max weight 0.0311, max ll 3.389, 1047 s
+IMIS  57: n =  67,000, ESS =      3.7, expected unique in 3000 =   502.4 (target 1896), max weight 0.5206, max ll 3.389, 1062 s
+IMIS  58: n =  68,000, ESS =     97.4, expected unique in 3000 =   790.3 (target 1896), max weight 0.0630, max ll 3.389, 1080 s
+IMIS  59: n =  69,000, ESS =    139.8, expected unique in 3000 =   822.3 (target 1896), max weight 0.0301, max ll 3.389, 1110 s
+IMIS  60: n =  70,000, ESS =    151.2, expected unique in 3000 =   835.2 (target 1896), max weight 0.0257, max ll 3.389, 1124 s
+IMIS  61: n =  71,000, ESS =    161.7, expected unique in 3000 =   848.7 (target 1896), max weight 0.0249, max ll 3.389, 1144 s
+IMIS  62: n =  72,000, ESS =     13.2, expected unique in 3000 =   663.3 (target 1896), max weight 0.1972, max ll 3.389, 1170 s
+IMIS  63: n =  73,000, ESS =     20.3, expected unique in 3000 =   699.2 (target 1896), max weight 0.1973, max ll 3.389, 1202 s
+IMIS  64: n =  74,000, ESS =     73.5, expected unique in 3000 =   830.6 (target 1896), max weight 0.0935, max ll 3.389, 1222 s
+IMIS  65: n =  75,000, ESS =    169.8, expected unique in 3000 =   878.2 (target 1896), max weight 0.0233, max ll 3.389, 1244 s
+IMIS  66: n =  76,000, ESS =     11.0, expected unique in 3000 =   722.8 (target 1896), max weight 0.2972, max ll 3.389, 1258 s
+IMIS  67: n =  77,000, ESS =    180.1, expected unique in 3000 =   889.5 (target 1896), max weight 0.0252, max ll 3.389, 1283 s
+IMIS  68: n =  78,000, ESS =    172.8, expected unique in 3000 =   896.0 (target 1896), max weight 0.0322, max ll 3.389, 1309 s
+IMIS  69: n =  79,000, ESS =    194.8, expected unique in 3000 =   912.7 (target 1896), max weight 0.0220, max ll 3.389, 1321 s
+IMIS  70: n =  80,000, ESS =    201.3, expected unique in 3000 =   922.0 (target 1896), max weight 0.0214, max ll 3.389, 1337 s
+IMIS  71: n =  81,000, ESS =    139.1, expected unique in 3000 =   884.1 (target 1896), max weight 0.0476, max ll 3.389, 1359 s
+IMIS  72: n =  82,000, ESS =    191.9, expected unique in 3000 =   919.5 (target 1896), max weight 0.0280, max ll 3.389, 1374 s
+IMIS  73: n =  83,000, ESS =    216.1, expected unique in 3000 =   938.3 (target 1896), max weight 0.0213, max ll 3.389, 1399 s
+IMIS  74: n =  84,000, ESS =    230.0, expected unique in 3000 =   944.5 (target 1896), max weight 0.0194, max ll 3.389, 1422 s
+IMIS  75: n =  85,000, ESS =    216.1, expected unique in 3000 =   952.5 (target 1896), max weight 0.0262, max ll 3.389, 1441 s
+IMIS  76: n =  86,000, ESS =    241.2, expected unique in 3000 =   968.6 (target 1896), max weight 0.0191, max ll 3.389, 1454 s
+IMIS  77: n =  87,000, ESS =     39.5, expected unique in 3000 =   835.2 (target 1896), max weight 0.1385, max ll 3.389, 1466 s
+IMIS  78: n =  88,000, ESS =    119.8, expected unique in 3000 =   925.4 (target 1896), max weight 0.0600, max ll 3.389, 1489 s
+IMIS  79: n =  89,000, ESS =    254.3, expected unique in 3000 =  1001.9 (target 1896), max weight 0.0174, max ll 3.389, 1503 s
+IMIS  80: n =  90,000, ESS =     62.3, expected unique in 3000 =   873.0 (target 1896), max weight 0.1007, max ll 3.389, 1521 s
+IMIS  81: n =  91,000, ESS =    145.6, expected unique in 3000 =   954.3 (target 1896), max weight 0.0450, max ll 3.389, 1544 s
+IMIS  82: n =  92,000, ESS =    166.0, expected unique in 3000 =   959.6 (target 1896), max weight 0.0360, max ll 3.389, 1556 s
+IMIS  83: n =  93,000, ESS =    212.0, expected unique in 3000 =   995.4 (target 1896), max weight 0.0316, max ll 3.389, 1576 s
+IMIS  84: n =  94,000, ESS =    253.4, expected unique in 3000 =  1019.8 (target 1896), max weight 0.0216, max ll 3.389, 1601 s
+IMIS  85: n =  95,000, ESS =      7.1, expected unique in 3000 =   753.3 (target 1896), max weight 0.3720, max ll 3.389, 1625 s
+IMIS  86: n =  96,000, ESS =    215.3, expected unique in 3000 =   994.9 (target 1896), max weight 0.0279, max ll 3.389, 1652 s
+IMIS  87: n =  97,000, ESS =    230.2, expected unique in 3000 =  1018.0 (target 1896), max weight 0.0265, max ll 3.389, 1684 s
+IMIS  88: n =  98,000, ESS =    259.0, expected unique in 3000 =  1038.8 (target 1896), max weight 0.0227, max ll 3.389, 1700 s
+IMIS  89: n =  99,000, ESS =    264.9, expected unique in 3000 =  1040.4 (target 1896), max weight 0.0210, max ll 3.389, 1718 s
+IMIS  90: n = 100,000, ESS =    257.2, expected unique in 3000 =  1031.4 (target 1896), max weight 0.0233, max ll 3.389, 1743 s
+IMIS  91: n = 101,000, ESS =    228.5, expected unique in 3000 =  1031.3 (target 1896), max weight 0.0337, max ll 3.389, 1774 s
+IMIS  92: n = 102,000, ESS =    286.7, expected unique in 3000 =  1047.1 (target 1896), max weight 0.0146, max ll 3.389, 1806 s
+IMIS  93: n = 103,000, ESS =    146.0, expected unique in 3000 =  1014.4 (target 1896), max weight 0.0623, max ll 3.389, 1819 s
+IMIS  94: n = 104,000, ESS =    294.5, expected unique in 3000 =  1057.1 (target 1896), max weight 0.0140, max ll 3.389, 1844 s
+IMIS  95: n = 105,000, ESS =    242.7, expected unique in 3000 =  1033.4 (target 1896), max weight 0.0263, max ll 3.389, 1864 s
+IMIS  96: n = 106,000, ESS =     86.8, expected unique in 3000 =   962.8 (target 1896), max weight 0.0673, max ll 3.389, 1880 s
+IMIS  97: n = 107,000, ESS =    148.0, expected unique in 3000 =  1035.2 (target 1896), max weight 0.0601, max ll 3.389, 1908 s
+IMIS  98: n = 108,000, ESS =    280.8, expected unique in 3000 =  1074.3 (target 1896), max weight 0.0198, max ll 3.389, 1924 s
+IMIS  99: n = 109,000, ESS =     43.4, expected unique in 3000 =   928.0 (target 1896), max weight 0.1183, max ll 3.389, 1944 s
+IMIS 100: n = 110,000, ESS =     86.1, expected unique in 3000 =  1022.1 (target 1896), max weight 0.0942, max ll 3.389, 1959 s
+IMIS 101: n = 111,000, ESS =    310.6, expected unique in 3000 =  1094.4 (target 1896), max weight 0.0137, max ll 3.389, 1981 s
+IMIS 102: n = 112,000, ESS =    320.8, expected unique in 3000 =  1108.1 (target 1896), max weight 0.0127, max ll 3.389, 2001 s
+IMIS 103: n = 113,000, ESS =    232.4, expected unique in 3000 =  1082.9 (target 1896), max weight 0.0379, max ll 3.389, 2030 s
+IMIS 104: n = 114,000, ESS =    333.8, expected unique in 3000 =  1121.9 (target 1896), max weight 0.0119, max ll 3.389, 2046 s
+IMIS 105: n = 115,000, ESS =    340.8, expected unique in 3000 =  1128.0 (target 1896), max weight 0.0119, max ll 3.389, 2061 s
+IMIS 106: n = 116,000, ESS =     41.6, expected unique in 3000 =   948.9 (target 1896), max weight 0.1345, max ll 3.389, 2084 s
+IMIS 107: n = 117,000, ESS =    248.3, expected unique in 3000 =  1091.7 (target 1896), max weight 0.0321, max ll 3.389, 2110 s
+IMIS 108: n = 118,000, ESS =    319.5, expected unique in 3000 =  1122.1 (target 1896), max weight 0.0163, max ll 3.389, 2137 s
+IMIS 109: n = 119,000, ESS =    362.3, expected unique in 3000 =  1158.6 (target 1896), max weight 0.0116, max ll 3.389, 2151 s
+IMIS 110: n = 120,000, ESS =    363.3, expected unique in 3000 =  1157.3 (target 1896), max weight 0.0109, max ll 3.389, 2163 s
+IMIS 111: n = 121,000, ESS =    279.0, expected unique in 3000 =  1135.5 (target 1896), max weight 0.0300, max ll 3.389, 2185 s
+IMIS 112: n = 122,000, ESS =    349.8, expected unique in 3000 =  1162.8 (target 1896), max weight 0.0166, max ll 3.389, 2214 s
+IMIS 113: n = 123,000, ESS =    100.2, expected unique in 3000 =  1102.4 (target 1896), max weight 0.0877, max ll 3.389, 2242 s
+IMIS 114: n = 124,000, ESS =    363.4, expected unique in 3000 =  1168.0 (target 1896), max weight 0.0130, max ll 3.389, 2260 s
+IMIS 115: n = 125,000, ESS =    338.5, expected unique in 3000 =  1163.1 (target 1896), max weight 0.0202, max ll 3.389, 2280 s
+IMIS 116: n = 126,000, ESS =     64.7, expected unique in 3000 =  1054.8 (target 1896), max weight 0.1068, max ll 3.389, 2307 s
+IMIS 117: n = 127,000, ESS =    196.5, expected unique in 3000 =  1139.1 (target 1896), max weight 0.0520, max ll 3.389, 2336 s
+IMIS 118: n = 128,000, ESS =    375.8, expected unique in 3000 =  1177.3 (target 1896), max weight 0.0108, max ll 3.389, 2369 s
+IMIS 119: n = 129,000, ESS =    388.7, expected unique in 3000 =  1190.9 (target 1896), max weight 0.0109, max ll 3.389, 2398 s
+IMIS 120: n = 130,000, ESS =    403.1, expected unique in 3000 =  1194.5 (target 1896), max weight 0.0096, max ll 3.389, 2416 s
+IMIS 121: n = 131,000, ESS =    411.1, expected unique in 3000 =  1202.3 (target 1896), max weight 0.0094, max ll 3.389, 2443 s
+IMIS 122: n = 132,000, ESS =    421.3, expected unique in 3000 =  1213.0 (target 1896), max weight 0.0095, max ll 3.389, 2466 s
+IMIS 123: n = 133,000, ESS =    435.3, expected unique in 3000 =  1224.9 (target 1896), max weight 0.0094, max ll 3.389, 2489 s
+IMIS 124: n = 134,000, ESS =    435.4, expected unique in 3000 =  1223.3 (target 1896), max weight 0.0097, max ll 3.389, 2508 s
+IMIS 125: n = 135,000, ESS =    412.3, expected unique in 3000 =  1217.8 (target 1896), max weight 0.0154, max ll 3.389, 2534 s
+IMIS 126: n = 136,000, ESS =    444.1, expected unique in 3000 =  1229.8 (target 1896), max weight 0.0090, max ll 3.389, 2552 s
+IMIS 127: n = 137,000, ESS =    442.7, expected unique in 3000 =  1231.4 (target 1896), max weight 0.0108, max ll 3.389, 2574 s
+IMIS 128: n = 138,000, ESS =     27.2, expected unique in 3000 =  1076.3 (target 1896), max weight 0.1878, max ll 3.389, 2596 s
+IMIS 129: n = 139,000, ESS =    457.6, expected unique in 3000 =  1245.3 (target 1896), max weight 0.0090, max ll 3.389, 2622 s
+IMIS 130: n = 140,000, ESS =    229.7, expected unique in 3000 =  1209.9 (target 1896), max weight 0.0489, max ll 3.389, 2643 s
+IMIS 131: n = 141,000, ESS =    461.3, expected unique in 3000 =  1249.9 (target 1896), max weight 0.0088, max ll 3.389, 2678 s
+IMIS 132: n = 142,000, ESS =     13.0, expected unique in 3000 =   873.0 (target 1896), max weight 0.2363, max ll 3.389, 2705 s
+IMIS 133: n = 143,000, ESS =     26.8, expected unique in 3000 =  1047.5 (target 1896), max weight 0.1776, max ll 3.389, 2723 s
+IMIS 134: n = 144,000, ESS =    117.0, expected unique in 3000 =  1198.4 (target 1896), max weight 0.0821, max ll 3.389, 2743 s
+IMIS 135: n = 145,000, ESS =    316.5, expected unique in 3000 =  1237.4 (target 1896), max weight 0.0340, max ll 3.389, 2778 s
+IMIS 136: n = 146,000, ESS =    463.6, expected unique in 3000 =  1267.9 (target 1896), max weight 0.0099, max ll 3.389, 2813 s
+IMIS 137: n = 147,000, ESS =    482.9, expected unique in 3000 =  1277.5 (target 1896), max weight 0.0079, max ll 3.389, 2842 s
+IMIS 138: n = 148,000, ESS =    477.6, expected unique in 3000 =  1274.2 (target 1896), max weight 0.0086, max ll 3.389, 2868 s
+IMIS 139: n = 149,000, ESS =    411.0, expected unique in 3000 =  1262.9 (target 1896), max weight 0.0219, max ll 3.389, 2883 s
+IMIS 140: n = 150,000, ESS =    489.1, expected unique in 3000 =  1281.0 (target 1896), max weight 0.0077, max ll 3.389, 2905 s
+IMIS 141: n = 151,000, ESS =    220.4, expected unique in 3000 =  1183.5 (target 1896), max weight 0.0341, max ll 3.389, 2914 s
+IMIS 142: n = 152,000, ESS =    275.3, expected unique in 3000 =  1215.2 (target 1896), max weight 0.0316, max ll 3.389, 2929 s
+IMIS 143: n = 153,000, ESS =    372.4, expected unique in 3000 =  1250.4 (target 1896), max weight 0.0214, max ll 3.389, 2951 s
+IMIS 144: n = 154,000, ESS =    373.2, expected unique in 3000 =  1267.5 (target 1896), max weight 0.0282, max ll 3.389, 2962 s
+IMIS 145: n = 155,000, ESS =      9.8, expected unique in 3000 =  1004.6 (target 1896), max weight 0.3180, max ll 3.389, 2979 s
+IMIS 146: n = 156,000, ESS =    507.6, expected unique in 3000 =  1294.8 (target 1896), max weight 0.0075, max ll 3.389, 3011 s
+IMIS 147: n = 157,000, ESS =     34.4, expected unique in 3000 =  1086.3 (target 1896), max weight 0.1481, max ll 3.389, 3031 s
+IMIS 148: n = 158,000, ESS =    100.0, expected unique in 3000 =  1210.9 (target 1896), max weight 0.0915, max ll 3.389, 3047 s
+IMIS 149: n = 159,000, ESS =    507.0, expected unique in 3000 =  1287.6 (target 1896), max weight 0.0080, max ll 3.389, 3070 s
+IMIS 150: n = 160,000, ESS =    252.0, expected unique in 3000 =  1247.7 (target 1896), max weight 0.0462, max ll 3.389, 3093 s
+IMIS 151: n = 161,000, ESS =    493.2, expected unique in 3000 =  1286.1 (target 1896), max weight 0.0123, max ll 3.389, 3125 s
+IMIS 152: n = 162,000, ESS =     10.0, expected unique in 3000 =   998.3 (target 1896), max weight 0.3140, max ll 3.389, 3156 s
+IMIS 153: n = 163,000, ESS =    465.0, expected unique in 3000 =  1279.9 (target 1896), max weight 0.0171, max ll 3.389, 3187 s
+IMIS 154: n = 164,000, ESS =    519.4, expected unique in 3000 =  1294.1 (target 1896), max weight 0.0072, max ll 3.389, 3218 s
+IMIS 155: n = 165,000, ESS =    526.9, expected unique in 3000 =  1298.7 (target 1896), max weight 0.0071, max ll 3.408, 3238 s
+IMIS 156: n = 166,000, ESS =      5.6, expected unique in 3000 =   892.9 (target 1896), max weight 0.4214, max ll 3.408, 3254 s
+IMIS 157: n = 167,000, ESS =    461.3, expected unique in 3000 =  1290.5 (target 1896), max weight 0.0190, max ll 3.408, 3289 s
+IMIS 158: n = 168,000, ESS =    244.9, expected unique in 3000 =  1265.7 (target 1896), max weight 0.0489, max ll 3.408, 3321 s
+IMIS 159: n = 169,000, ESS =    532.3, expected unique in 3000 =  1306.1 (target 1896), max weight 0.0080, max ll 3.408, 3343 s
+IMIS 160: n = 170,000, ESS =    541.6, expected unique in 3000 =  1314.8 (target 1896), max weight 0.0070, max ll 3.408, 3369 s
+IMIS 161: n = 171,000, ESS =    531.9, expected unique in 3000 =  1316.3 (target 1896), max weight 0.0101, max ll 3.408, 3399 s
+IMIS 162: n = 172,000, ESS =    555.3, expected unique in 3000 =  1325.1 (target 1896), max weight 0.0070, max ll 3.408, 3422 s
+IMIS 163: n = 173,000, ESS =    561.7, expected unique in 3000 =  1329.8 (target 1896), max weight 0.0068, max ll 3.408, 3438 s
+IMIS 164: n = 174,000, ESS =    541.1, expected unique in 3000 =  1322.3 (target 1896), max weight 0.0093, max ll 3.408, 3474 s
+IMIS 165: n = 175,000, ESS =    530.9, expected unique in 3000 =  1321.5 (target 1896), max weight 0.0118, max ll 3.408, 3507 s
+IMIS 166: n = 176,000, ESS =    515.4, expected unique in 3000 =  1321.4 (target 1896), max weight 0.0145, max ll 3.408, 3547 s
+IMIS 167: n = 177,000, ESS =    558.7, expected unique in 3000 =  1333.4 (target 1896), max weight 0.0080, max ll 3.408, 3578 s
+IMIS 168: n = 178,000, ESS =    569.6, expected unique in 3000 =  1340.2 (target 1896), max weight 0.0065, max ll 3.408, 3604 s
+IMIS 169: n = 179,000, ESS =    576.7, expected unique in 3000 =  1345.6 (target 1896), max weight 0.0065, max ll 3.408, 3628 s
+IMIS 170: n = 180,000, ESS =     42.3, expected unique in 3000 =  1177.7 (target 1896), max weight 0.1441, max ll 3.408, 3652 s
+IMIS 171: n = 181,000, ESS =    255.5, expected unique in 3000 =  1306.8 (target 1896), max weight 0.0484, max ll 3.408, 3673 s
+IMIS 172: n = 182,000, ESS =    577.0, expected unique in 3000 =  1350.0 (target 1896), max weight 0.0070, max ll 3.408, 3704 s
+IMIS 173: n = 183,000, ESS =    246.8, expected unique in 3000 =  1313.1 (target 1896), max weight 0.0503, max ll 3.408, 3744 s
+IMIS 174: n = 184,000, ESS =    588.5, expected unique in 3000 =  1358.6 (target 1896), max weight 0.0064, max ll 3.408, 3766 s
+IMIS 175: n = 185,000, ESS =     37.7, expected unique in 3000 =  1187.9 (target 1896), max weight 0.1569, max ll 3.408, 3796 s
+IMIS 176: n = 186,000, ESS =    369.9, expected unique in 3000 =  1331.1 (target 1896), max weight 0.0334, max ll 3.408, 3818 s
+IMIS 177: n = 187,000, ESS =    602.3, expected unique in 3000 =  1366.8 (target 1896), max weight 0.0063, max ll 3.408, 3836 s
+IMIS 178: n = 188,000, ESS =    611.7, expected unique in 3000 =  1373.0 (target 1896), max weight 0.0060, max ll 3.408, 3868 s
+IMIS 179: n = 189,000, ESS =    480.8, expected unique in 3000 =  1345.1 (target 1896), max weight 0.0206, max ll 3.408, 3896 s
+IMIS 180: n = 190,000, ESS =    563.7, expected unique in 3000 =  1351.8 (target 1896), max weight 0.0113, max ll 3.408, 3934 s
+IMIS 181: n = 191,000, ESS =    591.7, expected unique in 3000 =  1365.5 (target 1896), max weight 0.0084, max ll 3.408, 3976 s
+IMIS 182: n = 192,000, ESS =    283.6, expected unique in 3000 =  1325.0 (target 1896), max weight 0.0429, max ll 3.408, 4006 s
+IMIS 183: n = 193,000, ESS =    541.3, expected unique in 3000 =  1362.8 (target 1896), max weight 0.0159, max ll 3.408, 4045 s
+IMIS 184: n = 194,000, ESS =    175.4, expected unique in 3000 =  1288.9 (target 1896), max weight 0.0495, max ll 3.408, 4085 s
+IMIS 185: n = 195,000, ESS =    276.3, expected unique in 3000 =  1335.5 (target 1896), max weight 0.0456, max ll 3.408, 4121 s
+IMIS 186: n = 196,000, ESS =    594.0, expected unique in 3000 =  1378.0 (target 1896), max weight 0.0096, max ll 3.408, 4152 s
+IMIS 187: n = 197,000, ESS =     65.2, expected unique in 3000 =  1273.3 (target 1896), max weight 0.1185, max ll 3.408, 4189 s
+IMIS 188: n = 198,000, ESS =    608.5, expected unique in 3000 =  1385.1 (target 1896), max weight 0.0080, max ll 3.408, 4206 s
+IMIS 189: n = 199,000, ESS =    619.4, expected unique in 3000 =  1390.2 (target 1896), max weight 0.0075, max ll 3.408, 4244 s
+IMIS 190: n = 200,000, ESS =    632.1, expected unique in 3000 =  1396.3 (target 1896), max weight 0.0064, max ll 3.408, 4270 s
+IMIS 191: n = 201,000, ESS =    648.6, expected unique in 3000 =  1400.3 (target 1896), max weight 0.0058, max ll 3.408, 4287 s
+IMIS 192: n = 202,000, ESS =    652.4, expected unique in 3000 =  1401.5 (target 1896), max weight 0.0057, max ll 3.408, 4304 s
+IMIS 193: n = 203,000, ESS =    104.6, expected unique in 3000 =  1298.4 (target 1896), max weight 0.0889, max ll 3.408, 4334 s
+IMIS 194: n = 204,000, ESS =    495.8, expected unique in 3000 =  1384.1 (target 1896), max weight 0.0230, max ll 3.408, 4353 s
+IMIS 195: n = 205,000, ESS =    637.2, expected unique in 3000 =  1401.9 (target 1896), max weight 0.0092, max ll 3.408, 4388 s
+IMIS 196: n = 206,000, ESS =     20.6, expected unique in 3000 =  1192.4 (target 1896), max weight 0.2181, max ll 3.408, 4411 s
+IMIS 197: n = 207,000, ESS =    563.1, expected unique in 3000 =  1385.8 (target 1896), max weight 0.0133, max ll 3.408, 4431 s
+IMIS 198: n = 208,000, ESS =    136.2, expected unique in 3000 =  1315.8 (target 1896), max weight 0.0766, max ll 3.408, 4460 s
+IMIS 199: n = 209,000, ESS =    579.8, expected unique in 3000 =  1388.8 (target 1896), max weight 0.0117, max ll 3.408, 4491 s
+IMIS 200: n = 210,000, ESS =    617.2, expected unique in 3000 =  1400.5 (target 1896), max weight 0.0110, max ll 3.408, 4518 s
+IMIS 201: n = 211,000, ESS =    654.7, expected unique in 3000 =  1408.9 (target 1896), max weight 0.0071, max ll 3.408, 4549 s
+IMIS 202: n = 212,000, ESS =    463.4, expected unique in 3000 =  1394.7 (target 1896), max weight 0.0274, max ll 3.408, 4578 s
+IMIS 203: n = 213,000, ESS =    670.0, expected unique in 3000 =  1421.6 (target 1896), max weight 0.0055, max ll 3.408, 4598 s
+IMIS 204: n = 214,000, ESS =    677.1, expected unique in 3000 =  1425.9 (target 1896), max weight 0.0055, max ll 3.408, 4613 s
+IMIS 205: n = 215,000, ESS =    388.6, expected unique in 3000 =  1376.0 (target 1896), max weight 0.0237, max ll 3.408, 4645 s
+IMIS 206: n = 216,000, ESS =    473.0, expected unique in 3000 =  1401.6 (target 1896), max weight 0.0236, max ll 3.408, 4667 s
+IMIS 207: n = 217,000, ESS =    611.7, expected unique in 3000 =  1424.0 (target 1896), max weight 0.0147, max ll 3.408, 4693 s
+IMIS 208: n = 218,000, ESS =    684.9, expected unique in 3000 =  1438.5 (target 1896), max weight 0.0056, max ll 3.408, 4713 s
+IMIS 209: n = 219,000, ESS =     30.4, expected unique in 3000 =  1264.8 (target 1896), max weight 0.1786, max ll 3.408, 4738 s
+IMIS 210: n = 220,000, ESS =    694.6, expected unique in 3000 =  1445.6 (target 1896), max weight 0.0056, max ll 3.408, 4759 s
+IMIS 211: n = 221,000, ESS =      1.7, expected unique in 3000 =   368.3 (target 1896), max weight 0.7613, max ll 3.408, 4792 s
+IMIS 212: n = 222,000, ESS =      8.6, expected unique in 3000 =  1085.5 (target 1896), max weight 0.3402, max ll 3.408, 4810 s
+IMIS 213: n = 223,000, ESS =    698.5, expected unique in 3000 =  1444.9 (target 1896), max weight 0.0055, max ll 3.408, 4827 s
+IMIS 214: n = 224,000, ESS =    707.7, expected unique in 3000 =  1455.5 (target 1896), max weight 0.0055, max ll 3.408, 4857 s
+IMIS 215: n = 225,000, ESS =    722.9, expected unique in 3000 =  1469.5 (target 1896), max weight 0.0055, max ll 3.408, 4869 s
+IMIS 216: n = 226,000, ESS =    736.4, expected unique in 3000 =  1480.0 (target 1896), max weight 0.0056, max ll 3.408, 4888 s
+IMIS 217: n = 227,000, ESS =    303.5, expected unique in 3000 =  1392.8 (target 1896), max weight 0.0374, max ll 3.408, 4903 s
+IMIS 218: n = 228,000, ESS =    711.2, expected unique in 3000 =  1464.5 (target 1896), max weight 0.0065, max ll 3.408, 4931 s
+IMIS 219: n = 229,000, ESS =    574.1, expected unique in 3000 =  1455.9 (target 1896), max weight 0.0206, max ll 3.408, 4950 s
+IMIS 220: n = 230,000, ESS =    725.8, expected unique in 3000 =  1474.1 (target 1896), max weight 0.0063, max ll 3.408, 4973 s
+IMIS 221: n = 231,000, ESS =     76.5, expected unique in 3000 =  1331.7 (target 1896), max weight 0.1080, max ll 3.408, 5000 s
+IMIS 222: n = 232,000, ESS =    564.1, expected unique in 3000 =  1443.4 (target 1896), max weight 0.0175, max ll 3.408, 5022 s
+IMIS 223: n = 233,000, ESS =    656.5, expected unique in 3000 =  1463.9 (target 1896), max weight 0.0119, max ll 3.408, 5053 s
+IMIS 224: n = 234,000, ESS =      1.1, expected unique in 3000 =    96.0 (target 1896), max weight 0.9640, max ll 3.408, 5073 s
+IMIS 225: n = 235,000, ESS =    157.0, expected unique in 3000 =  1406.7 (target 1896), max weight 0.0718, max ll 3.408, 5094 s
+IMIS 226: n = 236,000, ESS =    713.6, expected unique in 3000 =  1480.7 (target 1896), max weight 0.0090, max ll 3.408, 5118 s
+IMIS 227: n = 237,000, ESS =    444.6, expected unique in 3000 =  1448.5 (target 1896), max weight 0.0300, max ll 3.408, 5141 s
+IMIS 228: n = 238,000, ESS =    694.7, expected unique in 3000 =  1478.9 (target 1896), max weight 0.0109, max ll 3.408, 5162 s
+IMIS 229: n = 239,000, ESS =    657.6, expected unique in 3000 =  1481.4 (target 1896), max weight 0.0148, max ll 3.408, 5185 s
+IMIS 230: n = 240,000, ESS =    635.7, expected unique in 3000 =  1477.6 (target 1896), max weight 0.0167, max ll 3.408, 5213 s
+IMIS 231: n = 241,000, ESS =    747.3, expected unique in 3000 =  1495.8 (target 1896), max weight 0.0063, max ll 3.408, 5238 s
+IMIS 232: n = 242,000, ESS =    763.0, expected unique in 3000 =  1501.7 (target 1896), max weight 0.0055, max ll 3.408, 5261 s
+IMIS 233: n = 243,000, ESS =    744.2, expected unique in 3000 =  1499.1 (target 1896), max weight 0.0086, max ll 3.408, 5282 s
+IMIS 234: n = 244,000, ESS =    774.6, expected unique in 3000 =  1509.6 (target 1896), max weight 0.0054, max ll 3.408, 5294 s
+IMIS 235: n = 245,000, ESS =      4.7, expected unique in 3000 =   706.8 (target 1896), max weight 0.3476, max ll 3.408, 5312 s
+IMIS 236: n = 246,000, ESS =      4.6, expected unique in 3000 =   968.7 (target 1896), max weight 0.4666, max ll 3.408, 5333 s
+IMIS 237: n = 247,000, ESS =    762.1, expected unique in 3000 =  1509.2 (target 1896), max weight 0.0059, max ll 3.408, 5349 s
+IMIS 238: n = 248,000, ESS =    775.7, expected unique in 3000 =  1515.7 (target 1896), max weight 0.0055, max ll 3.408, 5368 s
+IMIS 239: n = 249,000, ESS =    788.1, expected unique in 3000 =  1522.4 (target 1896), max weight 0.0055, max ll 3.408, 5386 s
+IMIS 240: n = 250,000, ESS =     10.6, expected unique in 3000 =  1160.0 (target 1896), max weight 0.3058, max ll 3.408, 5410 s
+IMIS 241: n = 251,000, ESS =    676.1, expected unique in 3000 =  1497.1 (target 1896), max weight 0.0123, max ll 3.408, 5429 s
+IMIS 242: n = 252,000, ESS =    730.1, expected unique in 3000 =  1506.3 (target 1896), max weight 0.0115, max ll 3.408, 5455 s
+IMIS 243: n = 253,000, ESS =    780.2, expected unique in 3000 =  1515.9 (target 1896), max weight 0.0053, max ll 3.408, 5480 s
+IMIS 244: n = 254,000, ESS =    794.0, expected unique in 3000 =  1522.1 (target 1896), max weight 0.0053, max ll 3.408, 5494 s
+IMIS 245: n = 255,000, ESS =    801.8, expected unique in 3000 =  1528.2 (target 1896), max weight 0.0053, max ll 3.408, 5510 s
+IMIS 246: n = 256,000, ESS =    811.2, expected unique in 3000 =  1530.8 (target 1896), max weight 0.0052, max ll 3.408, 5536 s
+IMIS 247: n = 257,000, ESS =      1.4, expected unique in 3000 =   389.1 (target 1896), max weight 0.8352, max ll 3.408, 5561 s
+IMIS 248: n = 258,000, ESS =    685.4, expected unique in 3000 =  1511.2 (target 1896), max weight 0.0146, max ll 3.408, 5588 s
+IMIS 249: n = 259,000, ESS =    234.5, expected unique in 3000 =  1469.0 (target 1896), max weight 0.0559, max ll 3.408, 5619 s
+IMIS 250: n = 260,000, ESS =    781.7, expected unique in 3000 =  1530.9 (target 1896), max weight 0.0095, max ll 3.408, 5640 s
+IMIS 251: n = 261,000, ESS =    720.2, expected unique in 3000 =  1527.4 (target 1896), max weight 0.0150, max ll 3.408, 5667 s
+IMIS 252: n = 262,000, ESS =    833.7, expected unique in 3000 =  1543.5 (target 1896), max weight 0.0049, max ll 3.408, 5684 s
+IMIS 253: n = 263,000, ESS =    827.2, expected unique in 3000 =  1545.4 (target 1896), max weight 0.0062, max ll 3.408, 5711 s
+IMIS 254: n = 264,000, ESS =    846.1, expected unique in 3000 =  1554.9 (target 1896), max weight 0.0048, max ll 3.408, 5741 s
+IMIS 255: n = 265,000, ESS =    856.8, expected unique in 3000 =  1560.4 (target 1896), max weight 0.0048, max ll 3.408, 5768 s
+IMIS 256: n = 266,000, ESS =      7.1, expected unique in 3000 =   982.3 (target 1896), max weight 0.3681, max ll 3.408, 5786 s
+IMIS 257: n = 267,000, ESS =     90.2, expected unique in 3000 =  1364.7 (target 1896), max weight 0.0890, max ll 3.408, 5816 s
+IMIS 258: n = 268,000, ESS =    302.3, expected unique in 3000 =  1482.0 (target 1896), max weight 0.0392, max ll 3.408, 5845 s
+IMIS 259: n = 269,000, ESS =    517.6, expected unique in 3000 =  1524.3 (target 1896), max weight 0.0286, max ll 3.408, 5870 s
+IMIS 260: n = 270,000, ESS =    838.8, expected unique in 3000 =  1551.3 (target 1896), max weight 0.0051, max ll 3.408, 5898 s
+IMIS 261: n = 271,000, ESS =    842.6, expected unique in 3000 =  1551.8 (target 1896), max weight 0.0047, max ll 3.408, 5926 s
+IMIS 262: n = 272,000, ESS =    852.0, expected unique in 3000 =  1558.4 (target 1896), max weight 0.0047, max ll 3.408, 5944 s
+IMIS 263: n = 273,000, ESS =    858.3, expected unique in 3000 =  1560.9 (target 1896), max weight 0.0046, max ll 3.408, 5974 s
+IMIS 264: n = 274,000, ESS =    866.3, expected unique in 3000 =  1564.9 (target 1896), max weight 0.0046, max ll 3.408, 5998 s
+IMIS 265: n = 275,000, ESS =    882.0, expected unique in 3000 =  1573.7 (target 1896), max weight 0.0046, max ll 3.408, 6020 s
+IMIS 266: n = 276,000, ESS =    891.6, expected unique in 3000 =  1577.6 (target 1896), max weight 0.0045, max ll 3.408, 6038 s
+IMIS 267: n = 277,000, ESS =    901.6, expected unique in 3000 =  1583.3 (target 1896), max weight 0.0045, max ll 3.408, 6061 s
+IMIS 268: n = 278,000, ESS =    890.9, expected unique in 3000 =  1577.3 (target 1896), max weight 0.0065, max ll 3.408, 6088 s
+IMIS 269: n = 279,000, ESS =    750.0, expected unique in 3000 =  1565.4 (target 1896), max weight 0.0164, max ll 3.408, 6120 s
+IMIS 270: n = 280,000, ESS =    907.8, expected unique in 3000 =  1583.5 (target 1896), max weight 0.0045, max ll 3.408, 6149 s
+IMIS 271: n = 281,000, ESS =     15.5, expected unique in 3000 =  1289.0 (target 1896), max weight 0.2526, max ll 3.408, 6170 s
+IMIS 272: n = 282,000, ESS =    900.2, expected unique in 3000 =  1581.6 (target 1896), max weight 0.0066, max ll 3.408, 6196 s
+IMIS 273: n = 283,000, ESS =    922.6, expected unique in 3000 =  1584.1 (target 1896), max weight 0.0043, max ll 3.408, 6217 s
+IMIS 274: n = 284,000, ESS =     41.7, expected unique in 3000 =  1414.1 (target 1896), max weight 0.1524, max ll 3.408, 6238 s
+IMIS 275: n = 285,000, ESS =    829.5, expected unique in 3000 =  1577.1 (target 1896), max weight 0.0126, max ll 3.408, 6256 s
+IMIS 276: n = 286,000, ESS =    930.4, expected unique in 3000 =  1589.8 (target 1896), max weight 0.0043, max ll 3.408, 6274 s
+IMIS 277: n = 287,000, ESS =    904.3, expected unique in 3000 =  1590.0 (target 1896), max weight 0.0080, max ll 3.408, 6292 s
+IMIS 278: n = 288,000, ESS =    944.0, expected unique in 3000 =  1599.3 (target 1896), max weight 0.0043, max ll 3.408, 6326 s
+IMIS 279: n = 289,000, ESS =     87.8, expected unique in 3000 =  1479.1 (target 1896), max weight 0.1026, max ll 3.408, 6354 s
+IMIS 280: n = 290,000, ESS =    957.3, expected unique in 3000 =  1604.8 (target 1896), max weight 0.0042, max ll 3.408, 6383 s
+IMIS 281: n = 291,000, ESS =     34.9, expected unique in 3000 =  1362.0 (target 1896), max weight 0.1578, max ll 3.408, 6416 s
+IMIS 282: n = 292,000, ESS =    968.4, expected unique in 3000 =  1611.8 (target 1896), max weight 0.0043, max ll 3.408, 6441 s
+IMIS 283: n = 293,000, ESS =     81.7, expected unique in 3000 =  1384.2 (target 1896), max weight 0.0865, max ll 3.408, 6455 s
+IMIS 284: n = 294,000, ESS =    173.6, expected unique in 3000 =  1479.4 (target 1896), max weight 0.0466, max ll 3.408, 6486 s
+IMIS 285: n = 295,000, ESS =    251.9, expected unique in 3000 =  1530.8 (target 1896), max weight 0.0461, max ll 3.408, 6500 s
+IMIS 286: n = 296,000, ESS =    493.8, expected unique in 3000 =  1586.5 (target 1896), max weight 0.0327, max ll 3.408, 6518 s
+IMIS 287: n = 297,000, ESS =    979.2, expected unique in 3000 =  1622.2 (target 1896), max weight 0.0043, max ll 3.408, 6532 s
+IMIS 288: n = 298,000, ESS =    989.1, expected unique in 3000 =  1627.8 (target 1896), max weight 0.0042, max ll 3.408, 6562 s
+IMIS 289: n = 299,000, ESS =    987.6, expected unique in 3000 =  1625.8 (target 1896), max weight 0.0044, max ll 3.408, 6587 s
+IMIS 290: n = 300,000, ESS =    999.8, expected unique in 3000 =  1631.0 (target 1896), max weight 0.0042, max ll 3.408, 6608 s
+IMIS 291: n = 301,000, ESS =   1009.0, expected unique in 3000 =  1635.7 (target 1896), max weight 0.0042, max ll 3.408, 6637 s
+IMIS 292: n = 302,000, ESS =   1011.8, expected unique in 3000 =  1636.1 (target 1896), max weight 0.0042, max ll 3.408, 6661 s
+IMIS 293: n = 303,000, ESS =    958.1, expected unique in 3000 =  1626.9 (target 1896), max weight 0.0092, max ll 3.408, 6694 s
+IMIS 294: n = 304,000, ESS =   1027.3, expected unique in 3000 =  1636.6 (target 1896), max weight 0.0041, max ll 3.408, 6715 s
+IMIS 295: n = 305,000, ESS =    127.5, expected unique in 3000 =  1459.3 (target 1896), max weight 0.0556, max ll 3.408, 6745 s
+IMIS 296: n = 306,000, ESS =    186.6, expected unique in 3000 =  1522.7 (target 1896), max weight 0.0515, max ll 3.408, 6764 s
+IMIS 297: n = 307,000, ESS =    331.5, expected unique in 3000 =  1582.7 (target 1896), max weight 0.0454, max ll 3.408, 6794 s
+IMIS 298: n = 308,000, ESS =   1042.5, expected unique in 3000 =  1647.1 (target 1896), max weight 0.0041, max ll 3.408, 6809 s
+IMIS 299: n = 309,000, ESS =     64.4, expected unique in 3000 =  1506.4 (target 1896), max weight 0.1216, max ll 3.408, 6833 s
+IMIS 300: n = 310,000, ESS =   1041.6, expected unique in 3000 =  1644.8 (target 1896), max weight 0.0040, max ll 3.408, 6863 s
+IMIS mixture density, running against recomputed: largest relative difference 0.0e+00
+=== real_seed2 done in 117.9 min ===
+=== summary (160 workers) ===
+reid: 310,000 model runs, 300 IMIS components, 300 iterations, ESS 1097, expected unique 1655 of 3000 (stop at 1896), 1.32 h on 160 workers; errors 0; mixture check 0.0e+00
+Log-likelihood at the truth 4.048; best point found 3.912; truth inside its 95% interval for 15 of 21 parameters
+        parameter  prior_lo  prior_hi    mean    q025     q25     q50     q75    q975  ci_width_share_of_prior   truth  truth_in_95  truth_position_in_prior  max_ll_far  max_ll_far_minus_truth
+             beta      2.00    100.00 22.7610 14.1458 19.6546 22.3319 25.6524 32.9212                   0.1916 22.1000         True                   0.2051      3.9122                 -0.1362
+      trans_asymp      0.50      1.00  0.7604  0.5724  0.7024  0.7586  0.8202  0.9340                   0.7234  0.7488         True                   0.4976      3.9122                 -0.1362
+               pi      0.20      1.00  0.2934  0.2082  0.2499  0.2848  0.3273  0.4263                   0.2726  0.3518         True                   0.1897      3.9122                 -0.1362
+          inf_cle      0.50      1.50  0.7586  0.5340  0.6627  0.7360  0.8394  1.0884                   0.5545  0.6638         True                   0.1638      3.8704                 -0.1780
+          inf_non      0.04      0.45  0.1559  0.0539  0.1118  0.1513  0.1913  0.3016                   0.6040  0.3153        False                   0.6715      3.9122                 -0.1362
+          inf_asy      0.01      0.60  0.2131  0.1293  0.1766  0.2056  0.2410  0.3437                   0.3635  0.3735        False                   0.6161      3.9122                 -0.1362
+         k_latent      0.10     12.00  3.6850  1.6365  2.8294  3.5597  4.3089  6.6115                   0.4181  7.5170        False                   0.6233      3.9122                 -0.1362
+              phi      0.00      0.10  0.0421  0.0120  0.0299  0.0405  0.0524  0.0802                   0.6813  0.0119        False                   0.1194      3.8704                 -0.1780
+          non_rec      0.14      0.23  0.1782  0.1446  0.1624  0.1764  0.1926  0.2215                   0.8544  0.2207         True                   0.8967      3.9122                 -0.1362
+          non_asy      0.21      0.28  0.2301  0.2123  0.2214  0.2281  0.2363  0.2592                   0.6695  0.2776        False                   0.9657      3.9122                 -0.1362
+          asy_non      0.70      2.03  1.5536  1.1655  1.4249  1.5583  1.6821  1.9310                   0.5755  1.6120         True                   0.6857      3.8704                 -0.1780
+          asy_sym      0.56      0.99  0.7635  0.6331  0.7211  0.7645  0.8027  0.8855                   0.5871  0.7560         True                   0.4558      3.9122                 -0.1362
+          sym_asy      0.46      0.85  0.6523  0.5175  0.6012  0.6546  0.6992  0.7943                   0.7098  0.7593         True                   0.7674      3.8427                 -0.2057
+    sym_dead_1995      0.20      0.50  0.3804  0.2704  0.3497  0.3846  0.4146  0.4688                   0.6612  0.3959         True                   0.6530      3.9122                 -0.1362
+    sym_dead_frac      0.00      1.00  0.6613  0.4559  0.6103  0.6715  0.7227  0.8254                   0.3695  0.7322         True                   0.7322      3.8520                 -0.1964
+     tx_covg_2024      0.50      0.95  0.6792  0.5907  0.6495  0.6788  0.7092  0.7648                   0.3868  0.6772         True                   0.3938      3.9122                 -0.1362
+tx_covg_2010_frac      0.00      1.00  0.8058  0.6191  0.7480  0.8096  0.8700  0.9707                   0.3515  0.8090         True                   0.8090      3.9122                 -0.1362
+    efficacy_1995      0.30      0.95  0.4875  0.3269  0.4116  0.4727  0.5417  0.7563                   0.6607  0.4525         True                   0.2347      3.9122                 -0.1362
+    efficacy_frac      0.00      1.00  0.3820  0.1257  0.2952  0.3749  0.4633  0.6752                   0.5494  0.1557         True                   0.1557      3.8564                 -0.1920
+        p_relapse      0.02      0.10  0.0581  0.0279  0.0471  0.0580  0.0695  0.0889                   0.7627  0.0339         True                   0.1744      3.9122                 -0.1362
+   over_detection      0.00      0.20  0.0898  0.0213  0.0638  0.0883  0.1131  0.1708                   0.7475  0.1831        False                   0.9155      3.8609                 -0.1875
+                           target  target_mean  target_lo  target_hi  post_q025  post_q50  post_q975
+                       prevalence      0.00222    0.00169    0.00286    0.00159   0.00218    0.00293
+                prop_asymptomatic      0.65426    0.58433    0.71948    0.60116   0.65024    0.70058
+                      prev_to_inc      1.37627    1.05507    1.79527    1.15276   1.36716    1.68325
+                      mort_to_inc      0.08684    0.06769    0.11141    0.07076   0.09048    0.11323
+                    prev_to_notif      2.26495    1.77383    2.89205    1.96566   2.40450    2.92788
+                        inc_ratio      0.74968    0.60204    0.93353    0.62195   0.71315    0.79951
+                       mort_ratio      0.48566    0.38357    0.61492    0.39468   0.46495    0.52806
+                  prev_2040_ratio      0.60742    0.41848    0.88167    0.39966   0.54242    0.69814
+                    ProgressionY1      0.05193    0.04319    0.06243    0.04385   0.05321    0.06459
+                 ProgressionRatio      0.74216    0.64575    0.85297    0.63515   0.71204    0.79211
+   prevalence_all_2020 (per 100k)          NaN        NaN        NaN  170.40219 239.31857  324.64569
+prevalence_15plus_1995 (per 100k)          NaN        NaN        NaN  338.76240 527.35839  922.51946
+prevalence_15plus_2024 (per 100k)          NaN        NaN        NaN  132.58669 183.57063  248.39164
+        incidence_2024 (per 100k)          NaN        NaN        NaN   93.31742 136.05037  194.88162
+    notifications_2020 (per 100k)          NaN        NaN        NaN   60.69813  90.39066  132.77346
+        mortality_2024 (per 100k)          NaN        NaN        NaN    7.95646  12.34406   18.54796
+                  population_2020          NaN        NaN        NaN    3.67251   3.78798    3.87408
+real: 310,000 model runs, 300 IMIS components, 300 iterations, ESS 1034, expected unique 1621 of 3000 (stop at 1896), 2.21 h on 160 workers; errors 0; mixture check 0.0e+00
+        parameter  prior_lo  prior_hi    mean    q025     q25     q50     q75    q975  ci_width_share_of_prior
+             beta      2.00    100.00 22.4510 14.6475 19.5504 22.3286 24.9688 32.2852                   0.1800
+      trans_asymp      0.50      1.00  0.8412  0.6512  0.7861  0.8530  0.9062  0.9754                   0.6483
+               pi      0.20      1.00  0.2628  0.2051  0.2297  0.2530  0.2850  0.3695                   0.2055
+          inf_cle      0.50      1.50  0.9622  0.6745  0.8355  0.9606  1.0724  1.2783                   0.6039
+          inf_non      0.04      0.45  0.2993  0.1804  0.2644  0.3009  0.3403  0.4044                   0.5463
+          inf_asy      0.01      0.60  0.3298  0.2177  0.2882  0.3273  0.3665  0.4673                   0.4231
+         k_latent      0.10     12.00  7.8523  4.7000  6.7458  7.7764  8.8797 10.9389                   0.5243
+              phi      0.00      0.10  0.0676  0.0358  0.0562  0.0681  0.0799  0.0962                   0.6042
+          non_rec      0.14      0.23  0.1849  0.1526  0.1710  0.1826  0.1985  0.2213                   0.7635
+          non_asy      0.21      0.28  0.2391  0.2162  0.2304  0.2385  0.2473  0.2648                   0.6940
+          asy_non      0.70      2.03  1.4131  0.9544  1.2178  1.4127  1.6004  1.8889                   0.7026
+          asy_sym      0.56      0.99  0.7905  0.6713  0.7453  0.7914  0.8345  0.9186                   0.5751
+          sym_asy      0.46      0.85  0.7225  0.6047  0.6909  0.7265  0.7599  0.8146                   0.5383
+    sym_dead_1995      0.20      0.50  0.3916  0.2791  0.3570  0.3949  0.4303  0.4823                   0.6773
+    sym_dead_frac      0.00      1.00  0.5200  0.2688  0.4469  0.5354  0.6013  0.7158                   0.4471
+     tx_covg_2024      0.50      0.95  0.5737  0.5109  0.5448  0.5711  0.5990  0.6523                   0.3141
+tx_covg_2010_frac      0.00      1.00  0.8449  0.5417  0.7851  0.8741  0.9334  0.9908                   0.4491
+    efficacy_1995      0.30      0.95  0.6403  0.4020  0.5633  0.6444  0.7165  0.8630                   0.7091
+    efficacy_frac      0.00      1.00  0.3510  0.0592  0.2475  0.3528  0.4535  0.6474                   0.5883
+        p_relapse      0.02      0.10  0.0634  0.0301  0.0533  0.0647  0.0736  0.0916                   0.7684
+   over_detection      0.00      0.20  0.1216  0.0496  0.0981  0.1231  0.1484  0.1830                   0.6675
+                           target  target_mean  target_lo  target_hi  post_q025  post_q50  post_q975
+                       prevalence      0.00310    0.00247    0.00385    0.00231   0.00308    0.00394
+                prop_asymptomatic      0.65426    0.58433    0.71948    0.60264   0.65040    0.69704
+                      prev_to_inc      1.57126    1.20455    2.04962    1.13068   1.38032    1.72941
+                      mort_to_inc      0.11250    0.08770    0.14433    0.09450   0.11879    0.15073
+                    prev_to_notif      2.65970    2.08298    3.39609    2.40167   2.90027    3.49535
+                        inc_ratio      0.78968    0.63416    0.98334    0.69489   0.76855    0.83401
+                       mort_ratio      0.65791    0.51962    0.83302    0.49336   0.57920    0.65234
+                  prev_2040_ratio      0.80643    0.55559    1.17053    0.49822   0.64557    0.78540
+                    ProgressionY1      0.05230    0.04350    0.06288    0.04361   0.05238    0.06250
+                 ProgressionRatio      0.66300    0.57687    0.76199    0.58874   0.65079    0.72887
+   prevalence_all_2020 (per 100k)          NaN        NaN        NaN  248.66782 351.75029  445.91263
+prevalence_15plus_1995 (per 100k)          NaN        NaN        NaN  434.96371 726.53286 1159.72804
+prevalence_15plus_2024 (per 100k)          NaN        NaN        NaN  201.15832 271.82084  346.46434
+        incidence_2024 (per 100k)          NaN        NaN        NaN  134.65804 199.76646  265.02683
+    notifications_2020 (per 100k)          NaN        NaN        NaN   73.71531 105.86600  143.42684
+        mortality_2024 (per 100k)          NaN        NaN        NaN   15.86455  23.58610   34.07388
+                  population_2020          NaN        NaN        NaN    3.57010   3.69982    3.81835
+real_seed2: 310,000 model runs, 300 IMIS components, 300 iterations, ESS 1042, expected unique 1645 of 3000 (stop at 1896), 1.91 h on 160 workers; errors 0; mixture check 0.0e+00
+        parameter  prior_lo  prior_hi    mean    q025     q25     q50     q75    q975  ci_width_share_of_prior
+             beta      2.00    100.00 19.6756 11.6218 16.2664 19.1409 22.5315 31.2146                   0.1999
+      trans_asymp      0.50      1.00  0.6930  0.5453  0.6348  0.6953  0.7493  0.8448                   0.5992
+               pi      0.20      1.00  0.3549  0.2165  0.2795  0.3390  0.4148  0.5780                   0.4518
+          inf_cle      0.50      1.50  0.8159  0.5471  0.6999  0.7933  0.9090  1.2133                   0.6662
+          inf_non      0.04      0.45  0.1927  0.0789  0.1444  0.1826  0.2345  0.3505                   0.6625
+          inf_asy      0.01      0.60  0.2594  0.1563  0.2185  0.2558  0.2983  0.3844                   0.3867
+         k_latent      0.10     12.00  5.6656  2.6807  4.4922  5.6764  6.7503  8.7670                   0.5115
+              phi      0.00      0.10  0.0764  0.0474  0.0681  0.0769  0.0860  0.0982                   0.5078
+          non_rec      0.14      0.23  0.1858  0.1578  0.1777  0.1868  0.1945  0.2082                   0.5605
+          non_asy      0.21      0.28  0.2551  0.2278  0.2475  0.2564  0.2639  0.2758                   0.6865
+          asy_non      0.70      2.03  1.5917  1.2105  1.4750  1.5987  1.7150  1.9214                   0.5345
+          asy_sym      0.56      0.99  0.6784  0.5770  0.6347  0.6728  0.7114  0.8219                   0.5697
+          sym_asy      0.46      0.85  0.6220  0.4882  0.5728  0.6197  0.6684  0.7749                   0.7352
+    sym_dead_1995      0.20      0.50  0.3813  0.2819  0.3467  0.3825  0.4173  0.4791                   0.6574
+    sym_dead_frac      0.00      1.00  0.6024  0.4034  0.5480  0.6093  0.6683  0.7459                   0.3425
+     tx_covg_2024      0.50      0.95  0.6116  0.5261  0.5780  0.6101  0.6428  0.7107                   0.4103
+tx_covg_2010_frac      0.00      1.00  0.7776  0.4604  0.6990  0.7955  0.8782  0.9780                   0.5176
+    efficacy_1995      0.30      0.95  0.4223  0.3120  0.3705  0.4148  0.4648  0.5799                   0.4122
+    efficacy_frac      0.00      1.00  0.1726  0.0132  0.0976  0.1583  0.2330  0.4268                   0.4136
+        p_relapse      0.02      0.10  0.0723  0.0472  0.0641  0.0726  0.0811  0.0952                   0.6002
+   over_detection      0.00      0.20  0.1338  0.0579  0.1118  0.1370  0.1593  0.1894                   0.6579
+                           target  target_mean  target_lo  target_hi  post_q025  post_q50  post_q975
+                       prevalence      0.00310    0.00247    0.00385    0.00232   0.00306    0.00403
+                prop_asymptomatic      0.65426    0.58433    0.71948    0.58969   0.64121    0.69746
+                      prev_to_inc      1.57126    1.20455    2.04962    1.26324   1.48320    1.79143
+                      mort_to_inc      0.11250    0.08770    0.14433    0.09200   0.11562    0.14554
+                    prev_to_notif      2.65970    2.08298    3.39609    2.29892   2.80411    3.52072
+                        inc_ratio      0.78968    0.63416    0.98334    0.71019   0.80128    0.89504
+                       mort_ratio      0.65791    0.51962    0.83302    0.51722   0.59591    0.67208
+                  prev_2040_ratio      0.80643    0.55559    1.17053    0.47985   0.66961    0.84885
+                    ProgressionY1      0.05230    0.04350    0.06288    0.04360   0.05329    0.06518
+                 ProgressionRatio      0.66300    0.57687    0.76199    0.57860   0.65583    0.73620
+   prevalence_all_2020 (per 100k)          NaN        NaN        NaN  235.43964 324.64637  427.30450
+prevalence_15plus_1995 (per 100k)          NaN        NaN        NaN  345.95854 550.28442  837.61372
+prevalence_15plus_2024 (per 100k)          NaN        NaN        NaN  204.78790 274.64811  360.81980
+        incidence_2024 (per 100k)          NaN        NaN        NaN  126.70990 187.49945  255.60307
+    notifications_2020 (per 100k)          NaN        NaN        NaN   74.48195 109.56953  151.57124
+        mortality_2024 (per 100k)          NaN        NaN        NaN   14.33388  21.46818   31.00760
+                  population_2020          NaN        NaN        NaN    3.68646   3.80055    3.89370
+Seeds compared on parameter marginals (agree: each median inside the other's 25–75%):
+5 of 21 agree; disagree: beta, trans_asymp, pi, inf_cle, inf_non, inf_asy, k_latent, phi, non_asy, asy_non, asy_sym, sym_asy, sym_dead_frac, tx_covg_2024, efficacy_1995, efficacy_frac
+Weighted correlation of k_latent with log(inf_asy): real 0.77, real_seed2 0.86, exp24 0.77, exp24_seed2 0.85
+        parameter  real_q025  real_q50  real_q975  real_seed2_q025  real_seed2_q50  real_seed2_q975  exp24_q025  exp24_q50  exp24_q975  exp24_seed2_q025  exp24_seed2_q50  exp24_seed2_q975  seeds_agree
+             beta    14.6475   22.3286    32.2852          11.6218         19.1409          31.2146     12.4128    20.8480     32.0359           14.2858          23.1627           35.9709        False
+      trans_asymp     0.6512    0.8530     0.9754           0.5453          0.6953           0.8448      0.6924     0.8636      0.9856            0.6427           0.7803            0.9303        False
+               pi     0.2051    0.2530     0.3695           0.2165          0.3390           0.5780      0.2155     0.3319      0.5288            0.2081           0.2878            0.4757        False
+          inf_cle     0.6745    0.9606     1.2783           0.5471          0.7933           1.2133      0.5714     0.7398      1.0484            0.5494           0.8097            1.2635        False
+          inf_non     0.1804    0.3009     0.4044           0.0789          0.1826           0.3505      0.2311     0.3321      0.4348            0.0932           0.2145            0.3846        False
+          inf_asy     0.2177    0.3273     0.4673           0.1563          0.2558           0.3844      0.2431     0.3582      0.4892            0.1331           0.2249            0.3689        False
+         k_latent     4.7000    7.7764    10.9389           2.6807          5.6764           8.7670      4.9553     8.2642     11.1373            1.7458           4.3667            7.9566        False
+              phi     0.0358    0.0681     0.0962           0.0474          0.0769           0.0982      0.0268     0.0461      0.0770            0.0195           0.0601            0.0942        False
+          non_rec     0.1526    0.1826     0.2213           0.1578          0.1868           0.2082      0.1650     0.2104      0.2285            0.1564           0.1880            0.2234         True
+          non_asy     0.2162    0.2385     0.2648           0.2278          0.2564           0.2758      0.2171     0.2350      0.2601            0.2257           0.2589            0.2767        False
+          asy_non     0.9544    1.4127     1.8889           1.2105          1.5987           1.9214      1.1894     1.5336      1.8582            1.4173           1.7257            1.9881        False
+          asy_sym     0.6713    0.7914     0.9186           0.5770          0.6728           0.8219      0.6613     0.7697      0.8911            0.5953           0.7182            0.8819        False
+          sym_asy     0.6047    0.7265     0.8146           0.4882          0.6197           0.7749      0.5945     0.7439      0.8399            0.5014           0.6325            0.7600        False
+    sym_dead_1995     0.2791    0.3949     0.4823           0.2819          0.3825           0.4791      0.3385     0.4175      0.4861            0.2470           0.3706            0.4533         True
+    sym_dead_frac     0.2688    0.5354     0.7158           0.4034          0.6093           0.7459      0.3277     0.5753      0.7378            0.1812           0.5544            0.7335        False
+     tx_covg_2024     0.5109    0.5711     0.6523           0.5261          0.6101           0.7107      0.5480     0.6173      0.6861            0.5470           0.6349            0.7278        False
+tx_covg_2010_frac     0.5417    0.8741     0.9908           0.4604          0.7955           0.9780      0.4189     0.7379      0.9599            0.3935           0.7184            0.9484         True
+    efficacy_1995     0.4020    0.6444     0.8630           0.3120          0.4148           0.5799      0.3127     0.4435      0.7611            0.3164           0.4174            0.5641        False
+    efficacy_frac     0.0592    0.3528     0.6474           0.0132          0.1583           0.4268      0.0175     0.2635      0.6421            0.0145           0.1504            0.4251        False
+        p_relapse     0.0301    0.0647     0.0916           0.0472          0.0726           0.0952      0.0265     0.0493      0.0840            0.0446           0.0766            0.0956         True
+   over_detection     0.0496    0.1231     0.1830           0.0579          0.1370           0.1894      0.0668     0.1149      0.1645            0.0353           0.1043            0.1769         True
+           target  real_q025  real_q50  real_q975  real_seed2_q025  real_seed2_q50  real_seed2_q975
+       prevalence    0.00231   0.00308    0.00394          0.00232         0.00306          0.00403
+prop_asymptomatic    0.60264   0.65040    0.69704          0.58969         0.64121          0.69746
+      prev_to_inc    1.13068   1.38032    1.72941          1.26324         1.48320          1.79143
+      mort_to_inc    0.09450   0.11879    0.15073          0.09200         0.11562          0.14554
+    prev_to_notif    2.40167   2.90027    3.49535          2.29892         2.80411          3.52072
+        inc_ratio    0.69489   0.76855    0.83401          0.71019         0.80128          0.89504
+       mort_ratio    0.49336   0.57920    0.65234          0.51722         0.59591          0.67208
+  prev_2040_ratio    0.49822   0.64557    0.78540          0.47985         0.66961          0.84885
+    ProgressionY1    0.04361   0.05238    0.06250          0.04360         0.05329          0.06518
+ ProgressionRatio    0.58874   0.65079    0.72887          0.57860         0.65583          0.73620
+=== summary done in 0.7 min ===
+Exception ignored in: <function Pool.__del__ at 0x75d90d9f1300>
+Traceback (most recent call last):
+  File "/home/tess/.local/share/uv/python/cpython-3.13.13-linux-x86_64-gnu/lib/python3.13/multiprocessing/pool.py", line 271, in __del__
+  File "/home/tess/.local/share/uv/python/cpython-3.13.13-linux-x86_64-gnu/lib/python3.13/multiprocessing/queues.py", line 391, in put
+AttributeError: 'NoneType' object has no attribute 'dumps'
