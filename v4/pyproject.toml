@@ -21,8 +21,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 # Pinned to exact commits; bump them on purpose, and rerun the anchor test (tests/test_anchor.py) after each bump.
-# tbsim: origin/v4 @ 619c296 (unreleased, "1.0.0 in development"). starsim: origin/v4 @ d83f4f87 (4.0.0rc4), which includes 6dcad9fd,
-# Cliff's network fix (exp 25). The previous pins, for rerunning exps 12-25: starsim 80c81f53, tbsim dcfb522.
+# tbsim: origin/v4 @ a2ae583 ("fixes for rc5"). starsim: origin/v4 @ 0089ac0f (4.0.0rc5, the merge of PR #1625: Starsim's demography fixes; exp 33).
+# Earlier pins: starsim d83f4f87 and tbsim 619c296 for exps 26-32; starsim 80c81f53 and tbsim dcfb522 for exps 12-25.
 [tool.uv.sources]
-starsim = { git = "https://github.com/starsimhub/starsim", rev = "d83f4f87b8cac3138e272cf2d955d02baca0c6e9" }
-tbsim = { git = "https://github.com/starsimhub/tbsim", rev = "619c2963db9ee65990f4c5d23173e09d72c253dd" }
+starsim = { git = "https://github.com/starsimhub/starsim", rev = "0089ac0f14da63dcdcbebd84db86c2d4cd4f3f44" }
+tbsim = { git = "https://github.com/starsimhub/tbsim", rev = "a2ae583fe152da893d2e96c4f9c7a3bf1cd36a9d" }

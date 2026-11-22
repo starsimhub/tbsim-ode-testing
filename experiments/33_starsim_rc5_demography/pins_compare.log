@@ -1,0 +1,21 @@
+starsim_4.0.0rc4 against starsim_4.0.0rc5 (exp 30's ODE, monthly, 1950–2041); run time 6.5 s against 6.4 s
+Steps: 1093 against 1093; year grids equal: True
+                 series  max_rel  max_rel_shifted_by_one                         note
+                  alive 4.38e-16                1.90e-03                          NaN
+      state_susceptible 5.34e-16                2.72e-03                          NaN
+        state_infection 7.69e-16                3.37e-01                          NaN
+ state_infection_remote 7.53e-16                4.57e-02                          NaN
+          state_cleared 3.70e-16                6.52e-02                          NaN
+        state_recovered 6.56e-16                3.28e-03                          NaN
+   state_non_infectious 5.87e-16                1.55e-01                          NaN
+     state_asymptomatic 6.44e-16                5.85e-02                          NaN
+      state_symptomatic 5.96e-16                2.93e-02                          NaN
+          state_treated 5.54e-16                2.87e+00                          NaN
+state_treatment_success 6.43e-16                2.88e+00                          NaN
+   state_treatment_fail 5.86e-16                2.84e+00                          NaN
+        state_relapsing 5.88e-16                2.82e+00                          NaN
+      out_notifications 6.19e-16                1.88e+00                          NaN
+          out_mortality 6.41e-16                2.97e-02                          NaN
+            out_relapse 6.95e-16                3.80e+00                          NaN
+       out_on_treatment 6.03e-16                2.86e+00                          NaN
+              flow_died      NaN                     NaN missing or a different shape

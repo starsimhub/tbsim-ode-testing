@@ -1,7 +1,7 @@
 # Proposal 06: births and the starting population, agents against the compartmental solver
 
 **For:** Starsim v4 (`ss.Pregnancy` in `starsim/demographics.py`; the compartmental solver's starting population in `starsim/sim.py`).
-**Status:** sent to Starsim as a GitHub issue (2026-11-19).
+**Status:** sent to Starsim as a GitHub issue (2026-11-19); resolved upstream in starsim PR #1625 (`0089ac0f`, 2026-11-20), every change as proposed or equivalent, with births' default sex the population's fraction at ages 0–4 ([exp 33](https://github.com/starsimhub/tbsim-ode-testing/blob/main/experiments/33_starsim_rc5_demography/SUMMARY.md)).
 **Track:** starsim `origin/v4` @ `d83f4f87` (4.0.0rc4), tbsim `origin/v4` @ `619c296`.
 **Evidence:** [exp 29](https://github.com/starsimhub/tbsim-ode-testing/blob/main/experiments/29_pregnancy_timing/SUMMARY.md) (agents with `ss.Pregnancy` against the compartmental solver's births); [exp 28](https://github.com/starsimhub/tbsim-ode-testing/blob/main/experiments/28_age_demography/SUMMARY.md) (where the gap was found).
 

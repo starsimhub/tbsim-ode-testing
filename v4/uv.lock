@@ -1770,8 +1770,8 @@ wheels = [
 
 [[package]]
 name = "starsim"
-version = "4.0.0rc4"
-source = { git = "https://github.com/starsimhub/starsim?rev=d83f4f87b8cac3138e272cf2d955d02baca0c6e9#d83f4f87b8cac3138e272cf2d955d02baca0c6e9" }
+version = "4.0.0rc5"
+source = { git = "https://github.com/starsimhub/starsim?rev=0089ac0f14da63dcdcbebd84db86c2d4cd4f3f44#0089ac0f14da63dcdcbebd84db86c2d4cd4f3f44" }
 dependencies = [
     { name = "matplotlib" },
     { name = "networkx" },
@@ -1827,8 +1827,8 @@ requires-dist = [
     { name = "pandas" },
     { name = "scipy" },
     { name = "sciris" },
-    { name = "starsim", git = "https://github.com/starsimhub/starsim?rev=d83f4f87b8cac3138e272cf2d955d02baca0c6e9" },
-    { name = "tbsim", git = "https://github.com/starsimhub/tbsim?rev=619c2963db9ee65990f4c5d23173e09d72c253dd" },
+    { name = "starsim", git = "https://github.com/starsimhub/starsim?rev=0089ac0f14da63dcdcbebd84db86c2d4cd4f3f44" },
+    { name = "tbsim", git = "https://github.com/starsimhub/tbsim?rev=a2ae583fe152da893d2e96c4f9c7a3bf1cd36a9d" },
 ]
 
 [package.metadata.requires-dev]
@@ -1840,7 +1840,7 @@ dev = [
 [[package]]
 name = "tbsim"
 version = "0.10.3"
-source = { git = "https://github.com/starsimhub/tbsim?rev=619c2963db9ee65990f4c5d23173e09d72c253dd#619c2963db9ee65990f4c5d23173e09d72c253dd" }
+source = { git = "https://github.com/starsimhub/tbsim?rev=a2ae583fe152da893d2e96c4f9c7a3bf1cd36a9d#a2ae583fe152da893d2e96c4f9c7a3bf1cd36a9d" }
 dependencies = [
     { name = "matplotlib" },
     { name = "networkx" },

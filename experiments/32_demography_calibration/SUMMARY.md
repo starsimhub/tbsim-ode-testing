@@ -77,7 +77,7 @@ Posterior predictive median (95% interval) for each seed, against the target and
 - **The recalibration with demography works as a fit:** with ages, India's demography and 15+ targets, the ODE meets every tb_LAI_TPT target that applies without child transmission or a household network, about as well as exp 24 did without demography.
 - **For checking agents against this ODE** (the next step on this row), the posterior is good enough: parameter sets drawn from either seed fit the targets (`real_draws.csv`, `real_seed2_draws.csv`, 200 weighted draws each).
 - **For parameter inference it isn't converged,** less so than exp 24. The options are exp 24's: run IMIS much longer, reparameterise along the ridge (e.g. by the progression targets themselves), or use a sampler that moves along ridges (MCMC or SMC). On zebra, a run several times longer is affordable (each run here took about 2 hours).
-- **Before relying on this posterior,** exp 33 checks whether Starsim's new default for births' female share (the fraction at ages 0–4, not the starting population's 48.63%) moves these targets by more than about 1%.
+- **Births' female share:** this calibration gave births the 1950 population's overall female share (48.63%). From starsim `0089ac0f`, v4's ODE and `fastode_age` use its share at ages 0–4 (49.06%). At this posterior's best point and 20 draws, that moves every target by under 0.5% ([exp 33](../33_starsim_rc5_demography/SUMMARY.md)), so the posterior stands.
 
 ## Files
 

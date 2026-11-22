@@ -57,8 +57,12 @@ class Demography:
         cohort (bool): rates for exact aging by cohort, groups one step wide: over a step, a group's people age from [g, g+1) to [g+1, g+2)
             (in steps), spending exactly half their person-time in each, so each group takes the mean of its own rate and the next group's.
             With WPP's rate boundaries on the grid, this is exact; the lower edge's rate alone applies changes with age half a step late
+        birth_female (str/float): births' female share: 'start' (the starting population's overall share, as v4's ODE gives at starsim d83f4f87 with
+            joint_sex()), 'young' (its share at ages 0–4, Starsim's default from 4.0.0rc5; exp 33), or a number; None takes the class default
     """
-    def __init__(self, lows, country='India', frozen=None, start_year=1950, cohort=False):
+    birth_female_default = 'young' # As v4's ODE at starsim 0089ac0f (exp 33); 'start' reruns exps 31–32. Class-wide, so the Demography made inside settle() and run_cohort() follows it
+
+    def __init__(self, lows, country='India', frozen=None, start_year=1950, cohort=False, birth_female=None):
         self.lows = np.asarray(lows, dtype=float)
         self.wpp = WPP(country)
         self.frozen = frozen
@@ -67,7 +71,9 @@ class Demography:
         jf = np.clip(np.digitize(self.lows + 1e-9, fa) - 1, 0, len(fa) - 1)
         self.fertile = (self.lows >= fa[0] - 1e-9) & (self.lows < fa[-1] + 5 - 1e-9) # Ages 10–54 (by the group's lower edge, as v4's ODE)
         self.jf = np.where(self.fertile, jf, 0)
-        self.p_female = female_share(country, start_year)[2]
+        bf = self.birth_female_default if birth_female is None else birth_female
+        _, share, overall = female_share(country, start_year)
+        self.p_female = overall if bf == 'start' else float(share[0]) if bf == 'young' else float(bf)
         self.country, self.start_year, self.cohort = country, start_year, cohort
         return
 

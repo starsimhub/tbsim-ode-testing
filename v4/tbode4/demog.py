@@ -79,7 +79,7 @@ def ode_demographics(wpp, frozen=False):
 
 def gestation():
     """ ss.Pregnancy's mean duration of pregnancy, in years (0.769 at the default dur_pregnancy) """
-    sim = ss.Sim(diseases=ss.SIS(beta=0, init_prev=0), demographics=[ss.Pregnancy(fertility_rate=30)], n_agents=100, dt=ss.months(1), start=2000, stop=2001, verbose=0)
+    sim = ss.Sim(diseases=ss.SIS(beta=0, init_prev=0), demographics=[ss.Pregnancy(fertility_rate=30, rate_per=1000)], n_agents=100, dt=ss.months(1), start=2000, stop=2001, verbose=0)
     sim.init()
     return float(sim.demographics.pregnancy.mean_dur_pregnancy)
 

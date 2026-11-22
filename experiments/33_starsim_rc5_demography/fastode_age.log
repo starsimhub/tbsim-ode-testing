@@ -1,0 +1,17 @@
+(a) fastode_age (births at the ages 0–4 share) against v4's ODE with Starsim's default births: test_copy_matches_v4_ode passes
+Births' female share: overall 1950 population 0.48635; ages 0–4 0.49063
+(b) Exp 32's targets, births at the ages 0–4 share ÷ at the overall share, at its best point and 20 posterior draws (seed 1):
+                       min  median    max
+prevalence          1.0019  1.0036 1.0043
+prop_asymptomatic   1.0000  1.0000 1.0000
+prev_to_inc         0.9977  0.9981 0.9985
+mort_to_inc         0.9985  0.9987 0.9989
+prev_to_notif       0.9992  0.9995 0.9996
+inc_ratio           1.0009  1.0014 1.0018
+mort_ratio          1.0010  1.0014 1.0018
+prev_2040_ratio     1.0021  1.0028 1.0040
+ProgressionY1       1.0000  1.0000 1.0000
+ProgressionRatio    1.0000  1.0000 1.0000
+prevalence_all_2020 1.0025  1.0041 1.0051
+population_2020     1.0100  1.0100 1.0100
+Log-likelihood change (young − start): median 0.045, range -0.039 to 0.097

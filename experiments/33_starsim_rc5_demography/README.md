@@ -1,8 +1,8 @@
 # 33: Moving the v4 pins to Starsim 4.0.0rc5: does Starsim's own demography now match without our workarounds?
 
-**Status:** designed, not yet run. Runs after exp 32 finishes, so that exp 32 runs entirely at the current pins.
+**Status:** run (findings in [SUMMARY.md](SUMMARY.md)).
 **Track:** v4, moving from starsim `origin/v4` @ `d83f4f87` (4.0.0rc4) and tbsim `origin/v4` @ `619c296` to starsim `origin/v4` @ `0089ac0f` (4.0.0rc5; the merge of Starsim PR #1625) and tbsim `origin/v4` @ `a2ae583` ("fixes for rc5"), if that pairing builds (stage 1).
-**Run on:** the laptop (stages 1, 2 and 4) and zebra (stage 3).
+**Run on:** the laptop (4 cores), every stage: stage 3's 80 agent runs take about 15 minutes there.
 
 ## Why this experiment
 

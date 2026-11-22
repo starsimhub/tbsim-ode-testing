@@ -1,0 +1,25 @@
+[project]
+name = "exp33-trial"
+version = "0.1.0"
+description = "Exp 33's trial environment: the v4 track at starsim 4.0.0rc5 (0089ac0f, PR #1625) and tbsim a2ae583, before v4/ moves to them"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "sciris",
+    "matplotlib",
+    "starsim",
+    "tbsim",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false # tbode4 comes from v4/ (PYTHONPATH=v4)
+
+# The candidate pins. starsim: origin/v4 @ 0089ac0f (4.0.0rc5; merge of PR #1625, "update handling of birth"). tbsim: origin/v4 @ a2ae583 ("fixes for rc5")
+[tool.uv.sources]
+starsim = { git = "https://github.com/starsimhub/starsim", rev = "0089ac0f14da63dcdcbebd84db86c2d4cd4f3f44" }
+tbsim = { git = "https://github.com/starsimhub/tbsim", rev = "a2ae583fe152da893d2e96c4f9c7a3bf1cd36a9d" }

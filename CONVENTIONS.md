@@ -220,24 +220,22 @@ Sample the posterior with IMIS.
 
 ## 10. Demography: births, ages and the starting population
 
-**What:** with age- and sex-specific fertility and mortality (e.g. WPP), agents and v4's ODE grow alike only with the settings below. Without them, agents' population was 7.5% below the ODE's by 2000 for India. With them, it's within 0.1% of the ODE's population through 2050 (extrapolated to exact aging), and within about 1% of its share in each broad age group (0–14, 15–29, 30–49, 50–64, 65+). With TB and treatment on top (exp 30), agents match the exactly aged ODE: population within 0.3%, ratios per prevalent case within 0.4%, prevalence within 1.2% overall and 2.4% by age group.
+**What:** with age- and sex-specific fertility and mortality (e.g. WPP), agents and v4's ODE grow alike with Starsim's own defaults, at starsim `0089ac0f` (4.0.0rc5) and later. For India, agents are within 0.1% of the ODE's population through 2050 (extrapolated to exact aging), and within about 1% of its share in each broad age group (0–14, 15–29, 30–49, 50–64, 65+). With TB and treatment on top, agents match the exactly aged ODE: population within 0.4%, ratios per prevalent case within 0.6%, and prevalence within 1% overall and by age group at weekly steps (exp 33).
 
-**The common parts:** deaths as `ss.death(rate=ss.by(age, sex))` in both solvers; the starting population from `ss.population(country, year)`. The ODE's births are `ss.birth(rate=ss.by(age, sex))`, at the rate for each woman's current age group, which is how WPP's rates are defined (by age at delivery). `ss.birth` by age is compartmental only, so agents use `ss.Pregnancy`.
+**The setup:**
 
-**Agents' births (`ss.Pregnancy`):**
-
-- **Shift fertility younger by the mean gestation** g (0.769 years at `ss.Pregnancy`'s default duration). `ss.Pregnancy` applies a rate at the woman's age at conception, so with WPP's table as given, births come 0.77 years too late in life and population is 3.3% too low by 2000 (5.5% by 2050). Give it a table on a quarter-year age grid in which conception at age x takes WPP's rate for age x + g, from age 10 − g to 55 − g, one row per year.
-- **Seed the steady-state share pregnant at the start:** h·d for a woman with conception rate h, with d the unrounded mean gestation. `burnin_plan()` gives 1 − e^(−h·d) with d rounded to whole steps, 12% too few at peak fertility, and 0.5% too little population from 2000.
-- **Give births the ODE's share of girls** through `ss.Pregnancy`'s `p_female` (see the ODE's start below). The share matters: 48.6% girls instead of 50% is 2.1% less population by 2000 and 5.5% by 2050.
-- **Don't offset pregnancies lost when the mother dies.** Births per woman alive at delivery already match the input rate; raising conception overshoots (about +0.5%).
-- **Code:** `tbode4.demog`: `agent_demographics()` (the shifted table from `shifted_fertility()`, `PregnancyStart`, `p_female`, the deaths), `ode_demographics()`, `joint_sex()`, `age_edges()` and `WPP`; the starting states by age below are in `tbode4.start` (tested in `v4/tests/test_start.py`).
+- **Both solvers:** deaths as `ss.death(rate=ss.by(age, sex))`; the starting population from `ss.population(country, year)`, which gives the fraction female at each age.
+- **The ODE's births:** `ss.birth(rate=ss.by(age, sex))`, at the rate for each woman's current age group, which is how WPP's rates are defined (by age at delivery).
+- **Agents' births:** `ss.Pregnancy` with WPP's table as given. `ss.birth` by age is compartmental only. Its defaults read the rates at the age at delivery (`fertility_age='delivery'`: a woman conceiving at age x takes the rate for x plus the mean gestation, 0.769 years), and start the share of women pregnant that a steady state would have.
+- **Births' sex:** both solvers give births the starting population's fraction female at ages 0–4 (49.06% for India 1950), unless `p_female` is given. That stands in for WPP's sex ratio at birth, which isn't used yet. The choice matters: births at 49.06% against 48.63% girls make 1.0% more population by 2020.
+- **Code:** `tbode4.demog`: `ode_demographics()`, `death_rate()`, `age_edges()` and `WPP`; the starting states by age below are in `tbode4.start` (tested in `v4/tests/test_start.py`). Its `agent_demographics()`, `shifted_fertility()`, `PregnancyStart` and `joint_sex()` were workarounds for starsim `d83f4f87` and earlier, kept to rerun exps 29–32 at their pins.
 
 **The ODE:**
 
-- **For calibration, `tbode4.fastode_age`'s exact aging by cohort instead** (convention 8, exp 31): no spread of ages, within 0.1% of exact aging at monthly steps. v4's own ODE, with the groups below, stays the reference for comparisons with agents.
+- **For calibration, `tbode4.fastode_age`'s exact aging by cohort instead** (convention 8, exp 31): no spread of ages, within 0.1% of exact aging at monthly steps. Its births' female share follows Starsim's default (`Demography.birth_female_default = 'young'`). v4's own ODE, with the groups below, stays the reference for comparisons with agents.
 - **Age groups of a quarter year** (`age_edges(0.25)`). The ODE ages people by constant-rate exits, so a cohort's ages spread with variance (age × group width). With TB and treatment (exp 30), quarter-year groups are within 0.5% of exact aging in population and prevalence by age, at about 30 s per weekly run (1950–2040, one core). Single years are faster (about 22 s) but overstate population by 1.2–1.9% and put prevalence by age up to 2.7% off; WPP's 5-year groups are worse (up to 7% in population against single years, 14% in the 65+ share, 10% in prevalence by age). Keep the rates on their own groups (map each fine group to its rate group).
 - **When a comparison needs better than 0.5%** (e.g. agents against the ODE), also run eighth-year groups (within 0.3%, about 45 s) and extrapolate to exact aging as 2 × eighth − quarter (exps 29–30).
-- **Start from the population's split by sex within each age group,** with a joint split: `sim.stratify(age=edges, sex=ss.levels(['female', 'male'], fractions=ss.by(table, dims=['age', 'sex'])))` (`joint_sex()` in `tbode4.demog`). By default the compartmental solver takes the population's ages but starts half of each age female, 1.9% too much population by 2000 for India (48.6% female in 1950).
+- **Split by age and sex** with `sim.stratify(age=edges, sex=['female', 'male'])`: each age group starts with the population's fraction female at that age.
 - **Starsim keeps every step's results by group only up to 100 MB per run;** raise `ss.solvers.Engine.group_bytes` for fine age groups at weekly steps.
 
 **Starting TB states by age and sex** (`init=` with `ss.by(age, sex)` tables; exp 30):
@@ -254,6 +252,11 @@ Sample the posterior with IMIS.
 - **Ignore `ss.Pregnancy`'s warning that births are made twice** with `ss.death`: a false positive. Its miscarriage and stillbirth results also miss losses at the mother's death; count them by balance if needed.
 - **The ODE smooths sharp features of the age distribution** (e.g. the steps of a 5-year starting population, or the join between those alive at the start and those born after), so its broad age shares cycle by up to about 1% against agents' as these pass group edges.
 
-**Upstream:** [proposal 06](proposals/06_pregnancy/proposal.md) (sent 2026-11-19) asks Starsim for the fertility age, the start's share pregnant, the compartmental solver's sex split and births' sex, and 64-bit ages. [Proposal 07](proposals/07_starting_states/proposal.md) (draft) asks for drawn starting counts and for shares read per agent to be drawn from all states at once. If accepted, drop the matching workarounds.
+**Pitfalls:**
 
-**Evidence:** [exp 28](experiments/28_age_demography/SUMMARY.md) (the gap, and single years against 5-year groups); [exp 29](experiments/29_pregnancy_timing/SUMMARY.md) (its parts and the fixes); [exp 30](experiments/30_tb_corrected_demography/SUMMARY.md) (with TB and treatment, the ODE's widths with TB, and the starting states).
+- **Results renamed at starsim `0089ac0f`:** the population's deaths are `death` (was `died`), births have a top-level `birth`, and `emigrated` is gone.
+- **The ODE smooths sharp features of the age distribution** (e.g. the steps of a 5-year starting population, or the join between those alive at the start and those born after), so its broad age shares cycle by up to about 1% against agents' as these pass group edges.
+
+**Upstream:** [proposal 06](proposals/06_pregnancy/proposal.md)'s changes (the fertility age, the start's share pregnant, the compartmental solver's sex split and births' sex, losses at the mother's death, the warning, 64-bit ages) are in starsim `0089ac0f` (PR #1625). [Proposal 07](proposals/07_starting_states/proposal.md) (draft) asks for drawn starting counts and for shares read per agent to be drawn from all states at once; until then, keep `tbode4.use_drawn_start()` and the single-year table.
+
+**Evidence:** [exp 28](experiments/28_age_demography/SUMMARY.md) (the gap, and single years against 5-year groups); [exp 29](experiments/29_pregnancy_timing/SUMMARY.md) (its parts, and workarounds at earlier pins); [exp 30](experiments/30_tb_corrected_demography/SUMMARY.md) (with TB and treatment, the ODE's widths with TB, and the starting states); [exp 33](experiments/33_starsim_rc5_demography/SUMMARY.md) (Starsim's defaults without workarounds, demography alone and with TB).

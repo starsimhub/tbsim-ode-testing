@@ -1,0 +1,37 @@
+........F............                                                    [100%]
+=================================== FAILURES ===================================
+___________________________ test_copy_matches_v4_ode ___________________________
+
+    def test_copy_matches_v4_ode():
+        """ run_rate (continuous time, 12 Erlang stages for the course) against v4's ODE (RK4, monthly steps, its exact fixed course): within 0.1% every
+        year before treatment, and 0.2% from 1995, where the Erlang stages stand in for the fixed course (exp 31) """
+        ref = v4_ode()
+        out = fa.run_rate(pars(), 0.25, start, stop, 1/12, table=init, rtol=1e-6, atol=1e-12)
+        got = yearly(out, 1/12)
+        yrs = got.index[(got.index >= 1951) & (got.index < stop)]
+        for k in keys:
+            r = got.loc[yrs, k]/ref.loc[yrs, k]
+            if k == 'notifications':
+                r = r[r.index >= 1996]
+            before, after = r[r.index < 1995], r[r.index >= 1995]
+            if len(before):
+>               assert np.nanmax(np.abs(before - 1)) < 1e-3, (k, before.describe())
+E               AssertionError: ('alive', count    44.000000
+E                 mean      0.998833
+E                 std       0.001411
+E                 min       0.995666
+E                 25%       0.997829
+E                 50%       0.999554
+E                 75%       1.000001
+E                 max       1.000018
+E                 Name: alive, dtype: float64)
+E               assert 0.00433400694146413 < 0.001
+E                +  where 0.00433400694146413 = <function nanmax at 0x108aa8470>(year\n1951    7.416621e-07\n1952    5.935317e-07\n1953    4.726883e-07\n1954    2.281317e-06\n1955    4.558656e-06\n1956    ...080e-03\n1991    3.703932e-03\n1992    3.911203e-03\n1993    4.121161e-03\n1994    4.334007e-03\nName: alive, dtype: float64)
+E                +    where <function nanmax at 0x108aa8470> = np.nanmax
+E                +    and   year\n1951    7.416621e-07\n1952    5.935317e-07\n1953    4.726883e-07\n1954    2.281317e-06\n1955    4.558656e-06\n1956    ...080e-03\n1991    3.703932e-03\n1992    3.911203e-03\n1993    4.121161e-03\n1994    4.334007e-03\nName: alive, dtype: float64 = <ufunc 'absolute'>((year\n1951    0.999999\n1952    0.999999\n1953    1.000000\n1954    1.000002\n1955    1.000005\n1956    1.000007\n1957    1.0...996704\n1990    0.996501\n1991    0.996296\n1992    0.996089\n1993    0.995879\n1994    0.995666\nName: alive, dtype: float64 - 1))
+E                +      where <ufunc 'absolute'> = np.abs
+
+v4/tests/test_fastode_age.py:83: AssertionError
+=========================== short test summary info ============================
+FAILED v4/tests/test_fastode_age.py::test_copy_matches_v4_ode - AssertionErro...
+1 failed, 20 passed in 14.79s

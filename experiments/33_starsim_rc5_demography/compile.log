@@ -1,0 +1,3 @@
+Starsim backend: Numba, NOT COMPILED (the compartmental solvers, the agent solver, the draws), so the first runs are slow: run "starsim init compile" or ss.compile()
+  Compiling the solver kernels with Numba, estimated time: 185-450 s
+  Compiled the solver kernels with Numba in 94.2 s
