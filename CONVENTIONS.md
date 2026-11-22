@@ -15,7 +15,7 @@ The modelling conventions decided in this repo, written so they can be adopted i
 | 7 | [Versions](#7-versions) | Practice in this repo |
 | 8 | [Calibrating the ODE: a standalone copy at equilibrium, with IMIS](#8-calibrating-the-ode-a-standalone-copy-at-equilibrium-with-imis) | Practice in this repo (2026-11-07; with ages and demography, exp 31) |
 | 9 | [Treatment](#9-treatment) | Decided and implemented (2026-11-09; exp 23): fixed 6-month course; loss to follow-up on treatment to add |
-| 10 | [Demography: births, ages and the starting population](#10-demography-births-ages-and-the-starting-population) | Practice in this repo (2026-11-19; exps 28–30); tested with TB and treatment (exp 30) |
+| 10 | [Demography: births, ages and the starting population](#10-demography-births-ages-and-the-starting-population) | Practice in this repo (2026-11-19; exps 28–30); tested with TB and treatment (exp 30), and across the calibrated posterior (exp 34) |
 
 ## 1. Contact networks: homogeneous mixing by default; on a random network, calibrate on Starsim's ODE of the network
 
@@ -170,6 +170,7 @@ Sample the posterior with IMIS.
   - **After bumping the v4 pins,** rerun `v4/tests/test_fastode.py`.
 - **The equilibrium shortcut needs constant rates.** With time-varying inputs (treatment scale-up, demography, trends over time), integrate trajectories with `fastode.run`, which is slower than root-finding but still far faster than Starsim. Or start from an equilibrium at an early year and integrate from there.
 - **Check convergence on parameters, not only predictions:** run IMIS again with another seed and compare the marginals. In exp 24, two seeds agreed on every prediction, but not on parameters along a ridge (`k_latent` with `inf_asy`).
+- **Check the weight on badly fitting points:** IMIS can give an initial prior draw that fits badly a large weight where the mixture's density is low. In exp 32, about 1% of each seed's weight sat on draws with log-likelihood more than 20 below the best, and one of them, outside 3 target intervals, was among the heaviest points (exp 34 drew it). Before using a posterior, report this weight and the log-likelihoods of resampled sets.
 - **With time-varying inputs** (treatment scale-up), start each draw at its untreated equilibrium before the first change, and integrate from there (exp 24: about 90 ms per draw).
 
 **With ages and demography (convention 10): `tbode4.fastode_age`** ([exp 31](experiments/31_fastode_ages/SUMMARY.md)), about 1.1 s per draw against about 15 s through Starsim's quarter-year ODE.
@@ -220,7 +221,7 @@ Sample the posterior with IMIS.
 
 ## 10. Demography: births, ages and the starting population
 
-**What:** with age- and sex-specific fertility and mortality (e.g. WPP), agents and v4's ODE grow alike with Starsim's own defaults, at starsim `0089ac0f` (4.0.0rc5) and later. For India, agents are within 0.1% of the ODE's population through 2050 (extrapolated to exact aging), and within about 1% of its share in each broad age group (0–14, 15–29, 30–49, 50–64, 65+). With TB and treatment on top, agents match the exactly aged ODE: population within 0.4%, ratios per prevalent case within 0.6%, and prevalence within 1% overall and by age group at weekly steps (exp 33).
+**What:** with age- and sex-specific fertility and mortality (e.g. WPP), agents and v4's ODE grow alike with Starsim's own defaults, at starsim `0089ac0f` (4.0.0rc5) and later. For India, agents are within 0.1% of the ODE's population through 2050 (extrapolated to exact aging), and within about 1% of its share in each broad age group (0–14, 15–29, 30–49, 50–64, 65+). With TB and treatment on top, agents match the exactly aged ODE: population within 0.4%, ratios per prevalent case within 0.6%, and prevalence within 1% overall and by age group at weekly steps (exp 33). Across 12 sets from the calibrated posterior (exp 32), agents ÷ the exactly aged ODE prevalence is 0.996–1.004 by window at weekly steps, ratios per prevalent case within 0.25%, and the calibration targets within about 0.5% on average (exp 34).
 
 **The setup:**
 
@@ -247,16 +248,11 @@ Sample the posterior with IMIS.
 
 **Pitfalls:**
 
-- **The ODE's births are as female as its starting population** (48.63% for India 1950) with the joint split, and 50% without it, whatever `ss.birth`'s `p_female` is. So WPP's sex ratio at birth can't be used yet; give agents the ODE's share.
-- **Count agents' ages in your own analyzer with about 1e-3 years added** when comparing by age group. Agents' ages are 32-bit floats, so those born during a run land just below or above some whole-year edges, and Starsim's results by 5-year group are ±1.7% at monthly steps (±0.6% in broad groups).
+- **Count agents by age in your own analyzer, leaving out those dying in the step.** Analyzers run before `People.step_die()` removes the dead, so counting `auids` at the end of a step includes that step's deaths (up to 0.3% of the population per month for India 1950; exps 30 and 33 counted them). Leave out agents with `ti_dead` or `ti_removed` at or before the current step (exp 34's `AgeCounts`).
 - **Ignore `ss.Pregnancy`'s warning that births are made twice** with `ss.death`: a false positive. Its miscarriage and stillbirth results also miss losses at the mother's death; count them by balance if needed.
-- **The ODE smooths sharp features of the age distribution** (e.g. the steps of a 5-year starting population, or the join between those alive at the start and those born after), so its broad age shares cycle by up to about 1% against agents' as these pass group edges.
-
-**Pitfalls:**
-
 - **Results renamed at starsim `0089ac0f`:** the population's deaths are `death` (was `died`), births have a top-level `birth`, and `emigrated` is gone.
 - **The ODE smooths sharp features of the age distribution** (e.g. the steps of a 5-year starting population, or the join between those alive at the start and those born after), so its broad age shares cycle by up to about 1% against agents' as these pass group edges.
 
 **Upstream:** [proposal 06](proposals/06_pregnancy/proposal.md)'s changes (the fertility age, the start's share pregnant, the compartmental solver's sex split and births' sex, losses at the mother's death, the warning, 64-bit ages) are in starsim `0089ac0f` (PR #1625). [Proposal 07](proposals/07_starting_states/proposal.md) (draft) asks for drawn starting counts and for shares read per agent to be drawn from all states at once; until then, keep `tbode4.use_drawn_start()` and the single-year table.
 
-**Evidence:** [exp 28](experiments/28_age_demography/SUMMARY.md) (the gap, and single years against 5-year groups); [exp 29](experiments/29_pregnancy_timing/SUMMARY.md) (its parts, and workarounds at earlier pins); [exp 30](experiments/30_tb_corrected_demography/SUMMARY.md) (with TB and treatment, the ODE's widths with TB, and the starting states); [exp 33](experiments/33_starsim_rc5_demography/SUMMARY.md) (Starsim's defaults without workarounds, demography alone and with TB).
+**Evidence:** [exp 28](experiments/28_age_demography/SUMMARY.md) (the gap, and single years against 5-year groups); [exp 29](experiments/29_pregnancy_timing/SUMMARY.md) (its parts, and workarounds at earlier pins); [exp 30](experiments/30_tb_corrected_demography/SUMMARY.md) (with TB and treatment, the ODE's widths with TB, and the starting states); [exp 33](experiments/33_starsim_rc5_demography/SUMMARY.md) (Starsim's defaults without workarounds, demography alone and with TB); [exp 34](experiments/34_calibrated_demography_agents/SUMMARY.md) (agents across the calibrated posterior).

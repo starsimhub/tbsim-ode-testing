@@ -78,6 +78,7 @@ Exp 30's model and starting tables (`TBTreat`, sets 0 and 6, agents' drawn start
   - **Prevalence and ratios per case:** all-ages prevalence and every ratio per prevalent case are within 1%, and within about 2 SE in the later windows at weekly steps.
   - **Population:** within 0.4%, though 2–3 SE low (exp 30: 0.997–0.999).
   - **Prevalence by age group:** within 1% at weekly steps.
+  - **Caveat (found in [exp 34](../34_calibrated_demography_agents/SUMMARY.md)):** agents' prevalence by age group and age shares come from `AgeCounts`, which counted agents dying in a step as alive at its end (analyzers run before Starsim removes the dead). That adds each step's deaths to the counts, up to 0.3% of the population per month, most of it at older ages. Not rerun; exp 34's corrected count gives prevalence by age group within 0.6% of the ODE on average at weekly steps.
 - **Monthly steps:**
   - **As in exp 30:** age groups are within 2.3%, recent latent infection reads high in end-of-step snapshots (1.6 for set 0), and agents drift slowly from the ODE's start (exp 27).
   - **Before 1995:** set 0's prevalence is 0.983 ± 0.006, against exp 30's 1.009 ± 0.005, a difference of about 3 SE between two runs with different seeds. Weekly agents show no such gap (1.003 ± 0.005).

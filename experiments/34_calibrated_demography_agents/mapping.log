@@ -1,0 +1,46 @@
+Mapping check: v4's ODE (monthly, exact aging = 2 × eighth − quarter) ÷ fastode_age.run_cohort() (monthly, the calibration's model), from the same settled table. Largest |ratio − 1| over yearly means, 1951–1994 (pre) and 1995–2040 (notifications and on treatment 1996–2040); 'targets max': the largest |ratio − 1| of the eight targets
+    prevalence pre prevalence 1995+ prev_15+ pre prev_15+ 1995+ incidence pre incidence 1995+ mortality pre mortality 1995+ notifications pre notifications 1995+ on_treatment pre on_treatment 1995+ prop_asymptomatic pre prop_asymptomatic 1995+ alive pre alive 1995+ prev_0-14 pre prev_0-14 1995+ prev_15-29 pre prev_15-29 1995+ prev_30-49 pre prev_30-49 1995+ prev_50-64 pre prev_50-64 1995+ prev_65+ pre prev_65+ 1995+ targets max
+set                                                                                                                                                                                                                                                                                                                                                                                                                                            
+0          7.0e-05          2.4e-04      4.0e-04        2.0e-04       1.4e-03         3.5e-04       8.0e-05         5.1e-04               nan             3.6e-04              nan            3.6e-04               7.6e-06                 4.9e-05   1.1e-04     9.3e-05       6.7e-04         6.7e-04        5.7e-04          1.6e-04        3.1e-04          1.4e-04        3.1e-05          2.6e-04      2.1e-05        5.0e-04     4.1e-04
+1          6.3e-05          2.9e-04      5.6e-04        4.2e-04       1.5e-03         4.4e-04       7.4e-05         2.5e-04               nan             2.9e-04              nan            2.7e-04               7.0e-06                 5.9e-05   1.1e-04     9.3e-05       5.3e-04         1.9e-04        7.9e-04          3.8e-04        4.2e-04          4.0e-04        5.6e-05          5.2e-04      2.5e-05        7.3e-04     3.0e-04
+2          5.5e-05          9.0e-05      5.5e-04        1.7e-04       2.5e-03         6.9e-04       6.6e-05         1.5e-04               nan             8.6e-05              nan            8.1e-05               6.7e-06                 3.2e-05   1.1e-04     9.2e-05       4.5e-04         1.5e-04        8.5e-04          2.1e-04        3.1e-04          9.9e-05        2.5e-05          2.5e-04      2.9e-05        3.0e-04     3.6e-04
+3          7.0e-05          8.4e-05      4.4e-04        2.4e-04       2.3e-03         8.2e-04       6.8e-05         6.3e-05               nan             8.0e-05              nan            7.7e-05               1.4e-05                 2.5e-05   1.1e-04     9.1e-05       2.2e-04         1.4e-04        8.1e-04          2.7e-04        1.1e-04          2.3e-04        3.5e-05          2.7e-04      3.8e-05        3.8e-04     1.2e-04
+4          5.9e-05          2.3e-04      6.7e-04        4.2e-04       2.0e-03         5.9e-04       6.5e-05         1.9e-04               nan             2.1e-04              nan            2.0e-04               9.4e-06                 7.8e-05   1.1e-04     9.2e-05       4.0e-04         2.8e-04        9.8e-04          3.9e-04        4.2e-04          3.6e-04        3.9e-05          5.2e-04      3.3e-05        7.4e-04     2.8e-04
+5          8.0e-05          7.1e-05      6.8e-04        2.0e-04       2.2e-03         7.9e-04       7.6e-05         1.1e-04               nan             6.8e-05              nan            6.4e-05               1.1e-05                 2.6e-05   1.1e-04     9.1e-05       1.9e-04         1.6e-04        1.1e-03          2.5e-04        2.7e-04          1.4e-04        4.1e-05          2.6e-04      5.1e-05        3.2e-04     1.2e-04
+6          7.7e-05          4.8e-04      4.9e-04        7.0e-04       1.3e-03         6.4e-04       8.5e-05         4.3e-04               nan             4.2e-04              nan            4.0e-04               4.8e-06                 1.1e-04   1.1e-04     9.5e-05       8.6e-04         5.6e-04        5.7e-04          4.8e-04        5.4e-04          6.9e-04        1.5e-04          8.7e-04      4.1e-05        1.3e-03     4.5e-04
+7          6.4e-05          4.5e-04      5.8e-04        7.6e-04       1.6e-03         5.4e-04       7.5e-05         4.2e-04               nan             4.0e-04              nan            3.7e-04               6.3e-06                 1.2e-04   1.1e-04     9.4e-05       6.1e-04         6.5e-04        7.5e-04          4.9e-04        5.0e-04          7.4e-04        8.0e-05          9.8e-04      2.4e-05        1.5e-03     5.9e-04
+8          7.0e-05          4.9e-04      8.1e-04        8.6e-04       1.1e-03         5.2e-04       7.9e-05         4.5e-04               nan             4.2e-04              nan            3.8e-04               6.3e-06                 1.5e-04   1.1e-04     9.3e-05       7.7e-04         7.5e-04        8.8e-04          5.8e-04        9.0e-04          9.1e-04        2.6e-04          1.1e-03      6.6e-05        1.7e-03     6.7e-04
+9          5.8e-05          1.6e-04      7.1e-04        3.4e-04       2.0e-03         5.7e-04       7.1e-05         2.3e-04               nan             1.4e-04              nan            1.3e-04               9.0e-06                 5.7e-05   1.1e-04     9.2e-05       4.1e-04         4.9e-04        1.1e-03          3.0e-04        4.4e-04          3.0e-04        3.1e-05          4.3e-04      2.8e-05        6.7e-04     2.8e-04
+10         8.5e-05          5.3e-04      4.6e-04        7.7e-04       1.2e-03         7.1e-04       9.1e-05         4.8e-04               nan             4.6e-04              nan            4.3e-04               3.7e-06                 1.3e-04   1.1e-04     9.4e-05       9.7e-04         7.0e-04        4.3e-04          5.0e-04        6.4e-04          7.5e-04        3.2e-04          9.6e-04      9.5e-05        1.4e-03     4.0e-04
+11         5.9e-05          3.1e-04      8.5e-04        4.9e-04       2.0e-03         5.9e-04       7.0e-05         2.6e-04               nan             2.7e-04              nan            2.6e-04               7.7e-06                 8.7e-05   1.1e-04     9.2e-05       4.5e-04         3.6e-04        1.2e-03          4.5e-04        6.1e-04          4.6e-04        6.0e-05          6.2e-04      3.2e-05        8.6e-04     2.7e-04
+
+Largest over sets:
+prevalence pre             8.5e-05
+prevalence 1995+           5.3e-04
+prev_15+ pre               8.5e-04
+prev_15+ 1995+             8.6e-04
+incidence pre              2.5e-03
+incidence 1995+            8.2e-04
+mortality pre              9.1e-05
+mortality 1995+            5.1e-04
+notifications pre              nan
+notifications 1995+        4.6e-04
+on_treatment pre               nan
+on_treatment 1995+         4.3e-04
+prop_asymptomatic pre      1.4e-05
+prop_asymptomatic 1995+    1.5e-04
+alive pre                  1.1e-04
+alive 1995+                9.5e-05
+prev_0-14 pre              9.7e-04
+prev_0-14 1995+            7.5e-04
+prev_15-29 pre             1.2e-03
+prev_15-29 1995+           5.8e-04
+prev_30-49 pre             9.0e-04
+prev_30-49 1995+           9.1e-04
+prev_50-64 pre             3.2e-04
+prev_50-64 1995+           1.1e-03
+prev_65+ pre               9.5e-05
+prev_65+ 1995+             1.7e-03
+targets max                6.7e-04
+
+ODE run times: set 0 quarter 33 s, set 0 eighth 36 s, set 1 quarter 34 s, set 1 eighth 36 s, set 2 quarter 33 s, set 2 eighth 36 s, set 3 quarter 33 s, set 3 eighth 37 s, set 4 quarter 34 s, set 4 eighth 37 s, set 5 quarter 34 s, set 5 eighth 35 s, set 6 quarter 34 s, set 6 eighth 37 s, set 7 quarter 34 s, set 7 eighth 36 s, set 8 quarter 33 s, set 8 eighth 37 s, set 9 quarter 33 s, set 9 eighth 36 s, set 10 quarter 33 s, set 10 eighth 37 s, set 11 quarter 33 s, set 11 eighth 36 s; total 37 s

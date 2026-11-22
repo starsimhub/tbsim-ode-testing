@@ -1,8 +1,8 @@
 # 34: Do v4's agents match its ODE with ages and demography, across the calibrated posterior?
 
-**Status:** designed, not yet run.
+**Status:** run on zebra; findings in [SUMMARY.md](SUMMARY.md).
 **Track:** v4 (`v4/.venv`; tbsim `origin/v4` @ `a2ae583`, starsim `origin/v4` @ `0089ac0f`).
-**Run on:** zebra if it's free when the run starts; otherwise the laptop's 4 cores, kept awake (`caffeinate`), about 3–4 hours.
+**Run on:** zebra (100 workers; about 1 hour of wall time).
 
 ## Why this experiment
 
@@ -71,7 +71,7 @@ At parameter sets drawn from exp 32's posterior, do v4's agents reproduce v4's O
 - **The ODE:** v4's ODE with quarter- and eighth-year age groups, at monthly and weekly steps. Exact aging is extrapolated as 2 × eighth − quarter. First-entry incidence comes from exp 30's `ode_incidence`.
 - **Agents:** 100,000 at the start (about 480,000 by 2040), at monthly and weekly steps, 20 reps each, new seeds. Counting:
   - incidence with `tbode4.Incidence`, and the pitfall checks with `tbode4.TxChecks`;
-  - prevalence by age group with exp 30's `AgeCounts`, extended to count asymptomatic TB, for the 15+ share asymptomatic;
+  - prevalence by age group with exp 30's `AgeCounts`, extended to count asymptomatic TB (for the 15+ share asymptomatic) and to leave out agents dying in the step (analyzers run before Starsim removes them, so exp 30's version counted them);
   - population results under Starsim's current names (`death`, `birth`; exp 33).
 - **Why 100,000 agents:** 15+ prevalence runs from about 400–1,200 per 100,000 before 1995 to about 140–270 by 2040 across the posterior, so a run has about 300–1,200 people with active TB throughout. 20 reps then give an SE of about 1–2% of prevalence per set and window, as in exps 27 and 30.
 - **Years:** 1950–2041, as the calibration.
