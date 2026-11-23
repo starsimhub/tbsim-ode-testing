@@ -95,6 +95,17 @@ These aren't ABM↔ODE consistency steps. They are changes to the model and its 
 - **Upstream:** whether to propose anything for latent progression (proposal 02). Network `beta` needs nothing upstream: Starsim's network ODE now does it (proposals 01 and 03). An incidence result for tbsim v4 is drafted, not sent ([proposal 05](proposals/05_incidence/proposal.md)).
 - **Networks:** decided (user, 2026-11-10): homogeneous mixing by default, and on a network, calibrate on Starsim's network ODE, now the same model as agents on it ([exp 25](experiments/25_starsim_network_fix/SUMMARY.md); CONVENTIONS.md 1). Proposal 03 is resolved upstream. Open: persistent networks (households), untested.
 - **Treatment:** decided (user, 2026-11-09): a fixed 6-month course (CONVENTIONS.md 9; exp 23). Open: whether to send [proposal 04](proposals/04_treatment/proposal.md) upstream, and with which of its two changes.
+- **Before recalibrating with treatment outcomes** (user, 2026-11-23: add the private-sector adjustment first). Two experiments, not yet created: inputs and reparameterisation (with a coverage check of the priors against the targets), then the calibration (IMIS, as exp 32), then a lighter agents check at the new posterior.
+  - **Inputs needed from the user** (most important first):
+    - **c**, a completed regimen's cure share, a prior from trials. One value, or separate values for India's thrice-weekly regimen (to about 2017) and the daily one since?
+    - **The private sector's share of treatment over time**, e.g. from drug-sales estimates and Ni-kshay private notifications (from about 2013).
+    - **Private-sector outcomes:** died and lost shares, or multipliers on the public ones.
+    - **q(f), partial benefit after loss to follow-up:** a shape and prior. The placeholder is q(f) = f.
+    - **Timing of deaths on treatment** (sets ω): the targets were insensitive to it with overall cure fixed (exp 35); possibly not once c is calibrated.
+  - **Decisions:**
+    1. **Coverage:** does it keep meaning the share of people with symptomatic TB treated within a year in any sector? Suggested: yes. Outcomes are then a public–private mix, and only the notified share counts as notifications.
+    2. **Unnotified private treatment:** (a) adjustment factors for outcomes, plus a notified share by sector for notifications (probably replacing or changing `over_detection`); or (b) sector pathways in `TBTreat` (exp 35's hook), each with its own outcomes and notification. (a) is simpler, but this is where sectors affect the notifications target, which the calibration only just meets.
+    3. **IMIS weights:** fix exp 32's problem in this calibration (badly fitting initial prior draws carrying large weights; exp 34), or only report it?
 
 ### Parameters
 
