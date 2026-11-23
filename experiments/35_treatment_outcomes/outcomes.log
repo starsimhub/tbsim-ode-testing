@@ -1,0 +1,35 @@
+India, WHO treatment outcomes by cohort year (shares of evaluated cases; not evaluated left out of the denominator):
+             cohort_type     cohort  share_evaluated  success_share  failed_share  died_share  lost_share
+year                                                                                                     
+1994  new smear-positive     1026.0           0.9532         0.8732        0.0276      0.0409      0.0583
+1995  new smear-positive   264722.0           0.2524         0.9955        0.0010      0.0010      0.0024
+1996  new smear-positive   291111.0           0.2172         0.9820        0.0041      0.0036      0.0102
+1997  new smear-positive   293483.0           0.1875         0.9782        0.0047      0.0049      0.0121
+1998  new smear-positive   284063.0           0.2961         0.9090        0.0063      0.0090      0.0757
+1999  new smear-positive   345018.0           0.2877         0.7439        0.0223      0.0308      0.2030
+2000  new smear-positive   349328.0           0.4349         0.7921        0.0231      0.0318      0.1530
+2001  new smear-positive   384073.0           0.6714         0.8053        0.0260      0.0357      0.1330
+2002  new smear-positive   395557.0           0.7116         0.8392        0.0241      0.0405      0.0962
+2003  new smear-positive   419961.0           0.8807         0.8611        0.0245      0.0463      0.0681
+2004  new smear-positive   489195.0           0.9510         0.8644        0.0240      0.0442      0.0674
+2005  new smear-positive   507204.0           0.9938         0.8617        0.0237      0.0455      0.0691
+2006  new smear-positive   553302.0           0.9915         0.8663        0.0228      0.0464      0.0645
+2007  new smear-positive   592414.0           0.9904         0.8735        0.0204      0.0458      0.0603
+2008  new smear-positive   615977.0           0.9913         0.8783        0.0196      0.0440      0.0581
+2009  new smear-positive   624617.0           0.9946         0.8801        0.0201      0.0435      0.0563
+2010  new smear-positive   630165.0           0.9924         0.8831        0.0190      0.0420      0.0559
+2011  new smear-positive   642321.0           0.9915         0.8846        0.0193      0.0410      0.0551
+2012     new and relapse  1288141.0           0.9878         0.8879        0.0135      0.0395      0.0592
+2013     new and relapse  1243905.0           0.9866         0.8883        0.0134      0.0413      0.0569
+2014     new and relapse  1609547.0           0.8349         0.8902        0.0108      0.0422      0.0569
+2015     new and relapse  1656233.0           0.8105         0.8944        0.0101      0.0428      0.0527
+2016     new and relapse  1763876.0           0.7847         0.8782        0.0214      0.0487      0.0517
+2017     new and relapse  1568392.0           0.8894         0.9079        0.0093      0.0378      0.0451
+2018     new and relapse  1908683.0           0.8967         0.9122        0.0069      0.0383      0.0425
+2019     new and relapse  2152563.0           0.9196         0.9130        0.0063      0.0419      0.0388
+2020     new and relapse  1603958.0           0.9299         0.9151        0.0055      0.0471      0.0322
+2021     new and relapse  1905759.0           0.9445         0.9187        0.0052      0.0489      0.0272
+2022     new and relapse  2194723.0           0.9513         0.9307        0.0050      0.0430      0.0213
+2023     new and relapse  2286114.0           0.9560         0.9389        0.0051      0.0396      0.0164
+
+(Smear-positive cohorts only to 2011; the schedules used are from all new cases: fitted_schedule(), outcome_schedule.csv)

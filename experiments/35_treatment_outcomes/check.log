@@ -1,0 +1,36 @@
+fastode_age with exp 35's treatment (arm A: ω = 0.5, q(f) = f) against v4's ODE (monthly, exact aging = 2 × eighth − quarter): largest |v4 ÷ fastode_age − 1| over yearly means, 1951–1994 (pre) and 1995–2040 (treatment outputs from 1996)
+set                           2        9        10
+prevalence pre           5.5e-05  5.8e-05  8.5e-05
+prevalence 1995+         1.0e-04  1.5e-04  4.7e-04
+prev_15+ pre             5.5e-04  7.1e-04  4.6e-04
+prev_15+ 1995+           3.1e-04  7.1e-04  1.2e-03
+incidence pre            2.5e-03  2.0e-03  1.2e-03
+incidence 1995+          6.9e-04  5.7e-04  6.4e-04
+mortality pre            6.6e-05  7.1e-05  9.1e-05
+mortality 1995+          9.6e-05  1.5e-04  4.6e-04
+mortality_tx pre             nan      nan      nan
+mortality_tx 1995+       2.9e-03  2.3e-03  2.1e-03
+mortality_tx_cure pre        nan      nan      nan
+mortality_tx_cure 1995+  3.6e-03  3.4e-03  3.4e-03
+notifications pre            nan      nan      nan
+notifications 1995+      9.9e-05  1.1e-04  3.6e-04
+on_treatment pre             nan      nan      nan
+on_treatment 1995+       1.0e-04  1.4e-04  3.0e-04
+ltfu pre                     nan      nan      nan
+ltfu 1995+               8.1e-04  7.9e-04  8.1e-04
+ltfu_cured pre               nan      nan      nan
+ltfu_cured 1995+         6.5e-04  1.0e-03  1.2e-03
+alive pre                1.1e-04  1.1e-04  1.1e-04
+alive 1995+              9.4e-05  9.2e-05  1.0e-04
+prev_0-14 pre            4.5e-04  4.1e-04  9.7e-04
+prev_0-14 1995+          3.8e-04  1.4e-03  2.6e-03
+prev_15-29 pre           8.5e-04  1.1e-03  4.3e-04
+prev_15-29 1995+         3.3e-04  6.0e-04  5.8e-04
+prev_30-49 pre           3.1e-04  4.4e-04  6.4e-04
+prev_30-49 1995+         2.9e-04  6.5e-04  1.3e-03
+prev_50-64 pre           2.5e-05  3.1e-05  3.2e-04
+prev_50-64 1995+         3.9e-04  8.2e-04  1.9e-03
+prev_65+ pre             2.9e-05  2.8e-05  9.5e-05
+prev_65+ 1995+           6.5e-04  1.6e-03  3.3e-03
+targets max              3.6e-04  7.6e-04  1.0e-03
+(13 s)

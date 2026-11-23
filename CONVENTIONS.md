@@ -2,7 +2,7 @@
 
 The modelling conventions decided in this repo, written so they can be adopted in a new repo or brought into tb_LAI_TPT. Each says what to do, the code, when it's valid, the pitfalls, and where it was decided. The evidence is in the linked experiments and proposals.
 
-**They assume tbsim v4 on starsim v4** (tbsim `origin/v4` @ `619c296`, starsim `origin/v4` @ `d83f4f87`, the versions tested here; exps 12–25 ran at tbsim `dcfb522` and starsim `80c81f53`), unless a section says otherwise. tb_LAI_TPT is on v0.10. Bringing these conventions into it means moving it to v4 (or to `tbode.TBExact` for v0.10 agents), and recalibrating (see [Progression targets](#4-progression-targets)).
+**They assume tbsim v4 on starsim v4** (tbsim `origin/v4` @ `a2ae583`, starsim `origin/v4` @ `0089ac0f` (4.0.0rc5), the versions tested here from exp 33; exps 26–32 ran at tbsim `619c296` and starsim `d83f4f87`, exps 12–25 at tbsim `dcfb522` and starsim `80c81f53`), unless a section says otherwise. tb_LAI_TPT is on v0.10. Bringing these conventions into it means moving it to v4 (or to `tbode.TBExact` for v0.10 agents), and recalibrating (see [Progression targets](#4-progression-targets)).
 
 | # | Convention | Status |
 |---|---|---|
@@ -14,7 +14,7 @@ The modelling conventions decided in this repo, written so they can be adopted i
 | 6 | [Starting and comparing runs](#6-starting-and-comparing-runs) | Practice in this repo |
 | 7 | [Versions](#7-versions) | Practice in this repo |
 | 8 | [Calibrating the ODE: a standalone copy at equilibrium, with IMIS](#8-calibrating-the-ode-a-standalone-copy-at-equilibrium-with-imis) | Practice in this repo (2026-11-07; with ages and demography, exp 31) |
-| 9 | [Treatment](#9-treatment) | Decided and implemented (2026-11-09; exp 23): fixed 6-month course; loss to follow-up on treatment to add |
+| 9 | [Treatment](#9-treatment) | Decided and implemented (2026-11-09; exp 23): fixed 6-month course. Death and loss to follow-up on treatment added (2026-11-23; exp 35); reparameterisation to clinical efficacy next |
 | 10 | [Demography: births, ages and the starting population](#10-demography-births-ages-and-the-starting-population) | Practice in this repo (2026-11-19; exps 28–30); tested with TB and treatment (exp 30), and across the calibrated posterior (exp 34) |
 
 ## 1. Contact networks: homogeneous mixing by default; on a random network, calibrate on Starsim's ODE of the network
@@ -167,6 +167,7 @@ Sample the posterior with IMIS.
 
 - **It is a second implementation of the model.** v4's own ODE stays the reference for ODE↔agents comparisons.
   - **Every feature added to the model** (child transmission next) goes into `fastode_age` too (and `fastode`, while it's used), and is tested against v4's ODE before it's used for calibration.
+  - **Compare agents with `fastode_age` directly too,** not only through v4's ODE, so that two small gaps can't combine unseen (exp 35: weekly agents within 0.5% of `fastode_age` in prevalence).
   - **After bumping the v4 pins,** rerun `v4/tests/test_fastode.py`.
 - **The equilibrium shortcut needs constant rates.** With time-varying inputs (treatment scale-up, demography, trends over time), integrate trajectories with `fastode.run`, which is slower than root-finding but still far faster than Starsim. Or start from an equilibrium at an early year and integrate from there.
 - **Check convergence on parameters, not only predictions:** run IMIS again with another seed and compare the marginals. In exp 24, two seeds agreed on every prediction, but not on parameters along a ridge (`k_latent` with `inf_asy`).
@@ -190,7 +191,7 @@ Sample the posterior with IMIS.
 
 ## 9. Treatment
 
-**Status:** design agreed (user, 2026-11-09), to implement in our own code: a `tbsim.TB` subclass in `tbode4`, and `fastode`. Implemented as `tbode4.TBTreat` (v4's ODE and agents) and in `tbode4.fastode`; [exp 23](experiments/23_treatment/SUMMARY.md) checks it, and compares the design with tb_LAI_TPT and with tbsim v4 as it stands. The course is fixed (user, 2026-11-09): it gives about 1% less prevalence than a rate, through TB death on treatment, and v4's ODE runs it exactly. The parts that may belong in tbsim v4 itself are in [proposal 04](proposals/04_treatment/proposal.md).
+**Status:** design agreed (user, 2026-11-09), to implement in our own code: a `tbsim.TB` subclass in `tbode4`, and `fastode`. Implemented as `tbode4.TBTreat` (v4's ODE and agents) and in `tbode4.fastode`; [exp 23](experiments/23_treatment/SUMMARY.md) checks it, and compares the design with tb_LAI_TPT and with tbsim v4 as it stands. The course is fixed (user, 2026-11-09): it gives about 1% less prevalence than a rate, through TB death on treatment, and v4's ODE runs it exactly. The parts that may belong in tbsim v4 itself are in [proposal 04](proposals/04_treatment/proposal.md). With death and loss to follow-up (below), the same structure is in `tbode4.fastode_age` for calibration (`tx_options()`), checked against v4's ODE and against agents directly (exp 35).
 
 **The design:**
 
@@ -200,7 +201,7 @@ Sample the posterior with IMIS.
 - **The course:** fixed, D = 0.5 years (user, 2026-11-09): `TBTreat(course='fixed')`, the default. In `fastode`, pass `tx_stages=12`: Erlang stages approximate the fixed course, within 0.1% of prevalence (exp 23); the default, 1, is a rate.
 - **After cure:** v4's `treated` state, reinfected at `rr_reinfection_treat` = π like every other reinfection (convention 3), not v4's default of 3.15 (user, 2026-11-09). Keeping a separate state costs nothing, keeps the number previously treated visible, and leaves room for a different risk later.
 - **Relapse:** a share `p_relapse` of successes goes to `relapsing` instead of `treated`, then to symptomatic TB at rate 1/1.5 per year. People waiting to relapse can't be reinfected.
-- **On treatment:** nobody transmits or is reinfected. People whose treatment will fail keep the TB death rate of the state they started from (`sym_dead`) for the course; people who will be cured don't die of TB (user, 2026-11-09). Count these deaths in TB mortality, and include them in any births that replace TB deaths (`tbsim.TB`'s replacement covers symptomatic TB only).
+- **On treatment:** nobody transmits or is reinfected. Exp 23's model: people whose treatment will fail keep the TB death rate of the state they started from (`sym_dead`) for the course; people who will be cured don't die of TB (user, 2026-11-09). Exp 35's, below, replaces this with death on treatment from data. Count these deaths in TB mortality, and include them in any births that replace TB deaths (`tbsim.TB`'s replacement covers symptomatic TB only).
 - **Notifications:** every start of treatment, counted from the transitions into treatment, so restarts after failure or relapse count again. Report notifications ÷ incidence too.
 
 **Declaring it in Starsim v4:**
@@ -213,11 +214,25 @@ Sample the posterior with IMIS.
 
 **Starting runs:** before treatment starts, use the untreated equilibrium with nobody on treatment. A start at a treated equilibrium needs people in the treatment and `relapsing` states and, with a fixed course, a time already on treatment (uniform over the course). Otherwise start with nobody on treatment and burn in for a few years.
 
+**Death and loss to follow-up on treatment** (user, 2026-11-22 and 23; [exp 35](experiments/35_treatment_outcomes/SUMMARY.md)): `TBTreat`'s options; with their defaults it is exp 23's model step for step.
+
+- **Two tracks, drawn at the start:** the cure track (a completed regimen would cure, probability c) or the fail track.
+- **Phases of fixed width** (`tx_phase_dur`, 2 months; by width, not count, so regimens of different lengths are resolved alike). Give both solvers phases of whole steps adding up to the course (`tbode4.phase_lengths()`): v4's ODE rounds each fixed length to whole steps, so 3 × 2 months at weekly steps would run 3.5% long.
+- **In each phase, competing exits:** TB death at μ_f (fail track) or μ_c,k (cure track; e.g. in the first phase only), loss to follow-up at h on both tracks, background death as in every state, and the end of the phase. TB death by hazard lets a better or shorter regimen change deaths through the structure; a died share drawn at the start wouldn't, and deaths only among failures can't hold reported deaths when efficacy is high.
+- **Partial benefit:** on the cure track, a share q_k of those lost in phase k is cured (q of the fraction completed); the fail track's losses never are.
+- **Back to the starting state:** every exit but a cure or death, for each state treatment starts from (`tx_from`).
+- **By starting state:**
+  - **TB disease:** TB death on treatment is set by starting state. Symptomatic TB's comes from data; asymptomatic and non-infectious TB have none unless given.
+  - **Latent infection:** a course clears it with a regimen's trial efficacy (`tx_clear_latent`; the same quantity as c), to `treated`, so the health system counts these people as previously treated, but never to `relapsing`.
+  - **Any other state without TB disease** (e.g. a false positive): one track, no cure and no TB death, and everyone returns to their starting state: no relapse, no reinfection protection.
+  - **In every case,** natural history pauses during the course and nobody on treatment is infected (accepted simplifications).
+- **From data:** WHO's "died" counts every cause, so match the model's TB and background deaths on treatment together to it. Leave "not evaluated" out of the denominator, and use all new cases (smear-negative and extrapulmonary too). For India, the died share is held constant (its trend is noise) and the lost share is linear between knots fitted to the data. `tbode4.carve_out()` solves c, μ_f, μ_c,1 and h for given overall cure, died and lost shares; `outcome_shares()` gives a course's shares exactly. `fastode_age.tx_options()` runs the same in `fastode_age`.
+- **Parameterisation, to change:** exp 35 holds overall cure at the calibrated efficacy (the carve-out). Next, calibrate c, a completed regimen's cure share, with a prior from trials, so it can't exceed 1 and overall success is an output; adjust WHO's outcomes for the private sector.
+
 **To add later (user, 2026-11-09):**
 
-- **Loss to follow-up during treatment:** leaving treatment early, back to the starting state.
 - **Lower coverage for children,** with age structure.
-- **Not planned:** partial benefit from incomplete treatment, and transmission on treatment.
+- **Not planned:** transmission on treatment.
 
 ## 10. Demography: births, ages and the starting population
 

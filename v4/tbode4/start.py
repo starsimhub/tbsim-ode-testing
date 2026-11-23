@@ -84,7 +84,9 @@ def shares_by_group(sim, idx=-1, states=None):
         shares ({state: array [sex, age group]}), the groups' lower edges, and the people in each group [sex, age group]
     """
     r = sim.results.tb
-    states = tb_states if states is None else states
+    if states is None: # tbsim.TB's states and TBTreat's treatment states (generated with exp 35's options)
+        info = getattr(sim.diseases.tb, 'tx_info', None)
+        states = tb_states + ([k for k in info.states if k not in tb_states] if info is not None else [])
     vals = {k: np.stack([_by_age_sex(r[k], s)[0][idx] for s in sexes]) for k in states if k in r}
     pop = sum(vals.values())
     lows = _by_age_sex(r['susceptible'], sexes[0])[1]

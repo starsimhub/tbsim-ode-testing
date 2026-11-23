@@ -1,6 +1,6 @@
 # 35: Death and loss to follow-up on treatment
 
-**Status:** designed, not yet run.
+**Status:** run; findings in [SUMMARY.md](SUMMARY.md).
 **Track:** v4 (`v4/.venv`; tbsim `origin/v4` @ `a2ae583`, starsim `origin/v4` @ `0089ac0f`).
 **Run on:** zebra for the agents (about 1 hour on 100 workers, as exp 34); the rest on the laptop.
 
@@ -91,14 +91,18 @@ As CONVENTIONS.md 9 sets out, each state treatment can start from has its own se
 - **Relapse after cure** goes to symptomatic TB, as now.
 - **The sets are generated from a list of starting states** (`tx_from`). Today the list is symptomatic TB only. Arm B tests two more, so the return paths are checked before anything relies on them.
 
-**A course's outcomes depend on whether the starting state has TB disease** (user, 2026-11-23):
+**A course's outcomes depend on the starting state** (user, 2026-11-23):
 
-- **From a state with TB disease** (symptomatic, asymptomatic or non-infectious TB): as above, two tracks, death and loss to follow-up hazards, and cure to `treated` or `relapsing`.
-- **From a state without TB disease** (susceptible, latent infection, cleared, recovered, treated), e.g. a false-positive diagnosis: one track, with no cure.
+- **TB disease** (symptomatic, asymptomatic or non-infectious TB): as above, two tracks, loss to follow-up, and cure to `treated` or `relapsing`. TB death on treatment is set by starting state. Symptomatic TB's comes from WHO's data; asymptomatic and non-infectious TB have none unless given, since they have no TB death off treatment either.
+- **Latent infection** (recent or remote): a clearance track (probability e, a regimen's efficacy as in a trial, unadjusted for loss, adherence or death) or not.
+  - **Clearance:** to `treated`, so that the health system counts these people as previously treated. They never go to `relapsing`, so they can't relapse.
+  - **No clearance:** back to the latent state. Loss to follow-up applies, with partial benefit on the clearance track. No TB death.
+  - **The parameter:** `tx_clear_latent` here; after the reparameterisation it's the same quantity as c.
+- **Any other state without TB disease** (susceptible, cleared, recovered, treated), e.g. a false-positive diagnosis: one track, with no cure.
   - **During the course:** no TB death hazard, only background deaths, and loss to follow-up at h.
   - **Afterwards:** everyone returns to their starting state, with no relapse and no change in reinfection risk. Sending them to `treated` would give them protection against reinfection (π) they haven't earned, and `relapsing` a relapse risk they can't have.
   - **Counting:** they still count as notifications and as on treatment, as false positives would.
-- **Treating latent infection on purpose** (preventive therapy) is a separate product with its own effect, not covered by this rule.
+- **In every case, natural history pauses during the course** (no progression, recovery or worsening), and nobody on treatment is infected (user, 2026-11-23: both accepted).
 
 ### Unchanged
 
@@ -127,17 +131,25 @@ As CONVENTIONS.md 9 sets out, each state treatment can start from has its own se
 | `p_relapse` | Share of cures that relapse | Calibrated (exp 32) | Calibrated |
 | `dur_relapse_tx` | Mean time from cure to relapse | Fixed, 1.5 years (tb_LAI_TPT) | Fixed, or literature |
 | `sym_dead`(t) | TB death rate in symptomatic TB | Calibrated (exp 32); now off treatment only | Calibrated |
-| `tx_from` | States treatment can start from; a state without TB disease gets one track with no cure | Symptomatic TB (arm B: also asymptomatic TB and susceptible, a test) | Design; screening or false positives would add states |
+| `tx_from` | States treatment can start from; outcomes by kind of state (above) | Symptomatic TB (arm B: also asymptomatic TB, recent latent infection and susceptible, a test) | Design; screening, preventive therapy or false positives would add states |
+| e (`tx_clear_latent`) | Chance a course from latent infection clears it | Arm B placeholder: 0.9 | A regimen's efficacy from trials (the same quantity as c) |
 
 **WHO's outcome data.** The source is the treatment outcomes CSV, a public download from WHO's TB data portal. It gives India's cohort outcomes from the mid-1990s: success, failure, died, lost to follow-up, and not evaluated.
 
-- **Which cohorts:** new smear-positive cohorts before 2012, and new and relapse cohorts after. The definitions change over time, which is reported.
+- **Which cohorts: all new cases** (user, 2026-11-23), since the model doesn't distinguish the forms of TB.
+  - **2012 on:** new and relapse cohorts.
+  - **2004–2011:** new smear-positive plus new smear-negative/extrapulmonary cohorts, pooled.
+  - **1999–2003:** only smear-positive cohorts were reported, so their shares are scaled by the 2004–2006 ratio of all new cases to smear-positive ones (× 0.85 for died, × 1.05 for lost).
+  - **Before 1999:** left out (under 30% of each cohort evaluated during the rollout of DOTS).
 - **Public sector only, in effect:** these are notified, mostly public-sector cohorts. Private-sector outcomes, often worse, were largely not reported, especially in earlier years. They are used as published here, labelled as public-sector outcomes. That's enough for this experiment, because the carve-out holds overall cure fixed, so they only decide how failures split into deaths, losses and true failures. Adjusting them for the private sector belongs with the reparameterisation (see "Not covered").
 - **"Not evaluated"** is left out of the denominator (user, 2026-11-23); its share is reported.
 - **Background deaths:** WHO's "died" counts deaths from any cause on treatment. So the model's deaths on treatment from TB and from background together are matched to d(t), not TB deaths alone. Background deaths are about 0.5–1% of courses at typical treated ages, against a died share of about 4–5%.
-- **Smoothing:** d(t) and ℓ(t) are smoothed onto tb_LAI_TPT's knots (1995, 2010, 2024; linear between, constant after), as coverage and efficacy are.
+- **The schedules** (user, 2026-11-23; `outcome_schedule.png`):
+  - **d:** constant, the mean of 1999–2023 (3.9%), because its trend is noise-dominated.
+  - **ℓ:** linear between knots at 1999, 2003, 2014 and 2023, fitted by least squares to 1999–2023 (20.6%, 6.9%, 5.6%, 1.9%), held at the 1999 value before 1999 and constant after 2023. This captures the decline in losses.
+  - **Considered and not used:** yearly values, and a smoothing spline (`outcome_options.png`), which were noisier than wanted.
 
-**The carve-out (this experiment).** Exp 32's calibrated posterior is kept, and the new outcomes are carved out of its failure share, so overall cure among people starting treatment stays at each set's calibrated s(t). At each knot, three conditions fix three quantities:
+**The carve-out (this experiment).** Exp 32's calibrated posterior is kept, and the new outcomes are carved out of its failure share, so overall cure among people starting treatment stays at each set's calibrated s(t). At each knot year (efficacy's, 1995 and 2024, and the loss schedule's, 1999, 2003, 2014 and 2023; linear between), three conditions fix three quantities:
 
 - **The fixed outcome shares:** overall cure = s(t), the died share = d(t) (deaths from TB and background together), and the lost share = ℓ(t). These are solved numerically for c, μ_f and h, given q and ω, with the phases' competing exits computed exactly.
 - **Background deaths are a competing exit in the solve,** not subtracted afterwards: someone who dies of other causes can't then die of TB, be lost or be cured.
@@ -173,23 +185,26 @@ As CONVENTIONS.md 9 sets out, each state treatment can start from has its own se
 - **`tbode4.fastode_age`:** the same structure, tested against v4's ODE in `v4/tests/test_fastode_age.py` before any use for calibration (CONVENTIONS.md 8). `tbode4.fastode` (no ages) is no longer used for calibration and is left as it is.
 - **Phases at weekly steps:** v4's ODE runs a fixed duration as whole steps (nearest). So three 2-month phases at weekly steps are 9 steps each, 27 weeks (0.52 years) in total, against 26 weeks for one 6-month phase. Agents run the exact duration.
   - **Measured in stage 2.**
-  - **If it matters,** the phases are given lengths in whole steps that add up to the course.
+  - **It mattered** (a cohort test: 2–4% more deaths and losses in the ODE), so both solvers get phases of whole steps adding up to the course, from `tbode4.phase_lengths()` (9 + 9 + 8 weeks; 2 + 2 + 2 months).
 - **The phase width:** with an exponential loss to follow-up, the expected partial benefit for a smooth q(f) has a closed form. It is compared at w = 6, 3, 2 and 1 months (M = 1, 2, 3, 6) against that continuous limit, at the solved h (`phases.log`); no simulation is needed. Stage 3 also compares the targets at w = 2 and 1 month.
 
 **Stage 2, agents against the ODE:**
 
 - **Setup:** exp 34's, with India's demography from 1950, each set's settled start by single year of age and sex, and 100,000 agents at the start.
-- **Sets:** 3 of exp 34's sets, spread along the ridge (lowest, middle and highest `k_latent`), with their carve-out schedules (c capped at 1 if needed).
+- **Sets:** 3 of exp 34's sets, spread along the ridge (lowest, middle and highest `k_latent`; sets 9, 10 and 2), leaving out exp 34's set 0, a badly fitting prior draw. Each has its carve-out schedules (c capped at 1 if needed), with the background death rate from its current-model `fastode_age` run.
 - **Arm A:** the design with every exit in use, to exercise the code: ω = 0.5 (cure-track deaths in phase 1), q(f) = f, treatment from symptomatic TB.
-- **Arm B (the return paths):** as A, but treatment also starts from two more states at placeholder rates, each with its own set of treatment states. Not a model of screening or of false positives; it checks the return paths.
-  - **Asymptomatic TB,** at a tenth of symptomatic TB's rate: a state with TB disease.
+- **Arm B (the return paths):** as A, but treatment also starts from three more states at placeholder rates, each with its own set of treatment states. Not a model of screening, preventive therapy or false positives; it checks the return paths.
+  - **Asymptomatic TB,** at a tenth of symptomatic TB's rate: a state with TB disease, with no TB death on treatment (its default).
+  - **Recent latent infection,** at 0.01 per year with e = 0.9: checking that clearances go to `treated` and that nobody relapses or dies of TB.
   - **Susceptible,** at a small rate (e.g. 0.001 per year): a state without TB disease, checking that nobody is cured, dies of TB on treatment or relapses, and that everyone returns to susceptible.
 - **Runs:** v4's ODE at quarter- and eighth-year age groups (extrapolated to exact aging), and agents, 20 reps each, at monthly and weekly steps.
 - **Measured:**
   - **As in exp 34:** agents ÷ ODE by window for prevalence (all ages and 15+), for incidence, notifications, the number on treatment and TB mortality per prevalent case, and for prevalence by age group.
   - **New:** deaths on treatment by track, losses to follow-up and partial cures, per prevalent case.
+  - **Agents ÷ `fastode_age` directly** (arm A): the calibration's model at monthly steps against agents at both steps, from the check's `fastode_age` runs. The other comparisons go through v4's ODE; this one doesn't (user, 2026-11-23).
 - **Extended pitfall checks** (`tbode4.TxChecks`):
   - everyone leaving treatment without cure or death returns to the state they started from;
+  - nobody treated for latent infection relapses or dies of TB;
   - nobody treated from a state without TB disease is cured, dies of TB on treatment, or enters `treated` or `relapsing`;
   - each phase lasts w (agents);
   - the shares who die and who are lost, against d(t) and ℓ(t), and the deaths' split by track against ω;

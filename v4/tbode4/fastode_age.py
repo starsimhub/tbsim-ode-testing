@@ -34,11 +34,12 @@ from scipy.integrate import solve_ivp
 from . import fastode as fo
 from .demog import WPP, wpp_edges, sexes, female_share
 
-__all__ = ['Demography', 'Layout', 'schedules', 'initial', 'run_cohort', 'run_rate', 'settle', 'start_table', 'yearly', 'calendar', 'targets', 'groups5']
+__all__ = ['Demography', 'Layout', 'schedules', 'initial', 'tx_options', 'run_cohort', 'run_rate', 'settle', 'start_table', 'yearly', 'calendar', 'targets', 'groups5']
 
 base_states = ['susceptible', 'infection', 'infection_remote', 'cleared', 'recovered', 'non0', 'non1', 'asymptomatic', 'symptomatic', 'treated', 'relapsing']
 S, L, M, C, R, N0, N1, A, Y, TR, RL = range(len(base_states))
-counter_names = ['first', 'tx_start', 'tb_death', 'tb_death_tx', 'relapse'] # Per-step flows: incidence (with relapses), notifications, TB deaths, on failing courses, relapses
+counter_names = ['first', 'tx_start', 'tb_death', 'tb_death_tx', 'relapse', 'tb_death_tx_cure', 'ltfu', 'ltfu_cured'] # Per-step flows: incidence (with relapses),
+# notifications, TB deaths, on failing courses, relapses; and exp 35's: TB deaths on the cure track, losses to follow-up, those cured on being lost
 groups5 = sc.objdict({'0-14': (0, 15), '15-29': (15, 30), '30-49': (30, 50), '50-64': (50, 65), '65+': (65, 999)}) # Exp 28's age groups
 t_tx = 1994 + 364/365 # tb_LAI_TPT's first treatment knot, 1994-12-31
 
@@ -117,11 +118,14 @@ class Layout:
         return
 
 
-def generator_parts(p, lay):
+def generator_parts(p, lay, tx=None):
     """
     The transition rates within one group as matrices, dx/dt = Q x: Q = Qc + λ·Ql + θ·s·Qs + θ·(1 − s)·Qf + d·Qd, with λ the force of
     infection on a susceptible (beta × (trans_asymp × A + Y) ÷ the living), θ the rate of starting treatment, s the chance a course cures, and
-    d = sym_dead. Rows for counters accumulate flows. In 'slots' courses, people move along the conveyor outside Q
+    d = sym_dead. Rows for counters accumulate flows. In 'slots' courses, people move along the conveyor outside Q.
+
+    With `tx` (exp 35; see tx_options()), failing courses don't die at sym_dead; instead, for each phase k, parts df{k}, dc{k} and l{k} hold
+    TB death on the fail and cure tracks and loss to follow-up in that phase's slots, to be multiplied by their rates
     """
     n = lay.n
     parts = sc.objdict({k: np.zeros((n, n)) for k in ['c', 'l', 's', 'f', 'd']})
@@ -144,8 +148,24 @@ def generator_parts(p, lay):
     flow(parts.s, Y, lay.succ[0], 1.0, ['tx_start'])
     flow(parts.f, Y, lay.fail[0], 1.0, ['tx_start'])
     flow(parts.d, Y, None, 1.0, ['tb_death'])
-    for j in lay.fail:
-        flow(parts.d, j, None, 1.0, ['tb_death_tx'])
+    if tx is None: # Exp 23's treatment: TB death at sym_dead on failing courses
+        for j in lay.fail:
+            flow(parts.d, j, None, 1.0, ['tb_death_tx'])
+    else: # Exp 35's: by phase, death on each track, and loss to follow-up (on the cure track, a share q cured)
+        pr = p['tx_p_relapse']
+        for k, slots in enumerate(tx.phase_slots):
+            parts[f'df{k}'] = np.zeros((n, n)); parts[f'dc{k}'] = np.zeros((n, n)); parts[f'l{k}'] = np.zeros((n, n))
+            q = float(tx.ltfu_cure[k])
+            for j in slots:
+                wt = float(tx.weights[k, j]) # The slot's share of time in this phase
+                flow(parts[f'df{k}'], lay.fail[j], None, wt, ['tb_death_tx'])
+                flow(parts[f'dc{k}'], lay.succ[j], None, wt, ['tb_death_tx_cure'])
+                flow(parts[f'l{k}'], lay.fail[j], Y, wt, ['ltfu'])
+                Q, src = parts[f'l{k}'], lay.succ[j]
+                Q[src, src] -= wt
+                Q[Y, src] += wt*(1 - q)
+                Q[TR, src] += wt*q*(1 - pr); Q[RL, src] += wt*q*pr
+                Q[lay.cnt['ltfu'], src] += wt; Q[lay.cnt['ltfu_cured'], src] += wt*q
     if lay.kind == 'stages': # Erlang stages: k/D from each to the next; out of the last, cures to treated or relapsing, failures back to symptomatic TB
         rate = lay.k/p['tx_dur']
         for course in [lay.succ, lay.fail]:
@@ -246,8 +266,11 @@ def per_step(year, tot, a5, p5, adult, flows, lay, dt):
     out.incidence = fl('first')/alive/dt
     out.notifications = fl('tx_start')/alive/dt
     out.on_treatment = tot[:, np.concatenate([lay.succ, lay.fail])].sum(axis=1)/alive
-    out.mortality = (fl('tb_death') + fl('tb_death_tx'))/alive/dt
-    out.mortality_tx = fl('tb_death_tx')/alive/dt
+    out.mortality = (fl('tb_death') + fl('tb_death_tx') + fl('tb_death_tx_cure'))/alive/dt
+    out.mortality_tx = (fl('tb_death_tx') + fl('tb_death_tx_cure'))/alive/dt
+    out.mortality_tx_cure = fl('tb_death_tx_cure')/alive/dt
+    out.ltfu = fl('ltfu')/alive/dt
+    out.ltfu_cured = fl('ltfu_cured')/alive/dt
     out.relapse = fl('relapse')/alive/dt
     out.recent, out.remote, out.cleared = get(L)/alive, get(M)/alive, get(C)/alive
     for k, g in enumerate(groups5):
@@ -257,14 +280,14 @@ def per_step(year, tot, a5, p5, adult, flows, lay, dt):
     out['prop_asymptomatic_15+'] = adult[:, 2]/adult[:, 1]
     out.alive = alive/alive[0]
     out.tx_start = fl('tx_start')/alive # Per person per step, for targets()
-    out.deaths = (fl('tb_death') + fl('tb_death_tx'))/alive
+    out.deaths = (fl('tb_death') + fl('tb_death_tx') + fl('tb_death_tx_cure'))/alive
     out.first = fl('first')/alive
     out.population = alive # Shares of the starting population
     return out
 
 
 stock_keys = ['prevalence', 'prop_asymptomatic', 'on_treatment', 'recent', 'remote', 'cleared', 'alive', 'prev_15+', 'prop_asymptomatic_15+'] + [f'prev_{g}' for g in groups5] + [f'share_{g}' for g in groups5]
-flow_keys = ['incidence', 'notifications', 'mortality', 'mortality_tx', 'relapse']
+flow_keys = ['incidence', 'notifications', 'mortality', 'mortality_tx', 'relapse', 'mortality_tx_cure', 'ltfu', 'ltfu_cured']
 unscaled = ['prop_asymptomatic', 'prop_asymptomatic_15+', 'alive'] + [f'share_{g}' for g in groups5]
 
 
@@ -310,13 +333,49 @@ def targets(out, over_detection):
 
 #%% Exact aging by cohort
 
+def tx_options(h, tx_dur=0.5, phase_dur=None, death_fail=None, death_cure=0.0, ltfu=0.0, ltfu_cure=0.0):
+    """
+    Exp 35's treatment options for run_cohort(): the course in phases of whole steps (as tbode4.phase_lengths()), TB death on the fail track
+    (`death_fail`; None: sym_dead) and on the cure track (`death_cure`), each a number, a function of the year, or a list of these by phase;
+    loss to follow-up at `ltfu` (a number or a function of the year); and on the cure track a share `ltfu_cure` of those lost cured (a number,
+    a list by phase, or a function of the fraction of the course completed by the middle of the phase)
+
+    The course is a conveyor of K = the course in whole steps (slots 0..K, as run_cohort()). People spend on average half a step in slot 0 (entering
+    during a step), a step in each of slots 1..K−1, and half a step in slot K (released half at the start of a step, half at its end): slot j
+    covers time on treatment [j − ½, j + ½) (slot 0 [0, ½), slot K [K − ½, K)). Each slot takes each phase's hazards in proportion to its overlap
+    with the phase (`weights` [phase, slot])
+    """
+    from .treat import phase_lengths
+    widths = phase_lengths(tx_dur, tx_dur if phase_dur is None else phase_dur, h)
+    steps = [int(round(w/h)) for w in widths]
+    K = sum(steps)
+    bounds = np.cumsum([0] + steps)
+    M = len(steps)
+    lo = np.clip(np.arange(K + 1) - 0.5, 0, K); hi = np.clip(np.arange(K + 1) + 0.5, 0, K)
+    weights = np.array([[max(0.0, min(hi[j], bounds[k + 1]) - max(lo[j], bounds[k]))/(hi[j] - lo[j]) for j in range(K + 1)] for k in range(M)])
+    phase_slots = [list(np.flatnonzero(weights[k] > 0)) for k in range(M)]
+    mid = [float((bounds[k] + steps[k]/2)/K) for k in range(M)]
+    def per_phase(x):
+        if isinstance(x, (list, tuple)):
+            assert len(x) == M, f'{len(x)} values for {M} phases'
+            return list(x)
+        return [x]*M
+    lc = [ltfu_cure(f) for f in mid] if callable(ltfu_cure) else per_phase(ltfu_cure)
+    return sc.objdict(K=K, steps=steps, phase_slots=phase_slots, weights=weights, mid=mid, death_fail=None if death_fail is None else per_phase(death_fail),
+                      death_cure=per_phase(death_cure), ltfu=ltfu, ltfu_cure=lc)
+
+
+def _at(x, t):
+    return x(t) if callable(x) else x
+
+
 def cohort_grid(h, top=100):
     """ Lower edges of groups one step h wide up to `top`, and the open group from there """
     n = int(np.ceil(top/h - 1e-9))
     return np.arange(n + 1)*h
 
 
-def run_cohort(p, h, start, stop, table=None, share_flagged=0.0, X0=None, demog=None, foi='mid', keep_final=False):
+def run_cohort(p, h, start, stop, table=None, share_flagged=0.0, X0=None, demog=None, foi='mid', keep_final=False, tx=None):
     """
     Exact aging (exp 31's option 2): groups one step h wide, from calendar year `start` to `stop`.
 
@@ -327,6 +386,7 @@ def run_cohort(p, h, start, stop, table=None, share_flagged=0.0, X0=None, demog=
         demog (Demography): on this grid (default: WPP, not frozen)
         foi (str): 'mid' (predictor-corrector) or 'start' (the force of infection at the step's start)
         keep_final (bool): also return the state at the end
+        tx (objdict): exp 35's death and loss to follow-up on treatment, from tx_options(); None: exp 23's treatment
 
     Returns:
         objdict: per-step outputs (per_step()), with lows, h, and optionally X (the final state)
@@ -335,14 +395,15 @@ def run_cohort(p, h, start, stop, table=None, share_flagged=0.0, X0=None, demog=
     ng = len(lows)
     demog = Demography(lows, cohort=True) if demog is None else demog
     assert demog.cohort and len(demog.lows) == ng, 'run_cohort() needs a Demography(cohort=True) on its grid'
-    K = max(1, int(round(p['tx_dur']/h)))
+    K = max(1, int(round(p['tx_dur']/h))) if tx is None else tx.K
     lay = Layout(('slots', K))
     X = initial(lay, lows, table, share_flagged) if X0 is None else X0.copy()
-    parts = generator_parts(p, lay)
+    parts = generator_parts(p, lay, tx)
     nsteps = int(round((stop - start)/h))
     year = start + np.arange(nsteps + 1)*h
     tot = np.zeros((nsteps + 1, lay.ns)); a5 = np.zeros((nsteps + 1, 5)); p5 = np.zeros_like(a5); adult = np.zeros((nsteps + 1, 3))
     flows = np.zeros((nsteps + 1, len(counter_names)))
+    bg_sym = np.zeros(nsteps + 1) # The background death rate of people with symptomatic TB (weighted by age and sex), at mid-step
     people = np.arange(lay.ns)
     cnt = np.array([lay.cnt[c] for c in counter_names])
     beta, kappa, pr = p['beta'], p['trans_asymp'], p['tx_p_relapse']
@@ -364,7 +425,13 @@ def run_cohort(p, h, start, stop, table=None, share_flagged=0.0, X0=None, demog=
         tm = year[i] + h/2
         th, sc_, sd = value(p, 'tx_rate', tm), value(p, 'tx_success', tm), value(p, 'sym_dead', tm)
         Qb = parts.c + th*sc_*parts.s + th*(1 - sc_)*parts.f + sd*parts.d
+        if tx is not None:
+            hl = _at(tx.ltfu, tm)
+            for k in range(len(tx.phase_slots)):
+                Qb = Qb + (sd if tx.death_fail is None else _at(tx.death_fail[k], tm))*parts[f'df{k}'] + _at(tx.death_cure[k], tm)*parts[f'dc{k}'] + hl*parts[f'l{k}']
         mx = demog.mx(tm) # [sex, group]
+        ysym = Xf[Y]
+        bg_sym[i] = float((mx.ravel()*ysym).sum()/ysym.sum()) if ysym.sum() > 0 else np.nan
         surv = np.exp(-mx*h).ravel()
         mh = (mx*h).ravel()
         cfac = np.where(mh > 1e-12, -np.expm1(-mh)/np.where(mh > 1e-12, mh, 1.0), 1.0) # Counters: flows over the step thinned by deaths during it
@@ -405,6 +472,7 @@ def run_cohort(p, h, start, stop, table=None, share_flagged=0.0, X0=None, demog=
     tot[-1], a5[-1], p5[-1], adult[-1] = _stocks(X, lay, lows)
     out = per_step(year, tot, a5, p5, adult, flows, lay, h)
     out.lows, out.h, out.layout = lows, h, lay
+    out.bg_sym = bg_sym
     if keep_final:
         out.X = X.copy()
     return out
