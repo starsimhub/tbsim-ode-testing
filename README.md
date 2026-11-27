@@ -162,6 +162,8 @@ proposals/      Proposed changes to tbsim and starsim, and the decisions on them
                 numbered like experiments (NN_name/), with the scripts and outputs behind them
 experiments/    One folder per experiment (NN_name/), numbered across both tracks: README.md (question, design, track),
                 run script(s), outputs, versions*.json, SUMMARY.md
+methods/        Working documents on model inputs: treatment_parameters_vN.docx (treatment parameters and sources for the recalibration; the
+                current version, built by make_treatment_parameters.py), earlier versions with the user's comments in versions/, figures/
 starter/        A starting script for new TBsim users (v4 agents with this repo's conventions), and its README
 ```
 
